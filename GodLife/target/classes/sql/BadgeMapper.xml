@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BadgeMapper">
+ 	
+ 	
+	<resultMap id="badgeSelectMap" type="badge">
+		<result property="badgeNo" 			column="badge_no" 		jdbcType="NUMERIC"/>
+		<result property="badgeName"		column="badge_name" 	jdbcType="VARCHAR" />
+		<result property="productImg" 		column="badge_img" 		jdbcType="VARCHAR" />
+		<result property="actCount" 		column="act_count" 		jdbcType="NUMERIC" />
+		<result property="grade" 			column="grade" 			jdbcType="VARCHAR" />		
+		<result property="badgeDetail" 		column="badge_detail" 	jdbcType="VARCHAR" />
+		<result property="status" 			column="status" 		jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+<!-- //////////////////쿠폰 상품 등록 UI, 등록 이미지, 등록 완료, 확인 /////////////////////////////////////////////////// -->
+	<insert 	id="addBadgeView"		parameterType="badge" >
+	 	INSERT
+		INTO badge( badge_no , badge_name , badge_img, act_count, grade , badge_detail , status) 
+		VALUES	 ( SEQ_BADGE_BADGE_NO.NEXTVAL , #{badgeName} ,
+				#{badgeImg:VARCHAR},
+				<!--  와 여기부분 잘 모르겠다 -->
+				<if test="actCount == 0">0</if>
+				<if test="actCount !=0 ">#{actCount}</if>,
+				<!-- //////////////////////////// -->
+				<if test="grade == 0">동색</if>
+				<if test="grade == 1">은색</if>
+				<if test="grade == 2">금색</if>
+				, #{badgeDetail:VARCHAR} , 
+				<if test="status == 0">활동배지</if> 
+				<if test="status == 1">관심사배지</if>
+				)
+	 </insert>
+
+	 
+	<insert 	id="addBadge"		parameterType="badge" >
+	 	INSERT
+		INTO badge( badge_no , badge_name , badge_img, act_count, badge_detail , status) 
+		VALUES	 ( SEQ_BADGE_BADGE_NO.NEXTVAL , #{badgeName} ,
+				#{badgeImg:VARCHAR}, act_count,
+				#{badgeDetail:VARCHAR} , 
+				<if test="status == 0">활동배지</if> 
+				<if test="status == 1">관심사배지</if>
+				)
+	 </insert>	 
+	 
+	<insert 	id="addBadgeConfirm"		parameterType="badge" >
+	 	INSERT
+		INTO badge( badge_no , badge_name , badge_img, act_count, badge_detail , status) 
+		VALUES	 ( SEQ_BADGE_BADGE_NO.NEXTVAL , #{badgeName} ,
+				#{badgeImg:VARCHAR}, act_count,
+				#{badgeDetail:VARCHAR} , 
+				<if test="status == 0">활동배지</if> 
+				<if test="status == 1">관심사배지</if>
+				)
+	 </insert>	
+
+	<insert 	id="addBadgeImg"		parameterType="badge" >
+	 	INSERT
+		INTO badge( badge_no , badge_name , badge_img, act_count, badge_detail , status) 
+		VALUES	 ( SEQ_BADGE_BADGE_NO.NEXTVAL , #{badgeName} ,
+				#{badgeImg:VARCHAR}, act_count,
+				#{badgeDetail:VARCHAR} , 
+				<if test="status == 0">활동배지</if> 
+				<if test="status == 1">관심사배지</if>
+				)
+	 </insert>	
+
+<!-- /////////////////////////////배지, 내 배지 상세 내용 조회/////////////////////////////////////////////////// -->
+	 
+
+	 <select 	id="getBadge"	parameterType="int"	resultMap="badgeSelectMap">
+		SELECT
+		badge_no , badge_name , badge_img , act_count , badge_detail 		
+		FROM badge 
+		WHERE badge_no = #{value}
+	 </select>
+
+	 <select 	id="getBadgeMy"	parameterType="int"	resultMap="myBadgeSelectMap">
+		SELECT
+		myBadge_no , user_email , badge_no , act_count ,  	
+		FROM myBadge 
+		WHERE mybadge_no = #{value}
+	 </select>
+
+	 
+
+<!-- /////////////////////////////배지 이미지 수정, 정보 수정 완료, 수정 확인////////////////////////////////// -->
+	 
+	 <!-- SQL : UPDATE -->
+<!-- /////////////////////////////쿠폰/////////////////////////////////////////////////// -->
+	 <update	id="updateBadgeImg"	parameterType="badge" >
+	   	UPDATE badge
+	   	<set>
+	   		badge_name 				= #{badgeName:VARCHAR} ,
+			badge_detail			= #{badgeDetail:VARCHAR},
+			act_count				= 
+				<if test="actCount == 0">0</if>
+				<if test="actCount !=0 ">#{actCount}</if>,
+			badge_img				= #{badgeImg:VARCHAR},
+				<if test="grade == 0">동색</if>
+				<if test="grade == 1">은색</if>
+				<if test="grade == 2">금색</if>,
+				<if test="status == 0">활동배지</if> 
+				<if test="status == 1">관심사배지</if>
+	   	</set>
+	   	WHERE badge_no = #{badgeNo}
+	 </update>
+
+
+	 <update	id="updateBadge"	parameterType="badge" >
+	   	UPDATE badge
+	   	<set>
+	   		badge_name 				= #{badgeName:VARCHAR} ,
+			badge_detail			= #{badgeDetail:VARCHAR},
+			act_count				= 
+				<if test="actCount == 0">0</if>
+				<if test="actCount !=0 ">#{actCount}</if>,
+			badge_img				= #{badgeImg:VARCHAR},
+				<if test="grade == 0">동색</if>
+				<if test="grade == 1">은색</if>
+				<if test="grade == 2">금색</if>,
+				<if test="status == 0">활동배지</if> 
+				<if test="status == 1">관심사배지</if>
+	   	</set>
+	   	WHERE badge_no = #{badgeNo}
+	 </update>
+
+
+	 <update	id="updateBadgeConfirm"	parameterType="badge" >
+	   	UPDATE badge
+	   	<set>
+	   		badge_name 				= #{badgeName:VARCHAR} ,
+			badge_detail			= #{badgeDetail:VARCHAR},
+			act_count				= 
+				<if test="actCount == 0">0</if>
+				<if test="actCount !=0 ">#{actCount}</if>,
+			badge_img				= #{badgeImg:VARCHAR},
+				<if test="grade == 0">동색</if>
+				<if test="grade == 1">은색</if>
+				<if test="grade == 2">금색</if>,
+				<if test="status == 0">활동배지</if> 
+				<if test="status == 1">관심사배지</if>
+	   	</set>
+	   	WHERE badge_no = #{badgeNo}
+	 </update>
+
+<!-- //////////////////////////배지 삭제//////////////////////////////////////////////////////  -->
+
+	 <delete	id="deleteBadge"	parameterType="badge" >
+	   	DELETE from badge
+	   	WHERE badge_no = #{badgeNo}
+	 </delete>
+
+
+<!-- //////////////////////////배지 전체 목록 조회//////////////////////////////////////////////////////  -->
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getBadgeList"  parameterType="search"	resultMap="badgeSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT badge_no, badge_name , badge_img, act_count, badge_detail, status
+											FROM badge
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				badge_no LIKE '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				badge_name LIKE '%${searchKeyword}%'
+													</if>
+												</where>
+											</if>
+											ORDER BY badge_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+
+	<select  id="getBadgeMyList"  parameterType="search"	resultMap="myBadgeSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT myBadge_no, user_email , badge_no, act_count, 
+											FROM myBadge 
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				myBadge_no LIKE '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				myBadge_name LIKE '%${searchKeyword}%'
+													</if>
+												</where>
+											</if>
+											ORDER BY myBadge_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT badge_no, badge_name 
+						FROM badge
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+									badge_no LIKE '%${searchKeyword}%'
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+									badge_name LIKE '%${searchKeyword}%'
+								</if>						
+							</where>
+						</if> ) countTable						
+	 </select>
+	 
+</mapper>
