@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PointMapper">
+
+<resultMap type="point" id="pointSelectMap">
+		<result property="purchaseNo" column="PURCHASE_NO" jdbcType="INTEGER"/>
+		<result property="userEmail" column="USER_EMAIL" jdbcType="VARCHAR" />
+		<result property="useStatus" column="USE_STATUS" jdbcType="CHAR" />
+		<result property="productNo" column="PRODUCT_NO" jdbcType="INTEGER" />
+		<result property="payOpt" column="PAY_OPT" jdbcType="CHAR" />
+		<result property="cash" column="CASH" jdbcType="INTEGER" />
+		<result property="point" column="POINT" jdbcType="INTEGER" />
+		<result property="useDetail" column="USE_DETAIL" jdbcType="CHAR"  />
+		<result property="voucherUniqueNo" column="VOUCHER_UNIQUE_NO" jdbcType="VARCHAR" />
+		<result property="donationPlace" column="DONATION_PLACE" jdbcType="VARCHAR"  />
+		<result property="regDate" column="REG_DATE" jdbcType="DATE" />
+	</resultMap>
+	
+	<insert id="addPurchase" parameterType="point">
+		INSERT 
+		INTO purchase(PURCHASE_NO, USER_EMAIL, USE_STATUS, PRODUCT_NO, PAY_OPT, CASH, POINT, USE_DETAIL, VOUCHER_UNIQUE_NO, DONATION_PLACE, REG_DATE)
+		VALUES (SEQ_PURCHASE_PURCHASE_NO.nextval, #{userEmail:VARCHAR}, #{useStatus:CHAR},#{productNo:INTEGER},
+				#{payOpt:CHAR}, #{cash:INTEGER}, #{point:INTEGER}, #{useDetail:CHAR}, #{voucherUniqueNo:VARCHAR},
+				#{donationPlace:VARCHAR},SYSDATE )
+	</insert>
+	
+	<select  id="getPurchaseList"  parameterType="map"	resultMap="purchaseSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT *
+											FROM purchase
+											<where>
+												 user_email=#{userEmail}
+												 <if test="searchCondition != null">
+													<if test="searchCondition ==0 and searchKeyword !='' ">
+										 				AND point like '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition ==1 and searchKeyword !='' ">
+										 				AND reg_date like '%${searchKeyword}%'
+													</if>
+													<if test ="searchCondition==2 and searchKeyword !='' ">
+														AND pay_opt like '%${searchKeyword}%'
+													</if>
+													</if>
+											</where> 
+											ORDER BY purchase_no) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	
+	
+	
+	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT purchase_no
+						FROM purchase
+							) countTable						
+	 </select>
+</mapper>
