@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserMapper">
+ 	
+ 	
+	<resultMap id="userSelectMap" type="user">
+		<result property="userEmail" 			column="user_email" 			jdbcType="VARCHAR"/>
+		<result property="pwd"	column="pwd" 		jdbcType="VARCHAR" />
+		<result property="role" 	column="role" 		jdbcType="CHAR" />
+		<result property="nick" 				column="nick" 					jdbcType="VARCHAR" />
+		<result property="regDate" 				column="reg_date" 					jdbcType="DATE" />
+		<result property="categNo" 			column="categ_no" 		jdbcType="INTEGER" />
+		<result property="profileImg" 				column="profile_img" 					jdbcType="VARCHAR" />
+		<result property="intro" 			column="intro" 				jdbcType="VARCHAR"  />
+		<result property="phone" 		column="phone" 			jdbcType="VARCHAR" />
+		<result property="redCardCount" 		column="redcard_count" 			jdbcType="INTEGER"  />
+		<result property="accountStatus" 		column="account_status" 			jdbcType="CHAR" />
+		<result property="reportCount" 		column="report_count" 			jdbcType="INTEGER" />
+		<result property="totalPoint" 		column="total_point" 			jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- SQL : 회원가입-->
+	<insert 	id="addUser"		parameterType="user" >
+	 	INSERT
+		INTO users
+		VALUES	 (	#{userEmail : VARCHAR}, #{pwd : VARCHAR}, '1', #{nick : VARCHAR}, SYSDATE, #{categNo : INTEGER},
+		   					#{profileImg : VARCHAR}, #{intro : VARCHAR}, #{phone : VARCHAR}, #{redCardCount : INTEGER}, 
+		   					'1', #{reportCount : INTEGER}, #{totalPoint : INTEGER} )
+	 </insert>
+	 
+	 <!-- SQL : 본인정보 상세조회 -->
+	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
+		SELECT
+		user_email, nick, phone, categ_no, intro, profile_img, report_count, total_point		
+		FROM users 
+		WHERE user_email = #{value}
+	 </select>
+	 
+	 <!-- SQL : 비밀번호 수정 -->
+	 <update	id="updatePwd"	parameterType="user" >
+	   	UPDATE users
+	   	<set>
+	   		pwd = #{pwd}
+	   	</set>
+	   	WHERE user_email = #{userEmail}
+	 </update>
+	 
+	 <!-- SQL : 본인정보 수정 -->
+	 <update	id="updateUser"	parameterType="user" >
+	   	UPDATE users
+	   	<set>
+	   		nick = #{nick},
+	   		phone= #{phone},
+	   		categ_no = #{categNo},
+	   		intro = #{intro},
+	   		profile_img = #{profileImg}
+	   	</set>
+	   	WHERE user_email = #{userEmail}
+	 </update>
+	 
+	
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT user_id , user_name , email
+						FROM users
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			user_id = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		user_name = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+	  -->	 
+	 
+	 
+	 
+	  
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+</mapper>

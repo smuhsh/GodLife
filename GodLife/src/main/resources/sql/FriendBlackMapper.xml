@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FriendBlackMapper">
+ 	
+	<resultMap id="friendBlackSelectMap" 		type="friendBlack">
+		<result property="nick" 				column="nick" 					jdbcType="VARCHAR" />
+		<result property="profileImg" 				column="profile_img" 					jdbcType="VARCHAR" />
+		<result property="friendBlackNo" 			column="friend_black_no" 			jdbcType="INTEGER"/>
+		<result property="userEmail"						column="user_email" 		jdbcType="VARCHAR" />
+		<result property="targetEmail" 					column="target_email" 		jdbcType="VARCHAR" />
+		<result property="fbStatus" 						column="f_b_status" 					jdbcType="CHAR" />
+		<result property="accStatus" 					column="acc_status" 					jdbcType="CHAR" />
+	</resultMap>
+	
+	
+	<!-- 본인의 친구, 블랙리스트 목록조회 동적쿼리 사용??? -->
+	<select  id="getFriendBlackList"  parameterType="map"	resultMap="friendBlackSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   u.nick, u.profile_img
+											FROM users u, friend_blacks f 
+											<where>
+											u.user_email = f.target_email 
+											and f.f_b_status = '1' 
+											and f.acc_status = '2'
+											and f.user_email = #{userEmail}
+											<if test="searchCondition != null">
+											<if test="searchCondition == 0 and searchKeyword !='' ">
+											and u.nick = #{searchKeyword}
+											</if>
+										</if>
+										</where>	
+											ORDER BY f.friend_black_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 	<!-- 친구요청을 받은 목록조회 -->
+	<select  id="getFriendRequestList"  parameterType="map"	resultMap="friendBlackSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   u.nick, u.profile_img
+											FROM users u, friend_blacks f 
+											<where>
+											u.user_email = f.user_email 
+											and f.f_b_status = '1' 
+											and f.acc_status = '1'
+											and f.target_email = #{targetEmail}
+										</where>	
+											ORDER BY f.friend_black_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	
+	<!-- SQL : SELECT ROW Count 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT user_id , user_name , email
+						FROM users
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			user_id = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		user_name = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+	  -->	 
+
+	  <!-- 친구 등록 -->
+	<insert 	id="addFriend"		parameterType="friendBlack" >
+	 	INSERT
+		INTO FRIEND_BLACKS
+		VALUES	 (seq_friend_black_no.NEXTVAL, #{userEmail : VARCHAR}, #{targetEmail : VARCHAR}, '1', '1')
+	 </insert>
+	 
+	 <!-- 블랙리스트 등록 -->
+	<insert 	id="addBlack"		parameterType="friendBlack" >
+	 	INSERT
+		INTO FRIEND_BLACKS
+		VALUES	 (seq_friend_black_no.NEXTVAL, #{userEmail : VARCHAR}, #{targetEmail : VARCHAR}, '2', null)
+	 </insert>
+	 
+	 <!-- 친구 요청 수락 -->
+	 <update	id="updateAccStatus"	parameterType="friendBlack" >
+	   	UPDATE friend_blacks 
+	   	<set>
+	   		acc_status = #{accStatus}
+	   	</set>
+	   	WHERE user_email = #{userEmail} and  target_email = #{targetEmail} and f_b_status = '1'
+	 </update>
+	 
+	 <!-- 친구 요청 거절, 친구 삭제 -->
+	 <delete id="deleteFriend">
+	   delete from friend_blacks 
+	   WHERE user_email = #{userEmail} and  target_email = #{targetEmail} and f_b_status = '1' and acc_status = #{accStatus}
+	 </delete>
+	 
+	 
+	
+	 
+</mapper>
