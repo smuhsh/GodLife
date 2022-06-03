@@ -21,6 +21,7 @@ public class BadgeDaoImpl implements BadgeDao{
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
+
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
