@@ -17,7 +17,7 @@
 	</resultMap>
 	
 	
-	<!-- 본인의 친구, 블랙리스트 목록조회 동적쿼리 사용??? -->
+	<!-- 본인의 친구, 블랙리스트 목록조회 동적쿼리 사용??? // 일단아래는 친구목록조회임 // 검색조건 다시 확인하기 -->
 	<select  id="getFriendBlackList"  parameterType="map"	resultMap="friendBlackSelectMap">
 	  	SELECT 
 	  	*

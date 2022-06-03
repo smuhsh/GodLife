@@ -29,6 +29,8 @@
 		<typeAlias alias="badge" type="com.godLife.io.service.domain.Badge" />
 	</typeAliases>
 	
+	
+	
 	 <!-- SQL Definition :: file include -->
 	<mappers>
 		<mapper resource="sql/UserMapper.xml"/>

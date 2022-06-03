@@ -19,13 +19,19 @@ public class User {
 	private int reportCount;
 	private int totalPoint;
 	
+	//아래 추가 
+	private String categName;
+	
+	//병문오빠 추가 
+	private int redCouponCount;
+	private int certiCouponCount;
+	
 	
 	///Constructor
 	public User() {
 	}
 
 
-	///Method
 	public String getUserEmail() {
 		return userEmail;
 	}
@@ -156,16 +162,41 @@ public class User {
 	}
 
 
-	
-	@Override
-	public String toString() {
-		return "User [userEmail=" + userEmail + ", pwd=" + pwd + ", role=" + role + ", nick=" + nick + ", regDate="
-				+ regDate + ", categNo=" + categNo + ", profileImg=" + profileImg + ", intro=" + intro + ", phone="
-				+ phone + ", redCardCount=" + redCardCount + ", accountStatus=" + accountStatus + ", reportCount="
-				+ reportCount + ", totalPoint=" + totalPoint + "]";
+	public String getCategName() {
+		return categName;
 	}
+
+
+	public void setCategName(String categName) {
+		this.categName = categName;
+	}
+
+
+	public int getRedCouponCount() {
+		return redCouponCount;
+	}
+
+
+	public void setRedCouponCount(int redCouponCount) {
+		this.redCouponCount = redCouponCount;
+	}
+
+
+	public int getCertiCouponCount() {
+		return certiCouponCount;
+	}
+
+
+	public void setCertiCouponCount(int certiCouponCount) {
+		this.certiCouponCount = certiCouponCount;
+	}
+
+
+	
+	
 	
 
+	
 
 }
 
