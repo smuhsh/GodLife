@@ -22,7 +22,9 @@ public class Challenge {
 	private int joinCount;
 	private List<String> certiDate;
 	private int totalCertiCount;
-	
+	private String challengeCategName;
+	private List<String>certiCycleName;
+	private String challengeJoinFlag;
 	
 	
 	
@@ -130,7 +132,24 @@ public class Challenge {
 		this.totalCertiCount = totalCertiCount;
 	}
 	
-	
+	public String getChallengeCategName() {
+		return challengeCategName;
+	}
+	public List<String> getCertiCycleName() {
+		return certiCycleName;
+	}
+	public String getChallengeJoinFlag() {
+		return challengeJoinFlag;
+	}
+	public void setChallengeCategName(String challengeCategName) {
+		this.challengeCategName = challengeCategName;
+	}
+	public void setCertiCycleName(List<String> certiCycleName) {
+		this.certiCycleName = certiCycleName;
+	}
+	public void setChallengeJoinFlag(String challengeJoinFlag) {
+		this.challengeJoinFlag = challengeJoinFlag;
+	}
 	@Override
 	public String toString() {
 		return "Challenge [challengeNo=" + challengeNo + ", hostEmail=" + hostEmail + ", challengeTitle="
@@ -139,7 +158,8 @@ public class Challenge {
 				+ ", certiCycle=" + certiCycle + ", startDate=" + startDate + ", endDate=" + endDate + ", openRange="
 				+ openRange + ", joinPoint=" + joinPoint + ", challengeRegDate=" + challengeRegDate
 				+ ", challengeStatus=" + challengeStatus + ", joinCount=" + joinCount + ", certiDate=" + certiDate
-				+ ", totalCertiCount=" + totalCertiCount + "]";
+				+ ", totalCertiCount=" + totalCertiCount + ", challengeCategName=" + challengeCategName
+				+ ", certiCycleName=" + certiCycleName + ", challengeJoinFlag=" + challengeJoinFlag + "]";
 	}
 	
 	
