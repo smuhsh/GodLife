@@ -1,82 +1,71 @@
 package com.godLife.io.service.operator.test;
-//
-//import java.util.List;
-//import java.util.Map;
-//
-//import org.junit.Assert;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Qualifier;
-//import org.springframework.test.context.ContextConfiguration;
-//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//
-//import com.godlife.io.common.Search;
-//import com.godlife.io.service.domain.OperatorEvents;
-//import com.godlife.io.service.domain.OperatorJoinEvent;
-//import com.godlife.io.service.domain.OperatorNoticeFaqs;
-//import com.godlife.io.service.domain.OperatorReward;
-//
-//import com.godlife.io.service.operator.OperatorService;
-//
-//
-///*
-// *	FileName :  UserServiceTest.java
-// * �� JUnit4 (Test Framework) �� Spring Framework ���� Test( Unit Test)
-// * �� Spring �� JUnit 4�� ���� ���� Ŭ������ ���� ������ ��� ���� �׽�Ʈ �ڵ带 �ۼ� �� �� �ִ�.
-// * �� @RunWith : Meta-data �� ���� wiring(����,DI) �� ��ü ����ü ����
-// * �� @ContextConfiguration : Meta-data location ����
-// * �� @Test : �׽�Ʈ ���� �ҽ� ����
-// */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//
-////==> Meta-Data �� �پ��ϰ� Wiring ����...
-////@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
-//@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
-//																	"classpath:config/context-aspect.xml",
-//																	"classpath:config/context-mybatis.xml",
-//																	"classpath:config/context-transaction.xml" })
-////@ContextConfiguration(locations = { "classpath:config/context-common.xml" })
-//public class OperatorServiceTest {
-//
-//	//==>@RunWith,@ContextConfiguration �̿� Wiring, Test �� instance DI
-//	@Autowired
-//	@Qualifier("userServiceImpl")
-//	private UserService userService;
-//
-//	@Test
-//	public void testAddUser() throws Exception {
-//		
-//		User user = new User();
-//		user.setUserId("testUserId");
-//		user.setUserName("testUserName");
-//		user.setPassword("testPasswd");
-//		user.setSsn("1111112222222");
-//		user.setPhone("111-2222-3333");
-//		user.setAddr("��⵵");
-//		user.setEmail("test@test.com");
-//		
-//		userService.addUser(user);
-//		
-//		user = userService.getUser("testUserId");
-//
-//		//==> console Ȯ��
-//		//System.out.println(user);
-//		
-//		//==> API Ȯ��
-//		Assert.assertEquals("testUserId", user.getUserId());
-//		Assert.assertEquals("testUserName", user.getUserName());
-//		Assert.assertEquals("testPasswd", user.getPassword());
-//		Assert.assertEquals("111-2222-3333", user.getPhone());
-//		Assert.assertEquals("��⵵", user.getAddr());
-//		Assert.assertEquals("test@test.com", user.getEmail());
-//	}
-//	
+
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.godLife.io.common.Search;
+
+import com.godLife.io.service.domain.OperatorEvents;
+//import com.godLife.io.service.domain.OperatorJoinEvent;
+//import com.godLife.io.service.domain.OperatorNoticeFaqs;
+//import com.godLife.io.service.domain.OperatorReward;
+import com.godLife.io.service.operator.OperatorService;
+
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+
+//==> Meta-Data 를 다양하게 Wiring 하자...
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
+																	"classpath:config/context-aspect.xml",
+																	"classpath:config/context-mybatis.xml",
+																	"classpath:config/context-transaction.xml" })
+//@ContextConfiguration(locations = { "classpath:config/context-common.xml" })
+public class OperatorServiceTest {
+
+	@Autowired
+	@Qualifier("operatorServiceImpl")
+	private OperatorService operatorService;
+
+	@Test
+	public void testAddOperatorEvents() throws Exception {
+		
+		OperatorEvents operatorEvents = new OperatorEvents();
+		operatorEvents.setEventNo(Integer.parseInt(("8")));
+		operatorEvents.setEventTitle("final Event Title Test");
+		operatorEvents.setThumbnailImg("newEventThumbNail.jpg");
+		operatorEvents.setDetail("neweventDetail");
+		operatorEvents.setEventImg("newEventImg.jpg");
+		operatorEvents.setRoullJoinPoint(Integer.parseInt(("1000")));
+		
+		operatorService.addOperatorEvents(operatorEvents);
+		
+		//==> console check
+		System.out.println(operatorEvents);
+		
+		//==> API check
+		Assert.assertEquals(8, operatorEvents.getEventNo());
+		Assert.assertEquals("final Event Title Test", operatorEvents.getEventTitle());
+		Assert.assertEquals("newEventThumbNail.jpg", operatorEvents.getThumbnailImg());
+		Assert.assertEquals("neweventDetail", operatorEvents.getDetail());
+		Assert.assertEquals("newEventImg.jpg", operatorEvents.getEventImg());
+		Assert.assertEquals(1000, operatorEvents.getRoullJoinPoint());
+	}
+	
 //	//@Test
 //	public void testGetUser() throws Exception {
 //		
-//		User user = new User();
-//		//==> �ʿ��ϴٸ�...
+//		OperatorEvents operatorEvents = new OperatorEvents();
+//		
 ////			user.setUserId("testUserId");
 ////			user.setUserName("testUserName");
 ////			user.setPassword("testPasswd");
@@ -263,4 +252,4 @@ package com.godLife.io.service.operator.test;
 //	 	totalCount = (Integer)map.get("totalCount");
 //	 	System.out.println(totalCount);
 //	 }	 
-//}
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CategMapper">
+ 	
+ 	
+	<resultMap id="categSelectMap" type="categ">
+		<result property="categNo" 			column="categ_no" 			jdbcType="INTEGER"/>
+		<result property="categName"		column="categ_name" 		jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+</mapper>
