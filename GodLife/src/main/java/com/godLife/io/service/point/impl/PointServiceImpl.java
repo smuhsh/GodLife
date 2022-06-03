@@ -32,16 +32,43 @@ public class PointServiceImpl implements PointService {
 	
 	
 	@Override
-	public void addPurchase(Point point) throws Exception{
-		pointDao.addPurchase(point);
+	public void addPointPurchaseProduct(Point point) throws Exception{
+		pointDao.addPointPurchaseProduct(point);
 	}
 	
 	@Override
-	public Map<String, Object> getPurchaseList(Search search, String userEmail) throws Exception {
+	public void addPointPurchase(Point point) throws Exception{
+		pointDao.addPointPurchase(point);
+	}
 
+	@Override
+	public Map<String, Object> getPointPurchaseList(Search search, String userEmail) throws Exception {
+		
 		int totalCount = pointDao.getTotalCount(search);
 
-		Map<String, Object> map = pointDao.getPurchaseList(search, userEmail);
+		Map<String, Object> map = pointDao.getPointPurchaseList(search, userEmail);
+		map.put("totalCount", new Integer(totalCount));
+
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getPointPurchaseVoucherList(Search search, String userEmail) throws Exception {
+		
+		int totalCount = pointDao.getTotalCount(search);
+
+		Map<String, Object> map = pointDao.getPointPurchaseVoucherList(search, userEmail);
+		map.put("totalCount", new Integer(totalCount));
+
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getPointPurchaseDonationList(Search search, String userEmail) throws Exception {
+		
+		int totalCount = pointDao.getTotalCount(search);
+
+		Map<String, Object> map = pointDao.getPointPurchaseDonationList(search, userEmail);
 		map.put("totalCount", new Integer(totalCount));
 
 		return map;
