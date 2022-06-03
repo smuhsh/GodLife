@@ -43,39 +43,19 @@ public class PointServiceTest {
 	@Qualifier("pointServiceImpl")
 	private PointService pointService;
 
-	//@Test
+	@Test
 	public void testAddPurchase() throws Exception {
 		
 		Point point = new Point();
-		point.setUserEmail("user01@io.com");
-		point.setUseStatus("1");
-		point.setProductNo(10010);
-		point.setPayOpt("1");
-		point.setCash(50000);
+		point.setUserEmail("user77@io.com");
+		point.setUseStatus("2");
 		point.setPoint(50000);
-		point.setUseDetail("1");
+		point.setDonationPlace("양로원");
+		point.setUseDetail("7");
 		
 		pointService.addPurchase(point);
 	}
 	
-	
-	//@Test
-	public void testGetPurchaseList() throws Exception {
-		 	Search search = new Search();
-		 	search.setCurrentPage(1);
-		 	search.setPageSize(3);
-		 	String userEmail = "tndkdml@gmail.com";
-		 	
-		 	
-		 	Map<String,Object> map = pointService.getPurchaseList(search, userEmail);
-		 	List<Object> list = (List<Object>)map.get("list");
-		 	Assert.assertEquals(3, list.size());
-		 	
-			//==> console 
-		 	
-		 	Integer totalCount = (Integer)map.get("totalCount");
-
-		 }
 	
 	
 	

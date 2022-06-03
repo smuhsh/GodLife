@@ -28,24 +28,13 @@
 				#{donationPlace:VARCHAR},SYSDATE )
 	</insert>
 	
-	<select  id="getPurchaseList"  parameterType="map"	resultMap="purchaseSelectMap">
+	<select  id="getPurchaseList"  parameterType="map"	resultMap="pointSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT *
 											FROM purchase
 											<where>
 												 user_email=#{userEmail}
-												 <if test="searchCondition != null">
-													<if test="searchCondition ==0 and searchKeyword !='' ">
-										 				AND point like '%${searchKeyword}%'
-													</if>
-													<if test="searchCondition ==1 and searchKeyword !='' ">
-										 				AND reg_date like '%${searchKeyword}%'
-													</if>
-													<if test ="searchCondition==2 and searchKeyword !='' ">
-														AND pay_opt like '%${searchKeyword}%'
-													</if>
-													</if>
 											</where> 
 											ORDER BY purchase_no) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )

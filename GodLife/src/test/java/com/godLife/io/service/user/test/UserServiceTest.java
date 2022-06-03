@@ -66,8 +66,12 @@ public class UserServiceTest {
       
       System.out.println(user);
       
+<<<<<<< HEAD
       Assert.assertEquals("tndkdml@gmail.com", user.getUserEmail());
    
+=======
+      Assert.assertEquals("tndkdml@gmail.com", user.getUserEmail());   
+>>>>>>> refs/heads/master
    }   
 
    //@Test
