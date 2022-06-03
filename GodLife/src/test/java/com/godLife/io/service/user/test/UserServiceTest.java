@@ -57,18 +57,17 @@ public class UserServiceTest {
 //      
 //   }
    
-//   @Test
-//   public void testGetUser() throws Exception {
-//      
-//      User user = new User();
-//      
-//      user = userService.getUser("tndkdml@gmail.com");
-//      
-//      System.out.println(user);
-//      
-//      Assert.assertEquals("tndkdml@gmail.com", user.getUserEmail());
-//   
-//   }   
+   @Test
+   public void testGetUser() throws Exception {
+      
+      User user = new User();
+      
+      user = userService.getUser("tndkdml@gmail.com");
+      
+      System.out.println(user);
+      
+      Assert.assertEquals("tndkdml@gmail.com", user.getUserEmail());   
+   }   
 
    //@Test
    //public void testUpdatePwd() throws Exception{

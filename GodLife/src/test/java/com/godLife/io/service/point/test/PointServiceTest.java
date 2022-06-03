@@ -57,24 +57,6 @@ public class PointServiceTest {
 	}
 	
 	
-	//@Test
-	public void testGetPurchaseList() throws Exception {
-		 	Search search = new Search();
-		 	search.setCurrentPage(1);
-		 	search.setPageSize(3);
-		 	String userEmail = "tndkdml@gmail.com";
-		 	
-		 	
-		 	Map<String,Object> map = pointService.getPurchaseList(search, userEmail);
-		 	List<Object> list = (List<Object>)map.get("list");
-		 	Assert.assertEquals(3, list.size());
-		 	
-			//==> console 
-		 	
-		 	Integer totalCount = (Integer)map.get("totalCount");
-
-		 }
-	
 	
 	
 	

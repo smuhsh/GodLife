@@ -82,12 +82,7 @@
 		WHERE badge_no = #{value}
 	 </select>
 
-	 <select 	id="getBadgeMy"	parameterType="int"	resultMap="myBadgeSelectMap">
-		SELECT
-		myBadge_no , user_email , badge_no , act_count ,  	
-		FROM myBadge 
-		WHERE mybadge_no = #{value}
-	 </select>
+	
 
 	 
 
@@ -182,25 +177,7 @@
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 
-	<select  id="getBadgeMyList"  parameterType="search"	resultMap="myBadgeSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT myBadge_no, user_email , badge_no, act_count, 
-											FROM myBadge 
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				myBadge_no LIKE '%${searchKeyword}%'
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				myBadge_name LIKE '%${searchKeyword}%'
-													</if>
-												</where>
-											</if>
-											ORDER BY myBadge_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>
+	
 	 
 	 	<!--  위 두번째 subQuery 의  
 	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는

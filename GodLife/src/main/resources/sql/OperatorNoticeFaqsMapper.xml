@@ -27,46 +27,7 @@
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getOperatorNoticeFaqs"	parameterType="int" resultMap="productSelectMap">
-		SELECT
-		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  image_file , reg_date
-		FROM product 
-		WHERE prod_no = #{prodNo}
-	 </select>
-	 
-	 <!-- SQL : UPDATE -->
-	 <update	id="updateOperatorNoticeFaqs"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		prod_name 			= 	#{prodName} ,
-			prod_detail			= 	#{prodDetail},
-			price 				= 	#{price},
-			manufacture_day 	= 	#{manuDate},
-			image_file			=	#{fileName}
-	   	</set>
-	   	WHERE prod_no = #{prodNo}
-	 </update>
-		 
-	<!-- SQL : SELECT LIST -->
-	<select  id="getOperatorNoticeFaqsList"  parameterType="search"	resultMap="productSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT prod_no , prod_name , prod_detail, price, reg_date
-											FROM product
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				prod_no = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				prod_name = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY prod_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>
+	
 	 	<!--  위 두번째 subQuery 의  
 	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
 	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..

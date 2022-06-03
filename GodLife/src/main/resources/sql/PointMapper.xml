@@ -28,7 +28,7 @@
 				#{donationPlace:VARCHAR},SYSDATE )
 	</insert>
 	
-	<select  id="getPurchaseList"  parameterType="map"	resultMap="purchaseSelectMap">
+	<select  id="getPurchaseList"  parameterType="map"	resultMap="pointSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT *
