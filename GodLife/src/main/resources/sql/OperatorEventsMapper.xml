@@ -46,7 +46,7 @@
 	 </update>
 
 	 <!-- SQL : DELETE -->
-	 <delete	id="updateOperatorEvents"	parameterType="operatorEvents" >
+	 <delete	id="deleteOperatorEvents"	parameterType="operatorEvents" >
 	   	DELETE events
 		WHERE event_no = #{eventNo}
 	 </delete>
