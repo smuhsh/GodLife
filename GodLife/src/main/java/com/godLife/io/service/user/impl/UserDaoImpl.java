@@ -66,16 +66,16 @@ public class UserDaoImpl implements UserDao{
 		   return map;
 	}
 	
-	public Map<String, Object> getFriendList(Search search, String userEmail) throws Exception {
+	public Map<String, Object> getFriendRequestList(Search search, String targetEmail) throws Exception {
 		
 		   Map<String, Object> map=new HashMap<String, Object>();
 		   FriendBlack friendBlack = new FriendBlack();
 		   
 		   map.put("endRowNum",  search.getEndRowNum()+"" );
 		   map.put("startRowNum",  search.getStartRowNum()+"" );
-		   map.put("userEmail", userEmail);
+		   map.put("targetEmail", targetEmail);
 		   
-		   List<FriendBlack> list = sqlSession.selectList("FriendBlackMapper.getFriendBlackList", map);
+		   List<FriendBlack> list = sqlSession.selectList("FriendBlackMapper.getFriendRequestList", map);
 		   map.put("list", list);
 		   
 		   return map;

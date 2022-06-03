@@ -3,13 +3,13 @@ package com.godLife.io.service.domain;
 import java.sql.Date;
 
 
-//==>ģ��, ������Ʈ ������ �𵨸�(�߻�ȭ/ĸ��ȭ)�� Bean
+//친구블랙리스트 관리 
 public class FriendBlack {
 	
 
 	//field
 	private int friendBlackNo;
-	private String nick;
+	private String nick; // 유저와조인하기위해 닉네임 추가, 매퍼에도 추가 
 	private String profileImg;
 	private String userEmail;
 	private String targetEmail;

@@ -2,14 +2,14 @@ package com.godLife.io.service.domain;
 
 import java.sql.Date;
 
-//==>������ �𵨸�(�߻�ȭ/ĸ��ȭ)�� Bean
+// 쪽지 관리 
 public class Msg {
 	
 	//Field 
 	
 	private int msgNo;
 	private String sendEmail;
-	private String nick;
+	private String nick; // // 유저와조인하기위해 닉네임 추가, 매퍼에도 추가 
 	private String recvEmail;
 	private String title;
 	private String detail;

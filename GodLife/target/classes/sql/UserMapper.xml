@@ -9,18 +9,25 @@
  	
 	<resultMap id="userSelectMap" type="user">
 		<result property="userEmail" 			column="user_email" 			jdbcType="VARCHAR"/>
-		<result property="pwd"	column="pwd" 		jdbcType="VARCHAR" />
-		<result property="role" 	column="role" 		jdbcType="CHAR" />
-		<result property="nick" 				column="nick" 					jdbcType="VARCHAR" />
-		<result property="regDate" 				column="reg_date" 					jdbcType="DATE" />
-		<result property="categNo" 			column="categ_no" 		jdbcType="INTEGER" />
-		<result property="profileImg" 				column="profile_img" 					jdbcType="VARCHAR" />
-		<result property="intro" 			column="intro" 				jdbcType="VARCHAR"  />
-		<result property="phone" 		column="phone" 			jdbcType="VARCHAR" />
-		<result property="redCardCount" 		column="redcard_count" 			jdbcType="INTEGER"  />
-		<result property="accountStatus" 		column="account_status" 			jdbcType="CHAR" />
-		<result property="reportCount" 		column="report_count" 			jdbcType="INTEGER" />
-		<result property="totalPoint" 		column="total_point" 			jdbcType="INTEGER" />
+		<result property="pwd"					column="pwd" 						jdbcType="VARCHAR" />
+		<result property="role" 					column="role" 						jdbcType="CHAR" />
+		<result property="nick" 					column="nick" 						jdbcType="VARCHAR" />
+		<result property="regDate" 				column="reg_date" 				jdbcType="DATE" />
+		<result property="categNo" 				column="categ_no" 				jdbcType="INTEGER" />
+		<result property="profileImg" 			column="profile_img" 			jdbcType="VARCHAR" />
+		<result property="intro" 					column="intro" 						jdbcType="VARCHAR"  />
+		<result property="phone" 				column="phone" 					jdbcType="VARCHAR" />
+		<result property="redCardCount" 	column="redcard_count" 		jdbcType="INTEGER"  />
+		<result property="accountStatus" 	column="account_status" 	jdbcType="CHAR" />
+		<result property="reportCount" 		column="report_count" 		jdbcType="INTEGER" />
+		<result property="totalPoint" 			column="total_point" 			jdbcType="INTEGER" />
+		<!-- 아래추가-->
+		<result property="categName" 		column="categ_name" 			jdbcType="VARCHAR" />
+		
+		<result property="redCouponCount" 		column="red_coupon_count " 			jdbcType="INTEGER" />
+		<result property="certiCouponCount" 		column="certi_coupon_count  " 			jdbcType="INTEGER" />
+		
+		
 	</resultMap>
 	
 	<!-- SQL : 회원가입-->
@@ -32,13 +39,25 @@
 		   					'1', #{reportCount : INTEGER}, #{totalPoint : INTEGER} )
 	 </insert>
 	 
+	 
+	 <!-- SQL : 카카오회원가입-->
+	 
+	 
+	 
 	 <!-- SQL : 본인정보 상세조회 -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_email, nick, phone, categ_no, intro, profile_img, report_count, total_point		
-		FROM users 
-		WHERE user_email = #{value}
+		 u.user_email, u.nick, u.phone, ca.categ_name, u.intro, u.profile_img, u.total_point,		
+		 ( SELECT count(*) 
+		 FROM reports r 
+		 WHERE r.target_email = u.user_email) 
+		 AS report_count
+		 FROM users u, categs ca 
+		 WHERE u.categ_no = ca.categ_no 
+		 AND u.user_email =#{userEmail} 
 	 </select>
+	 
+	 
 	 
 	 <!-- SQL : 비밀번호 수정 -->
 	 <update	id="updatePwd"	parameterType="user" >
@@ -49,18 +68,69 @@
 	   	WHERE user_email = #{userEmail}
 	 </update>
 	 
+	 
+	 
 	 <!-- SQL : 본인정보 수정 -->
 	 <update	id="updateUser"	parameterType="user" >
-	   	UPDATE users
+	   	UPDATE users u, categs ca
 	   	<set>
-	   		nick = #{nick},
-	   		phone= #{phone},
-	   		categ_no = #{categNo},
-	   		intro = #{intro},
-	   		profile_img = #{profileImg}
+	   		u.nick = #{nick},
+	   		u.phone= #{phone},
+	   		ca.categ_name = #{categName},
+	   		u.intro = #{intro},
+	   		u.profile_img = #{profileImg}
 	   	</set>
-	   	WHERE user_email = #{userEmail}
+	   	WHERE u.categ_no = ca.categ_no 
+	   	AND u.user_email = #{userEmail}
 	 </update>
+	 
+	 
+	 <!-- SQL : 유저전체 목록조회 -->
+	 
+	 
+	 
+	 
+	 <!-- SQL : 유저상세조회 -->
+	 
+	 
+	 
+	 
+	 
+	 
+	 <!-- 병문 오빠 추가 -->
+	 <update id="updateUserRedCoupon" parameterType="user" >
+	 	UPDATE USERS
+	 	SET red_coupon_count = #{redCouponCount}
+	 		<where>
+				user_email=#{userEmail}
+			</where>
+	  </update>
+	  
+	  
+	   <!-- 병문 오빠 추가 -->
+	  <update id="updateUserCertiCoupon" parameterType="user" >
+	 	UPDATE USERS
+	 	SET certi_coupon_count = #{certiCouponCount}
+	 		<where>
+				user_email=#{userEmail}
+			</where>
+	  </update>
+	  
+	  
+	  <!-- 병문 오빠 추가 -->
+	  <update id="updateUserTotalPoint" parameterType="user" >
+	 	UPDATE USERS
+	 	SET total_point = #{totalPoint}
+	 		<where>
+				user_email=#{userEmail}
+			</where>
+	  </update>
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 	
 	 	<!--  위 두번째 subQuery 의  
