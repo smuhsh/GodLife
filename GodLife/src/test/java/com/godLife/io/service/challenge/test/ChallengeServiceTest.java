@@ -62,10 +62,11 @@ public class ChallengeServiceTest {
 		List<String> certiCycle = new ArrayList<String>();
 		certiCycle.add("1");//일
 		certiCycle.add("4");//수
+		certiCycle.add("6");//수
 		
 		challenge.setHostEmail("user05@io.com");//HostEmail
-		challenge.setChallengeTitle("user05 전체 공개"); // 챌린지 제목
-		challenge.setChallengeThumbnailImg("전체공개.jpg");//썸네일 이미지
+		challenge.setChallengeTitle("user05 2번전체 공개"); // 챌린지 제목
+		challenge.setChallengeThumbnailImg("2번전체공개.jpg");//썸네일 이미지
 		challenge.setChallengeDetail("전체공개 챌린지입니다.");// 소개
 		challenge.setChallengeRule("채크 챌린지."); // 규칙
 		challenge.setChallengeCateNo(1); // 관심사 번호 1:운동
@@ -89,7 +90,7 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void getChallengeList() {
 		Search search = new Search();
 		
@@ -98,18 +99,18 @@ public class ChallengeServiceTest {
 		search.setPageSize(pageSize);
 		
 		//search.setOrderCondition(1); // 1 운동
-		search.setSearchCondition("2");//1 신규 2 인기
-		search.setSearchKeyword("");
+		//search.setSearchCondition("1");//1 신규 2 인기
+		//search.setSearchKeyword("46");
 		
 		System.out.println(search.getStartRowNum()+"  "+search.getEndRowNum());
 		
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		
-		User user = new User();
-		
+		//User user = new User(); //로그인
+		User user = null; //비로그인
 		//비로그인 이라면 아랫줄 주석
-		user.setUserEmail("chilee4650@naver.com");
+		//user.setUserEmail("chilee4650@naver.com");
 		//////////////////////////////////////////////
 		map.put("search", search);
 		System.out.println("searchKeyword: "+search.getSearchKeyword());
@@ -127,6 +128,22 @@ public class ChallengeServiceTest {
 		
 		
 		//Map<String , Object> map=userService.getUserList(search);
+	}
+	
+	
+	@Test
+	public void getChallenge() {
+		int challengeNo = 10010;
+		
+		User user = new User();
+		user.setUserEmail("chilee4650@naver.com");
+		
+		Challenge challenge = challengeService.getChallenge(user, challengeNo);
+		
+		
+		
+		
+		
 	}
 	
 }	

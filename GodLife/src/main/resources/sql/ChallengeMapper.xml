@@ -289,6 +289,40 @@
 				ORDER BY list.challenge_no
 	 		
 	 </select>
+	 
+	 
+	 <select id="getChallengeList" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
+	 
+	 		SELECT
+			*
+			FROM
+			challenges
+			<where>
+				status = '0'
+				AND open_range = '0'
+				<if test="search.searchKeyword != null and search.searchKeyword != ''">
+				  	AND title LIKE '%'||#{search.searchKeyword}||'%'
+				</if>
+				<if test="search.orderCondition != 0">
+					AND categ_no = #{search.orderCondition}
+				</if>
+			</where>
+			<if test="search.searchCondition != null">
+				<if test="search.searchCondition == 1">
+					ORDER BY reg_date DESC
+				</if>
+				<if test="search.searchCondition == 2">
+					ORDER BY join_count DESC
+				</if>
+			</if>
+			<if test="search.searchCondition == null">
+				ORDER BY challenge_no
+			</if>
+	
+	 		
+	 		
+	 </select>
+	 
 	 <!-- ////////// select //////////// -->
 	 
 	 

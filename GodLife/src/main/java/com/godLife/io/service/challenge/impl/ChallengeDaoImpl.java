@@ -46,7 +46,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		
 		User user = (User)map.get("user");
 		if(user != null) {
-		
+		System.out.println("로그인");
 		List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeListLogin",map);
 		
 		int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeListLoginTotal",map);
@@ -55,9 +55,20 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		map.put("list", list);
 		
 		}else {
-			//List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeList",map);
+			System.out.println("비로그인");
+			List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeList",map);
+			int totalCount = 0;
+			map.put("totalCount", totalCount);
+			map.put("list", list);
 		}
+		
 		return map;
+	}
+
+	@Override
+	public Challenge getChallenge(User user, int challengeNo) {
+		
+		return null;
 	}
 	
 }

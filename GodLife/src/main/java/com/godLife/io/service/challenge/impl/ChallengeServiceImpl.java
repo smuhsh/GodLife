@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.godLife.io.service.challenge.ChallengeDao;
 import com.godLife.io.service.challenge.ChallengeService;
 import com.godLife.io.service.domain.Challenge;
+import com.godLife.io.service.domain.User;
 
 
 @Service("challengeServiceImpl")
@@ -32,6 +33,12 @@ public class ChallengeServiceImpl implements ChallengeService {
 		
 		return challengeDao.getChallengeList(map);
 	
+	}
+
+
+	@Override
+	public Challenge getChallenge(User user, int challengeNo) {
+		return challengeDao.getChallenge(user, challengeNo);
 	}
 
 }
