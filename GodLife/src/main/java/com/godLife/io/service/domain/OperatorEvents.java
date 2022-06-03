@@ -10,11 +10,11 @@ public class OperatorEvents {
 	private String thumbnailImg;
 	private String detail;
 	private String eventImg;
-	private Date roullJoinPoint;
+	private int roullJoinPoint;
 	private Date regDate;
 	
 	//Constructor
-	public void OperatorEvents() {
+	public OperatorEvents() {
 		
 	}
 	
@@ -59,11 +59,11 @@ public class OperatorEvents {
 		this.eventImg = eventImg;
 	}
 
-	public Date getRoullJoinPoint() {
+	public int getRoullJoinPoint() {
 		return roullJoinPoint;
 	}
 
-	public void setRoullJoinPoint(Date roullJoinPoint) {
+	public void setRoullJoinPoint(int roullJoinPoint) {
 		this.roullJoinPoint = roullJoinPoint;
 	}
 
@@ -83,7 +83,7 @@ public class OperatorEvents {
 	}
 
 	public OperatorEvents(int eventNo, String eventTitle, String thumbnailImg, String detail, String eventImg,
-			Date roullJoinPoint, Date regDate) {
+			int roullJoinPoint, Date regDate) {
 		super();
 		this.eventNo = eventNo;
 		this.eventTitle = eventTitle;

@@ -66,7 +66,11 @@ public class UserServiceTest {
       
       System.out.println(user);
       
+<<<<<<< HEAD
       Assert.assertEquals("chilee4650@naver.com", user.getUserEmail());
+=======
+      Assert.assertEquals("tndkdml@gmail.com", user.getUserEmail());
+>>>>>>> refs/heads/operator
    
    }   
 
