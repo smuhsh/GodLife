@@ -87,7 +87,7 @@ public class ChallengeServiceTest {
 		
 	}
 	
-//	@Test
+	//@Test
 	public void getChallengeList() {
 		Search search = new Search();
 		
