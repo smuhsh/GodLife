@@ -19,6 +19,8 @@
 		<typeAlias alias="friendBlack" type="com.godLife.io.service.domain.FriendBlack" />
 		<typeAlias alias="msg" type="com.godLife.io.service.domain.Msg" />
 		<typeAlias alias="search" type="com.godLife.io.common.Search" />
+		<typeAlias alias="challenge" type="com.godLife.io.service.domain.Challenge" />
+		<typeAlias alias="point" type="com.godLife.io.service.domain.Point" />
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
@@ -26,6 +28,8 @@
 		<mapper resource="sql/UserMapper.xml"/>
 		<mapper resource="sql/FriendBlackMapper.xml"/>
 		<mapper resource="sql/MsgMapper.xml"/>
+		<mapper resource="sql/ChallengeMapper.xml"/>
+		<mapper resource="sql/PointMapper.xml"/>
 	</mappers>
 
 </configuration>
