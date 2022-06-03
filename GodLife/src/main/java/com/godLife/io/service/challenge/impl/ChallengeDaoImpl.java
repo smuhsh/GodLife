@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.godLife.io.service.challenge.ChallengeDao;
 import com.godLife.io.service.domain.Challenge;
+import com.godLife.io.service.domain.User;
 
 @Repository("challengeDaoImpl")
 public class ChallengeDaoImpl implements ChallengeDao {
@@ -41,12 +42,21 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		
 	}
 
-	@Override
 	public Map<String, Object> getChallengeList(Map<String, Object> map) {
 		
+		User user = (User)map.get("user");
+		if(user != null) {
 		
-		List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeList",map);
+		List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeListLogin",map);
 		
+		int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeListLoginTotal",map);
+		
+		map.put("totalCount", totalCount);
+		map.put("list", list);
+		
+		}else {
+			//List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeList",map);
+		}
 		return map;
 	}
 	
