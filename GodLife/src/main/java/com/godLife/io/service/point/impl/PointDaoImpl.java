@@ -30,22 +30,57 @@ public class PointDaoImpl implements PointDao {
 	}
 
 	@Override
-	public void addPurchase(Point point) throws Exception {
-		sqlSession.insert("PointMapper.addPurchase", point);
+	public void addPointPurchaseProduct(Point point) throws Exception {
+		sqlSession.insert("PointMapper.addPointPurchaseProduct", point);
 	}
 
-	public Map<String, Object> getPurchaseList(Search search, String userEmail) throws Exception {
+	@Override
+	public void addPointPurchase(Point point) throws Exception {
+		sqlSession.insert("PointMapper.addPointPurchase", point);
+	}
 
+	@Override
+	public Map<String, Object> getPointPurchaseList(Search search, String userEmail) throws Exception {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		Point point = new Point();
-
-		map.put("endRowNum", search.getEndRowNum() + "");
-		map.put("startRowNum", search.getStartRowNum() + "");
-		map.put("userEmail", userEmail);
-
-		List<Point> list = sqlSession.selectList("PointMapper.getPurchaseList", map);
+		
+		map.put("endRowNum",  search.getEndRowNum()+"" );
+		map.put("startRowNum",  search.getStartRowNum()+"" );
+		map.put("userEmail",userEmail);
+		
+		List<Point> list = sqlSession.selectList("PointMapper.getPointPurchaseList", map);
 		map.put("list", list);
+		
+		return map;
+	}
 
+	@Override
+	public Map<String, Object> getPointPurchaseVoucherList(Search search, String userEmail) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("endRowNum",  search.getEndRowNum()+"" );
+		map.put("startRowNum",  search.getStartRowNum()+"" );
+		map.put("userEmail",userEmail);
+		
+		List<Point> list = sqlSession.selectList("PointMapper.getPointPurchaseVoucherList", map);
+		map.put("list", list);
+		
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getPointPurchaseDonationList(Search search, String userEmail) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("endRowNum",  search.getEndRowNum()+"" );
+		map.put("startRowNum",  search.getStartRowNum()+"" );
+		map.put("userEmail",userEmail);
+		
+		List<Point> list = sqlSession.selectList("PointMapper.getPointPurchaseDonationList", map);
+		map.put("list", list);
+		
 		return map;
 	}
 

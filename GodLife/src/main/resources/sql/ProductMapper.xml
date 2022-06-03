@@ -19,145 +19,16 @@
 	
 	<!-- SQL : INSERT -->
 <!-- //////////////////쿠폰 상품 등록 UI, 등록 이미지, 등록 완료, 확인 /////////////////////////////////////////////////// -->
-	<insert 	id="addProductCouponView"		parameterType="product" >
+	<insert 	id="addProduct"		parameterType="product" >
 	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img, status) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR} , 
-				<if test="status == 0">쿠폰</if> 
-				<if test="status == 1">상품권</if>
-				<if test="status == 2">포인트</if>
-				)
-	 </insert>
-	 
-	<insert 	id="addProductCoupon"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
-	 </insert>	 
-	 
-	<insert 	id="addProductCouponConfirm"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
+		INTO product ( product_no , product_name , product_price, product_detail , product_img, status ) 
+		VALUES  ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName:VARCHAR} , #{productPrice} , #{productDetail:VARCHAR} , #{productImg:VARCHAR} , #{status} )
+
 	 </insert>
 
-	<insert 	id="addProductCouponImg"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
-	 </insert>
-<!-- /////////////////////////////상품권/////////////////////////////////////////////////// -->
-
-	<insert 	id="addProductVoucherView"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img, status) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR} , 
-				<if test="status == 0">쿠폰</if> 
-				<if test="status == 1">상품권</if>
-				<if test="status == 2">포인트</if>
-				)
-	 </insert>
-	 
-	<insert 	id="addProductVoucher"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
-	 </insert>	 
-	 
-	<insert 	id="addProductVoucherConfirm"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
-	 </insert>
-
-	<insert 	id="addProductVoucherImg"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
-	 </insert>
-<!-- /////////////////////////////포인트/////////////////////////////////////////////////// -->
-
-	<insert 	id="addProductPointView"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img, status) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR} , 
-				<if test="status == 0">쿠폰</if> 
-				<if test="status == 1">상품권</if>
-				<if test="status == 2">포인트</if>
-				)
-	 </insert>
-	 
-	<insert 	id="addProductPoint"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
-	 </insert>	 
-	 
-	<insert 	id="addProductPointConfirm"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
-	 </insert>
-
-	<insert 	id="addProductPointImg"		parameterType="product" >
-	 	INSERT
-		INTO product( product_no , product_name , product_price, product_detail , product_img) 
-		VALUES	 ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName} , 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{productPrice}</if>
-				, #{productDetail:VARCHAR} , #{productImg:VARCHAR})
-	 </insert>
 <!-- /////////////////////////////쿠폰, 상품권, 포인트 상세 조회/////////////////////////////////////////////////// -->
 	 
-
-	 <select 	id="getProductCoupon"	parameterType="int"	resultMap="productSelectMap">
-		SELECT
-		product_no , product_name , product_detail ,  product_price ,  product_img		
-		FROM product 
-		WHERE product_no = #{value}
-	 </select>
-	 
-	 <select 	id="getProductVoucher"	parameterType="int"	resultMap="productSelectMap">
-		SELECT
-		product_no , product_name , product_detail ,  product_price ,  product_img		
-		FROM product 
-		WHERE product_no = #{value}
-	 </select>
-	 
-	 <select 	id="getProductPoint"	parameterType="int"	resultMap="productSelectMap">
+	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
 		product_no , product_name , product_detail ,  product_price ,  product_img		
 		FROM product 
@@ -168,122 +39,12 @@
 	 
 	 <!-- SQL : UPDATE -->
 <!-- /////////////////////////////쿠폰/////////////////////////////////////////////////// -->
-	 <update	id="updateProductCouponImg"	parameterType="product" >
+	 <update	id="updateProduct"	parameterType="product" >
 	   	UPDATE product
 	   	<set>
 	   		product_name 			= #{productName:VARCHAR} ,
 			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
-			product_img				= #{productImg:VARCHAR}
-	   	</set>
-	   	WHERE product_no = #{productNo}
-	 </update>
-	 
-	 <update	id="updateProductCoupon"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		product_name 			= #{productName:VARCHAR} ,
-			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
-			product_img				= #{productImg:VARCHAR}
-	   	</set>
-	   	WHERE product_no = #{productNo}
-	 </update>
-	 
-	 <update	id="updateProductCouponConfirm"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		product_name 			= #{productName:VARCHAR} ,
-			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
-			product_img				= #{productImg:VARCHAR}
-	   	</set>
-	   	WHERE product_no = #{productNo}
-	 </update>
-
-<!-- /////////////////////////////상품권/////////////////////////////////////////////////// -->
-	 
-	 	 <update	id="updateProductVoucherImg"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		product_name 			= #{productName:VARCHAR} ,
-			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
-			product_img				= #{productImg:VARCHAR}
-	   	</set>
-	   	WHERE product_no = #{productNo}
-	 </update>
-	 
-	 <update	id="updateProductVoucher"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		product_name 			= #{productName:VARCHAR} ,
-			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
-			product_img				= #{productImg:VARCHAR}
-	   	</set>
-	   	WHERE product_no = #{productNo}
-	 </update>
-	 
-	 <update	id="updateProductVoucherConfirm"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		product_name 			= #{productName:VARCHAR} ,
-			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
-			product_img				= #{productImg:VARCHAR}
-	   	</set>
-	   	WHERE product_no = #{productNo}
-	 </update>
-	 
-<!-- /////////////////////////////포인트/////////////////////////////////////////////////// -->	 
-
-	 <update	id="updateProductPointImg"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		product_name 			= #{productName:VARCHAR} ,
-			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
-			product_img				= #{productImg:VARCHAR}
-	   	</set>
-	   	WHERE product_no = #{productNo}
-	 </update>
-	 
-	 <update	id="updateProductPoint"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		product_name 			= #{productName:VARCHAR} ,
-			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
-			product_img				= #{productImg:VARCHAR}
-	   	</set>
-	   	WHERE product_no = #{productNo}
-	 </update>
-	 
-	 <update	id="updateProductPointConfirm"	parameterType="product" >
-	   	UPDATE product
-	   	<set>
-	   		product_name 			= #{productName:VARCHAR} ,
-			product_detail			= #{productDetail:VARCHAR},
-			product_price			= 
-				<if test="productPrice == 0">null</if>
-				<if test="productPrice !=0 ">#{price:VARCHAR}</if>,
+			product_price			= #{productPrice},
 			product_img				= #{productImg:VARCHAR}
 	   	</set>
 	   	WHERE product_no = #{productNo}
@@ -291,25 +52,16 @@
 
 <!-- //////////////////////////쿠폰, 상품권, 포인트 상품 삭제//////////////////////////////////////////////////////  -->
 
-	 <delete	id="deleteProductCoupon"	parameterType="product" >
+	 <delete	id="deleteProduct"	parameterType="product" >
 	   	DELETE from product
 	   	WHERE product_no = #{productNo}
 	 </delete>
 
-	 <delete	id="deleteProductVoucher"	parameterType="product" >
-	   	DELETE from product
-	   	WHERE product_no = #{productNo}
-	 </delete>
-
-	 <delete	id="deleteProductPoint"	parameterType="product" >
-	   	DELETE from product
-	   	WHERE product_no = #{productNo}
-	 </delete>
 
 <!-- //////////////////////////쿠폰, 상품권, 포인트 전체 목록 조회//////////////////////////////////////////////////////  -->
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getProductCouponList"  parameterType="search"	resultMap="productSelectMap">
+	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT product_no, product_name , product_price
@@ -332,52 +84,7 @@
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 
-	<select  id="getProductVoucherList"  parameterType="search"	resultMap="productSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT product_no, product_name , product_price
-											FROM product
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				product_no LIKE '%${searchKeyword}%'
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				product_name LIKE '%${searchKeyword}%'
-													</if>
-													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				product_price LIKE '%${searchKeyword}%'
-													</if>
-												</where>
-											</if>
-											ORDER BY product_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>
 
-	<select  id="getProductPointList"  parameterType="search"	resultMap="productSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT product_no, product_name , product_price
-											FROM product
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				product_no LIKE '%${searchKeyword}%'
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				product_name LIKE '%${searchKeyword}%'
-													</if>
-													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				product_price LIKE '%${searchKeyword}%'
-													</if>
-												</where>
-											</if>
-											ORDER BY product_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>	 
-	 
 	 	<!--  위 두번째 subQuery 의  
 	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
 	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
@@ -390,6 +97,7 @@
 		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
+	
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT product_no, product_name , product_price
