@@ -1,6 +1,11 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/java/com/godLife/io/common/CertiCycle.java=EUC_KR
 encoding//src/main/java/com/godLife/io/common/aspect/LogAspectJ.java=UTF-8
+encoding//src/main/java/com/godLife/io/service/challenge/ChallengeDao.java=UTF-8
+encoding//src/main/java/com/godLife/io/service/challenge/ChallengeService.java=UTF-8
+encoding//src/main/java/com/godLife/io/service/challenge/impl/ChallengeDaoImpl.java=UTF-8
+encoding//src/main/java/com/godLife/io/service/challenge/impl/ChallengeServiceImpl.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8
