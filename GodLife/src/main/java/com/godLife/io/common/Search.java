@@ -7,7 +7,7 @@ public class Search {
 	///Field
 	private int currentPage;
 	private String searchCondition;
-	private String orderCondition;
+	private int orderCondition;
 	private String searchKeyword;
 	private int pageSize;
 	//==> ����Ʈȭ�� currentPage�� �ش��ϴ� ȸ�������� ROWNUM ��� SELECT ���� �߰��� Field 
@@ -43,10 +43,10 @@ public class Search {
 		this.searchCondition = searchCondition;
 	}
 	
-	public String getOrderCondition() {
+	public int getOrderCondition() {
 		return orderCondition;
 	}
-	public void setOrderCondition(String orderCondition) {
+	public void setOrderCondition(int orderCondition) {
 		this.orderCondition = orderCondition;
 	}
 	

@@ -20,28 +20,63 @@
 		<result property="regDate" column="REG_DATE" jdbcType="DATE" />
 	</resultMap>
 	
-	<insert id="addPurchase" parameterType="point">
+	<insert id="addPointPurchaseProduct" parameterType="point">
 		INSERT 
 		INTO purchase(PURCHASE_NO, USER_EMAIL, USE_STATUS, PRODUCT_NO, PAY_OPT, CASH, POINT, USE_DETAIL, VOUCHER_UNIQUE_NO, DONATION_PLACE, REG_DATE)
 		VALUES (SEQ_PURCHASE_PURCHASE_NO.nextval, #{userEmail:VARCHAR}, #{useStatus:CHAR},#{productNo:INTEGER},
 				#{payOpt:CHAR}, #{cash:INTEGER}, #{point:INTEGER}, #{useDetail:CHAR}, #{voucherUniqueNo:VARCHAR},
-				#{donationPlace:VARCHAR},SYSDATE )
+				SYSDATE )
 	</insert>
 	
-	<select  id="getPurchaseList"  parameterType="map"	resultMap="pointSelectMap">
+	<insert id="addPointPurchase" parameterType="point">
+		INSERT 
+		INTO purchase(PURCHASE_NO, USER_EMAIL, USE_STATUS,POINT, USE_DETAIL,DONATION_PLACE, REG_DATE)
+		VALUES (SEQ_PURCHASE_PURCHASE_NO.nextval, #{userEmail:VARCHAR}, #{useStatus:CHAR},
+				#{point:INTEGER}, #{useDetail:CHAR}, #{donationPlace:VARCHAR},SYSDATE )
+	</insert>
+	
+	<select  id="getPointPurchaseList"  parameterType="map"	resultMap="pointSelectMap">
 	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT *
-											FROM purchase
-											<where>
-												 user_email=#{userEmail}
-											</where> 
-											ORDER BY purchase_no) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+		FROM purchase
+			<where>
+				user_email=#{userEmail}
+				<if test="searchCondition != null">
+					<if test="searchCondition ==0 and searchKeyword !='' ">
+						AND use_detail like '1' 
+					</if>
+					<if test="searchCondition ==1 and searchKeyword !='' ">
+						AND use_detail BETWEEN '2' AND '4'
+					</if>
+					<if test ="searchCondition==2 and searchKeyword !='' ">
+						AND use_detail BETWEEN '5' AND '6'
+					</if>
+					<if test ="searchCondition==3 and searchKeyword !='' ">
+						AND use_detail like '8'
+					</if>
+				</if>
+			</where> 
+		ORDER BY purchase_no
 	 </select>
 	
+	<select  id="getPointPurchaseVoucherList"  parameterType="map"	resultMap="pointSelectMap">
+		SELECT purchase_no,product_no,voucher_unique_no,reg_date,use_detail
+		FROM purchase
+			<where>
+				user_email= #{userEmail}
+				AND use_detail = '9'
+			</where>
+		ORDER BY purchase_no
+	</select>
 	
+	<select  id="getPointPurchaseDonationList"  parameterType="map"	resultMap="pointSelectMap">
+		SELECT purchase_no,product_no,donation_place,reg_date,use_detail
+		FROM purchase
+			<where>
+				user_email=#{userEmail}
+				AND use_detail = '7'
+			</where>
+		ORDER BY purchase_no
+	</select>
 	
 	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
@@ -49,4 +84,5 @@
 						FROM purchase
 							) countTable						
 	 </select>
+	  
 </mapper>

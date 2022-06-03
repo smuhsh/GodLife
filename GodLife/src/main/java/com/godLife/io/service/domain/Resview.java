@@ -7,7 +7,7 @@ public class Resview {
 	private int certiImgNo;
 	private String email;
 	private String comment;
-	private Date commentRegDate;
+	private Date reviewRegDate;
 	private String status;
 	public int getResviewNo() {
 		return resviewNo;
@@ -21,8 +21,8 @@ public class Resview {
 	public String getComment() {
 		return comment;
 	}
-	public Date getCommentRegDate() {
-		return commentRegDate;
+	public Date getReviewRegDate() {
+		return reviewRegDate;
 	}
 	public String getStatus() {
 		return status;
@@ -39,8 +39,8 @@ public class Resview {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public void setCommentRegDate(Date commentRegDate) {
-		this.commentRegDate = commentRegDate;
+	public void setReviewRegDate(Date reviewRegDate) {
+		this.reviewRegDate = reviewRegDate;
 	}
 	public void setStatus(String status) {
 		this.status = status;
@@ -48,7 +48,7 @@ public class Resview {
 	@Override
 	public String toString() {
 		return "Resviews [resviewNo=" + resviewNo + ", certiImgNo=" + certiImgNo + ", email=" + email + ", comment="
-				+ comment + ", commentRegDate=" + commentRegDate + ", status=" + status + "]";
+				+ comment + ", reviewRegDate=" + reviewRegDate + ", status=" + status + "]";
 	}
 	
 	
