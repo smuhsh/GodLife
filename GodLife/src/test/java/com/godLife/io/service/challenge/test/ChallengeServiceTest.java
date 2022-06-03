@@ -131,7 +131,7 @@ public class ChallengeServiceTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void getChallenge() {
 		int challengeNo = 10010;
 		
