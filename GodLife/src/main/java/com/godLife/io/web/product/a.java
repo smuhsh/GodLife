@@ -1,4 +1,4 @@
-package com.godLife.io.service.operator.impl;
+package com.godLife.io.web.product;
 
 public class a {
 

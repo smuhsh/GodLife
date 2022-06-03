@@ -26,7 +26,7 @@ public interface UserService {
 	public Map<String , Object> getFriendBlackList(Search search, String userEmail) throws Exception;
 	
 	// 친구요청 
-    public Map<String, Object> getFriendRequestList(Search search, String userEmail) throws Exception ;
+    public Map<String, Object> getFriendRequestList(Search search, String targetEmail) throws Exception ;
 	
 	// 친구 등록 
 	public void addFriend(FriendBlack friendBlack) throws Exception;
