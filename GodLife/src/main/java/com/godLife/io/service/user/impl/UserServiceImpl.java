@@ -61,6 +61,17 @@ public class UserServiceImpl implements UserService{
 		return map;
 	}
 	
+	public Map<String , Object > getFriendRequestList(Search search, String targetEmail) throws Exception {
+//		List<FriendBlack> list= userDao.getFriendBlackList(search, userEmail);
+//		int totalCount = userDao.getTotalCount(search);
+		
+		Map<String, Object> map = userDao.getFriendRequestList(search, targetEmail);
+//		map.put("list", list );
+//		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+	
 	
 	public void addFriend(FriendBlack friendBlack) throws Exception {
 		userDao.addFriend(friendBlack);

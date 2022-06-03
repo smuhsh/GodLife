@@ -42,97 +42,138 @@ public class UserServiceTest {
    @Qualifier("userServiceImpl")
    private UserService userService;
 
-//   @Test
-//   public void testAddUser() throws Exception {
-//      
-//      User user = new User();
-//      
-//      user.setUserEmail("lovejuf@naver.com");
-//      user.setPwd("1111");
-//      user.setNick("화이팅");
-//      user.setCategNo(2);
-//      user.setPhone("01080077545");
-//      
-//      userService.addUser(user);
-//      
-//   }
+   //@Test
+   public void testAddUser() throws Exception {
+      
+      User user = new User();
+      
+      user.setUserEmail("lovejuf@naver.com");
+      user.setPwd("1111");
+      user.setNick("화이팅");
+      user.setCategNo(2);
+      user.setPhone("01080077545");
+      
+      userService.addUser(user);
+      
+   }
    
-   @Test
+   //@Test
    public void testGetUser() throws Exception {
       
       User user = new User();
       
-      user = userService.getUser("tndkdml@gmail.com");
+      user = userService.getUser("chilee4650@naver.com");
       
       System.out.println(user);
       
-      Assert.assertEquals("tndkdml@gmail.com", user.getUserEmail());   
+
+      Assert.assertEquals("chilee4650@naver.com", user.getUserEmail());
+
+   
    }   
 
    //@Test
-   //public void testUpdatePwd() throws Exception{
-   //    
-   //   User user = userService.getUser("lovejuf@naver.com");
-   //   
-   //   user.setPwd("dltndk1234");
-   //   
-   //   userService.updatePwd(user);
-   //   
-   //   user = userService.getUser("testUserId");
-   //   }
+   public void testUpdatePwd() throws Exception{
+       
+      User user = userService.getUser("lovejuf@naver.com");
+      
+      user.setPwd("dltndk1234");
+      
+      userService.updatePwd(user);
+      
+      user = userService.getUser("testUserId");
+      }
    
    //@Test
-   //public void testUpdateUser() throws Exception{
-   //    
-   //   User user = userService.getUser("tndkdml@gmail.com");
-   //   
-   //   user.setNick("갓라이프");
-   //   user.setCategNo(3);
-   //   
-   //   userService.updateUser(user);
-   ////   user = userService.getUser("testUserId");
-   //   }
+   public void testUpdateUser() throws Exception{
+       
+      User user = userService.getUser("tndkdml@gmail.com");
+      
+      user.setNick("갓갓라이프");
+         
+      userService.updateUser(user);
+   //   user = userService.getUser("testUserId");
+      }
    
 
-//       @Test 
-//       public void testGetFriendBlackListAll() throws Exception{
-//          
-//          Search search = new Search();
-//          search.setCurrentPage(1);
-//          search.setPageSize(3);
-//          
-////          FriendBlack friendBlack = new FriendBlack();
-////          friendBlack.setUserEmail("chilee4650@naver.com");
-//              
-//          Map<String,Object> map = userService.getFriendBlackList(search, "chilee4650@naver.com");
-//          
-//          List<Object> list = (List<Object>)map.get("list");
-//          Assert.assertEquals(1, list.size());
-//          
-//         //==> console 확인
-//          System.out.println(list);
-//          
-////          Integer totalCount = (Integer)map.get("totalCount");
-////          System.out.println(totalCount);
-//          
-//          System.out.println("=======================================");
-//          
-//          search.setCurrentPage(1);
-//          search.setPageSize(3);
-////          search.setSearchCondition("0");
-////          search.setSearchKeyword("");
-//          
-//          map = userService.getFriendBlackList(search, "chilee4650@naver.com");
-//          
-//          list = (List<Object>)map.get("list");
-//          Assert.assertEquals(1, list.size());
-//          
-//          //==> console 확인
-//          //System.out.println(list);
-//          
-////          totalCount = (Integer)map.get("totalCount");
-//          System.out.println(map);
-//       }
+       //@Test 
+       public void testGetFriendBlackListAll() throws Exception{
+          
+          Search search = new Search();
+          search.setCurrentPage(1);
+          search.setPageSize(3);
+          
+//          FriendBlack friendBlack = new FriendBlack();
+//          friendBlack.setUserEmail("chilee4650@naver.com");
+              
+          Map<String,Object> map = userService.getFriendBlackList(search, "chilee4650@naver.com");
+          
+          List<Object> list = (List<Object>)map.get("list");
+          Assert.assertEquals(1, list.size());
+          
+         //==> console 확인
+          System.out.println(list);
+          
+//          Integer totalCount = (Integer)map.get("totalCount");
+//          System.out.println(totalCount);
+          
+          System.out.println("=======================================");
+          
+          search.setCurrentPage(1);
+          search.setPageSize(3);
+//          search.setSearchCondition("0");
+//          search.setSearchKeyword("");
+          
+          map = userService.getFriendBlackList(search, "chilee4650@naver.com");
+          
+          list = (List<Object>)map.get("list");
+          Assert.assertEquals(1, list.size());
+          
+          //==> console 확인
+          //System.out.println(list);
+          
+//          totalCount = (Integer)map.get("totalCount");
+          System.out.println(map);
+       }
+       
+       //@Test 
+       public void testGetFriendRequestListAll() throws Exception{
+          
+          Search search = new Search();
+          search.setCurrentPage(1);
+          search.setPageSize(3);
+          
+          Map<String,Object> map = userService.getFriendRequestList(search, "kimhoyam@hotmail.com");
+          
+          List<Object> list = (List<Object>)map.get("list");
+          Assert.assertEquals(3, list.size());
+          
+         //==> console 확인
+          System.out.println(list);
+          
+//          Integer totalCount = (Integer)map.get("totalCount");
+//          System.out.println(totalCount);
+          
+          System.out.println("=======================================");
+          
+          search.setCurrentPage(1);
+          search.setPageSize(3);
+//          search.setSearchCondition("0");
+//          search.setSearchKeyword("");
+          
+          map = userService.getFriendRequestList(search, "kimhoyam@hotmail.com");
+          
+          list = (List<Object>)map.get("list");
+          Assert.assertEquals(3, list.size());
+          
+          //==> console 확인
+          //System.out.println(list);
+          
+//          totalCount = (Integer)map.get("totalCount");
+          System.out.println(map);
+       }
+   
+   
        
        
        
@@ -181,96 +222,97 @@ public class UserServiceTest {
    
    
        
-//         @Test
-//         public void testAddFriend() throws Exception {
-//            
-//            FriendBlack friendBlack = new FriendBlack();
-//            
-//            friendBlack.setUserEmail("tndkdml@gmail.com");
-//            friendBlack.setTargetEmail("user04@io.com");
-//            
-//            userService.addFriend(friendBlack);
-//         }
+         //@Test
+         public void testAddFriend() throws Exception {
+            
+            FriendBlack friendBlack = new FriendBlack();
+            
+            friendBlack.setUserEmail("tndkdml@gmail.com");
+            friendBlack.setTargetEmail("user04@io.com");
+            
+            userService.addFriend(friendBlack);
+         }
          
-//         @Test
-//         public void testAddBlack() throws Exception {
-//            
-//            FriendBlack friendBlack = new FriendBlack();
-//            
-//            friendBlack.setUserEmail("tndkdml@gmail.com");
-//            friendBlack.setTargetEmail("user04@io.com");
-//            
-//            userService.addBlack(friendBlack);
-//         }
+         //@Test
+         public void testAddBlack() throws Exception {
+            
+            FriendBlack friendBlack = new FriendBlack();
+            
+            friendBlack.setUserEmail("tndkdml@gmail.com");
+            friendBlack.setTargetEmail("user04@io.com");
+            
+            userService.addBlack(friendBlack);
+         }
    
-//         @Test
-//         public void testUpdateAccStatus() throws Exception{
-//             
-//            FriendBlack friendblack =new FriendBlack(); 
-//            friendblack.setUserEmail("tndkdml@gmail.com");
-//            friendblack.setTargetEmail("kimhoyam@hotmail.com");
-//            
-//            
-//            friendblack.setAccStatus("2");
-//            
-//            userService.updateAccStatus(friendblack);
-//            }
-   
-//            @Test
-//            public void testDeleteFriend() throws Exception{
-//                
-//               FriendBlack friendblack =new FriendBlack(); 
-//               friendblack.setUserEmail("tndkdml@gmail.com");
-//               friendblack.setTargetEmail("chilee4650@naver.com");
-//               
-//               friendblack.setAccStatus("2");
-//               
-//               userService.deleteFriend(friendblack);
-//               }   
-   
-//         @Test
-//         public void testAddMsg() throws Exception {
-//            
-//            Msg msg = new Msg();
-//            
-//            msg.setSendEmail("chilee4650@naver.com");
-//            msg.setRecvEmail("user02@io.com");
-//            msg.setTitle("안녕하세요");
-//            msg.setDetail("제 이름은 000입니다");
-//            
-//            userService.addMsg(msg);
-//         }
+         //@Test
+         public void testUpdateAccStatus() throws Exception{
+             
+            FriendBlack friendblack =new FriendBlack(); 
+            friendblack.setUserEmail("tndkdml@gmail.com");
+            friendblack.setTargetEmail("kimhoyam@hotmail.com");
+            
+            
+            friendblack.setAccStatus("2");
+            
+            userService.updateAccStatus(friendblack);
+            }
          
-//      @Test
-//      public void testGetRecvMsg() throws Exception {
-//         
-//         Msg msg = new Msg();
-//         
-//         msg = userService.getRecvMsg("chilee4650@naver.com");
-//         
-//         System.out.println("msg : "+msg);
-//       
-//      }   
+   
+            //@Test
+            public void testDeleteFriend() throws Exception{
+                
+               FriendBlack friendblack =new FriendBlack(); 
+               friendblack.setUserEmail("tndkdml@gmail.com");
+               friendblack.setTargetEmail("chilee4650@naver.com");
+               
+               friendblack.setAccStatus("2");
+               
+               userService.deleteFriend(friendblack);
+               }   
+   
+         //@Test
+         public void testAddMsg() throws Exception {
+            
+            Msg msg = new Msg();
+            
+            msg.setSendEmail("chilee4650@naver.com");
+            msg.setRecvEmail("user02@io.com");
+            msg.setTitle("안녕하세요");
+            msg.setDetail("제 이름은 000입니다");
+            
+            userService.addMsg(msg);
+         }
+         
+     // @Test
+      public void testGetRecvMsg() throws Exception {
+         
+         Msg msg = new Msg();
+         
+         msg = userService.getRecvMsg("chilee4650@naver.com");
+         
+         System.out.println("msg : "+msg);
+       
+      }   
       
-//      @Test
-//      public void testGetSendMsg() throws Exception {
-//         
-//         Msg msg = new Msg();
-//         
-//         msg = userService.getSendMsg("tndkdml@gmail.com");
-//         
-//         System.out.println("msg : "+msg);
-//       
-//      }  
+      //@Test
+      public void testGetSendMsg() throws Exception {
+         
+         Msg msg = new Msg();
+         
+         msg = userService.getSendMsg("tndkdml@gmail.com");
+         
+         System.out.println("msg : "+msg);
+       
+      }  
    
-//		 @Test
-//		 public void testDeleteMsg() throws Exception{
-//			 
-//			 Msg msg = new Msg(); 
-//			 msg.setMsgNo(10000);
-//		     
-//		    userService.deleteMsg(msg);
-//		    }   
+	 //@Test
+	 public void testDeleteMsg() throws Exception{
+		 
+		 Msg msg = new Msg(); 
+		 msg.setMsgNo(10000);
+	     
+	    userService.deleteMsg(msg);
+	    }   
 
    
    

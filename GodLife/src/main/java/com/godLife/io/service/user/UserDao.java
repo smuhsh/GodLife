@@ -27,10 +27,8 @@ public interface UserDao {
 	// 친구블랙리스트 목록조회(아직 블랙리스트는 안됨) 
 	public Map<String, Object> getFriendBlackList(Search search, String userEmail) throws Exception ;
 	
-	
 	// 친구요청 
-	public Map<String, Object> getFriendRequestList(Search search, String userEmail) throws Exception ;
-	
+	public Map<String, Object> getFriendRequestList(Search search, String targetEmail) throws Exception ;
 	
 	// 친구 등록 
 	public void addFriend(FriendBlack friendBlack) throws Exception ;
@@ -55,16 +53,18 @@ public interface UserDao {
 	
 	// 받은, 보낸 쪽지 삭제 
     public void deleteMsg(Msg msg) throws Exception ;
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
+    
+    
+    
+    // 병문오빠 추가 
+    
+    // 병문오빠 추가 
+    
+    // 병문오빠 추가 
+    
+    
+    
+    
 	
 	// 게시판 Page 처리를 위한 전체Row(totalCount)  return
 	public int getTotalCount(Search search) throws Exception ;
