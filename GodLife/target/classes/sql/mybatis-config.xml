@@ -21,6 +21,10 @@
 		<typeAlias alias="search" type="com.godLife.io.common.Search" />
 		<typeAlias alias="challenge" type="com.godLife.io.service.domain.Challenge" />
 		<typeAlias alias="point" type="com.godLife.io.service.domain.Point" />
+		<typeAlias alias="user" type="com.godLife.io.service.domain.OperatorEvents" />
+		<typeAlias alias="user" type="com.godLife.io.service.domain.OperatorJoinEvent" />
+		<typeAlias alias="user" type="com.godLife.io.service.domain.OperatorNoticeFaqs" />
+		<typeAlias alias="user" type="com.godLife.io.service.domain.OperatorReward" />
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
@@ -30,6 +34,10 @@
 		<mapper resource="sql/MsgMapper.xml"/>
 		<mapper resource="sql/ChallengeMapper.xml"/>
 		<mapper resource="sql/PointMapper.xml"/>
+		<mapper resource="sql/OperatorEventsMapper.xml"/>
+		<mapper resource="sql/OperatorJoinEventMapper.xml"/>
+		<mapper resource="sql/OperatorNoticeFaqsMapper.xml"/>
+		<mapper resource="sql/OperatorRewardMapper.xml"/>
 	</mappers>
 
 </configuration>
