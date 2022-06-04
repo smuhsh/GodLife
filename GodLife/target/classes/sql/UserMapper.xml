@@ -23,7 +23,6 @@
 		<result property="totalPoint" 			column="total_point" 			jdbcType="INTEGER" />
 		<!-- 아래추가-->
 		<result property="categName" 		column="categ_name" 			jdbcType="VARCHAR" />
-		
 		<result property="redCouponCount" 		column="red_coupon_count " 			jdbcType="INTEGER" />
 		<result property="certiCouponCount" 		column="certi_coupon_count  " 			jdbcType="INTEGER" />
 		
@@ -58,7 +57,6 @@
 	 </select>
 	 
 	 
-	 
 	 <!-- SQL : 비밀번호 수정 -->
 	 <update	id="updatePwd"	parameterType="user" >
 	   	UPDATE users
@@ -67,7 +65,6 @@
 	   	</set>
 	   	WHERE user_email = #{userEmail}
 	 </update>
-	 
 	 
 	 
 	 <!-- SQL : 본인정보 수정 -->
@@ -85,16 +82,16 @@
 	 </update>
 	 
 	 
-	 <!-- SQL : 유저전체 목록조회 -->
+	 
+	 <!-- SQL : 유저전체 목록조회(관리자) -->
 	 
 	 
+	 <!-- SQL : 이메일 찾기 -->
+	 
+	 <!-- SQL : 비밀번호 찾기 -->
 	 
 	 
 	 <!-- SQL : 유저상세조회 -->
-	 
-	 
-	 
-	 
 	 
 	 
 	 <!-- 병문 오빠 추가 -->
@@ -125,9 +122,6 @@
 				user_email=#{userEmail}
 			</where>
 	  </update>
-	 
-	 
-	 
 	 
 	 
 	 

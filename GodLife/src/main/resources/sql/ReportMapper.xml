@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ReportMapper">
+ 	
+ 	
+	<resultMap id="reportSelectMap" type="report">
+		<result property="reportNo" 			column="report_no" 			jdbcType="INTEGER"/>
+		<result property="reporterEmail"	column="reporter_email" 		jdbcType="VARCHAR" />
+		<result property="targetEmail" 	column="target_email" 		jdbcType="VARCHAR" />
+		<result property="reason" 				column="reason" 					jdbcType="CHAR" />
+		<result property="regDate" 				column="reg_date" 					jdbcType="DATE" />
+		<result property="reportPlace" 			column="report_place" 		jdbcType="CHAR" />
+		<result property="certiImgNo" 				column="certi_img_no" 					jdbcType="INTEGER" />
+		<result property="commentNo" 			column="comment_no" 				jdbcType="INTEGER"  />
+		<result property="msgNo" 		column="msg_no" 			jdbcType="INTEGER" />
+	</resultMap>
+	
+	 
+	 <!-- SQL : 신고 등록-->
+	<insert 	id="addReport"		parameterType="report" >
+	 	INSERT
+	 	INTO reports
+	 	VALUES ( SEQ_REPORTS_REPORT_NO.NEXTVAL, #{reporterEmail : VARCHAR}, #{targetEmail : VARCHAR}, 
+	 					#{reason : CHAR}, SYSDATE, #{certiImgNo : INTEGER}, #{commentNo : INTEGER}, #{msgNo : INTEGER})
+	 </insert>
+	 
+	 <!-- SQL : 신고유저 목록조회(관리자)-->
+	 
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+</mapper>

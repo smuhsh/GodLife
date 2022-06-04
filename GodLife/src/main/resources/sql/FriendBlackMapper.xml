@@ -7,13 +7,16 @@
 <mapper namespace="FriendBlackMapper">
  	
 	<resultMap id="friendBlackSelectMap" 		type="friendBlack">
-		<result property="nick" 				column="nick" 					jdbcType="VARCHAR" />
-		<result property="profileImg" 				column="profile_img" 					jdbcType="VARCHAR" />
 		<result property="friendBlackNo" 			column="friend_black_no" 			jdbcType="INTEGER"/>
-		<result property="userEmail"						column="user_email" 		jdbcType="VARCHAR" />
-		<result property="targetEmail" 					column="target_email" 		jdbcType="VARCHAR" />
+		<result property="userEmail"					column="user_email" 					jdbcType="VARCHAR" />
+		<result property="targetEmail" 				column="target_email" 					jdbcType="VARCHAR" />
 		<result property="fbStatus" 						column="f_b_status" 					jdbcType="CHAR" />
 		<result property="accStatus" 					column="acc_status" 					jdbcType="CHAR" />
+		
+		<!-- 아래 추가-->
+		<result property="nick" 						column="nick" 									jdbcType="VARCHAR" />
+		<result property="profileImg" 				column="profile_img" 						jdbcType="VARCHAR" />
+		
 	</resultMap>
 	
 	
