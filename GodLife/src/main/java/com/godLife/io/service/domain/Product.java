@@ -8,7 +8,7 @@ public class Product {
 	private int productNo;
 	private String productName;
 	private int productPrice;
-	private String producDetail;
+	private String productDetail;
 	private String productImg;
 	private String status;
 	
@@ -34,11 +34,11 @@ public class Product {
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
-	public String getProducDetail() {
-		return producDetail;
+	public String getProductDetail() {
+		return productDetail;
 	}
-	public void setProducDetail(String producDetail) {
-		this.producDetail = producDetail;
+	public void setProductDetail(String producDetail) {
+		this.productDetail = producDetail;
 	}
 	public String getProductImg() {
 		return productImg;
@@ -53,20 +53,14 @@ public class Product {
 		this.status = status;
 	}
 	
-	
-	
-	
+
 	//M
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice
-				+ ", producDetail=" + producDetail + ", productImg=" + productImg + ", status=" + status + "]";
+				+ ", producDetail=" + productDetail + ", productImg=" + productImg + ", status=" + status + "]";
 	}
 
 
-
-
-	
-	
 
 }

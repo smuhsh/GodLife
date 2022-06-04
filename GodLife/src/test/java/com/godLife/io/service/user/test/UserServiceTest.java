@@ -66,7 +66,9 @@ public class UserServiceTest {
       
       System.out.println(user);
       
+
       Assert.assertEquals("chilee4650@naver.com", user.getUserEmail());
+
    
    }   
 

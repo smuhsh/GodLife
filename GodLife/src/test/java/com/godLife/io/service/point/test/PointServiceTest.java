@@ -42,9 +42,25 @@ public class PointServiceTest {
 	@Autowired
 	@Qualifier("pointServiceImpl")
 	private PointService pointService;
-
+	
 	@Test
-	public void testAddPurchase() throws Exception {
+	public void testAddPointPurchaseProduct() throws Exception {
+		
+		Point point = new Point();
+		point.setUserEmail("user77@io.com");
+		point.setUseStatus("1");
+		point.setProductNo(10010);
+		point.setPayOpt("1");
+		point.setCash(50000);
+		point.setPoint(50000);
+		point.setUseDetail("1");
+		point.setVoucherUniqueNo(null);
+		
+		pointService.addPointPurchaseProduct(point);
+	}
+	
+	//@Test
+	public void testAddPointPurchase() throws Exception {
 		
 		Point point = new Point();
 		point.setUserEmail("user77@io.com");
@@ -53,7 +69,7 @@ public class PointServiceTest {
 		point.setDonationPlace("양로원");
 		point.setUseDetail("7");
 		
-		pointService.addPurchase(point);
+		pointService.addPointPurchase(point);
 	}
 	
 	

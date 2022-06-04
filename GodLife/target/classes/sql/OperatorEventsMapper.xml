@@ -21,7 +21,7 @@
 	<insert 	id="addOperatorEvents"		parameterType="operatorEvents" >
 	 	INSERT
 		INTO events( event_no , event_title , thumbnail_img , detail, event_img, roull_join_point, reg_date) 
-		VALUES	 (	seq_events_event_no.NEXTVAL, #{eventTitle} , #{thumbnailImg:VARCHAR} , #{detail:VARCHAR} , 
+		VALUES	 (	#{eventNo:INTEGER}, #{eventTitle:VARCHAR} , #{thumbnailImg:VARCHAR} , #{detail:VARCHAR} , 
 							#{eventImg:VARCHAR} , #{roullJoinPoint:INTEGER} , SYSDATE )
 	 </insert>
 	 

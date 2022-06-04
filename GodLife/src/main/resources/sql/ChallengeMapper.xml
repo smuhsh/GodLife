@@ -9,7 +9,7 @@
 		<result property="challengeNo"				column="challenge_no"		jdbcType="NUMERIC" />
 		<result property="hostEmail"				column="host_email"			jdbcType="VARCHAR" />
 		<result property="challengeTitle"			column="title"				jdbcType="VARCHAR" />
-		<result property="challengeThumbnail"		column="thumbnail_img"		jdbcType="VARCHAR" />
+		<result property="challengeThumbnailImg"	column="thumbnail_img"		jdbcType="VARCHAR" />
 		<result property="challengeDetail"			column="detail"				jdbcType="VARCHAR" />
 		<result property="challengeRule"			column="rule"				jdbcType="VARCHAR" />
 		<result property="challengeCateNo"			column="categ_no"			jdbcType="NUMERIC" />
@@ -51,7 +51,8 @@
 	 				,join_point
 	 				,status
 	 				,reg_date
-	 				,TOTAL_CERTI_COUNT	)
+	 				,TOTAL_CERTI_COUNT
+	 				,JOIN_COUNT	)
 					VALUES
 					(#{challengeNo}
 					,#{hostEmail}
@@ -67,6 +68,7 @@
 					,#{challengeStatus}
 					,SYSDATE
 					,#{totalCertiCount}
+					,#{joinCount}
 					)
 	 </insert> 
 	 
@@ -74,95 +76,253 @@
 	 
 	 
 	 <!-- ////////// select //////////// -->
-	 <select id="getChallengeList" resultType="java.util.Map">
-			SELECT
-			list.*
-			FROM
-			(
-			SELECT
-			inv.CHALLENGE_NO,
-			inv.HOST_EMAIL,
-			inv.TITLE,
-			inv.THUMBNAIL_IMG,
-			inv.DETAIL,
-			inv.RULE,
-			inv.CATEG_NO,
-			inv.START_DATE,
-			inv.END_DATE,
-			inv.OPEN_RANGE,
-			inv.JOIN_POINT,
-			inv.STATUS,
-			inv.REG_DATE,
-			inv.TOTAL_CERTI_COUNT
-			FROM
+	 <select id="getChallengeListLogin" parameterType="java.util.Map" resultMap="ChallengeSelectMap" >
+				SELECT
+				challenge.*
+				FROM
+				(
+				SELECT
+				ROWNUM no, search.*
+				FROM
+					(
+						SELECT
+						list.*
+						FROM
+						(
+						SELECT
+						inv.CHALLENGE_NO,
+						inv.HOST_EMAIL,
+						inv.TITLE,
+						inv.THUMBNAIL_IMG,
+						inv.DETAIL,
+						inv.RULE,
+						inv.CATEG_NO,
+						inv.START_DATE,
+						inv.END_DATE,
+						inv.OPEN_RANGE,
+						inv.JOIN_POINT,
+						inv.STATUS,
+						inv.REG_DATE,
+						inv.TOTAL_CERTI_COUNT,
+						inv.JOIN_COUNT
+						FROM
+							(
+								SELECT
+								NVL(fb.user_email,'0') user_email,
+								NVL(fb.target_email,'0') target_email,
+								NVL(fb.f_b_status,'0')f_b_status,
+								NVL(fb.acc_status,'0')acc_status,
+							        c.*
+								FROM
+								friend_blacks fb, challenges c
+								WHERE fb.target_email(+) = c.host_email
+						)inv
+						WHERE NOT inv.user_email = #{user.userEmail}
+						AND NOT inv.target_email = #{user.userEmail}
+						AND NOT inv.acc_status = '2'
+						AND inv.status = '0'
+						AND inv.open_range = '0'
+						UNION
+						SELECT
+						*
+						FROM
+						challenges
+						WHERE host_email = #{user.userEmail}
+						AND status = '0'
+						UNION
+						SELECT
+						        c.*
+						FROM
+						(
+							SELECT
+							inv.*
+							FROM
+								(
+									SELECT
+									*
+									FROM
+									friend_blacks
+									WHERE user_email = #{user.userEmail}
+									OR target_email = #{user.userEmail}
+								)inv
+							WHERE acc_status = '2'
+						)outv, challenges c
+						WHERE outv.target_email(+) = c.host_email
+						AND acc_status = '2'
+						AND NOT c.host_email = #{user.userEmail}
+						UNION
+						SELECT
+						        c.*
+						FROM
+						(
+							SELECT
+							inv.*
+							FROM
+								(
+									SELECT
+									*
+									FROM
+									friend_blacks
+									WHERE user_email = #{user.userEmail}
+									OR target_email = #{user.userEmail}
+								)inv
+							WHERE acc_status = '2'
+						)outv, challenges c
+						WHERE outv.user_email(+) = c.host_email
+						AND acc_status = '2'
+						AND NOT c.host_email = #{user.userEmail}
+						)list
+						<where>
+							<if test="search.searchKeyword != null and search.searchKeyword != ''">
+							  	list.title LIKE '%'||#{search.searchKeyword}||'%'
+							</if>
+							<if test="search.orderCondition != 0">
+								AND list.categ_no = #{search.orderCondition}
+							</if>
+						</where>
+						<if test="search.searchCondition != null">
+							<if test="search.searchCondition == 1">
+								ORDER BY list.reg_date DESC
+							</if>
+							<if test="search.searchCondition == 2">
+								ORDER BY list.join_count DESC
+							</if>
+						</if>
+						<if test="search.searchCondition == null">
+							ORDER BY list.challenge_no
+						</if>
+					)search
+					WHERE ROWNUM &lt;= #{search.endRowNum}
+				)challenge
+				WHERE challenge.no BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select>
+	 
+	 <select id="getChallengeListLoginTotal" parameterType="java.util.Map"  resultType="int">
+	 		
+	 			SELECT
+				COUNT(*)
+				FROM
+				(
+				SELECT
+				inv.CHALLENGE_NO,
+				inv.HOST_EMAIL,
+				inv.TITLE,
+				inv.THUMBNAIL_IMG,
+				inv.DETAIL,
+				inv.RULE,
+				inv.CATEG_NO,
+				inv.START_DATE,
+				inv.END_DATE,
+				inv.OPEN_RANGE,
+				inv.JOIN_POINT,
+				inv.STATUS,
+				inv.REG_DATE,
+				inv.TOTAL_CERTI_COUNT,
+				inv.JOIN_COUNT
+				FROM
+					(
+						SELECT
+						NVL(fb.user_email,'0') user_email,
+						NVL(fb.target_email,'0') target_email,
+						NVL(fb.f_b_status,'0')f_b_status,
+						NVL(fb.acc_status,'0')acc_status,
+					        c.*
+						FROM
+						friend_blacks fb, challenges c
+						WHERE fb.target_email(+) = c.host_email
+				)inv
+				WHERE NOT inv.user_email = #{user.userEmail}
+				AND NOT inv.target_email = #{user.userEmail}
+				AND NOT inv.acc_status = '2'
+				AND inv.status = '0'
+				AND inv.open_range = '0'
+				UNION
+				SELECT
+				*
+				FROM
+				challenges
+				WHERE host_email = #{user.userEmail}
+				AND status = '0'
+				UNION
+				SELECT
+				        c.*
+				FROM
 				(
 					SELECT
-					NVL(fb.user_email,'0') user_email,
-					NVL(fb.target_email,'0') target_email,
-					NVL(fb.f_b_status,'0')f_b_status,
-				        c.*
+					inv.*
 					FROM
-					friend_blacks fb, challenges c
-					WHERE fb.target_email(+) = c.host_email
-			)inv
-			WHERE NOT inv.user_email = #{user.userEmail}
-			AND NOT inv.target_email = #{user.userEmail}
-			AND inv.status = '0'
-			AND inv.open_range = '0'<!-- 여기까지 전체목록 조회 -->
-			UNION
-			SELECT
+						(
+							SELECT
+							*
+							FROM
+							friend_blacks
+							WHERE user_email = #{user.userEmail}
+							OR target_email = #{user.userEmail}
+						)inv
+					WHERE acc_status = '2'
+				)outv, challenges c
+				WHERE outv.target_email(+) = c.host_email
+				AND acc_status = '2'
+				AND NOT c.host_email = #{user.userEmail}
+				UNION
+				SELECT
+				        c.*
+				FROM
+				(
+					SELECT
+					inv.*
+					FROM
+						(
+							SELECT
+							*
+							FROM
+							friend_blacks
+							WHERE user_email = #{user.userEmail}
+							OR target_email = #{user.userEmail}
+						)inv
+					WHERE acc_status = '2'
+				)outv, challenges c
+				WHERE outv.user_email(+) = c.host_email
+				AND acc_status = '2'
+				AND NOT c.host_email = #{user.userEmail}
+				)list
+				ORDER BY list.challenge_no
+	 		
+	 </select>
+	 
+	 
+	 <select id="getChallengeList" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
+	 
+	 		SELECT
 			*
 			FROM
 			challenges
-			WHERE host_email = #{user.userEmail}
-			AND status = '0'		<!-- 내가 등록한 챌린지 목록  -->
-			UNION
-			SELECT
-			        c.*
-			FROM
-			(
-				SELECT
-				inv.*
-				FROM
-					(
-						SELECT
-						*
-						FROM
-						friend_blacks
-						WHERE user_email = #{user.userEmail}
-						OR target_email = #{user.userEmail}
-					)inv
-				WHERE acc_status = '2'
-			)outv, challenges c
-			WHERE outv.target_email(+) = c.host_email
-			AND acc_status = '2'
-			AND NOT c.host_email = #{user.userEmail}
-			UNION
-			SELECT
-			        c.*
-			FROM
-			(
-				SELECT
-				inv.*
-				FROM
-					(
-						SELECT
-						*
-						FROM
-						friend_blacks
-						WHERE user_email = #{user.userEmail}
-						OR target_email = #{user.userEmail}
-					)inv
-				WHERE acc_status = '2'
-			)outv, challenges c
-			WHERE outv.user_email(+) = c.host_email
-			AND acc_status = '2'
-			AND NOT c.host_email = #{user.userEmail}  <!-- 친구 가 등록한 챌린지 -->
-			)list
-			ORDER BY list.challenge_no;
-	 
-	 
+			<where>
+				status = '0'
+				AND open_range = '0'
+				<if test="search.searchKeyword != null and search.searchKeyword != ''">
+				  	AND title LIKE '%'||#{search.searchKeyword}||'%'
+				</if>
+				<if test="search.orderCondition != 0">
+					AND categ_no = #{search.orderCondition}
+				</if>
+			</where>
+			<if test="search.searchCondition != null">
+				<if test="search.searchCondition == 1">
+					ORDER BY reg_date DESC
+				</if>
+				<if test="search.searchCondition == 2">
+					ORDER BY join_count DESC
+				</if>
+			</if>
+			<if test="search.searchCondition == null">
+				ORDER BY challenge_no
+			</if>
+	
+	 		
+	 		
 	 </select>
+	 
 	 <!-- ////////// select //////////// -->
 	 
 	 
