@@ -33,6 +33,7 @@
 		<typeAlias alias="report" type="com.godLife.io.service.domain.Report" />
 		<typeAlias alias="joinChallenger" type="com.godLife.io.service.domain.JoinChallenger" />
 		<typeAlias alias="certiImg" type="com.godLife.io.service.domain.CertiImg" />
+		<typeAlias alias="review" type="com.godLife.io.service.domain.Review" />
 	</typeAliases>
 	
 	
@@ -50,7 +51,7 @@
 		<mapper resource="sql/OperatorRewardMapper.xml"/>
 		<mapper resource="sql/ProductMapper.xml"/>
 		<mapper resource="sql/BadgeMapper.xml"/>
-		<mapper resource="sql/MyBadgeMapper.xml"/>
+	<!-- <mapper resource="sql/MyBadgeMapper.xml"/> -->	
 		<mapper resource="sql/CategMapper.xml"/>
 		<mapper resource="sql/OneInqMapper.xml"/>
 		<mapper resource="sql/ReportMapper.xml"/>

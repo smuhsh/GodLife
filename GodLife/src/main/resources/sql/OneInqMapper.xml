@@ -29,7 +29,7 @@
 	 
 	 <!-- SQL : 일대일문의 목록조회(회원, 관리자)-->
 	 
-	 <select  id="getOneInqList"  parameterType="map"	resultMap="userSelectMap">
+	 <select  id="getOneInqList"  parameterType="map"	resultMap="oneInqSelectMap">
 	  	SELECT 
 	  	*
 	  	FROM (	
