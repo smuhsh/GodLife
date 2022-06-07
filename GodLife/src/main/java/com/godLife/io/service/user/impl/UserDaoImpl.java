@@ -142,6 +142,9 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.delete("MsgMapper.deleteMsg", msg);
 	}
 
+	public void updateUserTotalPoint(User user) throws Exception{
+		sqlSession.update("UserMapper.updateUserTotalPoint", user);
+	}
 	
 	//================일대일문의================================================
 	
@@ -189,10 +192,15 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	
+
+	public void updateUserRedCouponCount(User user) throws Exception{
+		sqlSession.update("userMapper.updateUserRedCouponCount",user );
+	}
+
 	
-	
-	
-	
+	public void updateUserCertiCouponCount(User user) throws Exception{
+		sqlSession.update("userMapper.updateUserCertiCouponCount",user);
+	}
 	
 	
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return

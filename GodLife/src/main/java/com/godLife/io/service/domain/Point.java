@@ -12,9 +12,11 @@ public class Point {
 	private int cash;
 	private int point;
 	private String useDetail;
-	private String voucherUniqueNo;
+	private StringBuffer voucherUniqueNo;
 	private String donationPlace;
 	private Date regDate;
+	private String phone;
+	private String productName;
 	
 	
 	public int getPurchaseNO() {
@@ -65,11 +67,11 @@ public class Point {
 	public void setUseDetail(String useDetail) {
 		this.useDetail = useDetail;
 	}
-	public String getVoucherUniqueNo() {
+	public StringBuffer getVoucherUniqueNo() {
 		return voucherUniqueNo;
 	}
-	public void setVoucherUniqueNo(String voucherUniqueNo) {
-		this.voucherUniqueNo = voucherUniqueNo;
+	public void setVoucherUniqueNo(StringBuffer buf) {
+		this.voucherUniqueNo = buf;
 	}
 	public Date getRegDate() {
 		return regDate;
@@ -89,6 +91,30 @@ public class Point {
 		return "Point [purchaseNo=" + purchaseNo + ", userEmail=" + userEmail + ", useStatus=" + useStatus
 				+ ", productNo=" + productNo + ", payOpt=" + payOpt + ", cash=" + cash + ", point=" + point
 				+ ", useDetail=" + useDetail + ", voucherUniqueNo=" + voucherUniqueNo + ", donationPlace="
-				+ donationPlace + ", regDate=" + regDate + "]";
+				+ donationPlace + ", regDate=" + regDate + ", phone=" + phone + ", productName=" + productName + "]";
+	}
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	/**
+	 * @return the productName
+	 */
+	public String getProductName() {
+		return productName;
+	}
+	/**
+	 * @param productName the productName to set
+	 */
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 }

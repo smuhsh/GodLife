@@ -200,11 +200,17 @@ public class UserServiceImpl implements UserService{
 	
 
 
+	public void updateUserTotalPoint(User user) throws Exception{
+		userDao.updateUserTotalPoint(user);
+	}
 	
+	public void updateUserRedCouponCount(User user) throws Exception{
+		userDao.updateUserRedCouponCount(user);
+	}
 	
-	
-	
-	
+	public void updateUserCertiCouponCount(User user) throws Exception{
+		userDao.updateUserCertiCouponCount(user);
+	}
 	
 	
 	

@@ -114,11 +114,11 @@ public interface UserDao {
     
     
     // 병문오빠 추가 
-    
+    public void updateUserRedCouponCount(User user) throws Exception;
     // 병문오빠 추가 
-    
+    public void updateUserTotalPoint(User user) throws Exception;
     // 병문오빠 추가 
-    
+    public void updateUserCertiCouponCount(User user) throws Exception;
     
     
     

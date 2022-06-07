@@ -74,7 +74,7 @@ public interface UserService {
 		
 	// 받은, 보낸 쪽지 삭제 
     public void deleteMsg(Msg msg) throws Exception ;
-    
+
     // 일대일 문의 등록 
     public void addOneInq(OneInq oneInq) throws Exception ;
     
@@ -95,6 +95,13 @@ public interface UserService {
     
     // 신고 등록 
     public void addReport(Report report) throws Exception ;
+
+    public void updateUserTotalPoint(User user) throws Exception;
+    
+    public void updateUserRedCouponCount(User user) throws Exception;
+    
+    public void updateUserCertiCouponCount(User user) throws Exception;
+
 	
 		
 		

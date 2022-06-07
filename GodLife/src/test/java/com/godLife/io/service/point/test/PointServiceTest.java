@@ -11,14 +11,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
 import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.point.PointService;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
-
-
 
 /*
  *	FileName :  UserServiceTest.java
@@ -32,20 +29,18 @@ import com.godLife.io.common.Search;
 
 //==> Meta-Data 를 다양하게 Wiring 하자...
 //@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
-@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
-																	"classpath:config/context-aspect.xml",
-																	"classpath:config/context-mybatis.xml",
-																	"classpath:config/context-transaction.xml" })
+@ContextConfiguration(locations = { "classpath:config/context-common.xml", "classpath:config/context-aspect.xml",
+		"classpath:config/context-mybatis.xml", "classpath:config/context-transaction.xml" })
 //@ContextConfiguration(locations = { "classpath:config/context-common.xml" })
 public class PointServiceTest {
 
 	@Autowired
 	@Qualifier("pointServiceImpl")
 	private PointService pointService;
-	
-	@Test
+
+	// @Test
 	public void testAddPointPurchaseProduct() throws Exception {
-		
+
 		Point point = new Point();
 		point.setUserEmail("user77@io.com");
 		point.setUseStatus("1");
@@ -55,28 +50,81 @@ public class PointServiceTest {
 		point.setPoint(50000);
 		point.setUseDetail("1");
 		point.setVoucherUniqueNo(null);
-		
+
 		pointService.addPointPurchaseProduct(point);
 	}
-	
-	//@Test
+
+	// @Test
 	public void testAddPointPurchase() throws Exception {
-		
+
 		Point point = new Point();
 		point.setUserEmail("user77@io.com");
 		point.setUseStatus("2");
 		point.setPoint(50000);
 		point.setDonationPlace("양로원");
 		point.setUseDetail("7");
-		
+
 		pointService.addPointPurchase(point);
 	}
-	
-	
-	
-	
-	
+
+	//@Test
+	public void testGetPointPurchaseList() throws Exception {
+
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(3);
+
+		String userEmail = "user77@io.com";
+		Map<String, Object> map = pointService.getPointPurchaseList(search, userEmail);
+
+		List<Object> list = (List<Object>) map.get("list");
+		Assert.assertEquals(3, list.size());
+
+		// ==> console 확인
+		System.out.println(list);
+
+		Integer totalCount = (Integer) map.get("totalCount");
+		System.out.println(totalCount);
 
 	}
-
-
+	
+	//@Test
+	public void testGetPointPurchaseVoucherList() throws Exception {
+		
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(3);
+		
+		String userEmail = "tndkdml@gmail.com";
+		
+		Map<String, Object> map =pointService.getPointPurchaseVoucherList(search, userEmail);
+		
+		List<Object> list = (List<Object>) map.get("list");
+		Assert.assertEquals(1, list.size());
+		
+		System.out.println(list);
+		
+		Integer totalCount = (Integer) map.get("totalCount");
+		System.out.println(totalCount);
+	}
+	
+	@Test
+	public void testGetPointPurchaseDonationList() throws Exception {
+		
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setPageSize(3);
+		
+		String userEmail = "user77@io.com";
+		
+		Map<String, Object> map =pointService.getPointPurchaseDonationList(search, userEmail);
+		
+		List<Object> list = (List<Object>) map.get("list");
+		Assert.assertEquals(3,list.size());
+		
+		System.out.println(list);
+		
+		Integer totalCount = (Integer) map.get("totalCount");
+		System.out.println(totalCount);
+	}
+}
