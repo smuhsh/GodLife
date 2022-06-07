@@ -14,6 +14,7 @@ import com.godLife.io.service.challenge.ChallengeDao;
 import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
+import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
 
 @Repository("challengeDaoImpl")
@@ -234,14 +235,147 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		//인증이미지 업로드
 		
 		Map<String,Object> map = new HashMap<String,Object>();
-//		map.put("challengeNo", certiImg.getChallengeNo());
-//		Challenge challenge = sqlSession.selectOne("ChallengeMapper.getChallenge",map);
+//				map.put("challengeNo", certiImg.getChallengeNo());
+		
+		map.put("challengeNo", certiImg.getChallengeNo());
+		
+		Challenge challenge = sqlSession.selectOne("ChallengeMapper.getChallenge",map);
+		
+		certiImg.setCategNo(challenge.getChallengeCateNo());
 		
 		sqlSession.insert("ChallengeMapper.insertCertiImg",certiImg);
 		
+		map.put("certiImgUp", "Up");
 		map.put("certiImg", certiImg);
 		//챌린지 참여자의 인증횟수 업데이트. map 사용
 		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);
+		int certiCount = sqlSession.selectOne("ChallengeMapper.selectCertiCount",certiImg);
+		int totalCertiCount = sqlSession.selectOne("ChallengeMapper.selectTotalCertiCount",certiImg);
+		System.out.println("인증횟수 : "+certiCount);
+		System.out.println("챌린지 총 인증횟수 : "+totalCertiCount);
+		double percent = (double)certiCount / totalCertiCount * 100;
+		percent = Math.round((percent*100)/100.0);
+		System.out.println("달성률 : "+percent);
+		map.put("percent", percent);
+		
+		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);
+	}
+
+	@Override
+	public List<CertiImg> getChallengeJoinCertiImgList(Map<String, Object> map) {
+		List<CertiImg> list = 
+				sqlSession.selectList("ChallengeMapper.getChallengeJoinCertiImgList",map);
+		return list;
+	}
+
+	@Override
+	public Map<String,Object> getChallengeCertiImgList(Map<String, Object> map) {
+		
+		User user = (User)map.get("user");
+		
+		if(user!=null) {
+			
+				System.out.println("로그인");
+				List<String> black = new ArrayList<String>();
+				
+				List<String> targetEmail = sqlSession.selectList("ChallengeMapper.getFbTarget",map);
+				List<String> userEmail = sqlSession.selectList("ChallengeMapper.getFbUser",map);
+				
+				if(targetEmail != null) {
+					for(int i=0; i<targetEmail.size(); i++) {
+						black.add(targetEmail.get(i));
+					}
+				}
+				if(userEmail != null) {
+					for(int i=0; i<userEmail.size(); i++) {
+						black.add(userEmail.get(i));
+					}
+				}
+				
+				System.out.println("black : "+black);
+				
+				map.put("black", black);
+			
+				List<CertiImg> certiImgList = 
+						sqlSession.selectList("ChallengeMapper.getChallengeCertiImgList",map);
+				
+				int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImgListCount",map);
+				map.put("certiImgList", certiImgList);
+				map.put("totalCount", totalCount);
+		}else {
+				List<CertiImg> certiImgList = 
+					sqlSession.selectList("ChallengeMapper.getChallengeCertiImgList",map);
+			
+				int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImgListCount",map);
+				map.put("certiImgList", certiImgList);
+				map.put("totalCount", totalCount);
+		}
+		
+		
+		
+		return map;
+	}
+
+	@Override
+	public CertiImg getChallengeCertiImg(int certiImgNo) {
+		CertiImg certiImg = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImg",certiImgNo);
+		return certiImg;
+	}
+
+	@Override
+	public void addChallengeReview(Review review) {
+		
+		if(review.getStatus().equals("0")) {
+			
+			sqlSession.insert("ChallengeMapper.insertChallengeReview",review);
+			
+		}else{
+			
+			sqlSession.insert("ChallengeMapper.insertChallengeReview",review);
+			sqlSession.update("ChallengeMapper.updateCertiImgLikeAndDislike",review);
+		}
+		
+	}
+
+	@Override
+	public void deleteChallengeReview(int reviewNo) {
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("reviewNo", reviewNo);
+		
+		sqlSession.delete("ChallengeMapper.deleteChallengeReview",map);
+		
+	}
+
+	@Override
+	public void updateChallengeReview(Review review) {
+		sqlSession.update("ChallengeMapper.updateChallengeReview",review);
+	}
+
+	@Override
+	public List<Review> getChallengeCommentList(int certiImgNo) {
+		List<Review> commentList = sqlSession.selectList("ChallengeMapper.getChallengeCommentList",certiImgNo);
+		return commentList;
+	}
+
+	@Override
+	public void deleteChallengeCertiImg(Map<String, Object> map) {
+		
+		int certiImgNo = (Integer)map.get("certiImgNo");
+		CertiImg certiImg = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImg",certiImgNo);
+		
+		map.put("certiImg", certiImg);
+		//인증이미지와 관련된 review를 전부 삭제
+		sqlSession.delete("ChallengeMapper.deleteChallengeReview",map);
+		//인증이미지 삭제
+		sqlSession.delete("ChallengeMapper.deleteChallengeCertiImg",map);
+		
+		System.out.println("userEmail : "+certiImg.getEmail());
+		System.out.println("challengeNo : "+certiImg.getChallengeNo());
+		//인증 횟수 차감
+		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);
+		
 		int certiCount = sqlSession.selectOne("ChallengeMapper.selectCertiCount",certiImg);
 		int totalCertiCount = sqlSession.selectOne("ChallengeMapper.selectTotalCertiCount",certiImg);
 		System.out.println("인증횟수 : "+certiCount);
@@ -253,13 +387,6 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		map.put("percent", percent);
 		
 		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);
-	}
-
-	@Override
-	public List<CertiImg> getChallengeJoinCertiImg(Map<String, Object> map) {
-		List<CertiImg> list = 
-				sqlSession.selectList("ChallengeMapper.getChallengeJoinCertiImg",map);
-		return list;
 	}
 
 	

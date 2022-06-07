@@ -21,6 +21,7 @@
 		<result property="challengeStatus"			column="status"				jdbcType="VARCHAR" />
 		<result property="joinCount"				column="join_count"			jdbcType="NUMERIC" />
 		<result property="totalCertiCount"			column="total_certi_count"	jdbcType="NUMERIC" />
+		<result property="hostNick"					column="host_nick"			jdbcType="VARCHAR" />
 	</resultMap>
  	
  	
@@ -34,9 +35,34 @@
 		<result property="certiImg"					column="certi_img"			jdbcType="VARCHAR" />
 		<result property="email"					column="user_email"			jdbcType="VARCHAR" />
 		<result property="certiImgRegDate"			column="reg_date"			jdbcType="DATE" />
+		<result property="nick"						column="nick"				jdbcType="VARCHAR" />
+		<result property="like"						column="like_count"			jdbcType="VARCHAR" />
+		<result property="dislike"					column="dislike_count"		jdbcType="VARCHAR" />
 	</resultMap>
  	
  	<!--/////////////////////// CertiImg ////////////////////// -->
+ 	
+ 	
+ 	
+ 	<!--/////////////////////// Review ////////////////////// -->
+ 	<resultMap id="ReviewSelectMap" type="review">
+		<result property="reviewNo"					column="review_no"			jdbcType="NUMERIC" />
+		<result property="certiImgNo"				column="certi_img_no"		jdbcType="NUMERIC" />
+		<result property="email"					column="user_email"			jdbcType="VARCHAR" />
+		<result property="nick"						column="nick"				jdbcType="VARCHAR" />
+		<result property="comment"					column="comment_detail"		jdbcType="DATE" />
+		<result property="reviewRegDate"			column="reg_date"			jdbcType="VARCHAR" />
+		<result property="status"					column="status"				jdbcType="VARCHAR" />
+	</resultMap>
+ 	<!--/////////////////////// Review ////////////////////// -->
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
 	
 	<!-- ////////// insert //////////// -->
 	
@@ -62,7 +88,9 @@
 	 				,status
 	 				,reg_date
 	 				,TOTAL_CERTI_COUNT
-	 				,JOIN_COUNT	)
+	 				,JOIN_COUNT
+	 				,HOST_NICK
+	 				)
 					VALUES
 					(#{challengeNo}
 					,#{hostEmail}
@@ -79,6 +107,7 @@
 					,SYSDATE
 					,#{totalCertiCount}
 					,#{joinCount}
+					,#{hostNick}
 					)
 	 </insert> 
 	 
@@ -209,152 +238,174 @@
 	 
 	 <select id="getChallengeListLoginTotal" parameterType="java.util.Map"  resultType="int">
 	 		
+	 		
 	 			SELECT
 				COUNT(*)
 				FROM
 				(
 				SELECT
-				inv.CHALLENGE_NO,
-				inv.HOST_EMAIL,
-				inv.TITLE,
-				inv.THUMBNAIL_IMG,
-				inv.DETAIL,
-				inv.RULE,
-				inv.CATEG_NO,
-				inv.START_DATE,
-				inv.END_DATE,
-				inv.OPEN_RANGE,
-				inv.JOIN_POINT,
-				inv.STATUS,
-				inv.REG_DATE,
-				inv.TOTAL_CERTI_COUNT,
-				inv.JOIN_COUNT
+				ROWNUM no, search.*
 				FROM
 					(
 						SELECT
-						NVL(fb.user_email,'0') user_email,
-						NVL(fb.target_email,'0') target_email,
-						NVL(fb.f_b_status,'0')f_b_status,
-						NVL(fb.acc_status,'0')acc_status,
-					        c.*
+						list.*
 						FROM
-						friend_blacks fb, challenges c
-						WHERE fb.target_email(+) = c.host_email
-				)inv
-				WHERE NOT inv.user_email = #{user.userEmail}
-				AND NOT inv.target_email = #{user.userEmail}
-				AND NOT inv.acc_status = '2'
-				AND inv.status = '0'
-				AND inv.open_range = '0'
-				UNION
-				SELECT
-				*
-				FROM
-				challenges
-				WHERE host_email = #{user.userEmail}
-				AND status = '0'
-				UNION
-				SELECT
-				        c.*
-				FROM
-				(
-					SELECT
-					inv.*
-					FROM
+						(
+						SELECT
+						*
+						FROM
+						challenges
+						<where>
+							<if test="black != null">
+							<foreach item="value" collection="black">
+								AND NOT host_email = #{value}
+							</foreach>
+							</if>
+						</where>
+						UNION
+						SELECT
+						*
+						FROM
+						challenges
+						WHERE host_email = #{user.userEmail}
+						AND status = '0'
+						UNION
+						SELECT
+						        c.*
+						FROM
 						(
 							SELECT
-							*
+							inv.*
 							FROM
-							friend_blacks
-							WHERE user_email = #{user.userEmail}
-							OR target_email = #{user.userEmail}
-						)inv
-					WHERE acc_status = '2'
-				)outv, challenges c
-				WHERE outv.target_email(+) = c.host_email
-				AND acc_status = '2'
-				AND NOT c.host_email = #{user.userEmail}
-				UNION
-				SELECT
-				        c.*
-				FROM
-				(
-					SELECT
-					inv.*
-					FROM
+								(
+									SELECT
+									*
+									FROM
+									friend_blacks
+									WHERE user_email = #{user.userEmail}
+									OR target_email = #{user.userEmail}
+								)inv
+							WHERE acc_status = '2'
+						)outv, challenges c
+						WHERE outv.target_email(+) = c.host_email
+						AND acc_status = '2'
+						AND NOT c.host_email = #{user.userEmail}
+						UNION
+						SELECT
+						        c.*
+						FROM
 						(
 							SELECT
-							*
+							inv.*
 							FROM
-							friend_blacks
-							WHERE user_email = #{user.userEmail}
-							OR target_email = #{user.userEmail}
-						)inv
-					WHERE acc_status = '2'
-				)outv, challenges c
-				WHERE outv.user_email(+) = c.host_email
-				AND acc_status = '2'
-				AND NOT c.host_email = #{user.userEmail}
-				)list
-				ORDER BY list.challenge_no
-	 		
-	 </select>
+								(
+									SELECT
+									*
+									FROM
+									friend_blacks
+									WHERE user_email = #{user.userEmail}
+									OR target_email = #{user.userEmail}
+								)inv
+							WHERE acc_status = '2'
+						)outv, challenges c
+						WHERE outv.user_email(+) = c.host_email
+						AND acc_status = '2'
+						AND NOT c.host_email = #{user.userEmail}
+						)list
+						<where>
+							<if test="search.searchKeyword != null and search.searchKeyword != ''">
+							  	list.title LIKE '%'||#{search.searchKeyword}||'%'
+							</if>
+							<if test="search.orderCondition != 0">
+								AND list.categ_no = #{search.orderCondition}
+							</if>
+						</where>
+						<if test="search.searchCondition != null">
+							<if test="search.searchCondition == 1">
+								ORDER BY list.reg_date DESC
+							</if>
+							<if test="search.searchCondition == 2">
+								ORDER BY list.join_count DESC
+							</if>
+						</if>
+						<if test="search.searchCondition == null">
+							ORDER BY list.challenge_no
+						</if>
+					)search
+					WHERE ROWNUM &lt;= #{search.endRowNum}
+				)challenge
+				WHERE challenge.no BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+				
+				
+		</select>
 	 
 	 
 	 <select id="getChallengeList" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
-	 
-	 		SELECT
-			c.*
+	 	
+	 	
+	 	
+			SELECT
+			challenge.*
 			FROM
-			<if test="challengeListOpt == 'total' or challengeListOpt == 'add'">
-				challenges c
-				<where>
-					<if test="challengeListOpt == 'total'">
-						status = '0'
-						AND open_range = '0'
-					</if>
-					<if test="challengeListOpt == 'add'">
-						AND c.host_email = #{user.userEmail}
-					</if>
-					<if test="search.searchKeyword != null and search.searchKeyword != ''">
-					  	AND c.title LIKE '%'||#{search.searchKeyword}||'%'
-					</if>
-					<if test="search.orderCondition != 0">
-						AND c.categ_no = #{search.orderCondition}
-					</if>
-				</where>
-			</if>
-			<if test="challengeListOpt == 'pick' or challengeListOpt == 'join'">
-				challenges c, join_challenger jc
-				<where>
-					c.challenge_no = jc.challenge_no
-					AND jc.user_email = #{user.userEmail}
-					<if test="challengeListOpt == 'join'">
-						AND jc.status = '0'
-					</if>
-					<if test="challengeListOpt == 'pick'">
-						AND jc.status = '1'
-					</if>
-					<if test="search.searchKeyword != null and search.searchKeyword != ''">
-					  	AND c.title LIKE '%'||#{search.searchKeyword}||'%'
-					</if>
-					<if test="search.orderCondition != 0">
-						AND c.categ_no = #{search.orderCondition}
-					</if>
-				</where>
-			</if>
-			<if test="search.searchCondition != null">
-				<if test="search.searchCondition == 1">
-					ORDER BY c.reg_date DESC
+			(
+				SELECT
+				ROWNUM no, search.*
+				FROM(
+		 		SELECT
+				c.*
+				FROM
+				<if test="challengeListOpt == 'total' or challengeListOpt == 'add'">
+					challenges c
+					<where>
+						<if test="challengeListOpt == 'total'">
+							status = '0'
+							AND open_range = '0'
+						</if>
+						<if test="challengeListOpt == 'add'">
+							AND c.host_email = #{user.userEmail}
+						</if>
+						<if test="search.searchKeyword != null and search.searchKeyword != ''">
+						  	AND c.title LIKE '%'||#{search.searchKeyword}||'%'
+						</if>
+						<if test="search.orderCondition != 0">
+							AND c.categ_no = #{search.orderCondition}
+						</if>
+					</where>
 				</if>
-				<if test="search.searchCondition == 2">
-					ORDER BY c.join_count DESC
+				<if test="challengeListOpt == 'pick' or challengeListOpt == 'join'">
+					challenges c, join_challenger jc
+					<where>
+						c.challenge_no = jc.challenge_no
+						AND jc.user_email = #{user.userEmail}
+						<if test="challengeListOpt == 'join'">
+							AND jc.status = '0'
+						</if>
+						<if test="challengeListOpt == 'pick'">
+							AND jc.status = '1'
+						</if>
+						<if test="search.searchKeyword != null and search.searchKeyword != ''">
+						  	AND c.title LIKE '%'||#{search.searchKeyword}||'%'
+						</if>
+						<if test="search.orderCondition != 0">
+							AND c.categ_no = #{search.orderCondition}
+						</if>
+					</where>
 				</if>
-			</if>
-			<if test="search.searchCondition == null">
-				ORDER BY c.challenge_no
-			</if>
-	 		
+				<if test="search.searchCondition != null">
+					<if test="search.searchCondition == 1">
+						ORDER BY c.reg_date DESC
+					</if>
+					<if test="search.searchCondition == 2">
+						ORDER BY c.join_count DESC
+					</if>
+				</if>
+				<if test="search.searchCondition == null">
+					ORDER BY c.challenge_no
+				</if>
+			)search
+			WHERE ROWNUM &lt;= #{search.endRowNum}
+		)challenge
+		WHERE challenge.no BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	 		
 	 </select>
 	 
@@ -364,10 +415,11 @@
 	 <select id="getChallenge" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
 	 
 		 	SELECT
-			*
+			u.nick, c.*
 			FROM
-			challenges
-			WHERE challenge_no = #{challengeNo}
+			challenges c, users u
+			WHERE u.user_email = c.host_email
+			AND challenge_no = #{challengeNo}
 				 
 	 </select>
 	 
@@ -581,7 +633,12 @@
  		join_challenger
  		SET
  			<if test="percent == null">
- 				certi_count = certi_count+1
+ 				<if test="certiImgUp != null">
+ 					certi_count = certi_count+1
+ 				</if>
+ 				<if test="certiImgUp == null">
+ 					certi_count = certi_count-1
+ 				</if>	
  			</if>
  			<if test="percent != null">
  				challenge_percent = #{percent}
@@ -634,6 +691,9 @@
 				,certi_img
 				,user_email
 				,reg_date
+				,categ_no
+				,like_count
+				,dislike_count
 				)
 		VALUES(
 				seq_certi_imgs_certi_img_no.nextval
@@ -641,6 +701,9 @@
 				,#{certiImg}
 				,#{email}
 				,SYSDATE
+				,#{categNo}
+				,0
+				,0
 				)
 	 		
 	 
@@ -650,7 +713,7 @@
 	 
 	 <!-- ////////// select //////////// -->
 	 
-	 <select id="getChallengeJoinCertiImg" parameterType="java.util.Map" resultMap="CertiImgSelectMap">
+	 <select id="getChallengeJoinCertiImgList" parameterType="java.util.Map" resultMap="CertiImgSelectMap">
 	 
 	 	SELECT
 		*
@@ -661,20 +724,252 @@
 	 
 	 </select>
 	 
+	 
+	 
+	 <select id="getChallengeCertiImgList" parameterType="java.util.Map" resultMap="CertiImgSelectMap">
+	 
+	 	SELECT
+		certiimg.*
+		FROM
+		(
+		SELECT
+		ROWNUM no, search.*
+		FROM(
+	 		SELECT
+			u.nick,
+			ci.*
+			FROM
+			certi_imgs ci, users u
+			<where>
+				u.user_email = ci.user_email
+				<if test="black != null">
+				<foreach item="value" collection="black">
+					AND NOT ci.user_email = #{value}
+				</foreach>
+				</if>
+				<if test="certiImgOpt != null">
+					AND ci.user_email = #{user.userEmail}
+				</if>
+				<if test="search.searchKeyword != null and search.searchKeyword != ''">
+					AND ci.user_email LIKE '%'||#{search.searchKeyword}||'%'
+				</if>
+				<if test="search.orderCondition != 0">
+					AND ci.categ_no = #{search.orderCondition}
+				</if>
+			</where>
+				<if test="search.searchCondition != null">
+					<if test="search.searchCondition == 1">
+						ORDER BY ci.reg_date DESC
+					</if>
+					<if test="search.searchCondition == 2">
+						ORDER BY ci.like_count DESC
+					</if>
+				</if>
+				<if test="search.searchCondition == null">
+					ORDER BY ci.certi_img_no
+				</if>
+	 		)search
+			WHERE ROWNUM &lt;= #{search.endRowNum}
+		)certiimg
+		WHERE certiimg.no BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select>
+	 
+	 
+	 
+	 <select id="getChallengeCertiImgListCount" parameterType="java.util.Map" resultType="int">
+	 
+	 	SELECT
+		COUNT(*)
+		FROM
+		(
+		SELECT
+		ROWNUM no, search.*
+		FROM(
+	 		SELECT
+			u.nick,
+			ci.*
+			FROM
+			certi_imgs ci, users u
+			<where>
+				u.user_email = ci.user_email
+				<if test="black != null">
+				<foreach item="value" collection="black">
+					AND NOT ci.user_email = #{value}
+				</foreach>
+				</if>
+				<if test="certiImgOpt != null">
+					AND ci.user_email = #{user.userEmail}
+				</if>
+				<if test="search.searchKeyword != null and search.searchKeyword != ''">
+					AND ci.user_email LIKE '%'||#{search.searchKeyword}||'%'
+				</if>
+				<if test="search.orderCondition != 0">
+					AND ci.categ_no = #{search.orderCondition}
+				</if>
+			</where>
+				<if test="search.searchCondition != null">
+					<if test="search.searchCondition == 1">
+						ORDER BY ci.reg_date DESC
+					</if>
+					<if test="search.searchCondition == 2">
+						ORDER BY ci.like_count DESC
+					</if>
+				</if>
+				<if test="search.searchCondition == null">
+					ORDER BY ci.certi_img_no
+				</if>
+	 		)search
+			WHERE ROWNUM &lt;= #{search.endRowNum}
+		)certiimg
+		WHERE certiimg.no BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 </select>
+	 
+	 
+	 <select id="getChallengeCertiImg" parameterType="int" resultMap="CertiImgSelectMap">
+	 
+	 	SELECT
+	 	u.nick,
+	 	ci.*
+	 	FROM
+	 	certi_imgs ci, users u
+	 	WHERE u.user_email = ci.user_email 
+	 	AND certi_img_no = #{certiImgNo}
+	 
+	 </select>
+	 
 	 <!-- ////////// select //////////// -->
 	 
 	 
+	 <!-- ////////// update //////////// -->
+	 <update id="updateCertiImgLikeAndDislike" parameterType="review">
+	 	
+	 	update
+	 	certi_imgs
+	 	SET
+	 	<if test="status == 1">
+	 		like_count = like_count + 1
+	 	</if>
+	 	<if test="status == 2">
+	 		dislike_count = dislike_count + 1
+	 	</if>
+	 	WHERE certi_img_no = #{certiImgNo}
+	 </update>
+	 	
+	 	
+	 <!-- ////////// update //////////// -->
+	 
+	 
 	 <!-- ////////// delete //////////// -->
-	 <delete id="deleteCertiImg" parameterType="java.util.Map">
+	 <delete id="deleteChallengeCertiImg" parameterType="java.util.Map">
 	 
 	 	delete
 	 	FROM
 	 	certi_imgs
-	 	WHERE challenge_no = #{challengeNo}
+	 	WHERE certi_img_no = #{certiImg.certiImgNo}
 	 
 	 </delete>
 	 <!-- ////////// delete //////////// -->
 	 
 	 <!--/////////////////////// CertiImg ////////////////////// -->
+	 
+	 
+	 
+	 
+	 
+	 
+	 <!--/////////////////////// Reviews ////////////////////// -->
+	 
+	 <!-- ////////// insert //////////// -->
+	 
+	 <insert id="insertChallengeReview" parameterType="review">
+	 	
+	 	INSERT INTO
+		reviews
+			(
+			review_no,
+			certi_img_no,
+			user_email,
+			<if test="status == 0">
+			comment_detail,
+			</if>
+			status,
+			reg_date
+			)
+		VALUES(
+			seq_reviews_review_no.NEXTVAL,
+			#{certiImgNo},
+			#{email},
+			<if test="status == 0">
+			#{comment},
+			</if>
+			#{status},
+			SYSDATE
+			)
+	 
+	 </insert>
+	 
+	 <!-- ////////// insert //////////// -->
+	 
+	 
+	 
+	 
+	 <!-- ////////// select //////////// -->
+	 
+	 <select id="getChallengeCommentList" parameterType="int" resultMap="ReviewSelectMap">
+	 	
+	 	SELECT
+		u.nick,
+		r.*
+		FROM
+		reviews r, users u
+		WHERE u.user_email = r.user_email
+		AND certi_img_no = #{certiImgNo}
+		AND status = '0'
+	 
+	 </select>
+	 
+	 
+	 <!-- ////////// select //////////// -->
+	 
+	 
+	 
+	 <!-- ////////// update //////////// -->
+	 
+	 <update id="updateChallengeReview" parameterType="review">
+	 
+	 	UPDATE
+		reviews
+		SET
+		comment_detail = #{comment}
+		WHERE review_no = #{reviewNo}
+	 
+	 </update>
+	 
+	 <!-- ////////// update //////////// -->
+	 
+	 
+	 
+	 
+	 <!-- ////////// delete //////////// -->
+	 <delete id="deleteChallengeReview" parameterType="java.util.Map">
+	 	
+	 	DELETE
+		FROM
+		reviews
+		<where>
+			<if test="reviewNo != null">
+				review_no = #{reviewNo}
+			</if>
+			<if test="certiImgNo != null">
+				certi_img_no = #{certiImgNo}
+			</if>
+		</where>
+		
+	 	
+	 
+	 </delete>
+	 <!-- ////////// delete //////////// -->
+	 
+	 <!--/////////////////////// Reviews ////////////////////// -->
 	 
 </mapper>
