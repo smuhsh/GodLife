@@ -24,24 +24,21 @@
 		WHERE my_badge_no = #{value}
 	 </select>
 
+
+
 <!-- /////////////////////////////내 배지 상세 내용 조회/////////////////////////////////////////////////// -->
 
-	 <!-- SQL : UPDATE -->
-	 <!-- 2022.06.06 쿼리 작성 중 다 작성 되면 Mapper에 넣어어야 함 -->
-	 <update	id="updateBadgeMyActCount"	parameterType="actCount" >
-	   	UPDATE my_badge
-	   	<set>
-	   		my_badge_No 		= #{my_badge_no} ,
-			user_eamil			= #{userEmail:VARCHAR} ,
-			badge_no			= #{badgeNo} , 
-			act_count			= #{actCount} 
-
-	   	</set>
-	   	WHERE badge_no = #{badgeNo}
-	 </update>
-
-
-
+	<update id="updateBadgeMyActCount" parameterType="myBadge">
+	
+		MERGE INTO MY_BADGE  
+			USING DUAL 
+			ON ( user_email = #{userEmail} and badge_no= #{badgeNo} )
+		WHEN MATCHED THEN 
+ 			UPDATE SET act_count = act_count + 1 
+		WHEN NOT MATCHED THEN
+			INSERT (my_badge_no, user_email , badge_no , act_count ) 
+			VALUES (seq_my_badge_my_badge_no.nextval , #{userEmail}, #{badgeNo} , #{actCount} ) ;
+	</update>
 
 
 <!-- //////////////////////////배지 전체 목록 조회//////////////////////////////////////////////////////  -->

@@ -2,7 +2,7 @@ package com.godLife.io.service.domain;
 
 import java.sql.Date;
 
-//==>�ϴ��Ϲ��Ǹ� �𵨸�(�߻�ȭ/ĸ��ȭ)�� Bean
+//==>일대일문의
 public class OneInq {
 	
 	//field

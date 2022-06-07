@@ -2,15 +2,17 @@ package com.godLife.io.service.domain;
 
 import java.sql.Date;
 
-public class Resview {
-	private int resviewNo;
+public class Review {
+	private int reviewNo;
 	private int certiImgNo;
 	private String email;
+	private String nick;
 	private String comment;
 	private Date reviewRegDate;
 	private String status;
-	public int getResviewNo() {
-		return resviewNo;
+
+	public int getReviewNo() {
+		return reviewNo;
 	}
 	public int getCertiImgNo() {
 		return certiImgNo;
@@ -27,8 +29,8 @@ public class Resview {
 	public String getStatus() {
 		return status;
 	}
-	public void setResviewNo(int resviewNo) {
-		this.resviewNo = resviewNo;
+	public void setReviewNo(int reviewNo) {
+		this.reviewNo = reviewNo;
 	}
 	public void setCertiImgNo(int certiImgNo) {
 		this.certiImgNo = certiImgNo;
@@ -45,11 +47,19 @@ public class Resview {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 	@Override
 	public String toString() {
-		return "Resviews [resviewNo=" + resviewNo + ", certiImgNo=" + certiImgNo + ", email=" + email + ", comment="
-				+ comment + ", reviewRegDate=" + reviewRegDate + ", status=" + status + "]";
+		return "Resview [reviewNo=" + reviewNo + ", certiImgNo=" + certiImgNo + ", email=" + email + ", nick=" + nick
+				+ ", comment=" + comment + ", reviewRegDate=" + reviewRegDate + ", status=" + status + "]";
 	}
+	
 	
 	
 }

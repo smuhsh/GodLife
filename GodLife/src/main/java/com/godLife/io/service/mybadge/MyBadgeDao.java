@@ -3,7 +3,6 @@ package com.godLife.io.service.mybadge;
 import java.util.List;
 
 import com.godLife.io.common.Search;
-import com.godLife.io.service.domain.Badge;
 import com.godLife.io.service.domain.MyBadge;
 
 
@@ -20,7 +19,7 @@ public interface MyBadgeDao {
 	public List<MyBadge> getBadgeMyList(Search search) throws Exception ;
 
 	// 내 배지 활동 횟수량 증가
-	public void updateBadgeMyActCount(int actCount) throws Exception ;	
+	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception ;	
 	
 	
 /////////////////////////////////////////////////////////////

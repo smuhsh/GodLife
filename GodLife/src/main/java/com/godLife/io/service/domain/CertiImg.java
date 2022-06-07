@@ -5,11 +5,13 @@ import java.sql.Date;
 public class CertiImg {
 	private int certiImgNo;
 	private int challengeNo;
+	private String certiImg;
 	private String email;
-	private Date CertiImgRegDate;
+	private String nick;
+	private Date certiImgRegDate;
 	private int like;
 	private int dislike;
-	private int carteg;
+	private int categNo;
 	private String status;
 	public int getCertiImgNo() {
 		return certiImgNo;
@@ -21,7 +23,7 @@ public class CertiImg {
 		return email;
 	}
 	public Date getCertiImgRegDate() {
-		return CertiImgRegDate;
+		return certiImgRegDate;
 	}
 	public int getLike() {
 		return like;
@@ -29,8 +31,8 @@ public class CertiImg {
 	public int getDislike() {
 		return dislike;
 	}
-	public int getCarteg() {
-		return carteg;
+	public int getCategNo() {
+		return categNo;
 	}
 	public String getStatus() {
 		return status;
@@ -45,7 +47,7 @@ public class CertiImg {
 		this.email = email;
 	}
 	public void setCertiImgRegDate(Date certiImgRegDate) {
-		CertiImgRegDate = certiImgRegDate;
+		this.certiImgRegDate = certiImgRegDate;
 	}
 	public void setLike(int like) {
 		this.like = like;
@@ -53,20 +55,31 @@ public class CertiImg {
 	public void setDislike(int dislike) {
 		this.dislike = dislike;
 	}
-	public void setCarteg(int carteg) {
-		this.carteg = carteg;
+	public void setCategNo(int categNo) {
+		this.categNo = categNo;
 	}
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	@Override
-	public String toString() {
-		return "CertiImg [certiImgNo=" + certiImgNo + ", challengeNo=" + challengeNo + ", email=" + email
-				+ ", CertiImgRegDate=" + CertiImgRegDate + ", like=" + like + ", dislike=" + dislike + ", carteg="
-				+ carteg + ", status=" + status + "]";
+	public String getCertiImg() {
+		return certiImg;
+	}
+	public void setCertiImg(String certiImg) {
+		this.certiImg = certiImg;
 	}
 	
-	
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+	@Override
+	public String toString() {
+		return "CertiImg [certiImgNo=" + certiImgNo + ", challengeNo=" + challengeNo + ", certiImg=" + certiImg
+				+ ", email=" + email + ", nick=" + nick + ", certiImgRegDate=" + certiImgRegDate + ", like=" + like
+				+ ", dislike=" + dislike + ", categNo=" + categNo + ", status=" + status + "]";
+	}
 	
 	
 	
