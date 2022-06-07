@@ -27,15 +27,38 @@
 	 </insert>
 	 
 	 
-	 <!-- SQL : 일대일문의 목록조회(회원)-->
-	 <!-- SQL : 일대일문의 목록조회(관리자)-->
+	 <!-- SQL : 일대일문의 목록조회(회원, 관리자)-->
 	 
-	 
+	 <select  id="getOneInqList"  parameterType="map"	resultMap="userSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   user_email, title, reg_date, status
+											FROM one_inqs 
+											WHERE user_email = #{userEmail}
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				title LIKE '%' || #{searchKeyword} || '%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				reg_date = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY one_inq_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	
 	 
 	 <!-- SQL : 일대일문의 상세조회-->
 	  <select 	id="getOneInq"	parameterType="string"	resultMap="oneInqSelectMap">
 		SELECT
-		user_email, title, detail, reg_date 
+		*
 		FROM one_inqs
 		WHERE one_inq_no = #{oneInqNo} 
 	 </select>
