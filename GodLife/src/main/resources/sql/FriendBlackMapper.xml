@@ -7,18 +7,21 @@
 <mapper namespace="FriendBlackMapper">
  	
 	<resultMap id="friendBlackSelectMap" 		type="friendBlack">
-		<result property="nick" 				column="nick" 					jdbcType="VARCHAR" />
-		<result property="profileImg" 				column="profile_img" 					jdbcType="VARCHAR" />
 		<result property="friendBlackNo" 			column="friend_black_no" 			jdbcType="INTEGER"/>
-		<result property="userEmail"						column="user_email" 		jdbcType="VARCHAR" />
-		<result property="targetEmail" 					column="target_email" 		jdbcType="VARCHAR" />
+		<result property="userEmail"					column="user_email" 					jdbcType="VARCHAR" />
+		<result property="targetEmail" 				column="target_email" 					jdbcType="VARCHAR" />
 		<result property="fbStatus" 						column="f_b_status" 					jdbcType="CHAR" />
 		<result property="accStatus" 					column="acc_status" 					jdbcType="CHAR" />
+		
+		<!-- 아래 추가-->
+		<result property="nick" 						column="nick" 									jdbcType="VARCHAR" />
+		<result property="profileImg" 				column="profile_img" 						jdbcType="VARCHAR" />
+		
 	</resultMap>
 	
 	
-	<!-- 본인의 친구, 블랙리스트 목록조회 동적쿼리 사용??? // 일단아래는 친구목록조회임 // 검색조건 다시 확인하기 -->
-	<select  id="getFriendBlackList"  parameterType="map"	resultMap="friendBlackSelectMap">
+	<!-- 본인의 친구, 블랙리스트 목록조회 아래 쿼리 다시 확인 -->
+	<select  id="getFriendBlackList"  parameterType="map"	resultMap="userSelectMap">
 	  	SELECT 
 	  	*
 	  	FROM (	
@@ -29,21 +32,23 @@
 											FROM users u, friend_blacks f 
 											<where>
 											u.user_email = f.target_email 
-											and f.f_b_status = '1' 
-											and f.acc_status = '2'
-											and f.user_email = #{userEmail}
-											<if test="searchCondition != null">
+											<if test = "f.f_b_status = '1'  and  f.acc_status = '2' "> 
+											f.user_email = #{userEmail}
+											</if>
+											<if test = "f.f_b_status = '2'  ">
+											f.user_email = #{userEmail}
+											</if>
 											<if test="searchCondition == 0 and searchKeyword !='' ">
 											and u.nick = #{searchKeyword}
 											</if>
-										</if>
-										</where>	
+											</where>
 											ORDER BY f.friend_black_no ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	 
-	 	<!-- 친구요청을 받은 목록조회 -->
+	 
+	 	<!-- 친구요청을 받은 목록조회 ()-->
 	<select  id="getFriendRequestList"  parameterType="map"	resultMap="friendBlackSelectMap">
 	  	SELECT 
 	  	*
@@ -65,17 +70,6 @@
 	 </select>
 	 
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
 	
 	<!-- SQL : SELECT ROW Count 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
@@ -95,7 +89,7 @@
 	 </select>
 	  -->	 
 
-	  <!-- 친구 등록 -->
+	  <!-- 친구 등록  //// 친구랑 블랙리스트 등록 합칠수있을꺼같은데... -->
 	<insert 	id="addFriend"		parameterType="friendBlack" >
 	 	INSERT
 		INTO FRIEND_BLACKS
@@ -113,7 +107,7 @@
 	 <update	id="updateAccStatus"	parameterType="friendBlack" >
 	   	UPDATE friend_blacks 
 	   	<set>
-	   		acc_status = #{accStatus}
+	   		acc_status = '2'
 	   	</set>
 	   	WHERE user_email = #{userEmail} and  target_email = #{targetEmail} and f_b_status = '1'
 	 </update>

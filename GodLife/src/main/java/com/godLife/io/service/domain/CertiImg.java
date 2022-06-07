@@ -5,8 +5,9 @@ import java.sql.Date;
 public class CertiImg {
 	private int certiImgNo;
 	private int challengeNo;
+	private String certiImg;
 	private String email;
-	private Date CertiImgRegDate;
+	private Date certiImgRegDate;
 	private int like;
 	private int dislike;
 	private int carteg;
@@ -21,7 +22,7 @@ public class CertiImg {
 		return email;
 	}
 	public Date getCertiImgRegDate() {
-		return CertiImgRegDate;
+		return certiImgRegDate;
 	}
 	public int getLike() {
 		return like;
@@ -45,7 +46,7 @@ public class CertiImg {
 		this.email = email;
 	}
 	public void setCertiImgRegDate(Date certiImgRegDate) {
-		CertiImgRegDate = certiImgRegDate;
+		this.certiImgRegDate = certiImgRegDate;
 	}
 	public void setLike(int like) {
 		this.like = like;
@@ -59,12 +60,20 @@ public class CertiImg {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getCertiImg() {
+		return certiImg;
+	}
+	public void setCertiImg(String certiImg) {
+		this.certiImg = certiImg;
+	}
 	@Override
 	public String toString() {
-		return "CertiImg [certiImgNo=" + certiImgNo + ", challengeNo=" + challengeNo + ", email=" + email
-				+ ", CertiImgRegDate=" + CertiImgRegDate + ", like=" + like + ", dislike=" + dislike + ", carteg="
-				+ carteg + ", status=" + status + "]";
+		return "CertiImg [certiImgNo=" + certiImgNo + ", challengeNo=" + challengeNo + ", certiImg=" + certiImg
+				+ ", email=" + email + ", CertiImgRegDate=" + certiImgRegDate + ", like=" + like + ", dislike="
+				+ dislike + ", carteg=" + carteg + ", status=" + status + "]";
 	}
+	
+	
 	
 	
 	

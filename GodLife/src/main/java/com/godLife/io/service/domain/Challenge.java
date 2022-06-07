@@ -25,6 +25,7 @@ public class Challenge {
 	private String challengeCategName;
 	private List<String>certiCycleName;
 	private String challengeJoinFlag;
+	private String hostNick;
 	
 	
 	
@@ -150,6 +151,12 @@ public class Challenge {
 	public void setChallengeJoinFlag(String challengeJoinFlag) {
 		this.challengeJoinFlag = challengeJoinFlag;
 	}
+	public String getHostNick() {
+		return hostNick;
+	}
+	public void setHostNick(String hostNick) {
+		this.hostNick = hostNick;
+	}
 	@Override
 	public String toString() {
 		return "Challenge [challengeNo=" + challengeNo + ", hostEmail=" + hostEmail + ", challengeTitle="
@@ -159,8 +166,10 @@ public class Challenge {
 				+ openRange + ", joinPoint=" + joinPoint + ", challengeRegDate=" + challengeRegDate
 				+ ", challengeStatus=" + challengeStatus + ", joinCount=" + joinCount + ", certiDate=" + certiDate
 				+ ", totalCertiCount=" + totalCertiCount + ", challengeCategName=" + challengeCategName
-				+ ", certiCycleName=" + certiCycleName + ", challengeJoinFlag=" + challengeJoinFlag + "]";
+				+ ", certiCycleName=" + certiCycleName + ", challengeJoinFlag=" + challengeJoinFlag + ", hostNick="
+				+ hostNick + "]";
 	}
+	
 	
 	
 	

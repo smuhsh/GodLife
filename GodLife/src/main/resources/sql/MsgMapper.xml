@@ -26,19 +26,19 @@
 	 </insert>
 	 
 	 <!-- 받은 쪽지 상세조회 -->
-	 <select 	id="getRecvMsg"	parameterType="string"	 resultMap="msgSelectMap">
+	 <select 	id="getRecvMsg"	parameterType="int"	 resultMap="msgSelectMap">
 		SELECT u.nick, m.title, m.detail, m.reg_date
 		FROM msgs m, users u
 		WHERE u.user_email = m.send_email  
-		AND recv_email = #{recvEmail} 
+		AND msg_no = #{msgNo}
 	 </select>
 	 
 	  <!-- 보낸 쪽지 상세조회 -->
-	 <select 	id="getSendMsg"	parameterType="string"	 resultMap="msgSelectMap">
+	 <select 	id="getSendMsg"	parameterType="int"	 resultMap="msgSelectMap">
 		SELECT u.nick, m.title, m.detail, m.reg_date
 		FROM msgs m, users u
 		WHERE u.user_email = m.recv_email  
-		AND send_email = #{sendEmail} 
+		AND msg_no = #{msgNo}
 	 </select>
 	 
 	 <!-- 쪽지 삭제 -->
@@ -48,23 +48,12 @@
 	 </delete>
 	 
 	 
+	  <!-- 받은 쪽지함 목록조회 -->
+	  
+	  
+	  
+	   <!-- 보낸 쪽지함 목록조회 -->
 	
-	 
-	 
-	 
-	 
-	 
-	
-	 
-	 
-	
-	
-	
-	
-	
-	
-	
-	 
 	 
 	 
 	 

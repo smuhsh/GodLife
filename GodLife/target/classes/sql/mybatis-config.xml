@@ -32,8 +32,10 @@
 		<typeAlias alias="oneInq" type="com.godLife.io.service.domain.OneInq" />
 		<typeAlias alias="report" type="com.godLife.io.service.domain.Report" />
 		<typeAlias alias="joinChallenger" type="com.godLife.io.service.domain.JoinChallenger" />
-		<typeAlias alias="certiImg" type="com.godLife.io.service.domain.CertiImg" />	
+		<typeAlias alias="certiImg" type="com.godLife.io.service.domain.CertiImg" />
 	</typeAliases>
+	
+	
 	
 	 <!-- SQL Definition :: file include -->
 	<mappers>
