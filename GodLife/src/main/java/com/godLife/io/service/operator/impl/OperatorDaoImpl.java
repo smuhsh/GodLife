@@ -134,7 +134,7 @@ public class OperatorDaoImpl implements OperatorDao{
 	}
 
 	public int getOperatorNoticeFaqsTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("OperatorRewardMapper.getOperatorRewardTotalCount");
+		return sqlSession.selectOne("OperatorNoticeFaqsMapper.getOperatorNoticeFaqsTotalCount");
 	}
 	
 

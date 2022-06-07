@@ -20,8 +20,9 @@
 	</resultMap>
 	
 	
+
 	<!-- 본인의 친구, 블랙리스트 목록조회 아래 쿼리 다시 확인 -->
-	<select  id="getFriendBlackList"  parameterType="map"	resultMap="userSelectMap">
+	<select  id="getFriendBlackList"  parameterType="map"	resultMap="friendBlackSelectMap">
 	  	SELECT 
 	  	*
 	  	FROM (	
@@ -32,14 +33,11 @@
 											FROM users u, friend_blacks f 
 											<where>
 											u.user_email = f.target_email 
-											<if test = "f.f_b_status = '1'  and  f.acc_status = '2' "> 
-											f.user_email = #{userEmail}
-											</if>
-											<if test = "f.f_b_status = '2'  ">
-											f.user_email = #{userEmail}
-											</if>
+											AND f.f_b_status = '1' 
+											AND f.acc_status = '2'
+											AND f.user_email = #{userEmail} 
 											<if test="searchCondition == 0 and searchKeyword !='' ">
-											and u.nick = #{searchKeyword}
+											AND u.nick = #{searchKeyword}
 											</if>
 											</where>
 											ORDER BY f.friend_black_no ) inner_table
@@ -47,6 +45,28 @@
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	 
+	 <!-- 본인의 블랙리스트 목록조회. 동적쿼리로 만들기 실패..  -->
+	<select  id="getBlackList"  parameterType="map"	resultMap="friendBlackSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   u.nick, u.profile_img
+											FROM users u, friend_blacks f 
+											<where>
+											u.user_email = f.target_email 
+											AND f.f_b_status = '2' 
+											AND f.user_email = #{userEmail} 
+											<if test="searchCondition == 0 and searchKeyword !='' ">
+											AND u.nick = #{searchKeyword}
+											</if>
+											</where>
+											ORDER BY f.friend_black_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
 	 
 	 	<!-- 친구요청을 받은 목록조회 ()-->
 	<select  id="getFriendRequestList"  parameterType="map"	resultMap="friendBlackSelectMap">
@@ -71,23 +91,20 @@
 	 
 	 
 	
-	<!-- SQL : SELECT ROW Count 
+	<!-- SQL : SELECT ROW Count  토탈 카운트 나오는 방식을 이해 X  -->	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT user_id , user_name , email
-						FROM users
+	  	FROM(	SELECT u.nick
+						FROM users u 
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			user_id = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		user_name = #{searchKeyword}
+						 			u.nick = #{searchKeyword}
 								</if>
 							</where>
 						</if> ) countTable						
 	 </select>
-	  -->	 
+
 
 	  <!-- 친구 등록  //// 친구랑 블랙리스트 등록 합칠수있을꺼같은데... -->
 	<insert 	id="addFriend"		parameterType="friendBlack" >
@@ -95,6 +112,11 @@
 		INTO FRIEND_BLACKS
 		VALUES	 (seq_friend_black_no.NEXTVAL, #{userEmail : VARCHAR}, #{targetEmail : VARCHAR}, '1', '1')
 	 </insert>
+	 
+	 
+	 
+	 
+	 
 	 
 	 <!-- 블랙리스트 등록 -->
 	<insert 	id="addBlack"		parameterType="friendBlack" >
@@ -112,13 +134,12 @@
 	   	WHERE user_email = #{userEmail} and  target_email = #{targetEmail} and f_b_status = '1'
 	 </update>
 	 
-	 <!-- 친구 요청 거절, 친구 삭제 -->
+	 <!-- 친구 요청 거절, 친구 삭제 (다시확인)  -->
 	 <delete id="deleteFriend">
 	   delete from friend_blacks 
 	   WHERE user_email = #{userEmail} and  target_email = #{targetEmail} and f_b_status = '1' and acc_status = #{accStatus}
 	 </delete>
 	 
-	 
-	
+	 	
 	 
 </mapper>

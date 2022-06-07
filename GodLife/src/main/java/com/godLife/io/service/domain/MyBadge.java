@@ -9,7 +9,6 @@ public class MyBadge {
 	private String userEmail;
 	private int badgeNo;
 	private int actCount;
-	private String grade;
 	
 	///Constructor
 	public MyBadge() {
@@ -38,17 +37,12 @@ public class MyBadge {
 	public void setActCount(int actCount) {
 		this.actCount = actCount;
 	}
-	public String getGrade() {
-		return grade;
-	}
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
+
 	
 	@Override
 	public String toString() {
 		return "MyBadge [myBadgeNo=" + myBadgeNo + ", userEmail=" + userEmail + ", badgeNo=" + badgeNo + ", actCount="
-				+ actCount + ", grade=" + grade + "]";
+				+ actCount + " ]";
 	}
 	
 	

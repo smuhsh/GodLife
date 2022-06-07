@@ -43,7 +43,7 @@
 	  <!-- SQL : 로그인(다시 생각하기 )-->
 	  <select 	id="login"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		 *
+		 user_email, pwd
 		 FROM users 
 		 WHERE account_status = '1'
 		 AND user_email =#{userEmail} 
@@ -143,6 +143,20 @@
 	 
 
 	 <!-- SQL : 유저상세조회 -->
+	 
+	 
+	 
+	 
+	  <!-- SQL : 레드카드 발급, 제거 -->
+	 <update	id="updateRedCard"	parameterType="report" >
+	   	UPDATE users u
+	   	<set>
+	   	recard_count = #{redcardCount}
+	   	</set>
+	   	WHERE u.user_email = {userEmail}
+	 </update>
+	 
+	 
 	 
 	 
 	 

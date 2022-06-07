@@ -45,53 +45,73 @@ public interface UserService {
     // 유저상세조회 > 쿼리 아직 완성 x
 	
 		
-	// 친구, 블랙리스트 목록 리스트 
-	public Map<String , Object> getFriendBlackList(Search search, String userEmail) throws Exception;
+	//================친구, 블랙리스트 ======================================
 	
-	// 친구요청 
+	// 본인의 친구 목록조회 *
+	public Map<String, Object> getFriendList(Search search, String userEmail) throws Exception ;
+	
+	// 본인의 블랙리스트 목록조회 *
+	public Map<String, Object> getBlackList(Search search, String userEmail) throws Exception ;
+	
+	// 친구요청 *
     public Map<String, Object> getFriendRequestList(Search search, String targetEmail) throws Exception ;
 	
-	// 친구 등록 
+	// 친구 등록 *
 	public void addFriend(FriendBlack friendBlack) throws Exception;
 	
-	// 블랙리스트 등록 
+	// 블랙리스트 등록 *
 	public void addBlack(FriendBlack friendBlack) throws Exception;
 	
-	//친구 요청수락 
+	//친구 요청수락 *
 	public void updateAccStatus(FriendBlack friendBlack) throws Exception;
 	
 	//친구 요청 거절   
 	public void deleteFriend(FriendBlack friendBlack) throws Exception;
 	
-	//쪽지 보내기 
+	
+	//================쪽지 ======================================
+	
+	//쪽지 보내기 * 
 	public void addMsg(Msg msg)throws Exception;
 	
-    // 받은 쪽지 상세조회(다시확인)
+    // 받은 쪽지 상세조회(다시확인) *
 	public Msg getRecvMsg(int msgNo) throws Exception ;
 		
-	// 보낸 쪽지 상세조회(다시확인)
+	// 보낸 쪽지 상세조회(다시확인) *
 	public Msg getSendMsg(int msgNo) throws Exception ;
 		
-	// 받은, 보낸 쪽지 삭제 
-    public void deleteMsg(Msg msg) throws Exception ;
-
-    // 일대일 문의 등록 
+	// 받은, 보낸 쪽지 삭제 *
+    public void deleteMsg(int msgNo) throws Exception ;
+    
+    // 받은 쪽지 목록조회 *
+    public Map<String, Object> getRecvMsgList(Search search, String recvEmail) throws Exception ;
+    
+    // 보낸 쪽지 목록조회 *
+    public Map<String, Object> getSendMsgList(Search search, String sendEmail) throws Exception ;
+    
+    
+    //================일대일 문의 ======================================
+    
+    // 일대일 문의 등록 *
     public void addOneInq(OneInq oneInq) throws Exception ;
     
-    // 일대일 문의 목록조회 (회원, 관리자) 
+    // 일대일 문의 목록조회 (회원, 관리자) *
     public Map<String, Object> getOneInqList(Search search, String userEmail) throws Exception ;
     
-    // 일대일 문의 상세조회 
+    // 일대일 문의 상세조회 *
     public OneInq getOneInq(int oneInqNo) throws Exception ;
     
-    // 일대일 문의 삭제 
-    public void deleteOneInq(OneInq oneInq) throws Exception ;
+    // 일대일 문의 삭제 *
+    public void deleteOneInq(int oneInq) throws Exception ;
     
-    // 일대일 문의 수정(회원) 
+    // 일대일 문의 수정(회원) *
     public void updateOneInq(OneInq oneInq) throws Exception ;
     
-    //일대일 문의 답변 작성(관리자) 
+    //일대일 문의 답변 작성(관리자) *
     public void updateOneInqComment(OneInq oneInq) throws Exception ;
+    
+    
+  //================신고 ======================================
     
     // 신고 등록 
     public void addReport(Report report) throws Exception ;
@@ -102,6 +122,12 @@ public interface UserService {
     
     public void updateUserCertiCouponCount(User user) throws Exception;
 
+    
+    //신고 유저 목록조회(관리자) 
+    
+    //레드카드 발급, 제거 
+    
+    
 	
 		
 		

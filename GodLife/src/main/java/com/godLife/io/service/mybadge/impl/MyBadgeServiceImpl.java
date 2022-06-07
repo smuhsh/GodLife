@@ -49,8 +49,8 @@ public class MyBadgeServiceImpl implements MyBadgeService{
 		return map;
 	}
 
-	public void updateBadgeMyActCount(int actCount) throws Exception {
-		myBadgeDao.updateBadgeMyActCount(actCount);
+	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception {
+		myBadgeDao.updateBadgeMyActCount(myBadge);
 	}
 
 	

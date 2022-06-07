@@ -56,10 +56,15 @@ public class OperatorServiceImpl implements OperatorService{
 		return operatorDao.getOperatorEvents(eventNo);
 	}
 	
-	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
-		return operatorDao.getOperatorJoinEvent(joinEventNo);
+//	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
+//		return operatorDao.getOperatorJoinEvent(joinEventNo);
+//	}
+//	@Override
+	public OperatorJoinEvent getOperatorJoinEvent(String string) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
+
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception {
 		return operatorDao.getOperatorReward(rewardNo);
 	}
@@ -148,5 +153,6 @@ public class OperatorServiceImpl implements OperatorService{
 	public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
 		operatorDao.deleteOperatorNoticeFaqs(operatorNoticeFaqs);
 	}
+
 
 }

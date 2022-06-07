@@ -12,6 +12,7 @@ import com.godLife.io.service.challenge.ChallengeService;
 import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
+import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
 
 
@@ -70,8 +71,51 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 
 	@Override
-	public List<CertiImg> getChallengeJoinCertiImg(Map<String, Object> map) {
-		return challengeDao.getChallengeJoinCertiImg(map);
+	public List<CertiImg> getChallengeJoinCertiImgList(Map<String, Object> map) {
+		return challengeDao.getChallengeJoinCertiImgList(map);
+	}
+
+
+	@Override
+	public Map<String,Object> getChallengeCertiImgList(Map<String, Object> map) {
+		return challengeDao.getChallengeCertiImgList(map);
+	}
+
+
+	@Override
+	public CertiImg getChallengeCertiImg(int certiImgNo) {
+		return challengeDao.getChallengeCertiImg(certiImgNo);
+	}
+
+
+	@Override
+	public void addChallengeReview(Review review) {
+		challengeDao.addChallengeReview(review);
+		
+	}
+
+
+	@Override
+	public void deleteChallengeReview(int reviewNo) {
+		challengeDao.deleteChallengeReview(reviewNo);
+	}
+
+
+	@Override
+	public void updateChallengeReview(Review review) {
+		challengeDao.updateChallengeReview(review);
+	}
+
+
+	@Override
+	public List<Review> getChallengeCommentList(int certiImgNo) {
+		return challengeDao.getChallengeCommentList(certiImgNo);
+	}
+
+
+	@Override
+	public void deleteChallengeCertiImg(Map<String, Object> map) {
+		challengeDao.deleteChallengeCertiImg(map);
 	}
 
 
