@@ -57,7 +57,7 @@ public class ProductServiceTest {
 		
 		productService.addProduct(product);
 		
-		product.setProductNo(10079);
+		product.setProductNo(10010);
 		product = productService.getProduct(product.getProductNo());
 
 //		==> console 확인
@@ -76,7 +76,7 @@ public class ProductServiceTest {
 		
 		Product product = new Product();
 		
-		product.setProductNo(10079);
+		product.setProductNo(10011);
 		product = productService.getProduct(product.getProductNo());
 
 		//==> console 확인

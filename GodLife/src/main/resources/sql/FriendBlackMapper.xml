@@ -21,7 +21,7 @@
 	
 	
 	<!-- 본인의 친구, 블랙리스트 목록조회 아래 쿼리 다시 확인 -->
-	<select  id="getFriendBlackList"  parameterType="map"	resultMap="userSelectMap">
+	<select  id="getFriendBlackList"  parameterType="map"	resultMap="friendBlackSelectMap">
 	  	SELECT 
 	  	*
 	  	FROM (	

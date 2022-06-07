@@ -57,7 +57,7 @@ public class UserServiceTest {
       
    }
    
-   @Test
+   //@Test
    public void testGetUser() throws Exception {
       
       User user = new User();
@@ -177,7 +177,7 @@ public class UserServiceTest {
        
        
        
-//       @Test // 결과 이상하게 나옴.. 
+//       //@Test // 결과 이상하게 나옴.. 
 //       public void testGetFriendBlackListByNick() throws Exception{
 //          
 //          Search search = new Search();
@@ -227,8 +227,8 @@ public class UserServiceTest {
         
         FriendBlack friendBlack = new FriendBlack();
         
-        friendBlack.setUserEmail("tndkdml@gmail.com");
-        friendBlack.setTargetEmail("user04@io.com");
+        friendBlack.setUserEmail("user04@io.com");
+        friendBlack.setTargetEmail("user05@io.com");
         
         userService.addFriend(friendBlack);
      }
@@ -244,12 +244,12 @@ public class UserServiceTest {
         userService.addBlack(friendBlack);
      }
    
-         //@Test
+     @Test
      public void testUpdateAccStatus() throws Exception{
          
         FriendBlack friendblack =new FriendBlack(); 
-        friendblack.setUserEmail("tndkdml@gmail.com");
-        friendblack.setTargetEmail("kimhoyam@hotmail.com");
+        friendblack.setUserEmail("user04@io.com");
+        friendblack.setTargetEmail("user05@io.com");
         
         
         friendblack.setAccStatus("2");
