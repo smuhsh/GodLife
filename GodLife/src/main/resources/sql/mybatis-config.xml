@@ -51,11 +51,7 @@
 		<mapper resource="sql/OperatorRewardMapper.xml"/>
 		<mapper resource="sql/ProductMapper.xml"/>
 		<mapper resource="sql/BadgeMapper.xml"/>
-<<<<<<< HEAD
 		<!--  <mapper resource="sql/MyBadgeMapper.xml"/>-->
-=======
-		<!-- <mapper resource="sql/MyBadgeMapper.xml"/> -->
->>>>>>> refs/remotes/origin/master
 		<mapper resource="sql/CategMapper.xml"/>
 		<!--  <mapper resource="sql/OneInqMapper.xml"/>-->
 		<!--  <mapper resource="sql/ReportMapper.xml"/>-->
