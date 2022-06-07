@@ -6,6 +6,7 @@ import java.util.Map;
 import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
+import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
 
 public interface ChallengeDao {
@@ -23,5 +24,21 @@ public interface ChallengeDao {
 	
 	public void addChallengeCertiImg(CertiImg certiImg);
 	
-	public List<CertiImg> getChallengeJoinCertiImg(Map<String,Object> map);
+	public List<CertiImg> getChallengeJoinCertiImgList(Map<String,Object> map);
+	
+	public Map<String,Object> getChallengeCertiImgList(Map<String,Object> map);
+	
+	public CertiImg getChallengeCertiImg(int certiImgNo);
+	
+	public void addChallengeReview(Review review);
+	
+	public void updateChallengeReview(Review review);
+	
+	public void deleteChallengeReview(int reviewNo);
+	
+	public List<Review> getChallengeCommentList(int certiImgNo);
+	
+	public void deleteChallengeCertiImg(Map<String,Object> map);
+	
+	
 }

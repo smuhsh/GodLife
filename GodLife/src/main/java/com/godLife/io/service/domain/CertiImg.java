@@ -7,10 +7,11 @@ public class CertiImg {
 	private int challengeNo;
 	private String certiImg;
 	private String email;
+	private String nick;
 	private Date certiImgRegDate;
 	private int like;
 	private int dislike;
-	private int carteg;
+	private int categNo;
 	private String status;
 	public int getCertiImgNo() {
 		return certiImgNo;
@@ -30,8 +31,8 @@ public class CertiImg {
 	public int getDislike() {
 		return dislike;
 	}
-	public int getCarteg() {
-		return carteg;
+	public int getCategNo() {
+		return categNo;
 	}
 	public String getStatus() {
 		return status;
@@ -54,8 +55,8 @@ public class CertiImg {
 	public void setDislike(int dislike) {
 		this.dislike = dislike;
 	}
-	public void setCarteg(int carteg) {
-		this.carteg = carteg;
+	public void setCategNo(int categNo) {
+		this.categNo = categNo;
 	}
 	public void setStatus(String status) {
 		this.status = status;
@@ -66,16 +67,19 @@ public class CertiImg {
 	public void setCertiImg(String certiImg) {
 		this.certiImg = certiImg;
 	}
+	
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 	@Override
 	public String toString() {
 		return "CertiImg [certiImgNo=" + certiImgNo + ", challengeNo=" + challengeNo + ", certiImg=" + certiImg
-				+ ", email=" + email + ", CertiImgRegDate=" + certiImgRegDate + ", like=" + like + ", dislike="
-				+ dislike + ", carteg=" + carteg + ", status=" + status + "]";
+				+ ", email=" + email + ", nick=" + nick + ", certiImgRegDate=" + certiImgRegDate + ", like=" + like
+				+ ", dislike=" + dislike + ", categNo=" + categNo + ", status=" + status + "]";
 	}
-	
-	
-	
-	
 	
 	
 	
