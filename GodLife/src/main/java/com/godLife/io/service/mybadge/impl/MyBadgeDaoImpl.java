@@ -40,8 +40,8 @@ public class MyBadgeDaoImpl implements MyBadgeDao{
 	}
 
 	// 내 배지 활동 횟수량 증가
-	public void updateBadgeMyActCount(int actCount) throws Exception{
-		sqlSession.update("MyBadgeMapper.updateBadgeMyActCount", actCount);
+	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception{
+		sqlSession.update("MyBadgeMapper.updateBadgeMyActCount", myBadge);
 	}
 	
 	

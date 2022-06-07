@@ -18,7 +18,8 @@ public interface MyBadgeService {
 	public Map<String, Object> getBadgeMyList(Search search) throws Exception ;
 
 	// 내 배지 활동 횟수량 증가
-	public void updateBadgeMyActCount(int actCount) throws Exception ;	
+	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception ;	
+	
 	
 	
 }

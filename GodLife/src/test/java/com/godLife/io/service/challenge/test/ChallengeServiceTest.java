@@ -21,6 +21,7 @@ import com.godLife.io.service.challenge.ChallengeService;
 import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
+import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.user.UserService;
 
@@ -65,20 +66,23 @@ public class ChallengeServiceTest {
 		//데이터 넣을때 닉네임 같이 넣자.
 		
 		
+		
 		List<String> certiCycle = new ArrayList<String>();
 		certiCycle.add("1");//일
 		//certiCycle.add("2");//월
-		//certiCycle.add("3");//화
+		certiCycle.add("3");//화
 		//certiCycle.add("4");//수
 		//certiCycle.add("5");//목
 		//certiCycle.add("6");//금
 		//certiCycle.add("7");//토
 		
 		challenge.setHostEmail("chilee4650@naver.com");//HostEmail
-		challenge.setChallengeTitle("블랙 테스트 챌린지"); // 챌린지 제목
+		User user = userService.getUser(challenge.getHostEmail());
+		challenge.setHostNick(user.getNick());
+		challenge.setChallengeTitle("테스트 챌린지"); // 챌린지 제목
 		challenge.setChallengeThumbnailImg("챌린지.jpg");//썸네일 이미지
 		challenge.setChallengeDetail("테스트 챌린지입니다.");// 소개
-		challenge.setChallengeRule("삭제 챌린지."); // 규칙
+		challenge.setChallengeRule("챌린지."); // 규칙
 		challenge.setChallengeCateNo(4); // 관심사 번호 1:운동
 		challenge.setStartDate("2022-06-07"); // 시작 날짜
 		challenge.setEndDate("2022-06-18"); // 종료 날짜
@@ -105,12 +109,12 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void getChallengeList() { //전체 목록 조회
 		Search search = new Search();
 		
 		
-		search.setCurrentPage(1);
+		search.setCurrentPage(2);
 		
 		search.setPageSize(pageSize);
 		
@@ -145,6 +149,7 @@ public class ChallengeServiceTest {
 		
 		List challengeList = (List)map.get("list");
 		
+		System.out.println("total : "+map.get("totalCount"));
 		System.out.println("챌린지 리스트");
 		for(Object challenge : challengeList) {
 			System.out.println(challenge);
@@ -158,7 +163,7 @@ public class ChallengeServiceTest {
 	
 	//@Test
 	public void getChallenge() throws Exception{
-		int challengeNo = 10010; // hostEmail : chilee4650@naver.com
+		int challengeNo = 10014; // hostEmail : chilee4650@naver.com
 		
 		//회원조회
 		User user = new User();
@@ -176,8 +181,8 @@ public class ChallengeServiceTest {
 		Challenge challenge = challengeService.getChallenge(map); // user는 참여자 인지 판별 
 		
 		
-		User hostUser = userService.getUser(challenge.getHostEmail()); //hostNick를 가져오기 위함.
-		challenge.setHostNick(hostUser.getNick());
+//		User hostUser = userService.getUser(challenge.getHostEmail()); //hostNick를 가져오기 위함.
+//		challenge.setHostNick(hostUser.getNick());
 		
 		System.out.println("Challenge 상세정보");
 		System.out.println(challenge);
@@ -232,7 +237,7 @@ public class ChallengeServiceTest {
 	//@Test
 	public void addChallengeJoinAndPick() {
 		
-		int challengeNo = 10010;
+		int challengeNo = 10012;
 		JoinChallenger joinChallenger = new JoinChallenger(); 
 		joinChallenger.setChallengeNo(challengeNo);
 		joinChallenger.setEmail("chilee4650@naver.com");
@@ -270,9 +275,9 @@ public class ChallengeServiceTest {
 		//10015
 		CertiImg certiImg = new CertiImg();
 		
-		certiImg.setChallengeNo(10018);
-		certiImg.setEmail("user05@io.com");
-		certiImg.setCertiImg("user01.io.com.jpg");
+		certiImg.setChallengeNo(10011);
+		certiImg.setEmail("user02@io.com");
+		certiImg.setCertiImg("user02.io.com.jpg");
 		
 		challengeService.addChallengeCertiImg(certiImg);
 		
@@ -291,7 +296,7 @@ public class ChallengeServiceTest {
 		map.put("challengeNo", challengeNo);
 		map.put("email",email);
 		
-		List<CertiImg> certiImgs = challengeService.getChallengeJoinCertiImg(map);
+		List<CertiImg> certiImgs = challengeService.getChallengeJoinCertiImgList(map);
 		
 		System.out.println("내가 참여중인(참여중인 회원) 챌린지 인증이미지 목록 ");
 		for(CertiImg certiImg : certiImgs) {
@@ -304,7 +309,140 @@ public class ChallengeServiceTest {
 	//@Test
 	public void getChallengeCertiImgList() {
 		
+		//로그인
+		User user = new User();
+		user.setUserEmail("chilee4650@naver.com");
+		//비로그인
+//		User user = null;
 		
+		Search search = new Search();
+		
+		
+		search.setCurrentPage(1);
+		
+		search.setPageSize(pageSize);
+		
+		//search.setOrderCondition(4); // 1 운동
+		//search.setSearchCondition("1");//1 신규 2 인기
+		//search.setSearchKeyword("user"); // 닉네임 검색
+		
+		//String certiImgOpt = "my";
+		String certiImgOpt = null;
+		
+		
+		
+		System.out.println(search.getStartRowNum()+"  "+search.getEndRowNum());
+		
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		map.put("certiImgOpt",certiImgOpt);
+		map.put("search", search);
+		map.put("user", user);
+		
+		
+		map = challengeService.getChallengeCertiImgList(map);
+		
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		
+		List<CertiImg> certiImgList = (List<CertiImg>)map.get("certiImgList");
+		
+		System.out.println("totalCount : "+map.get("totalCount"));
+		System.out.println("인증이미지 목록");
+		for(CertiImg certiImg : certiImgList) {
+			System.out.println(certiImg);
+		}
+		
+		
+		
+	}
+	
+	//@Test
+	public void getChallengeCertiImg() {
+		
+		int certiImgNo = 10028; // 인증이미지 번호
+		
+		CertiImg certiImg = challengeService.getChallengeCertiImg(certiImgNo);
+		
+		System.out.println("인증이미지 상세 조회");
+		System.out.println(certiImg);
+		
+		// 댓글은 ajax사용
+		// 상세 조회 하려는 인증이미지 번호를 사용하여 ajax로 댓글을 불러올 예정이다.
+		
+	}
+	
+	
+	//@Test
+	public void addChallengeReview() {
+		
+		Review review = new Review();
+		//review.setStatus("0");// 댓글
+		review.setStatus("1");// 좋아요
+		//review.setStatus("2");// 싫어요
+		
+		review.setCertiImgNo(10028); // 댓글 혹은 좋아요/싫어요를 등록할 인증이미지
+		review.setEmail("user04@io.com");
+		review.setComment("잘찍었네요");
+		
+		challengeService.addChallengeReview(review);
+		
+		
+		
+	}
+	
+	
+	//@Test
+	public void getChallengeCommentList() {
+		
+		int certiImgNo = 10028; // 댓글 목록을 가져올 인증이미지번호
+		
+		List<Review> commentList = challengeService.getChallengeCommentList(certiImgNo);
+		
+		System.out.println(certiImgNo+"번 인증이미지 댓글");
+		for(Review comment : commentList) {
+			System.out.println(comment.getNick()+":"+comment.getComment());
+		}
+		
+	}
+	
+	//@Test
+	public void updateChallengeReview() {
+		
+		Review review = new Review();
+		
+		review.setReviewNo(10006);
+		review.setComment("진짜 별로인데");
+		
+		
+		challengeService.updateChallengeReview(review);
+		
+	}
+	
+	
+	//@Test
+	public void deleteChallengeReview() {
+		// deleteChallengeReview는 댓글 삭제만 지원한다.
+		//(추후에 좋아요 싫어요 한번 더 누른다면 비활성화 하는것도 만들어 볼만...)
+		
+		int reviewNo = 10006;
+		
+		challengeService.deleteChallengeReview(reviewNo);
+		
+	}
+	
+	//@Test
+	public void deleteChallengeCertiImg() {
+		
+		int certiImgNo = 10028; // hidden으로 같이 올라온 정보
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("certiImgNo", certiImgNo);
+		
+		challengeService.deleteChallengeCertiImg(map);
 		
 	}
 	

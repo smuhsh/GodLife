@@ -71,56 +71,26 @@ public class MyBadgeServiceTest {
 
 	}
 	
-//	 //@Test
-//	 public void testUpdateBadge() throws Exception{
-//		 
-//		MyBadge mybadge = new MyBadge();
-//
-//		
-//		mybadge.setMyBadgeNo(Integer.parseInt(("10065")));
-//		mybadge.setUserEmail("user05@io.com");
-//		mybadge.setBadgeNo(Integer.parseInt(("10001")));
-//		mybadge.setActCount(Integer.parseInt(("1")));
-//		
-//		mybadge = myBadgeService.getBadgeMy(10066);
-//		
-//		
-//		//console check
-//		System.out.println(mybadge);
-//		
-//		Assert.assertEquals(10065, mybadge.getMyBadgeNo());
-//		Assert.assertEquals("장기하이미지", badge.getBadgeImg());
-//		Assert.assertEquals(0, badge.getActCount());
-//		Assert.assertEquals("0", badge.getGrade());
-//		Assert.assertEquals("하나도부럽지가않아", badge.getBadgeDetail());
-//		Assert.assertEquals("0", badge.getStatus());
-//
-//		badge.setBadgeName("하나는부러워");
-//		badge.setBadgeImg("아이유이미지");
-//		badge.setActCount(2);
-//		badge.setGrade("2");
-//		badge.setBadgeDetail("하나는부러워");
-//		badge.setStatus("1");
-//		
-//		
-//		
-//		badgeService.updateBadge(badge);
-//		
-//		badge = badgeService.getBadge(10075);
-//		
-//		Assert.assertNotNull(badge);
-//		
-//		//==> console 확인
-//		System.out.println(badge);
-//			
-//		//==> API 확인
-//		Assert.assertEquals("하나는부러워", badge.getBadgeName());
-//		Assert.assertEquals("아이유이미지", badge.getBadgeImg());
-//		Assert.assertEquals(2, badge.getActCount());
-//		Assert.assertEquals("2", badge.getGrade());
-//		Assert.assertEquals("하나는부러워", badge.getBadgeDetail());
-//		Assert.assertEquals("1", badge.getStatus());
-//	 }
+	 @Test
+	 public void testUpdateBadgeMyActCount() throws Exception{
+		 
+		MyBadge myBadge = new MyBadge();
+
+
+		myBadge.setUserEmail("user05@io.com");
+		myBadge.setBadgeNo(10006);
+		myBadge.setActCount(1);
+		
+		
+		myBadgeService.updateBadgeMyActCount(myBadge);	
+		//console check
+		System.out.println(myBadge);		
+		
+		Assert.assertEquals("user05@io.com", myBadge.getUserEmail());
+		Assert.assertEquals(10006, myBadge.getMyBadgeNo());
+		Assert.assertEquals(1, myBadge.getActCount());
+
+	 }
 
 	 //==>  주석을 풀고 실행하면....
 	 //@Test

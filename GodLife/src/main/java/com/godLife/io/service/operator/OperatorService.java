@@ -16,7 +16,8 @@ public interface OperatorService {
 	public void addOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs ) throws Exception;
 	
 	public OperatorEvents getOperatorEvents(int eventNo) throws Exception;
-	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception;
+	//public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception;
+	public OperatorJoinEvent getOperatorJoinEvent(String string) throws Exception;
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception;
 	public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception;	
 

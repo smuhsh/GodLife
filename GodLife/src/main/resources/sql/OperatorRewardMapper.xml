@@ -4,21 +4,17 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="OperatorJoinEventMapper">
+<mapper namespace="OperatorRewardMapper">
  	
  	
-	<resultMap id="productSelectMap" type="product">
-		<result property="prodNo" 		column="prod_no" 			jdbcType="INTEGER"/>
-		<result property="prodName"		column="prod_name" 			jdbcType="VARCHAR" />
-		<result property="prodDetail" 	column="prod_detail" 		jdbcType="VARCHAR" />
-		<result property="manuDate" 	column="manufacture_day" 	jdbcType="VARCHAR" />
-		<result property="price" 		column="price" 				jdbcType="INTEGER" />
-		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"  />
-		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+	<resultMap id="operatorRewardSelectMap" type="operatorReward">
+		<result property="rewardNo" 	column="reward_no" 		jdbcType="INTEGER"/>
+		<result property="eventNo"		column="event_no" 		jdbcType="INTEGER" />
+		<result property="reward" 		column="reward" 		jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	<insert 	id="addProduct"		parameterType="product" >
+	<insert 	id="addOperatorReward"		parameterType="product" >
 	 	INSERT
 		INTO product( prod_no , prod_name , prod_detail , manufacture_day , price, image_file, reg_date) 
 		VALUES	 (	seq_product_prod_no.NEXTVAL, #{prodName} , #{prodDetail:VARCHAR} , #{manuDate:VARCHAR} , 
@@ -27,7 +23,7 @@
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <!--  <select 	id="getProduct"	parameterType="int" resultMap="productSelectMap">-->
-	 <select 	id="getProduct"	parameterType="int" resultMap="productSelectMap"><!-- 2022-04-09 shhwang -->
+	 <select 	id="getOperatorReward"	parameterType="int" resultMap="operatorRewardSelectMap"><!-- 2022-04-09 shhwang -->
 		SELECT
 		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  image_file , reg_date
 		FROM product 
@@ -35,7 +31,7 @@
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
-	 <update	id="updateProduct"	parameterType="product" >
+	 <update	id="updateOperatorReward"	parameterType="operatorReward" >
 	   	UPDATE product
 	   	<set>
 	   		prod_name 			= 	#{prodName} ,
@@ -48,7 +44,7 @@
 	 </update>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
+	<select  id="getOperatorRewardList"  parameterType="search"	resultMap="operatorRewardSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT prod_no , prod_name , prod_detail, price, reg_date
@@ -78,7 +74,7 @@
 		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getOperatorRewardTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT prod_no , prod_name , prod_detail
 						FROM product

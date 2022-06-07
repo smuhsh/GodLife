@@ -6,47 +6,44 @@
 
 <mapper namespace="OperatorJoinEventMapper">
  	
- 	
 	<resultMap id="operatorJoinEventSelectMap" type="operatorJoinEvent">
+		<!-- joinEvent -->
 		<result property="joinEventNo" 	column="join_event_no" 	jdbcType="INTEGER"/>
 		<result property="userEmail"	column="user_email" 	jdbcType="VARCHAR" />
-		<result property="rewardNo" 	column="reward_no" 		jdbcType="INTEGER" />
+		<result property="rewardNo" 	column="reward_no" 		jdbcType="VARCHAR" />
 		<result property="regDate" 		column="reg_date" 		jdbcType="DATE" />
+		<!-- reward -->
+		<result property="rewardNo" 	column="reward_no" 		jdbcType="INTEGER"/>
+		<result property="eventNo"		column="event_no" 		jdbcType="INTEGER" />
+		<result property="reward" 		column="reward" 		jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
 	<insert 	id="addOperatorJoinEvent"		parameterType="operatorJoinEvent" >
 	 	INSERT
 		INTO join_event( join_event_no , user_email , reward_no , reg_date) 
-		VALUES	 (	seq_events_event_no.NEXTVAL, #{userEmail:VARCHAR} , #{rewardNo:INTEGER} , SYSDATE )
+		VALUES	 (	seq_join_event_join_event_no.NEXTVAL, #{userEmail:VARCHAR} , #{rewardNo:INTEGER} , SYSDATE )
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getOperatorJoinEvents"	parameterType="int" resultMap="operatorJoinEventSelectMap">
+	 <select 	id="getOperatorJoinEvent"	parameterType="String" resultMap="operatorJoinEventSelectMap">
 		SELECT
-		join_event_no , user_email , reward_no , reg_date
-		FROM join_event 
-		WHERE join_event_no = #{joinEventNo}
+			j.join_event_no , j.user_email , r.event_no , r.reward , j.reg_date
+		FROM join_event j, reward r
+		WHERE j.reward_no = r.reward_no
+			AND j.user_email = #{userEmail}
+		GROUP BY j.join_event_no, j.user_email, r.event_no, r.reward, j.reg_date
+		ORDER BY j.join_event_no
 	 </select>
 	 
+	 <!-- NOT 	USING -->
 	 <!-- SQL : UPDATE -->
-	 <update	id="updateOperatorJoinEvent"	parameterType="operatorJoinEvent" >
-	   	UPDATE join_event
-	   	<set>
-	   		join_event_no 	= 	#{rewardNo} 
-	   	</set>
-		WHERE event_no = #{joinEventNo}
-	 </update>
-
 	 <!-- SQL : DELETE -->
-	 <delete	id="deleteOperatorJoinEvent"	parameterType="operatorJoinEvent" >
-	   	DELETE join_event
-		WHERE join_event_no = #{joinEventNo}
-	 </delete>
-		 
+	 
 	<!-- SQL : SELECT LIST -->
 	<select  id="getOperatorJoinEventList"  parameterType="search"	resultMap="operatorJoinEventSelectMap">
-	  	SELECT *
+		SELECT
+			j.join_event_no , j.user_email , r.event_no , r.reward , j.reg_date
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT join_event_no , user_email , reward_no, reg_date
 											FROM join_event
@@ -61,18 +58,12 @@
 												</where>
 											</if>
 											ORDER BY join_event_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
+						WHERE ROWNUM &lt;= #{endRowNum} ),join_event j, reward r
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+			AND  j.reward_no = r.reward_no
+			GROUP BY j.join_event_no, j.user_email, r.event_no, r.reward, j.reg_date
+			ORDER BY j.join_event_no
 	 </select>
-	 	<!--  위 두번째 subQuery 의  
-	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
-	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
-	 			< 는 keyword 로 &lt; 를	사용.
-	 			
-	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
-	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
-				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
-		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getOperatorJoinEventTotalCount"  parameterType="search"	 resultType="int">
