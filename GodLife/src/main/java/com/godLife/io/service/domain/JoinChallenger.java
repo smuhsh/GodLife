@@ -8,6 +8,7 @@ public class JoinChallenger {
 	private int challengeReward;
 	private String ChallengeRewardFlag;
 	private String joinNick;
+	private String status;
 	public int getJoinChallengeNo() {
 		return joinChallengeNo;
 	}
@@ -50,12 +51,22 @@ public class JoinChallenger {
 	public void setJoinNick(String joinNick) {
 		this.joinNick = joinNick;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	@Override
 	public String toString() {
 		return "JoinChallenger [joinChallengeNo=" + joinChallengeNo + ", email=" + email + ", challengeNo="
 				+ challengeNo + ", challengePercent=" + challengePercent + ", challengeReward=" + challengeReward
-				+ ", ChallengeRewardFlag=" + ChallengeRewardFlag + ", joinNick=" + joinNick + "]";
+				+ ", ChallengeRewardFlag=" + ChallengeRewardFlag + ", joinNick=" + joinNick + ", status=" + status
+				+ "]";
 	}
+	
+	
 	
 	
 	

@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.godLife.io.service.challenge.ChallengeDao;
+import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
+import com.godLife.io.service.domain.JoinChallenger;
 import com.godLife.io.service.domain.User;
 
 @Repository("challengeDaoImpl")
@@ -21,7 +23,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 	private SqlSession sqlSession;
 
 	@Override
-	public void addChallenge(Challenge challenge) {
+	public void addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
 		
 		sqlSession.insert("ChallengeMapper.insertChallenge",challenge);
 		
@@ -35,10 +37,13 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		map.put("certiCycle", challenge.getCertiCycle()); //list타입
 		map.put("certiDate", challenge.getCertiDate()); //list타입
 		
+		joinChallenger.setChallengeNo(challenge.getChallengeNo());
+		// hostEamil / challengeNo / status = "0"
+		
 		sqlSession.insert("ChallengeMapper.insertCertiDay",map);
 		sqlSession.insert("ChallengeMapper.insertCertiDate",map);
 		
-		sqlSession.insert("ChallengeMapper.insertJoinChallenger",challenge);
+		sqlSession.insert("ChallengeMapper.insertJoinChallenger",joinChallenger);
 		
 		
 	}
@@ -53,6 +58,26 @@ public class ChallengeDaoImpl implements ChallengeDao {
 			if(challengeListOpt.equals("total")) {
 				//전체 목록 조회 challengeListOpt = total;
 				System.out.println("로그인");
+				List<String> black = new ArrayList<String>();
+				
+				List<String> targetEmail = sqlSession.selectList("ChallengeMapper.getFbTarget",map);
+				List<String> userEmail = sqlSession.selectList("ChallengeMapper.getFbUser",map);
+				
+				if(targetEmail != null) {
+					for(int i=0; i<targetEmail.size(); i++) {
+						black.add(targetEmail.get(i));
+					}
+				}
+				if(userEmail != null) {
+					for(int i=0; i<userEmail.size(); i++) {
+						black.add(userEmail.get(i));
+					}
+				}
+				
+				System.out.println("black : "+black);
+				
+				map.put("black", black);
+				
 				List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeListLogin",map);
 				
 				int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeListLoginTotal",map);
@@ -151,5 +176,92 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		
 		return challenge;
 	}
+
+	@Override
+	public Map<String,Object> deleteChallenge(int challengeNo) {
+		
+		JoinChallenger joinChallenger = new JoinChallenger();
+		joinChallenger.setChallengeNo(challengeNo);
+		
+		List<String> challengeJoinList = 
+				sqlSession.selectList("ChallengeMapper.getChallengeJoinList",challengeNo);
+				//챌린지 참여자 명단 조회 -> 포인트 환불 용도
+		int challengeJoinPoint = sqlSession.selectOne("ChallengeMapper.selectChallengeJoinPoint",joinChallenger);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		//참여자 명단 및 환불 포인트
+		map.put("challengeJoinList", challengeJoinList);
+		map.put("challengeJoinPoint", challengeJoinPoint);
+		map.put("challengeNo",challengeNo);
+		
+		sqlSession.delete("ChallengeMapper.deleteCertiCycle",challengeNo);//인증주기 삭제
+		sqlSession.delete("ChallengeMapper.deleteCertiImg",map);
+		sqlSession.delete("ChallengeMapper.deleteChallengeJoin",joinChallenger);//참여자 목록 삭제
+		//동적 쿼리로 사용하기위해 이 부분만 파라메터를 JoinChallenger로 처리
+		//챌린지 나가기에 같이 사용 (필요정보 : 참여자 이메일 / challengeNo)
+		
+	
+		sqlSession.delete("ChallengeMapper.deleteChallenge",challengeNo);
+		
+		return map;
+	}
+
+	@Override
+	public void addChallengeJoin(JoinChallenger joinChallenger) {
+		
+		sqlSession.insert("ChallengeMapper.insertJoinChallenger",joinChallenger);
+		
+	}
+
+	@Override
+	public int deleteChallengeJoin(JoinChallenger joinChallenger) {
+		// 챌린지 나가기일시
+		int challengeJoinPoint = 0;
+		if(joinChallenger.getStatus().equals("0")) {
+		challengeJoinPoint = 
+				sqlSession.selectOne("ChallengeMapper.selectChallengeJoinPoint",joinChallenger);
+			sqlSession.delete("ChallengeMapper.deleteChallengeJoin",joinChallenger);
+		}else {
+			sqlSession.delete("ChallengeMapper.deleteChallengeJoin",joinChallenger);
+		}
+		
+		return challengeJoinPoint;
+	}
+
+	@Override
+	public void addChallengeCertiImg(CertiImg certiImg) {
+		//인증이미지 업로드
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("challengeNo", certiImg.getChallengeNo());
+//		Challenge challenge = sqlSession.selectOne("ChallengeMapper.getChallenge",map);
+		
+		sqlSession.insert("ChallengeMapper.insertCertiImg",certiImg);
+		
+		map.put("certiImg", certiImg);
+		//챌린지 참여자의 인증횟수 업데이트. map 사용
+		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);
+		int certiCount = sqlSession.selectOne("ChallengeMapper.selectCertiCount",certiImg);
+		int totalCertiCount = sqlSession.selectOne("ChallengeMapper.selectTotalCertiCount",certiImg);
+		System.out.println("인증횟수 : "+certiCount);
+		System.out.println("챌린지 총 인증횟수 : "+totalCertiCount);
+		double percent = (double)certiCount / totalCertiCount * 100;
+		System.out.println("math쓰기전 : "+percent);
+		percent = Math.round((percent*100)/100.0);
+		System.out.println("달성률 : "+percent);
+		map.put("percent", percent);
+		
+		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);
+	}
+
+	@Override
+	public List<CertiImg> getChallengeJoinCertiImg(Map<String, Object> map) {
+		List<CertiImg> list = 
+				sqlSession.selectList("ChallengeMapper.getChallengeJoinCertiImg",map);
+		return list;
+	}
+
+	
 	
 }

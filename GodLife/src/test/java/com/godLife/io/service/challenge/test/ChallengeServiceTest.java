@@ -18,7 +18,9 @@ import com.godLife.io.common.CertiCycle;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.challenge.ChallengeService;
+import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
+import com.godLife.io.service.domain.JoinChallenger;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.user.UserService;
 
@@ -60,21 +62,25 @@ public class ChallengeServiceTest {
 	//@Test
 	public void addChallenge() throws Exception {
 		Challenge challenge = new Challenge();
-		
+		//데이터 넣을때 닉네임 같이 넣자.
 		
 		
 		List<String> certiCycle = new ArrayList<String>();
 		certiCycle.add("1");//일
-		certiCycle.add("5");//목
-		certiCycle.add("6");//금
+		//certiCycle.add("2");//월
+		//certiCycle.add("3");//화
+		//certiCycle.add("4");//수
+		//certiCycle.add("5");//목
+		//certiCycle.add("6");//금
+		//certiCycle.add("7");//토
 		
-		challenge.setHostEmail("user02@io.com");//HostEmail
-		challenge.setChallengeTitle("user02 2번전체 공개"); // 챌린지 제목
-		challenge.setChallengeThumbnailImg("2번전체공개.jpg");//썸네일 이미지
-		challenge.setChallengeDetail("전체공개 챌린지입니다.");// 소개
-		challenge.setChallengeRule("채크 챌린지."); // 규칙
-		challenge.setChallengeCateNo(1); // 관심사 번호 1:운동
-		challenge.setStartDate("2022-06-01"); // 시작 날짜
+		challenge.setHostEmail("chilee4650@naver.com");//HostEmail
+		challenge.setChallengeTitle("블랙 테스트 챌린지"); // 챌린지 제목
+		challenge.setChallengeThumbnailImg("챌린지.jpg");//썸네일 이미지
+		challenge.setChallengeDetail("테스트 챌린지입니다.");// 소개
+		challenge.setChallengeRule("삭제 챌린지."); // 규칙
+		challenge.setChallengeCateNo(4); // 관심사 번호 1:운동
+		challenge.setStartDate("2022-06-07"); // 시작 날짜
 		challenge.setEndDate("2022-06-18"); // 종료 날짜
 		challenge.setCertiCycle(certiCycle); // 인증주기
 		challenge.setOpenRange("0");//0이면 전체 1이면 친구
@@ -89,12 +95,17 @@ public class ChallengeServiceTest {
 			System.out.println("인증 날짜 : "+challenge.getCertiDate().get(i)); //인증 날짜
 		}
 		
+		JoinChallenger joinChallenger = new JoinChallenger();
+		joinChallenger.setEmail(challenge.getHostEmail());
+		joinChallenger.setStatus("0");
 		
-		challengeService.addChallenge(challenge);
+		
+		
+		challengeService.addChallenge(challenge,joinChallenger);
 		
 	}
 	
-	//@Test
+	@Test
 	public void getChallengeList() { //전체 목록 조회
 		Search search = new Search();
 		
@@ -104,7 +115,7 @@ public class ChallengeServiceTest {
 		search.setPageSize(pageSize);
 		
 		//search.setOrderCondition(2); // 1 운동
-		search.setSearchCondition("2");//1 신규 2 인기
+		//search.setSearchCondition("2");//1 신규 2 인기
 		//search.setSearchKeyword("챌");
 		
 		System.out.println(search.getStartRowNum()+"  "+search.getEndRowNum());
@@ -119,9 +130,9 @@ public class ChallengeServiceTest {
 		//////////////////////////////////////////////
 		
 		//ChallengeList 옵션
-		//String challengeListOpt = "total"; // 전체목록 조회 defalut = total // 비로그인은 total 고정
+		String challengeListOpt = "total"; // 전체목록 조회 defalut = total // 비로그인은 total 고정
 		//String challengeListOpt = "pick"; //찜목록
-		String challengeListOpt = "add"; // 등록 목록
+		//String challengeListOpt = "add"; // 등록 목록
 		//String challengeListOpt = "join"; // 참여 목록
 
 		
@@ -147,14 +158,14 @@ public class ChallengeServiceTest {
 	
 	//@Test
 	public void getChallenge() throws Exception{
-		int challengeNo = 10007; // hostEmail : chilee4650@naver.com
+		int challengeNo = 10010; // hostEmail : chilee4650@naver.com
 		
 		//회원조회
-//		User user = new User();
-//		user.setUserEmail("user01@io.com"); //
+		User user = new User();
+		user.setUserEmail("chilee4650@naver.com"); //
 		
 		//비회원 조회
-		User user = null;
+//		User user = null;
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -195,11 +206,106 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void deleteChallenge() {
-		int challengeNo = 10012;
+		//10007 ~ 10011
+		
+		int challengerNo = 10006;
+		
+		Map<String,Object> map = challengeService.deleteChallenge(challengerNo);
+		
+		List<String> challengeJoinList = (List)map.get("challengeJoinList");
+		
+		
+		//환불 금액
+		System.out.println("환불 금액");
+		System.out.println(map.get("challengeJoinPoint"));
+		
+		System.out.println("삭제 된 챌린지에 참여했었던 회원 명단");
+		for(String challengeJoiner : challengeJoinList) {
+			System.out.println(challengeJoiner);
+		}
 		
 	}
 	
+	
+	//@Test
+	public void addChallengeJoinAndPick() {
+		
+		int challengeNo = 10010;
+		JoinChallenger joinChallenger = new JoinChallenger(); 
+		joinChallenger.setChallengeNo(challengeNo);
+		joinChallenger.setEmail("chilee4650@naver.com");
+		joinChallenger.setStatus("0"); //0이면 참여 / 1이면 찜 
+		
+		challengeService.addChallengeJoin(joinChallenger);
+		
+		
+	}
+	
+	//@Test
+	public void deleteChallengeJoinAndPick() {
+		//챌린지 찜하기 / 참여 나가기 userEmail + challengeNo 필요
+		
+		JoinChallenger joinChallenger = new JoinChallenger();
+		
+		joinChallenger.setEmail("chilee4650@naver.com");
+		joinChallenger.setChallengeNo(10010);
+		joinChallenger.setStatus("0"); // 0 나가기 , 1 찜 삭제
+		
+		int challengeJoinPoint = challengeService.deleteChallengeJoin(joinChallenger);
+		
+		System.out.println(challengeJoinPoint);
+		
+		if(challengeJoinPoint != 0) {
+			System.out.println(challengeJoinPoint+" 포인트가 환불되었습니다.");
+		}else {
+			System.out.println("찜목록에서 제거되었습니다.");
+		}
+		
+	}
+	
+	//@Test
+	public void addChallengeCertiImg() {//파일업로드는 view에서
+		//10015
+		CertiImg certiImg = new CertiImg();
+		
+		certiImg.setChallengeNo(10018);
+		certiImg.setEmail("user05@io.com");
+		certiImg.setCertiImg("user01.io.com.jpg");
+		
+		challengeService.addChallengeCertiImg(certiImg);
+		
+		
+		
+	}
+	
+	//@Test
+	public void getChallengeJoinCertiImgList() {
+		//내가 참여중인 챌린지 인증이미지 목록조회 겸 같이 참여중인 회원의 인증이미지 목록조회
+		//검색 기능이 없음.
+		int challengeNo = 10017;
+		String email = "user01@io.com";// 내 이메일 넣으면 그게 내가 참여한 챌린지의 인증이미지.
+		//getChallengeJoinCertiImg()
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("challengeNo", challengeNo);
+		map.put("email",email);
+		
+		List<CertiImg> certiImgs = challengeService.getChallengeJoinCertiImg(map);
+		
+		System.out.println("내가 참여중인(참여중인 회원) 챌린지 인증이미지 목록 ");
+		for(CertiImg certiImg : certiImgs) {
+			System.out.println(certiImg);
+		}
+		
+	}
+	
+	
+	//@Test
+	public void getChallengeCertiImgList() {
+		
+		
+		
+	}
 	
 }	

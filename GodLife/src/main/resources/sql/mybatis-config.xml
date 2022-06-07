@@ -27,9 +27,11 @@
 		<typeAlias alias="operatorReward" type="com.godLife.io.service.domain.OperatorReward" />
 		<typeAlias alias="product" type="com.godLife.io.service.domain.Product" />
 		<typeAlias alias="badge" type="com.godLife.io.service.domain.Badge" />
-		<typeAlias alias="myBadge" type="com.godLife.io.service.domain.MyBadge" />
-		<typeAlias alias="categ" type="com.godLife.io.service.domain.Categ" />
+		<typeAlias alias="joinChallenger" type="com.godLife.io.service.domain.JoinChallenger" />
+		<typeAlias alias="certiImg" type="com.godLife.io.service.domain.CertiImg" />
 	</typeAliases>
+	
+	
 	
 	 <!-- SQL Definition :: file include -->
 	<mappers>
@@ -43,9 +45,8 @@
 		<mapper resource="sql/OperatorNoticeFaqsMapper.xml"/>
 		<mapper resource="sql/OperatorRewardMapper.xml"/>
 		<mapper resource="sql/ProductMapper.xml"/>
-		<mapper resource="sql/BadgeMapper.xml"/>
-		<!-- <mapper resource="sql/MyBadgeMapper.xml"/> -->
-		<mapper resource="sql/CategMapper.xml"/>	
+		<!-- <mapper resource="sql/BadgeMapper.xml"/> -->
+		<!-- <mapper resource="sql/CategMapper.xml"/>	-->
 	</mappers>
 
 </configuration>
