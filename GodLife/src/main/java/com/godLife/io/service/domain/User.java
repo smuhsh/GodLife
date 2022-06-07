@@ -192,6 +192,16 @@ public class User {
 	}
 
 
+	@Override
+	public String toString() {
+		return "User [userEmail=" + userEmail + ", pwd=" + pwd + ", role=" + role + ", nick=" + nick + ", regDate="
+				+ regDate + ", categNo=" + categNo + ", profileImg=" + profileImg + ", intro=" + intro + ", phone="
+				+ phone + ", redCardCount=" + redCardCount + ", accountStatus=" + accountStatus + ", reportCount="
+				+ reportCount + ", totalPoint=" + totalPoint + ", categName=" + categName + ", redCouponCount="
+				+ redCouponCount + ", certiCouponCount=" + certiCouponCount + "]";
+	}
+
+
 	
 	
 	

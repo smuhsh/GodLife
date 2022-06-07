@@ -52,15 +52,15 @@ public class OperatorServiceImpl implements OperatorService{
 	}
 
 	//Method get
-	public OperatorEvents getOperatoreEvents(int eventNo) throws Exception {
+	public OperatorEvents getOperatorEvents(int eventNo) throws Exception {
 		return operatorDao.getOperatorEvents(eventNo);
 	}
 	
-	public OperatorJoinEvent getOperatoreJoinEvent(int joinEventNo) throws Exception {
+	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
 		return operatorDao.getOperatorJoinEvent(joinEventNo);
 	}
 	
-	public OperatorReward getOperatoreReward(int rewardNo) throws Exception {
+	public OperatorReward getOperatorReward(int rewardNo) throws Exception {
 		return operatorDao.getOperatorReward(rewardNo);
 	}
 	

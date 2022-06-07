@@ -10,10 +10,10 @@ public class Search {
 	private int orderCondition;
 	private String searchKeyword;
 	private int pageSize;
-	//==> ����Ʈȭ�� currentPage�� �ش��ϴ� ȸ�������� ROWNUM ��� SELECT ���� �߰��� Field 
-	//==> UserMapper.xml �� 
+
+	//==> UserMapper.xml  
 	//==> <select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
-	//==> ����
+
 	private int endRowNum;
 	private int startRowNum;
 	
