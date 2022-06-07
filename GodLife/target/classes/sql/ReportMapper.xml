@@ -61,36 +61,4 @@
 	 </select>
 	 
 	 
-	 <!-- SQL : 레드카드 발급, 제거 미완성 -->
-	 <update	id="updateRedCard"	parameterType="report" >
-	   	UPDATE users u, reports r 
-	   	<set>
-	   	recard_count = #{redcardCount}
-	   	</set>
-	   	WHERE u.user_email = r.reporter_email
-	 </update>
-	 
-
-	 
-	 
-
-	 	 
-	 	 
-	 
-	 
-	 
-	 
-
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
 </mapper>
