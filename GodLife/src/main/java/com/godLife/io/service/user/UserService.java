@@ -4,24 +4,47 @@ import java.util.Map;
 
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
+import com.godLife.io.service.domain.OneInq;
+import com.godLife.io.service.domain.Report;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.common.Search;
 
 //==> 회원관리에서 서비스할 내용 추상화/캡슐화한 Service  Interface Definition 
 public interface UserService {
+	
+	
+	public String getAccessToken (String authorize_code);
+	
 
-	// 회원가입
+	// 회원가입 *
 	public void addUser(User user) throws Exception;
 	
-	// 본인정보확인 
+	// 로그인 *
+	public User login(String userEmail)throws Exception;
+	
+	// 본인정보확인 *
 	public User getUser(String userEmail) throws Exception;
 	
 	// 비밀번호 수정 
 	public void updatePwd(User user) throws Exception;
 	
-	// 본인정보 수정 
+	// 본인정보 수정 *
 	public void updateUser(User user) throws Exception;
 	
+	//유저 전체 목록조회 *
+	public Map<String , Object> getUserList(Search search) throws Exception;
+	
+	
+	// 핸드폰번호로 아이디, 비번찾기  *
+	public User findUserPhone(String phone) throws Exception;
+	
+	// 이메일로 비번찾기  *
+	public User findUserEmail(String userEmail)throws Exception;
+	
+		
+    // 유저상세조회 > 쿼리 아직 완성 x
+	
+		
 	// 친구, 블랙리스트 목록 리스트 
 	public Map<String , Object> getFriendBlackList(Search search, String userEmail) throws Exception;
 	
@@ -43,14 +66,35 @@ public interface UserService {
 	//쪽지 보내기 
 	public void addMsg(Msg msg)throws Exception;
 	
-	// 받은 쪽지 상세조회
-	public Msg getRecvMsg(String recvEmail) throws Exception ;
-	
-	// 보낸 쪽지 상세조회
-	public Msg getSendMsg(String sendEmail) throws Exception ;
-	
+    // 받은 쪽지 상세조회(다시확인)
+	public Msg getRecvMsg(int msgNo) throws Exception ;
+		
+	// 보낸 쪽지 상세조회(다시확인)
+	public Msg getSendMsg(int msgNo) throws Exception ;
+		
 	// 받은, 보낸 쪽지 삭제 
     public void deleteMsg(Msg msg) throws Exception ;
+    
+    // 일대일 문의 등록 
+    public void addOneInq(OneInq oneInq) throws Exception ;
+    
+    // 일대일 문의 목록조회 (회원, 관리자) 
+    public Map<String, Object> getOneInqList(Search search, String userEmail) throws Exception ;
+    
+    // 일대일 문의 상세조회 
+    public OneInq getOneInq(int oneInqNo) throws Exception ;
+    
+    // 일대일 문의 삭제 
+    public void deleteOneInq(OneInq oneInq) throws Exception ;
+    
+    // 일대일 문의 수정(회원) 
+    public void updateOneInq(OneInq oneInq) throws Exception ;
+    
+    //일대일 문의 답변 작성(관리자) 
+    public void updateOneInqComment(OneInq oneInq) throws Exception ;
+    
+    // 신고 등록 
+    public void addReport(Report report) throws Exception ;
 	
 		
 		
