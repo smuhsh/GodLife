@@ -10,5 +10,5 @@ public interface ChallengeDao {
 	
 	public Map<String, Object> getChallengeList(Map<String, Object> map);
 	
-	public Challenge getChallenge(User user, int challengeNo);
+	public Challenge getChallenge(Map map);
 }

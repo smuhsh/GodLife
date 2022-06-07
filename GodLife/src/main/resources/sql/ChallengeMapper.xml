@@ -75,6 +75,9 @@
 	 <!-- ////////// insert //////////// -->
 	 
 	 
+	 
+	 
+	 
 	 <!-- ////////// select //////////// -->
 	 <select id="getChallengeListLogin" parameterType="java.util.Map" resultMap="ChallengeSelectMap" >
 				SELECT
@@ -294,34 +297,77 @@
 	 <select id="getChallengeList" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
 	 
 	 		SELECT
-			*
+			c.*
 			FROM
-			challenges
-			<where>
-				status = '0'
-				AND open_range = '0'
-				<if test="search.searchKeyword != null and search.searchKeyword != ''">
-				  	AND title LIKE '%'||#{search.searchKeyword}||'%'
-				</if>
-				<if test="search.orderCondition != 0">
-					AND categ_no = #{search.orderCondition}
-				</if>
-			</where>
+			<if test="challengeListOpt == 'total' or challengeListOpt == 'add'">
+				challenges c
+				<where>
+					<if test="challengeListOpt == 'total'">
+						status = '0'
+						AND open_range = '0'
+					</if>
+					<if test="challengeListOpt == 'add'">
+						AND c.host_email = #{user.userEmail}
+					</if>
+					<if test="search.searchKeyword != null and search.searchKeyword != ''">
+					  	AND c.title LIKE '%'||#{search.searchKeyword}||'%'
+					</if>
+					<if test="search.orderCondition != 0">
+						AND c.categ_no = #{search.orderCondition}
+					</if>
+				</where>
+			</if>
+			<if test="challengeListOpt == 'pick' or challengeListOpt == 'join'">
+				challenges c, join_challenger jc
+				<where>
+					c.challenge_no = jc.challenge_no
+					AND jc.user_email = #{user.userEmail}
+					<if test="challengeListOpt == 'join'">
+						AND jc.status = '0'
+					</if>
+					<if test="challengeListOpt == 'pick'">
+						AND jc.status = '1'
+					</if>
+					<if test="search.searchKeyword != null and search.searchKeyword != ''">
+					  	AND c.title LIKE '%'||#{search.searchKeyword}||'%'
+					</if>
+					<if test="search.orderCondition != 0">
+						AND c.categ_no = #{search.orderCondition}
+					</if>
+				</where>
+			</if>
 			<if test="search.searchCondition != null">
 				<if test="search.searchCondition == 1">
-					ORDER BY reg_date DESC
+					ORDER BY c.reg_date DESC
 				</if>
 				<if test="search.searchCondition == 2">
-					ORDER BY join_count DESC
+					ORDER BY c.join_count DESC
 				</if>
 			</if>
 			<if test="search.searchCondition == null">
-				ORDER BY challenge_no
+				ORDER BY c.challenge_no
 			</if>
-	
 	 		
 	 		
 	 </select>
+	 
+	 
+	 
+	 
+	 <select id="getChallenge" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
+	 
+		 	SELECT
+			*
+			FROM
+			challenges
+			WHERE challenge_no = #{challengeNo}
+				 
+	 </select>
+	 
+	 
+	 
+	 
+	 
 	 
 	 <!-- ////////// select //////////// -->
 	 
@@ -363,6 +409,40 @@
 	
 	<!-- ////////// insert //////////// -->
 	
+	
+	
+	
+	
+	<!-- ////////// select //////////// -->
+	<select id="getCertiDay" parameterType="java.util.Map" resultType="string">
+		SELECT
+		certi_day
+		FROM
+		certi_cycle
+		WHERE challenge_no = #{challengeNo}
+		AND status = '0'
+	</select>
+	
+	
+	<select id="getCertiDate" parameterType="java.util.Map" resultType="string">
+		SELECT
+		certi_date
+		FROM
+		certi_cycle
+		WHERE challenge_no = #{challengeNo}
+		AND status = '1'
+        ORDER BY certi_date
+	</select>
+	
+	<!-- ////////// select //////////// -->
+	
+	
+	
+	
+	
+	
+	
+	
 	<!--/////////////////////// CertiCycle ////////////////////// -->
 	 	
 	 	
@@ -397,6 +477,17 @@
  	</insert>
  	<!-- ////////// insert //////////// -->
  	
+ 	
+ 	<!-- ////////// select //////////// -->
+ 	<select id="getJoiner" parameterType="java.util.Map" resultType="int">
+ 		SELECT
+		COUNT(*)
+		FROM
+		join_challenger
+		WHERE user_email = #{user.userEmail}
+		AND challenge_no = #{challengeNo}
+ 	</select>
+ 	<!-- ////////// select //////////// -->
  	
  	<!--/////////////////////// JoinChallenger ////////////////////// -->
 	 	

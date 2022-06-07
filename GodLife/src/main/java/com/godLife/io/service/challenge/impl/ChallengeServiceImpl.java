@@ -37,8 +37,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 
 	@Override
-	public Challenge getChallenge(User user, int challengeNo) {
-		return challengeDao.getChallenge(user, challengeNo);
+	public Challenge getChallenge(Map map) {
+		return challengeDao.getChallenge(map);
 	}
 
 }
