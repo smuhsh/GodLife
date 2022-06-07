@@ -4,7 +4,7 @@ public class OperatorReward {
 	
 	private int rewardNo;
 	private int eventNo;
-	private char reward;
+	private String reward;
 	
 	//Constructor
 	public OperatorReward() {
@@ -28,11 +28,11 @@ public class OperatorReward {
 		this.eventNo = eventNo;
 	}
 
-	public char getReward() {
+	public String getReward() {
 		return reward;
 	}
 
-	public void setReward(char reward) {
+	public void setReward(String reward) {
 		this.reward = reward;
 	}
 
@@ -41,7 +41,7 @@ public class OperatorReward {
 		return "OperatorReward [rewardNo=" + rewardNo + ", eventNo=" + eventNo + ", reward=" + reward + "]";
 	}
 
-	public OperatorReward(int rewardNo, int eventNo, char reward) {
+	public OperatorReward(int rewardNo, int eventNo, String reward) {
 		super();
 		this.rewardNo = rewardNo;
 		this.eventNo = eventNo;
