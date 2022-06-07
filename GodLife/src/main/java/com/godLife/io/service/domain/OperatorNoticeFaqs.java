@@ -6,16 +6,16 @@ public class OperatorNoticeFaqs {
 	
 	private Integer noticeFaqNo;
 	private String userEmail;
-	private char status;
-	private char noticeMust;
+	private String status;
+	private String noticeMust;
 	private String title;
 	private String detail;
 	private String img;
-	private char faqTag;
+	private String faqTag;
 	private Date regDate;
 	
 	//Constructor
-	public void OperatorNotice() {
+	public OperatorNoticeFaqs() {
 		
 	}
 	
@@ -36,19 +36,19 @@ public class OperatorNoticeFaqs {
 		this.userEmail = userEmail;
 	}
 
-	public char getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(char status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public char getNoticeMust() {
+	public String getNoticeMust() {
 		return noticeMust;
 	}
 
-	public void setNoticeMust(char noticeMust) {
+	public void setNoticeMust(String noticeMust) {
 		this.noticeMust = noticeMust;
 	}
 
@@ -76,11 +76,11 @@ public class OperatorNoticeFaqs {
 		this.img = img;
 	}
 
-	public char getFaqTag() {
+	public String getFaqTag() {
 		return faqTag;
 	}
 
-	public void setFaqTag(char faqTag) {
+	public void setFaqTag(String faqTag) {
 		this.faqTag = faqTag;
 	}
 
@@ -99,8 +99,8 @@ public class OperatorNoticeFaqs {
 				+ ", faqTag=" + faqTag + ", regDate=" + regDate + "]";
 	}
 
-	public OperatorNoticeFaqs(Integer noticeFaqNo, String userEmail, char status, char noticeMust, String title, String detail,
-			String img, char faqTag, Date regDate) {
+	public OperatorNoticeFaqs(Integer noticeFaqNo, String userEmail, String status, String noticeMust, String title, String detail,
+			String img, String faqTag, Date regDate) {
 		super();
 		this.noticeFaqNo = noticeFaqNo;
 		this.userEmail = userEmail;
