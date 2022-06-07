@@ -51,6 +51,12 @@ public interface UserService {
 	
 	// 받은, 보낸 쪽지 삭제 
     public void deleteMsg(Msg msg) throws Exception ;
+    
+    public void updateUserTotalPoint(User user) throws Exception;
+    
+    public void updateUserRedCouponCount(User user) throws Exception;
+    
+    public void updateUserCertiCouponCount(User user) throws Exception;
 	
 		
 		

@@ -120,7 +120,7 @@
 	  <!-- 병문 오빠 추가 -->
 	  <update id="updateUserTotalPoint" parameterType="user" >
 	 	UPDATE USERS
-	 	SET total_point = #{totalPoint}
+	 	SET total_point = #{sumTotalPoint}
 	 		<where>
 				user_email=#{userEmail}
 			</where>
