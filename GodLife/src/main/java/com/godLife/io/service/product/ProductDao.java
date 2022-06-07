@@ -7,22 +7,22 @@ import com.godLife.io.service.domain.Product;
 
 
 //==> 회원관리에서 CRUD 추상화/캡슐화한 DAO Interface Definition
-public interface ProductDao {
+	public interface ProductDao {
+		
+	///////////////////////////////////////////////////////////////
 	
-///////////////////////////////////////////////////////////////
-
-public void addProduct(Product product) throws Exception ;
-
-public Product getProduct(int productNo) throws Exception ;
-
-public List<Product> getProductList(Search search) throws Exception ;
-
-public void updateProduct(Product product) throws Exception ;
-
-public void deleteProduct(int productNo) throws Exception ;
-
-// 게시판 Page 처리를 위한 전체Row(totalCount)  return (기존 Data)
-public int getTotalCount(Search search) throws Exception ;
+	public void addProduct(Product product) throws Exception ;
+	
+	public Product getProduct(int productNo) throws Exception ;
+	
+	public List<Product> getProductList(Search search) throws Exception ;
+	
+	public void updateProduct(Product product) throws Exception ;
+	
+	public void deleteProduct(Product productNo) throws Exception ;
+	
+	// 게시판 Page 처리를 위한 전체Row(totalCount)  return (기존 Data)
+	public int getTotalCount(Search search) throws Exception ;
 
 //// 신규 쿠폰 상품 등록 UI 요청 
 //public void addProductCouponView(Product product) throws Exception ;	

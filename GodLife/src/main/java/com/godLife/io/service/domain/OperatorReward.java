@@ -7,7 +7,7 @@ public class OperatorReward {
 	private char reward;
 	
 	//Constructor
-	public void OperatorReward() {
+	public OperatorReward() {
 		
 	}
 	

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ReportMapper">
+ 	
+ 	
+	<resultMap id="reportSelectMap" type="report">
+		<result property="reportNo" 			column="report_no" 			jdbcType="INTEGER"/>
+		<result property="reporterEmail"	column="reporter_email" 		jdbcType="VARCHAR" />
+		<result property="targetEmail" 	column="target_email" 		jdbcType="VARCHAR" />
+		<result property="reason" 				column="reason" 					jdbcType="CHAR" />
+		<result property="regDate" 				column="reg_date" 					jdbcType="DATE" />
+		<result property="reportPlace" 			column="report_place" 		jdbcType="CHAR" />
+		<result property="certiImgNo" 				column="certi_img_no" 					jdbcType="INTEGER" />
+		<result property="commentNo" 			column="comment_no" 				jdbcType="INTEGER"  />
+		<result property="msgNo" 		column="msg_no" 			jdbcType="INTEGER" />
+	</resultMap>
+	
+	 
+	 <!-- SQL : 신고 등록-->
+	<insert 	id="addReport"		parameterType="report" >
+	 	INSERT
+	 	INTO reports
+	 	VALUES ( SEQ_REPORTS_REPORT_NO.NEXTVAL, #{reporterEmail : VARCHAR}, #{targetEmail : VARCHAR}, 
+	 					#{reason : CHAR}, SYSDATE, #{certiImgNo : INTEGER}, #{commentNo : INTEGER}, #{msgNo : INTEGER})
+	 </insert>
+	 
+	 <!-- SQL : 신고유저 목록조회(관리자)-->
+	 
+	 <select  id="getReportList"  parameterType="map"	resultMap="reportSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	select u.user_email, u.nick, u.reg_date, a.ra
+											from users u,( select u.user_email as b, count(*) as ra from reports r , users u 
+											where r.target_email = u.user_email 
+											group by u.user_email ) a
+											where u.user_email = a.b
+	  										
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				u.user_email = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				u.nick = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				u.reg_date = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY a.ra ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 
+	 <!-- SQL : 레드카드 발급, 제거 미완성 -->
+	 <update	id="updateRedCard"	parameterType="report" >
+	   	UPDATE users u, reports r 
+	   	<set>
+	   	recard_count = #{redcardCount}
+	   	</set>
+	   	WHERE u.user_email = r.reporter_email
+	 </update>
+	 
+
+	 
+	 
+
+	 	 
+	 	 
+	 
+	 
+	 
+	 
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+</mapper>
