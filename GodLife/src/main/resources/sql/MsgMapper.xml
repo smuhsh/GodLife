@@ -10,7 +10,7 @@
 	<resultMap id="msgSelectMap" type="msg">
 		<result property="msgNo" 			column="msg_no" 			jdbcType="INTEGER"/>
 		<result property="sendEmail"	column="send_email" 		jdbcType="VARCHAR" />
-		<result property="nick"	column="nick" 		jdbcType="VARCHAR" />
+		<result property="nick"	column="nick" 		jdbcType="VARCHAR" /> <!-- 유저와 조인하기 위해 추가된 칼럼 -->
 		<result property="recvEmail" 	column="recv_email" 		jdbcType="VARCHAR" />
 		<result property="title" 				column="title" 					jdbcType="VARCHAR" />
 		<result property="detail" 				column="detail" 					jdbcType="VARCHAR" />
@@ -21,7 +21,7 @@
 	<!-- 쪽지 전송 -->
 	<insert 	id="addMsg"		parameterType="msg" >
 	 	INSERT
-		INTO msgs
+		INTO msgs(msg_no, send_email, recv_email, title, detail, reg_date)
 		VALUES	 (seq_msgs_msg_no.NEXTVAL, #{sendEmail : VARCHAR}, #{recvEmail : VARCHAR}, #{title : VARCHAR}, #{detail : VARCHAR}, SYSDATE)
 	 </insert>
 	 
@@ -47,12 +47,88 @@
 	   WHERE msg_no = #{msgNo}
 	 </delete>
 	 
+	  <!--받은 쪽지 목록조회-->
+	 <select  id="getRecvMsgList"  parameterType="map"	resultMap="msgSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   u.nick, m.title, m.reg_date
+											FROM msgs m, users u  
+											<where>
+											m.send_email = u.user_email
+											AND  m.recv_email = #{recvEmail}
+												<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+									 				AND u.nick = #{searchKeyword} 
+												</if>
+												<if test="searchCondition == 1 and searchKeyword !='' ">
+									 				AND m.title = #{searchKeyword}
+												</if>
+												</if>
+											</where>
+											ORDER BY m.reg_date ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
 	 
-	  <!-- 받은 쪽지함 목록조회 -->
+	 
+	  <!--보낸 쪽지 목록조회-->
+	 <select  id="getSendMsgList"  parameterType="map"	resultMap="msgSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   u.nick, m.title, m.reg_date
+											FROM msgs m, users u  
+											<where>
+											m.recv_email = u.user_email
+											AND  m.send_email = #{sendEmail}
+												<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+									 				AND u.nick = #{searchKeyword} 
+												</if>
+												<if test="searchCondition == 1 and searchKeyword !='' ">
+									 				AND m.title = #{searchKeyword}
+												</if>
+												</if>
+											</where>
+											ORDER BY m.reg_date ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	
+	
+	
+	<!-- SQL : SELECT ROW Count  -->
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT u.nick, m.title
+						FROM users u, msgs m 
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			AND u.nick = #{searchKeyword} 
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			AND m.title = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+	 
 	  
 	  
 	  
-	   <!-- 보낸 쪽지함 목록조회 -->
+	  
+	  
+	  
+	  
+
 	
 	 
 	 
