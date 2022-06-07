@@ -49,15 +49,15 @@ public class OperatorDaoImpl implements OperatorDao{
 	
 	///Method get
 	public OperatorEvents getOperatorEvents(int eventNo) throws Exception {
-		return sqlSession.selectOne("OperatorEventsMapper.getOperatoreEvents", eventNo);
+		return sqlSession.selectOne("OperatorEventsMapper.getOperatorEvents", eventNo);
 	}
 
 	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
-		return sqlSession.selectOne("OperatorJoinEventMapper.getOperatoreJoinEvent", joinEventNo);
+		return sqlSession.selectOne("OperatorJoinEventMapper.getOperatorJoinEvent", joinEventNo);
 	}
 	
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception {
-		return sqlSession.selectOne("OperatorRewardMapper.getOperatoreReward",rewardNo);
+		return sqlSession.selectOne("OperatorRewardMapper.getOperatorReward",rewardNo);
 	}
 	
 	public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception {
@@ -66,7 +66,8 @@ public class OperatorDaoImpl implements OperatorDao{
 	
 	///Method List
 	public List<OperatorEvents> getOperatorEventsList(Search search) throws Exception {
-		return sqlSession.selectList("OperatorNoticeFaqsMapper.getOperatorEventsList",search);
+//		return sqlSession.selectList("OperatorEventsListMapper.getOperatorEventsList",search);
+		return sqlSession.selectList("OperatorEventsMapper.getOperatorEventsList",search);
 	}
 	
 	public List<OperatorJoinEvent> getOperatorJoinEventList(Search search) throws Exception {
