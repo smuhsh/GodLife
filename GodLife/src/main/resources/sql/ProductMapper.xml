@@ -21,8 +21,8 @@
 <!-- //////////////////쿠폰 상품 등록 UI, 등록 이미지, 등록 완료, 확인 /////////////////////////////////////////////////// -->
 	<insert 	id="addProduct"		parameterType="product" >
 	 	INSERT
-		INTO product ( product_no , product_name , product_price, product_detail , product_img, status ) 
-		VALUES  ( SEQ_PRODUCT_PRODUCT_NO.NEXTVAL , #{productName:VARCHAR} , #{productPrice} , #{productDetail:VARCHAR} , #{productImg:VARCHAR} , #{status} )
+		INTO products ( product_no , product_name , product_price, product_detail , product_img, status ) 
+		VALUES  ( SEQ_PRODUCTS_PRODUCT_NO.NEXTVAL , #{productName:VARCHAR} , #{productPrice} , #{productDetail:VARCHAR} , #{productImg:VARCHAR} , #{status} )
 
 	 </insert>
 
@@ -30,8 +30,8 @@
 	 
 	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
-		product_no , product_name , product_detail ,  product_price ,  product_img		
-		FROM product 
+		product_no , product_name , product_detail ,  product_price ,  product_img , status 		
+		FROM products 
 		WHERE product_no = #{value}
 	 </select>
 
@@ -40,12 +40,13 @@
 	 <!-- SQL : UPDATE -->
 <!-- /////////////////////////////쿠폰/////////////////////////////////////////////////// -->
 	 <update	id="updateProduct"	parameterType="product" >
-	   	UPDATE product
+	   	UPDATE products
 	   	<set>
 	   		product_name 			= #{productName:VARCHAR} ,
 			product_detail			= #{productDetail:VARCHAR},
 			product_price			= #{productPrice},
-			product_img				= #{productImg:VARCHAR}
+			product_img				= #{productImg:VARCHAR},
+			status					= #{status:VARCHAR}
 	   	</set>
 	   	WHERE product_no = #{productNo}
 	 </update>
@@ -53,7 +54,7 @@
 <!-- //////////////////////////쿠폰, 상품권, 포인트 상품 삭제//////////////////////////////////////////////////////  -->
 
 	 <delete	id="deleteProduct"	parameterType="product" >
-	   	DELETE from product
+	   	DELETE from products
 	   	WHERE product_no = #{productNo}
 	 </delete>
 
@@ -65,7 +66,7 @@
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT product_no, product_name , product_price
-											FROM product
+											FROM products
 											<if test="searchCondition != null">
 												<where>
 													<if test="searchCondition == 0 and searchKeyword !='' ">
@@ -101,7 +102,7 @@
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT product_no, product_name , product_price
-						FROM product
+						FROM products
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">

@@ -9,21 +9,21 @@
 	<resultMap id="operatorNoticeFaqsSelectMap" type="operatorNoticeFaqs">
 		<result property="noticeFaqNo" 		column="notice_faq_no" 		jdbcType="INTEGER"/>
 		<result property="userEmail"		column="user_email" 		jdbcType="VARCHAR" />
-		<result property="status" 			column="status" 			jdbcType="CHAR" />
-		<result property="noticeMust" 		column="notice_must" 		jdbcType="CHAR" />
+		<result property="status" 			column="status" 			jdbcType="VARCHAR" />
+		<result property="noticeMust" 		column="notice_must" 		jdbcType="VARCHAR" />
 		<result property="title" 			column="title" 				jdbcType="VARCHAR" />
 		<result property="detail" 			column="detail" 			jdbcType="VARCHAR"  />
 		<result property="img" 				column="img" 				jdbcType="VARCHAR" />
 		<result property="regDate" 			column="reg_date" 			jdbcType="DATE" />
-		<result property="faqTag" 			column="faq_tag" 			jdbcType="CHAR" />
+		<result property="faqTag" 			column="faq_tag" 			jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
 	<insert 	id="addOperatorNoticeFaqs"		parameterType="operatorNoticeFaqs" >
 	 	INSERT
 		INTO notice_faqs( notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag) 
-		VALUES	 (	seq_product_prod_no.NEXTVAL, #{userEmail:VARCHAR} , #{status:CHAR} , #{noticeMust:CHAR} , 
-							#{title:VARCHAR} , #{detail:VARCHAR} , #{img:VARCHAR}, SYSDATE , #{faq_tag:CHAR})
+		VALUES	 (	seq_notice_faqs_notice_faq_no.NEXTVAL, #{userEmail:VARCHAR} , #{status:VARCHAR} , #{noticeMust:VARCHAR} , 
+							#{title:VARCHAR} , #{detail:VARCHAR} , #{img:VARCHAR}, SYSDATE , #{faq_tag:VARCHAR})
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->

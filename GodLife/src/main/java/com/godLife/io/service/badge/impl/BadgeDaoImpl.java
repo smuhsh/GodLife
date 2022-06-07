@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.badge.BadgeDao;
 import com.godLife.io.service.domain.Badge;
-import com.godLife.io.service.domain.MyBadge;
 
 
 
@@ -21,7 +20,6 @@ public class BadgeDaoImpl implements BadgeDao{
 	@Autowired
 	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
-
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
@@ -32,53 +30,61 @@ public class BadgeDaoImpl implements BadgeDao{
 	}
 	
 	///Method
-	public void addBadgeView(Badge badge) throws Exception {
-		sqlSession.insert("ProductMapper.addBadgeView", badge);
-	}
+	
 	public void addBadge(Badge badge) throws Exception {
-		sqlSession.insert("ProductMapper.addBadge", badge);
-	}
-	public void addBadgeConfirm(Badge badge) throws Exception {
-		sqlSession.insert("ProductMapper.addBadgeConfirm", badge);
-	}
-	public void addBadgeImg(Badge badge) throws Exception {
-		sqlSession.insert("ProductMapper.addBadgeImg", badge);
-	}
-//////////////////////////////////////////////////////////////////////////////////
-	public Badge getBadge(int badgeNo) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getBadge", badgeNo);
-	}
-	public MyBadge getBadgeMy(int myBadgeNo) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getBadgeMy", myBadgeNo);
-	}
-//////////////////////////////////////////////////////////////////////////////////
-	public List<Badge> getBadgeList(Search search) throws Exception {
-		return sqlSession.selectList("ProductMapper.getBadgeList", search);
-	}
-	public List<MyBadge> getBadgeMyList(Search search) throws Exception {
-		return sqlSession.selectList("ProductMapper.getBadgeMyList", search);
-	}
-//////////////////////////////////////////////////////////////////////////////////
-	public void updateBadgeImg(Badge badge) throws Exception {
-		sqlSession.update("ProductMapper.updateBadgeImg", badge);
-	}
-	public void updateBadge(Badge badge) throws Exception {
-		sqlSession.update("ProductMapper.updateBadge", badge);
-	}
-	public void updateBadgeConfirm(Badge badge) throws Exception {
-		sqlSession.update("ProductMapper.updateBadgeConfirm", badge);
-	}
-//////////////////////////////////////////////////////////////////////////////////
-	public void deleteBadge(int badgeNo) throws Exception {
-		sqlSession.delete("ProductMapper.deleteBadge", badgeNo);
-	}
-	public void deleteBadgeConfirm(int badgeNo) throws Exception {
-		sqlSession.delete("ProductMapper.deleteBadgeConfirm", badgeNo);
+		sqlSession.insert("BadgeMapper.addBadge", badge);
 	}
 	
-//////////////////////////////////////////////////////////////////////////////////
-	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
+	public Badge getBadge(int badgeNo) throws Exception {
+		return sqlSession.selectOne("BadgeMapper.getBadge", badgeNo);
 	}
+	
+	public List<Badge> getBadgeList(Search search) throws Exception {
+		return sqlSession.selectList("BadgeMapper.getBadgeList", search);
+	}
+	
+	public void updateBadge(Badge badge) throws Exception {
+		sqlSession.update("BadgeMapper.updateBadge", badge);
+	}
+	
+	public void deleteBadge(Badge badgeNo) throws Exception {
+		sqlSession.delete("BadgeMapper.deleteBadge", badgeNo);
+	}
+	
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("BadgeMapper.getTotalCount", search);
+	}
+	
+//	public void addBadgeView(Badge badge) throws Exception {
+//		sqlSession.insert("BadgeMapper.addBadgeView", badge);
+//	}
+//	public void addBadgeConfirm(Badge badge) throws Exception {
+//		sqlSession.insert("BadgeMapper.addBadgeConfirm", badge);
+//	}
+//	public void addBadgeImg(Badge badge) throws Exception {
+//		sqlSession.insert("BadgeMapper.addBadgeImg", badge);
+//	}
+//////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//	public void updateBadgeImg(Badge badge) throws Exception {
+//		sqlSession.update("BadgeMapper.updateBadgeImg", badge);
+//	}
+
+//	public void updateBadgeConfirm(Badge badge) throws Exception {
+//		sqlSession.update("BadgeMapper.updateBadgeConfirm", badge);
+//	}
+//////////////////////////////////////////////////////////////////////////////////
+
+//	public void deleteBadgeConfirm(int badgeNo) throws Exception {
+//		sqlSession.delete("BadgeMapper.deleteBadgeConfirm", badgeNo);
+//	}
+	
+//////////////////////////////////////////////////////////////////////////////////
+
 	
 }
