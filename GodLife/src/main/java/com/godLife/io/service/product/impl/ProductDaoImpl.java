@@ -46,7 +46,7 @@ public class ProductDaoImpl implements ProductDao{
 		sqlSession.update("ProductMapper.updateProduct", product);
 	}
 	
-	public void deleteProduct(int productNo) throws Exception {
+	public void deleteProduct(Product productNo) throws Exception {
 		sqlSession.delete("ProductMapper.deleteProduct", productNo);
 	}
 	

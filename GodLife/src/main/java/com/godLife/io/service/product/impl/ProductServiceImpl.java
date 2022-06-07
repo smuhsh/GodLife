@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService{
 		productDao.updateProduct(product);
 	}
 	
-	public void deleteProduct(int productNo) throws Exception {
+	public void deleteProduct(Product productNo) throws Exception {
 		productDao.deleteProduct(productNo);
 	}
 	
