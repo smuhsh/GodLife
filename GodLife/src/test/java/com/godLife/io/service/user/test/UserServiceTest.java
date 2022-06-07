@@ -57,7 +57,7 @@ public class UserServiceTest {
       
    }
    
-   //@Test
+   @Test
    public void testGetUser() throws Exception {
       
       User user = new User();
