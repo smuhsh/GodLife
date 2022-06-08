@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.Badge;
-import com.godLife.io.service.domain.MyBadge;
 
 //==> 회원관리에서 서비스할 내용 추상화/캡슐화한 Service  Interface Definition 
 public interface BadgeService {
