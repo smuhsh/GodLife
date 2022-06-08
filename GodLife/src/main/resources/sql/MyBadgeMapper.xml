@@ -32,12 +32,13 @@
 	
 		MERGE INTO MY_BADGE  
 			USING DUAL 
-			ON ( user_email = #{userEmail} and badge_no= #{badgeNo} )
+			ON ( user_email = #{userEmail:VARCHAR} and badge_no= #{badgeNo} )
 		WHEN MATCHED THEN 
- 			UPDATE SET act_count = act_count + 1 
-		WHEN NOT MATCHED THEN
+ 			UPDATE SET act_count = act_count + 1
+		WHEN NOT MATCHED THEN 
 			INSERT (my_badge_no, user_email , badge_no , act_count ) 
-			VALUES (seq_my_badge_my_badge_no.nextval , #{userEmail}, #{badgeNo} , #{actCount} ) ;
+			VALUES (seq_my_badge_my_badge_no.nextval , #{userEmail:VARCHAR}, #{badgeNo} , #{actCount} )
+			
 	</update>
 
 

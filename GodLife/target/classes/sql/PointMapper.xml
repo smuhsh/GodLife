@@ -15,7 +15,7 @@
 		<result property="cash" 	  	   column="CASH"         	  jdbcType="INTEGER" />
 		<result property="point" 	  	   column="Point"         	  jdbcType="INTEGER" />
 		<result property="useDetail"  	   column="USE_DETAIL"        jdbcType="CHAR" />
-		<result property="voucherUniqueNo" column="VOUCHER_UNIQUE_NO" jdbcType="VARCHAR" />
+		<result property="voucherUniqueNo" column="VOUCHER_UNIQUE_NO" jdbcType="INTEGER" />
 		<result property="donationPlace"   column="DONATION_PLACE"    jdbcType="VARCHAR" />
 		<result property="regDate" 		   column="REG_DATE" 		  jdbcType="DATE" />
 		<result property="phone"     column="PHONE"             jdbcType="VARCHAR" />
@@ -30,7 +30,7 @@
 				#{useStatus:CHAR},#{productNo:INTEGER},
 				#{payOpt:CHAR},
 				#{cash:INTEGER}, #{point:INTEGER}, #{useDetail:CHAR},
-				#{voucherUniqueNo:VARCHAR},
+				#{voucherUniqueNo},
 				SYSDATE )
 	</insert>
 	

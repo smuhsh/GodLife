@@ -1,6 +1,7 @@
 package com.godLife.io.service.product;
 
 import java.util.List;
+import java.util.Map;
 
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.Product;
@@ -14,9 +15,14 @@ import com.godLife.io.service.domain.Product;
 	public void addProduct(Product product) throws Exception ;
 	
 	public Product getProduct(int productNo) throws Exception ;
+
+///////////////////////////////////////////////////////////		
+	public List<Product> getProductCouponList(Search search) throws Exception ;
 	
-	public List<Product> getProductList(Search search) throws Exception ;
+	public List<Product> getProductVoucherList(Search search) throws Exception ;
 	
+	public List<Product> getProductPointList(Search search) throws Exception ;
+///////////////////////////////////////////////////////////		
 	public void updateProduct(Product product) throws Exception ;
 	
 	public void deleteProduct(Product productNo) throws Exception ;

@@ -62,7 +62,7 @@
 	 <!-- SQL : 본인정보 상세조회 -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		 u.user_email, u.nick, u.phone, ca.categ_name, u.intro, u.profile_img, 	
+		 u.user_email, u.nick, u.pwd, u.phone, ca.categ_name, u.intro, u.profile_img, 	
 		 ( SELECT count(*) 
 		 FROM reports r 
 		 WHERE r.target_email = u.user_email) 

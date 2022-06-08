@@ -20,8 +20,8 @@ import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.domain.User;
-import com.godLife.io.service.product.ProductService;
 import com.godLife.io.service.point.PointService;
+import com.godLife.io.service.product.ProductService;
 import com.godLife.io.service.user.UserService;
 
 
