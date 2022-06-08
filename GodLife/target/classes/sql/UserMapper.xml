@@ -23,7 +23,6 @@
 		<result property="totalPoint" 			column="total_point" 			jdbcType="INTEGER" />
 		<!-- 아래추가-->
 		<result property="categName" 		column="categ_name" 			jdbcType="VARCHAR" />
-		
 		<result property="redCouponCount" 		column="red_coupon_count " 			jdbcType="INTEGER" />
 		<result property="certiCouponCount" 		column="certi_coupon_count  " 			jdbcType="INTEGER" />
 		
@@ -33,21 +32,37 @@
 	<!-- SQL : 회원가입-->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
-		INTO users
-		VALUES	 (	#{userEmail : VARCHAR}, #{pwd : VARCHAR}, '1', #{nick : VARCHAR}, SYSDATE, #{categNo : INTEGER},
-		   					#{profileImg : VARCHAR}, #{intro : VARCHAR}, #{phone : VARCHAR}, #{redCardCount : INTEGER}, 
-		   					'1', #{reportCount : INTEGER}, #{totalPoint : INTEGER} )
+		INTO users (user_email, pwd, nick, reg_date, categ_no, phone, account_status )
+		VALUES	 (	#{userEmail : VARCHAR}, #{pwd : VARCHAR}, #{nick : VARCHAR}, SYSDATE, #{categNo : INTEGER},
+		   				    #{phone : VARCHAR}, '1'} )
 	 </insert>
 	 
 	 
-	 <!-- SQL : 카카오회원가입-->
+	 <!-- SQL : 파일 업로드-->
 	 
+	  <!-- SQL : 로그인(다시 생각하기 )-->
+	  <select 	id="login"	parameterType="string"	resultMap="userSelectMap">
+		SELECT
+		 user_email, pwd
+		 FROM users 
+		 WHERE account_status = '1'
+		 AND user_email =#{userEmail} 
+	 </select>
+	 
+	 <!-- SQL : 계정상태 변경(레드카드 3장이상, 관리자)-->
+	 <update	id="updateAccStatus"	parameterType="user" >
+	   	UPDATE users
+	   	<set>
+	   		account_status = =#{accountStatus} 
+	   	</set>
+	   	WHERE user_email = #{userEmail}
+	 </update>
 	 
 	 
 	 <!-- SQL : 본인정보 상세조회 -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		 u.user_email, u.nick, u.phone, ca.categ_name, u.intro, u.profile_img, u.total_point,		
+		 u.user_email, u.nick, u.phone, ca.categ_name, u.intro, u.profile_img, 	
 		 ( SELECT count(*) 
 		 FROM reports r 
 		 WHERE r.target_email = u.user_email) 
@@ -57,9 +72,7 @@
 		 AND u.user_email =#{userEmail} 
 	 </select>
 	 
-	 
-	 
-	 <!-- SQL : 비밀번호 수정 -->
+	 <!-- SQL : 비밀번호 변경 -->
 	 <update	id="updatePwd"	parameterType="user" >
 	   	UPDATE users
 	   	<set>
@@ -67,7 +80,6 @@
 	   	</set>
 	   	WHERE user_email = #{userEmail}
 	 </update>
-	 
 	 
 	 
 	 <!-- SQL : 본인정보 수정 -->
@@ -85,12 +97,65 @@
 	 </update>
 	 
 	 
-	 <!-- SQL : 유저전체 목록조회 -->
+	 <!-- SQL : 유저전체 목록조회(관리자) -->
 	 
+	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   user_email, nick, reg_date, categ_no, profile_img
+											FROM users 
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				user_email = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				user_nick = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				reg_date = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY reg_date ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	
 	 
+	 <!-- SQL : 아이디, 비밀번호 찾기 -->
+	 <select  id="findUserPhone"	parameterType="string"	resultMap="userSelectMap">
+		SELECT *
+		FROM users
+		WHERE phone = #{phone}
+	</select>
+	
+<!-- SQL : 아이디, 비밀번호 찾기 -->
+	 <select  id="findUserEmail"	parameterType="string"	resultMap="userSelectMap">
+		SELECT *
+		FROM users
+		WHERE user_email = #{userEmail}
+	</select>
 	 
-	 
+
 	 <!-- SQL : 유저상세조회 -->
+	 
+	 
+	 
+	 
+	  <!-- SQL : 레드카드 발급, 제거 -->
+	 <update	id="updateRedCard"	parameterType="report" >
+	   	UPDATE users u
+	   	<set>
+	   	recard_count = #{redcardCount}
+	   	</set>
+	   	WHERE u.user_email = {userEmail}
+	 </update>
+	 
 	 
 	 
 	 
@@ -120,56 +185,37 @@
 	  <!-- 병문 오빠 추가 -->
 	  <update id="updateUserTotalPoint" parameterType="user" >
 	 	UPDATE USERS
-	 	SET total_point = #{totalPoint}
+	 	SET total_point = #{sumTotalPoint}
 	 		<where>
 				user_email=#{userEmail}
 			</where>
 	  </update>
 	 
-	 
-	 
-	 
-	 
-	 
-	 
 	
-	 	<!--  위 두번째 subQuery 의  
-	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
-	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
-	 			< 는 keyword 로 &lt; 를	사용.
-	 			
-	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
-	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
-
-				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
-		-->
 	
-	<!-- SQL : SELECT ROW Count 
+	<!-- SQL : SELECT ROW Count  -->
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT user_id , user_name , email
+	  	FROM(	SELECT user_email , nick , reg_date
 						FROM users
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			user_id = #{searchKeyword}
+						 			user_email = #{searchKeyword}
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		user_name = #{searchKeyword}
+						 		nick = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 2 and searchKeyword !='' ">
+						 		reg_date = #{searchKeyword}
 								</if>
 							</where>
 						</if> ) countTable						
 	 </select>
-	  -->	 
 	 
 	 
 	 
 	  
-	 
-	 
-	 
-	 
-	 
 	 
 	 
 </mapper>
