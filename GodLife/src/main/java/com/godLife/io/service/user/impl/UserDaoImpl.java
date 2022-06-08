@@ -239,10 +239,19 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	
+
+	public void updateUserRedCouponCount(User user) throws Exception{
+		sqlSession.update("userMapper.updateUserRedCouponCount",user );
+	}
+
+	public void updateUserTotalPoint(User user) throws Exception{
+		sqlSession.update("UserMapper.updateUserTotalPoint", user);
+	}
 	
-	
-	
-	
+
+	public void updateUserCertiCouponCount(User user) throws Exception{
+		sqlSession.update("userMapper.updateUserCertiCouponCount",user);
+	}
 	
 	
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return

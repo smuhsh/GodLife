@@ -74,6 +74,15 @@ public interface UserService {
 	//쪽지 보내기 * 
 	public void addMsg(Msg msg)throws Exception;
 	
+	// 받은 쪽지 상세조회
+	public Msg getRecvMsg(String recvEmail) throws Exception ;
+	
+	// 보낸 쪽지 상세조회
+	public Msg getSendMsg(String sendEmail) throws Exception ;
+	
+	// 받은, 보낸 쪽지 삭제 
+    public void deleteMsg(Msg msg) throws Exception ;
+    
     // 받은 쪽지 상세조회(다시확인) *
 	public Msg getRecvMsg(int msgNo) throws Exception ;
 		
@@ -115,13 +124,19 @@ public interface UserService {
     
     // 신고 등록 
     public void addReport(Report report) throws Exception ;
+
+    public void updateUserTotalPoint(User user) throws Exception;
+    
+    public void updateUserRedCouponCount(User user) throws Exception;
+    
+    public void updateUserCertiCouponCount(User user) throws Exception;
+
     
     //신고 유저 목록조회(관리자) 
     
     //레드카드 발급, 제거 
     
-    
-	
+
 		
 		
 		

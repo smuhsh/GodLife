@@ -10,11 +10,9 @@ public class MyBadge {
 	private int badgeNo;
 	private int actCount;
 	
-	
 	///Constructor
 	public MyBadge() {
 	}
-	
 	public int getMyBadgeNo() {
 		return myBadgeNo;
 	}
@@ -40,15 +38,14 @@ public class MyBadge {
 		this.actCount = actCount;
 	}
 
-
-
 	
-	///Method
 	@Override
 	public String toString() {
 		return "MyBadge [myBadgeNo=" + myBadgeNo + ", userEmail=" + userEmail + ", badgeNo=" + badgeNo + ", actCount="
-				+ actCount + "]";
+				+ actCount + " ]";
 	}
+	
+	
 
 
 }

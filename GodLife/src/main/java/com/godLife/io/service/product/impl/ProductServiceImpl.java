@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.godLife.io.common.Search;
+import com.godLife.io.service.domain.Badge;
 import com.godLife.io.service.domain.Product;
 import com.godLife.io.service.product.ProductDao;
 import com.godLife.io.service.product.ProductService;
@@ -41,9 +42,35 @@ public class ProductServiceImpl implements ProductService{
 	public Product getProduct(int productNo) throws Exception {
 		return productDao.getProduct(productNo);
 	}
-	
-	public Map<String , Object> getProductList(Search search) throws Exception {
-		List<Product> list= productDao.getProductList(search);
+
+////////////////////////////////////////////////////////////////////////////
+	public Map<String , Object> getProductCouponList(Search search) throws Exception {
+		
+		List<Product> list= productDao.getProductCouponList(search);
+		int totalCount = productDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
+	public Map<String , Object> getProductVoucherList(Search search) throws Exception {
+		
+		List<Product> list= productDao.getProductVoucherList(search);
+		int totalCount = productDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
+	public Map<String , Object> getProductPointList(Search search) throws Exception {
+		
+		List<Product> list= productDao.getProductPointList(search);
 		int totalCount = productDao.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -53,11 +80,15 @@ public class ProductServiceImpl implements ProductService{
 		return map;
 	}
 	
+	
+	
+////////////////////////////////////////////////////////////////////////////
+	
 	public void updateProduct(Product product) throws Exception {
 		productDao.updateProduct(product);
 	}
 	
-	public void deleteProduct(int productNo) throws Exception {
+	public void deleteProduct(Product productNo) throws Exception {
 		productDao.deleteProduct(productNo);
 	}
 	

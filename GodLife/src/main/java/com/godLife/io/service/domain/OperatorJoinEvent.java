@@ -10,7 +10,7 @@ public class OperatorJoinEvent {
 	private Date regDate;
 	
 	//Constructor
-	public void OperatorJoinEvent() {
+	public OperatorJoinEvent() {
 		
 	}
 	

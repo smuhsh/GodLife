@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.godLife.io.service.domain.Point;
+import com.godLife.io.service.domain.User;
 import com.godLife.io.service.point.PointDao;
+import com.godLife.io.service.user.UserService;
 import com.godLife.io.common.Search;
 
 @Repository("pointDaoImpl")
@@ -24,7 +26,11 @@ public class PointDaoImpl implements PointDao {
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
-
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
+	
 	public PointDaoImpl() {
 		System.out.println(this.getClass());
 	}
@@ -35,15 +41,46 @@ public class PointDaoImpl implements PointDao {
 	}
 
 	@Override
-	public void addPointPurchase(Point point) throws Exception {
+	public void addPointPurchase(Map<String,Object> map) throws Exception {
+		User user = (User)map.get("user");
+		Point point = (Point)map.get("point");
+		
+		String useStatus = point.getUseStatus();
+		System.out.println("useStatus : "+useStatus);
+		
+		int usePoint = point.getPoint();
+		System.out.println("usePoint : "+usePoint);	
+		
+		int totalPoint = user.getTotalPoint();
+		System.out.println("totalPoint : "+totalPoint);
+		
+			if(useStatus=="1") {
+			
+			int sumPoint = totalPoint + usePoint;
+			
+			System.out.println(" sumPoint : " + sumPoint);
+			user.setTotalPoint(sumPoint);
+			
+			userService.updateUserTotalPoint(user);
+			}else if(useStatus=="2") {
+				
+				int sumPoint = totalPoint - usePoint;
+
+				System.out.println(" sumPoint : " + sumPoint);
+				
+				user.setTotalPoint(sumPoint);
+				userService.updateUserTotalPoint(user);
+			}
+		System.out.println("map : "+map);
+		System.out.println("point : "+ point);
 		sqlSession.insert("PointMapper.addPointPurchase", point);
 	}
 
 	@Override
-	public Map<String, Object> getPointPurchaseList(Search search, String userEmail) throws Exception {
+	public Map<String, Object> getPointPurchaseList(Search search, User user) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+		String userEmail=user.getUserEmail();
 		map.put("endRowNum",  search.getEndRowNum()+"" );
 		map.put("startRowNum",  search.getStartRowNum()+"" );
 		map.put("userEmail",userEmail);
@@ -55,10 +92,10 @@ public class PointDaoImpl implements PointDao {
 	}
 
 	@Override
-	public Map<String, Object> getPointPurchaseVoucherList(Search search, String userEmail) throws Exception {
+	public Map<String, Object> getPointPurchaseVoucherList(Search search, User user) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+		String userEmail=user.getUserEmail();
 		map.put("endRowNum",  search.getEndRowNum()+"" );
 		map.put("startRowNum",  search.getStartRowNum()+"" );
 		map.put("userEmail",userEmail);
@@ -70,10 +107,10 @@ public class PointDaoImpl implements PointDao {
 	}
 
 	@Override
-	public Map<String, Object> getPointPurchaseDonationList(Search search, String userEmail) throws Exception {
+	public Map<String, Object> getPointPurchaseDonationList(Search search, User user) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+		String userEmail=user.getUserEmail();
 		map.put("endRowNum",  search.getEndRowNum()+"" );
 		map.put("startRowNum",  search.getStartRowNum()+"" );
 		map.put("userEmail",userEmail);
@@ -85,7 +122,7 @@ public class PointDaoImpl implements PointDao {
 	}
 
 	@Override
-	public int getTotalCount(Search search) {
-		return sqlSession.selectOne("PointMapper.getTotalCount", search);
+	public int getTotalCount(User user) {
+		return sqlSession.selectOne("PointMapper.getTotalCount", user);
 	}
 }

@@ -172,14 +172,6 @@ public class UserServiceImpl implements UserService{
 		
 		return map;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 	//================일대일문의================================================
 	
@@ -229,11 +221,37 @@ public class UserServiceImpl implements UserService{
 	
 
 
+	public void updateUserTotalPoint(User user) throws Exception{
+		userDao.updateUserTotalPoint(user);
+	}
 	
+	public void updateUserRedCouponCount(User user) throws Exception{
+		userDao.updateUserRedCouponCount(user);
+	}
 	
-	
-	
-	
+	public void updateUserCertiCouponCount(User user) throws Exception{
+		userDao.updateUserCertiCouponCount(user);
+	}
+
+	@Override
+	public Msg getRecvMsg(String recvEmail) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Msg getSendMsg(String sendEmail) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteMsg(Msg msg) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	
 	
 	

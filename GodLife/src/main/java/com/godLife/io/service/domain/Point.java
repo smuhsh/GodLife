@@ -1,6 +1,7 @@
 package com.godLife.io.service.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Point {
 	
@@ -15,6 +16,8 @@ public class Point {
 	private String voucherUniqueNo;
 	private String donationPlace;
 	private Date regDate;
+	private String phone;
+	private String productName;
 	
 	
 	public int getPurchaseNO() {
@@ -65,12 +68,8 @@ public class Point {
 	public void setUseDetail(String useDetail) {
 		this.useDetail = useDetail;
 	}
-	public String getVoucherUniqueNo() {
-		return voucherUniqueNo;
-	}
-	public void setVoucherUniqueNo(String voucherUniqueNo) {
-		this.voucherUniqueNo = voucherUniqueNo;
-	}
+	
+	
 	public Date getRegDate() {
 		return regDate;
 	}
@@ -89,6 +88,28 @@ public class Point {
 		return "Point [purchaseNo=" + purchaseNo + ", userEmail=" + userEmail + ", useStatus=" + useStatus
 				+ ", productNo=" + productNo + ", payOpt=" + payOpt + ", cash=" + cash + ", point=" + point
 				+ ", useDetail=" + useDetail + ", voucherUniqueNo=" + voucherUniqueNo + ", donationPlace="
-				+ donationPlace + ", regDate=" + regDate + "]";
+				+ donationPlace + ", regDate=" + regDate + ", phone=" + phone + ", productName=" + productName + "]";
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+	
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public void setVoucherUniqueNo(String voucherUniqueNo) {
+		this.voucherUniqueNo =voucherUniqueNo;
+	}
+	public String getVoucherUniqueNo(){
+		return voucherUniqueNo;
 	}
 }

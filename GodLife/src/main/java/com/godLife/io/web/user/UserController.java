@@ -1,12 +1,5 @@
 package com.godLife.io.web.user;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,15 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.godLife.io.service.user.UserService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
 import com.godLife.io.service.domain.OneInq;
 import com.godLife.io.service.domain.User;
+import com.godLife.io.service.user.UserService;
 
 //==> 회원관리 Controller
 @Controller
@@ -70,7 +61,9 @@ public class UserController {
 		
 		System.out.println("/user/login : POST");
 		//Business Logic
-		User dbUser=userService.login(user.getUserEmail());
+		System.out.println("입력받은 파라메터 : "+user);
+		User dbUser=userService.getUser(user.getUserEmail());
+		System.out.println("getUser 결과 : "+dbUser);
 		
 		System.out.println("입력받은 ID/PW : "+user);
 		System.out.println("DB와 일치하는 ID/PW : "+dbUser);
@@ -89,8 +82,12 @@ public class UserController {
 		
 		if( user.getPwd().equals(dbUser.getPwd())){
 			session.setAttribute("user", dbUser);
+			System.out.println("세션 만들어짐...");
+			System.out.println(session.getAttribute("user"));
 			
 		}
+		
+		
 		
 		return "redirect:/index.jsp"; // 메인페이지로 이동 
 	}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MyBadgeMapper">
+ 	
+ 	
+	<resultMap id="myBadgeSelectMap" type="myBadge">
+		<result property="myBadgeNo" 		column="my_badge_no" 	jdbcType="NUMERIC" />
+		<result property="userEmail"		column="user_email" 	jdbcType="VARCHAR" />
+		<result property="badgeNo" 			column="badge_no" 		jdbcType="NUMERIC"/>
+		<result property="actCount" 		column="act_count" 		jdbcType="NUMERIC" />
+	</resultMap>
+	
+
+<!-- /////////////////////////////내 배지 상세 내용 조회/////////////////////////////////////////////////// -->
+	 
+	 <select 	id="getBadgeMy"	parameterType="int"	resultMap="myBadgeSelectMap">
+		SELECT
+		my_badge_no , user_email , badge_no , act_count  
+		FROM my_badge 
+		WHERE my_badge_no = #{value}
+	 </select>
+
+
+
+<!-- /////////////////////////////내 배지 상세 내용 조회/////////////////////////////////////////////////// -->
+
+	<update id="updateBadgeMyActCount" parameterType="myBadge">
+	
+		MERGE INTO MY_BADGE  
+			USING DUAL 
+			ON ( user_email = #{userEmail:VARCHAR} and badge_no= #{badgeNo} )
+		WHEN MATCHED THEN 
+ 			UPDATE SET act_count = act_count + 1
+		WHEN NOT MATCHED THEN 
+			INSERT (my_badge_no, user_email , badge_no , act_count ) 
+			VALUES (seq_my_badge_my_badge_no.nextval , #{userEmail:VARCHAR}, #{badgeNo} , #{actCount} )
+			
+	</update>
+
+
+<!-- //////////////////////////배지 전체 목록 조회//////////////////////////////////////////////////////  -->
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getBadgeMyList"  parameterType="search"	resultMap="myBadgeSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT my_badge_no, user_email , badge_no, act_count  
+											FROM my_badge 
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				my_badge_no LIKE '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				badge_no LIKE '%${searchKeyword}%'
+													</if>
+												</where>
+											</if>
+											ORDER BY my_badge_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+
+	
+	 
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT my_badge_no, user_email 
+						FROM my_Badge 
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+									my_badge_no LIKE '%${searchKeyword}%'
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+									badge_no LIKE '%${searchKeyword}%'
+								</if>						
+							</where>
+						</if> ) countTable						
+	 </select>
+	 
+</mapper>
