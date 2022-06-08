@@ -151,6 +151,73 @@
 	<!-- SQL : 아이디, 비밀번호 찾기 -->
 	<select id="findUserPhone" parameterType="string"
 		resultMap="userSelectMap">
+		 u.user_email, u.nick, u.pwd, u.phone, ca.categ_name, u.intro, u.profile_img, 	
+		 ( SELECT count(*) 
+		 FROM reports r 
+		 WHERE r.target_email = u.user_email) 
+		 AS report_count
+		 FROM users u, categs ca 
+		 WHERE u.categ_no = ca.categ_no 
+		 AND u.user_email =#{userEmail} 
+	 </select>
+	 
+	 <!-- SQL : 비밀번호 변경 -->
+	 <update	id="updatePwd"	parameterType="user" >
+	   	UPDATE users
+	   	<set>
+	   		pwd = #{pwd}
+	   	</set>
+	   	WHERE user_email = #{userEmail}
+	 </update>
+	 
+	 
+	 <!-- SQL : 본인정보 수정 -->
+	 <update	id="updateUser"	parameterType="user" >
+	   	UPDATE users u, categs ca
+	   	<set>
+	   		u.nick = #{nick},
+	   		u.phone= #{phone},
+	   		ca.categ_name = #{categName},
+	   		u.intro = #{intro},
+	   		u.profile_img = #{profileImg}
+	   	</set>
+	   	WHERE u.categ_no = ca.categ_no 
+	   	AND u.user_email = #{userEmail}
+	 </update>
+	 
+	 
+	 <!-- SQL : 유저전체 목록조회(관리자) -->
+	 
+	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   user_email, nick, reg_date, categ_no, profile_img
+											FROM users 
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				user_email = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				user_nick = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				reg_date = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY reg_date ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	
+	 
+	 <!-- SQL : 아이디, 비밀번호 찾기 -->
+	 <select  id="findUserPhone"	parameterType="string"	resultMap="userSelectMap">
 		SELECT *
 		FROM users
 		WHERE phone = #{phone}

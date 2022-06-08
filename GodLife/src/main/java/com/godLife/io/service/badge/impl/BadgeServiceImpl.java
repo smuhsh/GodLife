@@ -12,7 +12,8 @@ import com.godLife.io.common.Search;
 import com.godLife.io.service.badge.BadgeDao;
 import com.godLife.io.service.badge.BadgeService;
 import com.godLife.io.service.domain.Badge;
-import com.godLife.io.service.domain.MyBadge;
+
+
 
 
 
@@ -59,6 +60,7 @@ public class BadgeServiceImpl implements BadgeService{
 	public void deleteBadge(Badge badgeNo) throws Exception {
 		badgeDao.deleteBadge(badgeNo);
 	}
+
 	
 //	public void addBadgeView(Badge badge) throws Exception {
 //		badgeDao.addBadgeView(badge);
@@ -91,8 +93,6 @@ public class BadgeServiceImpl implements BadgeService{
 //	public void deleteBadgeConfirm(int badgeNo) throws Exception {
 //		badgeDao.deleteBadgeConfirm(badgeNo);
 //	}
-
-	
 
 }
 
