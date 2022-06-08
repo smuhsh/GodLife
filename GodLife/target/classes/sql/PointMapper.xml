@@ -25,7 +25,7 @@
 	<insert id="addPointPurchaseProduct" parameterType="point">
 		INSERT
 		INTO
-		purchase(PURCHASE_NO, USER_EMAIL, USE_STATUS, PRODUCT_NO, PAY_OPT,CASH, POINT, USE_DETAIL, VOUCHER_UNIQUE_NO, DONATION_PLACE, REG_DATE)
+		purchase(PURCHASE_NO, USER_EMAIL, USE_STATUS, PRODUCT_NO, PAY_OPT,CASH, POINT, USE_DETAIL, VOUCHER_UNIQUE_NO, REG_DATE)
 		VALUES (SEQ_PURCHASE_PURCHASE_NO.nextval, #{userEmail:VARCHAR},
 				#{useStatus:CHAR},#{productNo:INTEGER},
 				#{payOpt:CHAR},
@@ -73,8 +73,7 @@
 						</where>
 						ORDER BY purchase_no) inner_table
 				WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} 
-		AND	#{endRowNum}
+		WHERE row_seq BETWEEN #{startRowNum} AND	#{endRowNum}
 	</select>
 
 	<!-- 상품권 구매 내역 조회 -->
@@ -112,10 +111,11 @@
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 
-	<select id="getTotalCount" parameterType="search" resultType="int">
+	<select id="getTotalCount" parameterType="point" resultType="int">
 		SELECT COUNT(*)
 		FROM( SELECT purchase_no
 		FROM purchase
+		where user_email=#{userEmail}
 		)
 		countTable
 	</select>

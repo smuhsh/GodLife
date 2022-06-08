@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OneInqMapper">
+ 	
+	<resultMap id="oneInqSelectMap" type="oneInq">
+		<result property="one_inq_no" 			column="oneInqNo" 			jdbcType="INTEGER"/>
+		<result property="user_email"	column="userEmail" 		jdbcType="VARCHAR" />
+		<result property="admin_email" 	column="adminEmail" 		jdbcType="VARCHAR" />
+		<result property="title" 				column="title" 					jdbcType="VARCHAR" />
+		<result property="detail" 				column="detail" 					jdbcType="VARCHAR" />
+		<result property="reg_date" 			column="regDate" 		jdbcType="DATE" />
+		<result property="comment_detail" 				column="commentDetail" 					jdbcType="VARCHAR" />
+		<result property="comment_date" 			column="commentDate" 				jdbcType="DATE"  />
+		<result property="status" 		column="status" 			jdbcType="CHAR" />
+	</resultMap>
+	
+	<!-- SQL : 일대일문의 등록-->
+	<insert 	id="addOneInq"		parameterType="oneInq" >
+	 	INSERT
+		INTO one_inqs
+		VALUES	 ( SEQ_ONE_INQS_ONE_INQ_NO.NEXTVAL, #{userEmail : VARCHAR}, NULL, #{title : VARCHAR}, #{detail : VARCHAR}, 
+							SYSDATE, NULL, NULL, '1')
+	 </insert>
+	 
+	 
+	 <!-- SQL : 일대일문의 목록조회(회원, 관리자)-->
+	 <select  id="getOneInqList"  parameterType="map"	resultMap="oneInqSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT 
+	  					                   *
+											FROM one_inqs 
+											<where>
+											user_email = #{userEmail}
+												<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+									 				AND title = #{searchKeyword} 
+												</if>
+												<if test="searchCondition == 1 and searchKeyword !='' ">
+									 				AND status = #{searchKeyword}
+												</if>
+												</if>
+											</where>
+											ORDER BY reg_date ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 
+	<!-- SQL : SELECT ROW Count  -->
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT *
+						FROM one_inqs
+					<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			title = #{searchKeyword} 
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			status = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+	
+	 
+	 <!-- SQL : 일대일문의 상세조회-->
+	  <select 	id="getOneInq"	parameterType="string"	resultMap="oneInqSelectMap">
+		SELECT
+		*
+		FROM one_inqs
+		WHERE one_inq_no = #{oneInqNo} 
+	 </select>
+	 
+	 <!-- 일대일문의 삭제 -->
+	 <delete id="deleteOneInq">
+	 	DELETE
+	 	FROM one_inqs
+	 	WHERE one_inq_no = #{oneInqNo} 
+	 </delete>
+	 
+	  <!-- 일대일문의 수정 -->
+	 <update	id="updateOneInq"	parameterType="oneInq" >
+	   	UPDATE one_inqs
+	   	<set>
+	   	title = #{title},
+	   	detail = #{detail}, 
+	   	reg_date = SYSDATE
+	   	</set>
+	   	WHERE status = '1' and one_inq_no = #{oneInqNo} 
+	 </update>
+	 
+	 <!-- SQL : 일대일문의 답변작성(관리자)-->
+	<update	id="updateOneInqComment"	parameterType="oneInq" >
+	   	UPDATE one_inqs
+	   	<set>
+	   	admin_email = #{adminEmail}, 
+	   	comment_detail = #{commentDetail},
+	   	comment_date = SYSDATE 
+	   	status = '2'
+	   	</set>
+	   	WHERE status = '1' and one_inq_no = #{oneInqNo}
+	   	AND admin_email = 'admin@io.com'
+	 </update>
+    
+	 
+</mapper>

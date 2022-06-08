@@ -157,8 +157,8 @@ public class User {
 	}
 
 
-	public void setTotalPoint(int totalPoint) {
-		this.totalPoint = totalPoint;
+	public void setTotalPoint(int sumTotalPoint) {
+		this.totalPoint = sumTotalPoint;
 	}
 
 
@@ -189,6 +189,16 @@ public class User {
 
 	public void setCertiCouponCount(int certiCouponCount) {
 		this.certiCouponCount = certiCouponCount;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User [userEmail=" + userEmail + ", pwd=" + pwd + ", role=" + role + ", nick=" + nick + ", regDate="
+				+ regDate + ", categNo=" + categNo + ", profileImg=" + profileImg + ", intro=" + intro + ", phone="
+				+ phone + ", redCardCount=" + redCardCount + ", accountStatus=" + accountStatus + ", reportCount="
+				+ reportCount + ", totalPoint=" + totalPoint + ", categName=" + categName + ", redCouponCount="
+				+ redCouponCount + ", certiCouponCount=" + certiCouponCount + "]";
 	}
 
 

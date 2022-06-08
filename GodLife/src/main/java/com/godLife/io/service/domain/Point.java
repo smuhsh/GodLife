@@ -1,6 +1,7 @@
 package com.godLife.io.service.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Point {
 	
@@ -12,7 +13,7 @@ public class Point {
 	private int cash;
 	private int point;
 	private String useDetail;
-	private StringBuffer voucherUniqueNo;
+	private String voucherUniqueNo;
 	private String donationPlace;
 	private Date regDate;
 	private String phone;
@@ -67,12 +68,8 @@ public class Point {
 	public void setUseDetail(String useDetail) {
 		this.useDetail = useDetail;
 	}
-	public StringBuffer getVoucherUniqueNo() {
-		return voucherUniqueNo;
-	}
-	public void setVoucherUniqueNo(StringBuffer buf) {
-		this.voucherUniqueNo = buf;
-	}
+	
+	
 	public Date getRegDate() {
 		return regDate;
 	}
@@ -93,28 +90,26 @@ public class Point {
 				+ ", useDetail=" + useDetail + ", voucherUniqueNo=" + voucherUniqueNo + ", donationPlace="
 				+ donationPlace + ", regDate=" + regDate + ", phone=" + phone + ", productName=" + productName + "]";
 	}
-	/**
-	 * @return the phone
-	 */
+	
 	public String getPhone() {
 		return phone;
 	}
-	/**
-	 * @param phone the phone to set
-	 */
+	
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	/**
-	 * @return the productName
-	 */
+	
 	public String getProductName() {
 		return productName;
 	}
-	/**
-	 * @param productName the productName to set
-	 */
+
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	public void setVoucherUniqueNo(String voucherUniqueNo) {
+		this.voucherUniqueNo =voucherUniqueNo;
+	}
+	public String getVoucherUniqueNo(){
+		return voucherUniqueNo;
 	}
 }

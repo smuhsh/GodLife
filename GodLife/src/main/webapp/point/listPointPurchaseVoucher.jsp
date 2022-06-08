@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>상품권 구매 목록조회</title>
+<title>상품권 구매 목록</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -23,7 +23,7 @@ function fncGetList(currentPage) {
 	
 	$("#currentPage").val(currentPage)
    
-	$("form").attr("method" , "POST").attr("action" , "/purchase/listPurchase").submit();
+	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseList").submit();
 }
 $(function() {
 	 
@@ -89,43 +89,71 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 </script>
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
+	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
-<div style="width: 98%; margin-left: 10px;">
-
-<form name="detailForm" >
-
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"width="15" height="37"></td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">상품권 구매 목록조회</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37"><img src="/images/ct_ttl_img03.gif"	width="12" height="37"></td>
-	</tr>
-</table>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
+	
+	<!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
+		<div class="page-header text-info">
+	       <h3>포인트 이용내역 목록</h3>
+	    </div>
+	    
+	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
+	    <div class="row">
+	    
+		    <div class="col-md-6 text-left">
+		    	<p class="text-primary">
+		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+		    	</p>
+		    </div>
+		    
+		    <div class="col-md-6 text-right">
+		    
+			    <form class="form-inline" name="detailForm">
+			    
+				  <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>포인트충전</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>챌린지</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>이벤트</option>
+						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>기부</option>					
+					</select>
+				  </div>
+				  
+				  <div class="form-group">
+				    <label class="sr-only" for="searchKeyword">검색어</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				  </div>
+				  
+				  <button type="button" class="btn btn-default">검색</button>
+				  
+				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  
+				</form>
+	    	</div>
+	    	
+		</div>
+		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
+		
+		
+<table class="table table-striped">
 	<tr>
 		<td colspan="11">전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage } 페이지</td>
 	</tr>
 	<tr>
-		<td class="ct_list_b" width="100">주문번호<br></td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">productName<br></td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">UniqueNo</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">regDate</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">msg</td>
-		<td class="ct_line02"></td>
+		<td>번호<br></td>
+		<td>상품명<br></td>
+		<td></td>
+		<td>고유번호</td>
+		<td></td>
+		<td>구매날짜</td>
+		<td></td>
+		<td>메세지</td>
 		
 	</tr>
 	<tr>
@@ -133,26 +161,17 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 	</tr>
 
 	<c:set var = "i" value = "0"/>
-	<c:forEach var ="purchase" items ="${list }">
+	<c:forEach var ="point" items ="${list }">
 		<c:set var="i"  value = "${i+1 }"/>
-		<tr class="ct_list_pop">
-		<td align="center">
-		<input type="hidden" name="purchaseNo"  value="${point.purchaseNo }" />
-		${point.purchaseNo}
-		</td>
+		<tr>
+		<td>${i }</td>
+		<td>${point.productName}</td>
 		<td></td>
-		<td align="left">
-		<input type="hidden" name="userEmail"  value="${point.userEmail}" />
-		${point.userEmail}
-		</td>
+		<td>${point.voucherUniqueNo}</td>
 		<td></td>
-		<td align="left">${point.productName}</td>
+		<td>${point.regDate}</td>
 		<td></td>
-		<td align="left">${point.voucherUniqueNo}</td>
-		<td></td>
-		<td align="left">${point.regDate}</td>
-		<td></td>
-		<td align="left" >msg</td>
+		<td>전송</td>
 	</tr>
 	
 	</c:forEach>

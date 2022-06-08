@@ -15,9 +15,10 @@ public interface OperatorService {
 	public void addOperatorReward(OperatorReward operatorReward ) throws Exception;
 	public void addOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs ) throws Exception;
 	
-	public OperatorEvents getOperatoreEvents(int eventNo) throws Exception;
-	public OperatorJoinEvent getOperatoreJoinEvent(int joinEventNo) throws Exception;
-	public OperatorReward getOperatoreReward(int rewardNo) throws Exception;
+	public OperatorEvents getOperatorEvents(int eventNo) throws Exception;
+	//public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception;
+	public OperatorJoinEvent getOperatorJoinEvent(String string) throws Exception;
+	public OperatorReward getOperatorReward(int rewardNo) throws Exception;
 	public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception;	
 
 	public Map<String , Object> getOperatorEventsList(Search search) throws Exception;

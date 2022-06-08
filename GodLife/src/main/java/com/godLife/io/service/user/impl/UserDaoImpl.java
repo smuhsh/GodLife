@@ -13,6 +13,8 @@ import com.godLife.io.service.user.UserDao;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
+import com.godLife.io.service.domain.OneInq;
+import com.godLife.io.service.domain.Report;
 import com.godLife.io.service.domain.User;
 
 
@@ -33,14 +35,20 @@ public class UserDaoImpl implements UserDao{
 		System.out.println(this.getClass());
 	}
 	
-	///Method
+	//================회원=======================================================
+	
 	public void addUser(User user) throws Exception {
 		sqlSession.insert("UserMapper.addUser", user);
+	}
+	
+	public User login(String userEmail) throws Exception {
+		return sqlSession.selectOne("UserMapper.login", userEmail);
 	}
 	
 	public User getUser(String userEmail) throws Exception {
 		return sqlSession.selectOne("UserMapper.getUser", userEmail);
 	}
+	
 	
 	public void updatePwd(User user) throws Exception {
 		sqlSession.update("UserMapper.updatePwd", user);
@@ -51,7 +59,25 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	
-	public Map<String, Object> getFriendBlackList(Search search, String userEmail) throws Exception {
+	//유저 전체 목록조회(관리자) 
+	public List<User> getUserList(Search search) throws Exception {
+		return sqlSession.selectList("UserMapper.getUserList", search);
+	}
+	
+	//핸드폰 번호로 아이디, 비번찾기 
+	public User findUserPhone(String phone) throws Exception {
+		return sqlSession.selectOne("UserMapper.findUserPhone", phone);
+	}
+	
+	//이메일로 비번찾기 
+	public User findUserEmail(String userEmail) throws Exception {
+		return sqlSession.selectOne("UserMapper.findUserEmail", userEmail);
+	}
+	
+	
+	//================친구, 블랙리스트=================================================
+	
+	public Map<String, Object> getFriendList(Search search, String userEmail) throws Exception {
 		
 		   Map<String, Object> map=new HashMap<String, Object>();
 		   FriendBlack friendBlack = new FriendBlack();
@@ -60,11 +86,28 @@ public class UserDaoImpl implements UserDao{
 		   map.put("startRowNum",  search.getStartRowNum()+"" );
 		   map.put("userEmail", userEmail);
 		   
-		   List<FriendBlack> list = sqlSession.selectList("FriendBlackMapper.getFriendBlackList", map);
+		   List<FriendBlack> list = sqlSession.selectList("FriendBlackMapper.getFriendList", map);
 		   map.put("list", list);
 		   
 		   return map;
 	}
+	
+	
+	public Map<String, Object> getBlackList(Search search, String userEmail) throws Exception {
+		
+		   Map<String, Object> map=new HashMap<String, Object>();
+		   FriendBlack friendBlack = new FriendBlack();
+		   
+		   map.put("endRowNum",  search.getEndRowNum()+"" );
+		   map.put("startRowNum",  search.getStartRowNum()+"" );
+		   map.put("userEmail", userEmail);
+		   
+		   List<FriendBlack> list = sqlSession.selectList("FriendBlackMapper.getBlackList", map);
+		   map.put("list", list);
+		   
+		   return map;
+	}
+	
 	
 	public Map<String, Object> getFriendRequestList(Search search, String targetEmail) throws Exception {
 		
@@ -98,30 +141,114 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.delete("FriendBlackMapper.deleteFriend", friendBlack);
 	}
 	
+	
+	//================쪽지================================================
 	public void addMsg(Msg msg) throws Exception {
 		sqlSession.insert("MsgMapper.addMsg", msg);
 	}
 	
-	public Msg getRecvMsg(String recvEmail) throws Exception {
-		return sqlSession.selectOne("MsgMapper.getRecvMsg", recvEmail);
+	public Msg getRecvMsg(int msgNo) throws Exception {
+		return sqlSession.selectOne("MsgMapper.getRecvMsg", msgNo);
 	}
 	
-	public Msg getSendMsg(String sendEmail) throws Exception {
-		return sqlSession.selectOne("MsgMapper.getSendMsg", sendEmail);
+	public Msg getSendMsg(int msgNo) throws Exception {
+		return sqlSession.selectOne("MsgMapper.getSendMsg", msgNo);
 	}
 	
-	public void deleteMsg(Msg msg) throws Exception {
-		sqlSession.delete("MsgMapper.deleteMsg", msg);
+	public void deleteMsg(int msgNo) throws Exception {
+		sqlSession.delete("MsgMapper.deleteMsg", msgNo);
+	}
+	
+	public Map<String, Object> getRecvMsgList(Search search, String recvEmail) throws Exception {
+		
+		   Map<String, Object> map=new HashMap<String, Object>();
+		   
+		   Msg msg = new Msg(); 
+		   
+		   map.put("endRowNum",  search.getEndRowNum()+"" );
+		   map.put("startRowNum",  search.getStartRowNum()+"" );
+		   map.put("recvEmail", recvEmail);
+		   
+		   List<Msg> list = sqlSession.selectList("MsgMapper.getRecvMsgList", map);
+		   map.put("list", list);
+		   
+		   return map;
+	}
+	
+	public Map<String, Object> getSendMsgList(Search search, String sendEmail) throws Exception {
+		
+		   Map<String, Object> map=new HashMap<String, Object>();
+		   
+		   Msg msg = new Msg(); 
+		   
+		   map.put("endRowNum",  search.getEndRowNum()+"" );
+		   map.put("startRowNum",  search.getStartRowNum()+"" );
+		   map.put("sendEmail", sendEmail);
+		   
+		   List<Msg> list = sqlSession.selectList("MsgMapper.getSendMsgList", map);
+		   map.put("list", list);
+		   
+		   return map;
+	}
+	
+
+	
+	//================일대일문의================================================
+	
+	public void addOneInq(OneInq oneInq) throws Exception {
+		sqlSession.insert("OneInqMapper.addOneInq", oneInq);
+	}
+	
+	public Map<String, Object> getOneInqList(Search search, String userEmail) throws Exception {
+		
+		   Map<String, Object> map=new HashMap<String, Object>();
+		   OneInq oneInq = new OneInq();
+		   
+		   map.put("endRowNum",  search.getEndRowNum()+"" );
+		   map.put("startRowNum",  search.getStartRowNum()+"" );
+		   map.put("userEmail", userEmail);
+		   
+		   List<FriendBlack> list = sqlSession.selectList("OneInqMapper.getOneInqList", map);
+		   map.put("list", list);
+		   
+		   return map;
+	}
+	
+	public OneInq getOneInq(int oneInqNo) throws Exception {
+		return sqlSession.selectOne("OneInqMapper.getOneInq", oneInqNo);
+	}
+	
+	public void deleteOneInq(int oneInq) throws Exception {
+		sqlSession.delete("OneInqMapper.deleteOneInq", oneInq);
+	}
+	
+	public void updateOneInq(OneInq oneInq) throws Exception {
+		sqlSession.update("OneInqMapper.updateOneInq", oneInq);
+	}
+	
+	public void updateOneInqComment(OneInq oneInq) throws Exception {
+		sqlSession.update("OneInqMapper.updateOneInqComment", oneInq);
+	}
+	
+	//================신고등록================================================
+	
+	public void addReport(Report report) throws Exception {
+		sqlSession.insert("ReportMapper.addReport", report);
+	}
+	
+	
+	
+	
+
+	public void updateUserRedCouponCount(User user) throws Exception{
+		sqlSession.update("userMapper.updateUserRedCouponCount",user );
 	}
 
 	public void updateUserTotalPoint(User user) throws Exception{
 		sqlSession.update("UserMapper.updateUserTotalPoint", user);
 	}
 	
-	public void updateUserRedCouponCount(User user) throws Exception{
-		sqlSession.update("userMapper.updateUserRedCouponCount",user );
-	}
-	
+
 	public void updateUserCertiCouponCount(User user) throws Exception{
 		sqlSession.update("userMapper.updateUserCertiCouponCount",user);
 	}
