@@ -1,6 +1,8 @@
 package com.godLife.io.service.operator.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.OperatorEvents;
 import com.godLife.io.service.domain.OperatorJoinEvent;
 import com.godLife.io.service.domain.OperatorReward;
+import com.godLife.io.service.domain.User;
 import com.godLife.io.service.domain.OperatorNoticeFaqs;
 import com.godLife.io.service.operator.OperatorDao;
 
@@ -55,6 +58,9 @@ public class OperatorDaoImpl implements OperatorDao{
 	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
 		return sqlSession.selectOne("OperatorJoinEventMapper.getOperatorJoinEvent", joinEventNo);
 	}
+//	public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception {
+//		return sqlSession.selectOne("OperatorJoinEventMapper.getOperatorJoinEvent", userEmail);
+//	}
 	
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception {
 		return sqlSession.selectOne("OperatorRewardMapper.getOperatorReward",rewardNo);
@@ -91,9 +97,29 @@ public class OperatorDaoImpl implements OperatorDao{
 		sqlSession.update("OperatorJoinEventMapper.updateOperatorJoinEvent",operatorJoinEvent);
 	}
 	
-	public void updateOperatorReward(OperatorReward operatorReward) throws Exception {
-		sqlSession.update("OperatorRewardMapper.updateOperatorReward", operatorReward);
+//	public void updateOperatorReward(OperatorReward operatorReward) throws Exception {
+//		sqlSession.update("OperatorRewardMapper.updateOperatorReward", operatorReward);
+//	}
+//	public void updateOperatorDayReward(OperatorReward operatorDayReward) throws Exception {
+//		sqlSession.update("OperatorRewardMapper.updateOperatorDayReward", operatorDayReward);
+//	}
+	@Override
+	public void updateOperatorDayReward(OperatorReward operatorDayReward, User user) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String userEmail = user.getUserEmail();
+		int rewardNo = operatorDayReward.getRewardNo();
+		String reward = operatorDayReward.getReward();
+		map.put("rewardNo", rewardNo);
+		map.put("userEmail", userEmail);
+		map.put("reward", reward);
+		sqlSession.update("OperatorRewardMapper.updateOperatorDayReward", map);
+		
 	}
+
+	public void updateOperatorRoullReward(OperatorReward operatorRoullReward) throws Exception {
+		sqlSession.update("OperatorRewardMapper.updateOperatorRoullReward", operatorRoullReward);
+	}
+
 	public void updateOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
 		sqlSession.update("OperatorNoticeFaqsMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
 	}
@@ -136,6 +162,7 @@ public class OperatorDaoImpl implements OperatorDao{
 	public int getOperatorNoticeFaqsTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("OperatorNoticeFaqsMapper.getOperatorNoticeFaqsTotalCount");
 	}
+
 	
 
 }
