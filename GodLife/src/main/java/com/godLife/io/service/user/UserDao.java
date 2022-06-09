@@ -14,6 +14,8 @@ import com.godLife.io.common.Search;
 //==> 회원관리에서 CRUD 추상화/캡슐화한 DAO Interface Definition
 public interface UserDao {
 	
+	////////////////////////////회원관리//////////////////
+	
 	// 회원가입
 	public void addUser(User user) throws Exception ;
 	
@@ -39,14 +41,16 @@ public interface UserDao {
 	public User findUserEmail(String userEmail)throws Exception;
 	
 	
-	
-	
 	// 유저상세조회
 	
 	
-	// 친구블랙리스트 목록조회(아직 블랙리스트는 안됨) 
-	public Map<String, Object> getFriendBlackList(Search search, String userEmail) throws Exception ;
+	////////////////////////////친구,블랙리스트 관리//////////////////
 	
+	// 본인의 친구 목록조회 
+	public Map<String, Object> getFriendList(Search search, String userEmail) throws Exception ;
+	
+	// 본인의 블랙리스트 목록조회 
+	public Map<String, Object> getBlackList(Search search, String userEmail) throws Exception ;
 		
 	// 친구요청받은 목록조회 
 	public Map<String, Object> getFriendRequestList(Search search, String targetEmail) throws Exception ;
@@ -63,6 +67,12 @@ public interface UserDao {
 	// 친구요청 거절, 삭제 >  친구블랙리스트 테이블에서 삭제 
 	public void deleteFriend(FriendBlack friendBlack) throws Exception ;
 	
+	// 친구 중복 방지 
+	
+	
+	
+	////////////////////////////쪽지 관리//////////////////
+	
 	//쪽지 전송
 	public void addMsg(Msg msg) throws Exception ;
 	
@@ -73,13 +83,16 @@ public interface UserDao {
 	public Msg getSendMsg(int msgNo) throws Exception ;
 	
 	// 받은, 보낸 쪽지 삭제 
-    public void deleteMsg(Msg msg) throws Exception ;
+    public void deleteMsg(int msgNo) throws Exception ;
     
     // 받은 쪽지 목록조회 
-    
+    public Map<String, Object> getRecvMsgList(Search search, String recvEmail) throws Exception ;
     
     // 보낸 쪽지 목록조회 
+    public Map<String, Object> getSendMsgList(Search search, String sendEmail) throws Exception ;
     
+    
+	////////////////////////////일대일문의 //////////////////
     
     // 일대일 문의 등록 
     public void addOneInq(OneInq oneInq) throws Exception ;
@@ -91,13 +104,17 @@ public interface UserDao {
     public OneInq getOneInq(int oneInqNo) throws Exception ;
     
     // 일대일 문의 삭제 
-    public void deleteOneInq(OneInq oneInq) throws Exception ;
+    public void deleteOneInq(int oneInq) throws Exception ;
     
     // 일대일 문의 수정(회원) 
     public void updateOneInq(OneInq oneInq) throws Exception ;
     
     //일대일 문의 답변 작성(관리자) 
     public void updateOneInqComment(OneInq oneInq) throws Exception ;
+    
+    
+    
+////////////////////////////신고 //////////////////
     
     // 신고 등록 
     public void addReport(Report report) throws Exception ;
@@ -114,11 +131,11 @@ public interface UserDao {
     
     
     // 병문오빠 추가 
-    
+    public void updateUserRedCouponCount(User user) throws Exception;
     // 병문오빠 추가 
-    
+    public void updateUserTotalPoint(User user) throws Exception;
     // 병문오빠 추가 
-    
+    public void updateUserCertiCouponCount(User user) throws Exception;
     
     
     

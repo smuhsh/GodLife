@@ -12,6 +12,7 @@ import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.OperatorEvents;
 import com.godLife.io.service.domain.OperatorJoinEvent;
 import com.godLife.io.service.domain.OperatorReward;
+import com.godLife.io.service.domain.User;
 import com.godLife.io.service.domain.OperatorNoticeFaqs;
 import com.godLife.io.service.operator.OperatorService;
 import com.godLife.io.service.operator.OperatorDao;
@@ -59,7 +60,10 @@ public class OperatorServiceImpl implements OperatorService{
 	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
 		return operatorDao.getOperatorJoinEvent(joinEventNo);
 	}
-	
+//	public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception {
+//		return operatorDao.getOperatorJoinEvent(userEmail);
+//	}
+
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception {
 		return operatorDao.getOperatorReward(rewardNo);
 	}
@@ -124,8 +128,14 @@ public class OperatorServiceImpl implements OperatorService{
 		operatorDao.updateOperatorJoinEvent(operatorJoinEvent);
 	}
 
-	public void updateOperatorReward(OperatorReward operatorReward) throws Exception {
-		operatorDao.updateOperatorReward(operatorReward);
+//	public void updateOperatorReward(OperatorReward operatorReward) throws Exception {
+//		operatorDao.updateOperatorReward(operatorReward);
+//	}
+	public void updateOperatorDayReward(OperatorReward operatorDayReward, User user) throws Exception {
+		operatorDao.updateOperatorDayReward(operatorDayReward, user);
+	}
+	public void updateOperatorRoullReward(OperatorReward operatorRoullReward) throws Exception {
+		operatorDao.updateOperatorRoullReward(operatorRoullReward);
 	}
 
 	public void updateOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
@@ -148,5 +158,6 @@ public class OperatorServiceImpl implements OperatorService{
 	public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
 		operatorDao.deleteOperatorNoticeFaqs(operatorNoticeFaqs);
 	}
+
 
 }

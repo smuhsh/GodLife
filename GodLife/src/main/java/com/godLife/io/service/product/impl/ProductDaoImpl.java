@@ -1,6 +1,7 @@
 package com.godLife.io.service.product.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,20 @@ public class ProductDaoImpl implements ProductDao{
 	public Product getProduct(int productNo) throws Exception {
 		return sqlSession.selectOne("ProductMapper.getProduct", productNo);
 	}
-	
-	public List<Product> getProductList(Search search) throws Exception {
-		return sqlSession.selectList("ProductMapper.getProductList", search);
+
+///////////////////////////////////////////////////////////	
+	public List<Product> getProductCouponList(Search search) throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductCouponList", search);
 	}
+	
+	public List<Product> getProductVoucherList(Search search) throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductVoucherList", search);
+	}
+
+	public List<Product> getProductPointList(Search search) throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductPointList", search);
+	}
+///////////////////////////////////////////////////////////		
 	
 	public void updateProduct(Product product) throws Exception {
 		sqlSession.update("ProductMapper.updateProduct", product);

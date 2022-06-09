@@ -4,51 +4,105 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="OperatorJoinEventMapper">
- 	
- 	
-	<resultMap id="productSelectMap" type="product">
-		<result property="prodNo" 		column="prod_no" 			jdbcType="INTEGER"/>
-		<result property="prodName"		column="prod_name" 			jdbcType="VARCHAR" />
-		<result property="prodDetail" 	column="prod_detail" 		jdbcType="VARCHAR" />
-		<result property="manuDate" 	column="manufacture_day" 	jdbcType="VARCHAR" />
-		<result property="price" 		column="price" 				jdbcType="INTEGER" />
-		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"  />
-		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+<mapper namespace="OperatorRewardMapper">
+
+	<!-- joinEvent --> 	
+	<resultMap id="operatorJoinEventSelectMap" type="operatorJoinEvent">
+		<result property="joinEventNo" 	column="join_event_no" 	jdbcType="INTEGER"/>
+		<result property="userEmail"	column="user_email" 	jdbcType="VARCHAR" />
+		<result property="rewardNo" 	column="reward_no" 		jdbcType="VARCHAR" />
+		<result property="regDate" 		column="reg_date" 		jdbcType="DATE" />
+	</resultMap>	
+	<!-- reward --> 	
+	<resultMap id="operatorRewardSelectMap" type="operatorReward">
+		<result property="rewardNo" 	column="reward_no" 		jdbcType="INTEGER"/>
+		<result property="eventNo"		column="event_no" 		jdbcType="INTEGER" />
+		<result property="reward" 		column="reward" 		jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
-	<insert 	id="addProduct"		parameterType="product" >
+	<insert 	id="addOperatorReward"		parameterType="operatorReward" >
 	 	INSERT
-		INTO product( prod_no , prod_name , prod_detail , manufacture_day , price, image_file, reg_date) 
-		VALUES	 (	seq_product_prod_no.NEXTVAL, #{prodName} , #{prodDetail:VARCHAR} , #{manuDate:VARCHAR} , 
-							#{price:INTEGER} , #{fileName:VARCHAR} , SYSDATE )
+		INTO reward( reward_no , event_no , reward) 
+		VALUES	 (	seq_reward_reward_no.NEXTVAL, #{eventNo} , #{reward} )
 	 </insert>
 	 
+	 <!-- NOT 	USING -->	 
 	 <!-- SQL : SELECT ONE -->
-	 <!--  <select 	id="getProduct"	parameterType="int" resultMap="productSelectMap">-->
-	 <select 	id="getProduct"	parameterType="int" resultMap="productSelectMap"><!-- 2022-04-09 shhwang -->
+	 <select 	id="getOperatorReward"	parameterType="int" resultMap="operatorRewardSelectMap">
 		SELECT
-		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  image_file , reg_date
-		FROM product 
-		WHERE prod_no = #{prodNo}
+		reward_no , event_no , reward
+		FROM reward 
+		WHERE reward_no = #{rewardNo}
 	 </select>
+	 <!-- SQL : DELETE -->
 	 
-	 <!-- SQL : UPDATE -->
-	 <update	id="updateProduct"	parameterType="product" >
-	   	UPDATE product
+	 <!-- SQL : UPDATE ROULL -->
+	 <update	id="updateOperatorRoullReward"	parameterType="operatorReward" >
+	   	UPDATE reward
 	   	<set>
-	   		prod_name 			= 	#{prodName} ,
-			prod_detail			= 	#{prodDetail},
-			price 				= 	#{price},
-			manufacture_day 	= 	#{manuDate},
-			image_file			=	#{fileName}
+		   	<![CDATA[
+			reward = (
+	                  SELECT inv.reward
+	                  FROM
+	                  (
+	                      WITH reward AS (
+	                      SELECT 2 reward, 70 percent FROM dual UNION ALL
+	                      SELECT 3 , 20  FROM dual UNION ALL
+	                      SELECT 4 , 5  FROM dual UNION ALL
+	                      SELECT 5 , 5  FROM dual
+	                  )
+	                      SELECT * FROM (
+	                          SELECT * FROM reward r, ( SELECT level lv FROM dual CONNECT BY LEVEL <= 100) WHERE percent >= lv ORDER BY DBMS_RANDOM.VALUE) 
+	                      WHERE ROWNUM <= 1
+	                  )inv
+	              )
+	        ]]>
 	   	</set>
-	   	WHERE prod_no = #{prodNo}
+		WHERE reward_no = #{rewardNo}
+		    AND EXISTS (
+		    SELECT r.reward_no, r.event_no, r.reward, j.reg_date
+		    FROM reward r, join_event j
+		    WHERE r.event_no = #{eventNo} 
+		        AND r.reward_no = j.reward_no
+			)
 	 </update>
+	 
+	 <!-- SQL : UPDATE DAY -->
+	 <update	id="updateOperatorDayReward"	parameterType="map" >
+	   	UPDATE reward r
+	   	<set>
+	   	SET r.reward = #{reward}
+	   	</set>
+		WHERE EXISTS (
+		        SELECT j.user_email
+		        FROM join_event j
+		        WHERE j.user_email = #{userEmail}
+		    ) 
+		    AND r.reward_no = #{rewardNo}
+		    AND EXISTS (
+		        SELECT coupon
+		        FROM (    
+		                SELECT COUNT(inv.user_email) coupon
+		                FROM
+		                (
+		                    SELECT j.join_event_no , j.user_email , r.event_no , r.reward , j.reg_date 
+		                    FROM join_event j, reward r
+		                    WHERE j.reward_no = r.reward_no
+		                        AND j.user_email = #{userEmail}
+		                        AND r.event_no = '1'
+		                    GROUP BY j.join_event_no, j.user_email, r.event_no, r.reward, j.reg_date
+		                    ORDER BY j.join_event_no                    
+		                )inv
+		                WHERE inv.reg_date BETWEEN TO_DATE(TRUNC(SYSDATE,'MM')) AND TO_DATE(LAST_DAY(SYSDATE))
+		                AND inv.event_no = '1'
+		        ) c
+		        WHERE c.coupon = 14 OR c.coupon = 28
+		)	 
+	</update>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
+	<select  id="getOperatorRewardList"  parameterType="search"	resultMap="operatorRewardSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT prod_no , prod_name , prod_detail, price, reg_date
@@ -67,18 +121,9 @@
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
-	 	<!--  위 두번째 subQuery 의  
-	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
-	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
-	 			< 는 keyword 로 &lt; 를	사용.
-	 			
-	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
-	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
-				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
-		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getOperatorRewardTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT prod_no , prod_name , prod_detail
 						FROM product

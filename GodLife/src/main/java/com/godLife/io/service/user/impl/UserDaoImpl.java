@@ -77,7 +77,7 @@ public class UserDaoImpl implements UserDao{
 	
 	//================친구, 블랙리스트=================================================
 	
-	public Map<String, Object> getFriendBlackList(Search search, String userEmail) throws Exception {
+	public Map<String, Object> getFriendList(Search search, String userEmail) throws Exception {
 		
 		   Map<String, Object> map=new HashMap<String, Object>();
 		   FriendBlack friendBlack = new FriendBlack();
@@ -86,11 +86,28 @@ public class UserDaoImpl implements UserDao{
 		   map.put("startRowNum",  search.getStartRowNum()+"" );
 		   map.put("userEmail", userEmail);
 		   
-		   List<FriendBlack> list = sqlSession.selectList("FriendBlackMapper.getFriendBlackList", map);
+		   List<FriendBlack> list = sqlSession.selectList("FriendBlackMapper.getFriendList", map);
 		   map.put("list", list);
 		   
 		   return map;
 	}
+	
+	
+	public Map<String, Object> getBlackList(Search search, String userEmail) throws Exception {
+		
+		   Map<String, Object> map=new HashMap<String, Object>();
+		   FriendBlack friendBlack = new FriendBlack();
+		   
+		   map.put("endRowNum",  search.getEndRowNum()+"" );
+		   map.put("startRowNum",  search.getStartRowNum()+"" );
+		   map.put("userEmail", userEmail);
+		   
+		   List<FriendBlack> list = sqlSession.selectList("FriendBlackMapper.getBlackList", map);
+		   map.put("list", list);
+		   
+		   return map;
+	}
+	
 	
 	public Map<String, Object> getFriendRequestList(Search search, String targetEmail) throws Exception {
 		
@@ -138,9 +155,42 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("MsgMapper.getSendMsg", msgNo);
 	}
 	
-	public void deleteMsg(Msg msg) throws Exception {
-		sqlSession.delete("MsgMapper.deleteMsg", msg);
+	public void deleteMsg(int msgNo) throws Exception {
+		sqlSession.delete("MsgMapper.deleteMsg", msgNo);
 	}
+	
+	public Map<String, Object> getRecvMsgList(Search search, String recvEmail) throws Exception {
+		
+		   Map<String, Object> map=new HashMap<String, Object>();
+		   
+		   Msg msg = new Msg(); 
+		   
+		   map.put("endRowNum",  search.getEndRowNum()+"" );
+		   map.put("startRowNum",  search.getStartRowNum()+"" );
+		   map.put("recvEmail", recvEmail);
+		   
+		   List<Msg> list = sqlSession.selectList("MsgMapper.getRecvMsgList", map);
+		   map.put("list", list);
+		   
+		   return map;
+	}
+	
+	public Map<String, Object> getSendMsgList(Search search, String sendEmail) throws Exception {
+		
+		   Map<String, Object> map=new HashMap<String, Object>();
+		   
+		   Msg msg = new Msg(); 
+		   
+		   map.put("endRowNum",  search.getEndRowNum()+"" );
+		   map.put("startRowNum",  search.getStartRowNum()+"" );
+		   map.put("sendEmail", sendEmail);
+		   
+		   List<Msg> list = sqlSession.selectList("MsgMapper.getSendMsgList", map);
+		   map.put("list", list);
+		   
+		   return map;
+	}
+	
 
 	
 	//================일대일문의================================================
@@ -168,7 +218,7 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("OneInqMapper.getOneInq", oneInqNo);
 	}
 	
-	public void deleteOneInq(OneInq oneInq) throws Exception {
+	public void deleteOneInq(int oneInq) throws Exception {
 		sqlSession.delete("OneInqMapper.deleteOneInq", oneInq);
 	}
 	
@@ -189,10 +239,19 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	
+
+	public void updateUserRedCouponCount(User user) throws Exception{
+		sqlSession.update("userMapper.updateUserRedCouponCount",user );
+	}
+
+	public void updateUserTotalPoint(User user) throws Exception{
+		sqlSession.update("UserMapper.updateUserTotalPoint", user);
+	}
 	
-	
-	
-	
+
+	public void updateUserCertiCouponCount(User user) throws Exception{
+		sqlSession.update("userMapper.updateUserCertiCouponCount",user);
+	}
 	
 	
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return

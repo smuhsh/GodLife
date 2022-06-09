@@ -28,7 +28,6 @@
 	 
 	 
 	 <!-- SQL : 일대일문의 목록조회(회원, 관리자)-->
-	 
 	 <select  id="getOneInqList"  parameterType="map"	resultMap="oneInqSelectMap">
 	  	SELECT 
 	  	*
@@ -36,22 +35,40 @@
 	  					SELECT 
 	  					inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT 
-	  					                   user_email, title, reg_date, status
+	  					                   *
 											FROM one_inqs 
-											WHERE user_email = #{userEmail}
-											<if test="searchCondition != null">
-												<where>
+											<where>
+											user_email = #{userEmail}
+												<if test="searchCondition != null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				title LIKE '%' || #{searchKeyword} || '%'
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				reg_date = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY one_inq_no ) inner_table
+									 				AND title = #{searchKeyword} 
+												</if>
+												<if test="searchCondition == 1 and searchKeyword !='' ">
+									 				AND status = #{searchKeyword}
+												</if>
+												</if>
+											</where>
+											ORDER BY reg_date ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 
+	<!-- SQL : SELECT ROW Count  -->
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT *
+						FROM one_inqs
+					<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			title = #{searchKeyword} 
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			status = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
 	 </select>
 	
 	 
@@ -90,50 +107,9 @@
 	   	comment_date = SYSDATE 
 	   	status = '2'
 	   	</set>
-	   	WHERE status = '1' and one_inq_no = #{oneInqNo} 
+	   	WHERE status = '1' and one_inq_no = #{oneInqNo}
+	   	AND admin_email = 'admin@io.com'
 	 </update>
     
-    
-	 	
-	 
-	 
-	 
-	 
-	   
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	  
-	  
-	 
-	 
-	 
-	 
-	 
-	  
-	 
-	 
-	 
-	 
-	 
-	 
 	 
 </mapper>

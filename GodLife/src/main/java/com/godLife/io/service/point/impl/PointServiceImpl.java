@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.godLife.io.service.domain.Point;
+import com.godLife.io.service.domain.User;
 import com.godLife.io.service.point.PointDao;
 import com.godLife.io.service.point.PointService;
 import com.godLife.io.common.Search;
@@ -37,38 +38,37 @@ public class PointServiceImpl implements PointService {
 	}
 	
 	@Override
-	public void addPointPurchase(Point point) throws Exception{
-		pointDao.addPointPurchase(point);
+	public void addPointPurchase(Map<String,Object> map) throws Exception{
+		pointDao.addPointPurchase(map);
 	}
 
 	@Override
-	public Map<String, Object> getPointPurchaseList(Search search, String userEmail) throws Exception {
+	public Map<String,Object> getPointPurchaseList(Search search,User user) throws Exception {
+		int totalCount = pointDao.getTotalCount(user);
 		
-		int totalCount = pointDao.getTotalCount(search);
-
-		Map<String, Object> map = pointDao.getPointPurchaseList(search, userEmail);
+		Map<String, Object> map = pointDao.getPointPurchaseList(search, user);
 		map.put("totalCount", new Integer(totalCount));
 
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> getPointPurchaseVoucherList(Search search, String userEmail) throws Exception {
+	public Map<String, Object> getPointPurchaseVoucherList(Search search, User user) throws Exception {
 		
-		int totalCount = pointDao.getTotalCount(search);
+		int totalCount = pointDao.getTotalCount(user);
 
-		Map<String, Object> map = pointDao.getPointPurchaseVoucherList(search, userEmail);
+		Map<String, Object> map = pointDao.getPointPurchaseVoucherList(search, user);
 		map.put("totalCount", new Integer(totalCount));
 
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> getPointPurchaseDonationList(Search search, String userEmail) throws Exception {
+	public Map<String, Object> getPointPurchaseDonationList(Search search, User user) throws Exception {
 		
-		int totalCount = pointDao.getTotalCount(search);
+		int totalCount = pointDao.getTotalCount(user);
 
-		Map<String, Object> map = pointDao.getPointPurchaseDonationList(search, userEmail);
+		Map<String, Object> map = pointDao.getPointPurchaseDonationList(search, user);
 		map.put("totalCount", new Integer(totalCount));
 
 		return map;

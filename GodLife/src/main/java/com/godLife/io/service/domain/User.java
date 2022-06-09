@@ -157,8 +157,8 @@ public class User {
 	}
 
 
-	public void setTotalPoint(int totalPoint) {
-		this.totalPoint = totalPoint;
+	public void setTotalPoint(int sumTotalPoint) {
+		this.totalPoint = sumTotalPoint;
 	}
 
 

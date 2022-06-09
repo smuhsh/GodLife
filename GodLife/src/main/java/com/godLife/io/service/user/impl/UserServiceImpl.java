@@ -46,11 +46,6 @@ public class UserServiceImpl implements UserService{
 	
 	//================회원=======================================================
 	
-
-	
-	
-	
-	
 	
 	public void addUser(User user) throws Exception {
 		userDao.addUser(user);
@@ -75,11 +70,11 @@ public class UserServiceImpl implements UserService{
 	
 	public Map<String , Object > getUserList(Search search) throws Exception {
 		List<User> list= userDao.getUserList(search);
-		//int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
-		//map.put("totalCount", new Integer(totalCount));
+		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
 	}
@@ -95,24 +90,30 @@ public class UserServiceImpl implements UserService{
 	
 	//================친구, 블랙리스트=================================================
 	
-	public Map<String , Object > getFriendBlackList(Search search, String userEmail) throws Exception {
-//		List<FriendBlack> list= userDao.getFriendBlackList(search, userEmail);
-//		int totalCount = userDao.getTotalCount(search);
+	public Map<String , Object > getFriendList(Search search, String userEmail) throws Exception {
+		int totalCount = userDao.getTotalCount(search);
 		
-		Map<String, Object> map = userDao.getFriendBlackList(search, userEmail);
-//		map.put("list", list );
-//		map.put("totalCount", new Integer(totalCount));
+		Map<String, Object> map = userDao.getFriendList(search, userEmail);
+		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
 	}
 	
+	public Map<String , Object > getBlackList(Search search, String userEmail) throws Exception {
+		int totalCount = userDao.getTotalCount(search);
+		
+		Map<String, Object> map = userDao.getBlackList(search, userEmail);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+	
+	
 	public Map<String , Object > getFriendRequestList(Search search, String targetEmail) throws Exception {
-//		List<FriendBlack> list= userDao.getFriendBlackList(search, userEmail);
-//		int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getTotalCount(search);
 		
 		Map<String, Object> map = userDao.getFriendRequestList(search, targetEmail);
-//		map.put("list", list );
-//		map.put("totalCount", new Integer(totalCount));
+		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
 	}
@@ -137,6 +138,7 @@ public class UserServiceImpl implements UserService{
 	
 	
 	//================쪽지================================================
+	
 	public void addMsg(Msg msg) throws Exception {
 		userDao.addMsg(msg);
 	}
@@ -149,11 +151,30 @@ public class UserServiceImpl implements UserService{
 		return userDao.getSendMsg(msgNo);
 	}
 	
-	public void deleteMsg(Msg msg) throws Exception {
-		userDao.deleteMsg(msg);
+	public void deleteMsg(int msgNo) throws Exception {
+		userDao.deleteMsg(msgNo);
+	}
+	
+	public Map<String , Object > getRecvMsgList(Search search, String recvEmail) throws Exception {
+		int totalCount = userDao.getTotalCount(search);
+
+		Map<String, Object> map = userDao.getRecvMsgList(search, recvEmail);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+	
+	public Map<String , Object > getSendMsgList(Search search, String sendEmail) throws Exception {
+		int totalCount = userDao.getTotalCount(search);
+
+		Map<String, Object> map = userDao.getSendMsgList(search, sendEmail);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}
 
 	//================일대일문의================================================
+	
 	public void addOneInq(OneInq oneInq) throws Exception {
 		userDao.addOneInq(oneInq);
 	}
@@ -173,7 +194,7 @@ public class UserServiceImpl implements UserService{
 		return userDao.getOneInq(oneInqNo);
 	}
 	
-	public void deleteOneInq(OneInq oneInq) throws Exception {
+	public void deleteOneInq(int oneInq) throws Exception {
 		userDao.deleteOneInq(oneInq);
 	}
 	
@@ -200,11 +221,37 @@ public class UserServiceImpl implements UserService{
 	
 
 
+	public void updateUserTotalPoint(User user) throws Exception{
+		userDao.updateUserTotalPoint(user);
+	}
 	
+	public void updateUserRedCouponCount(User user) throws Exception{
+		userDao.updateUserRedCouponCount(user);
+	}
 	
-	
-	
-	
+	public void updateUserCertiCouponCount(User user) throws Exception{
+		userDao.updateUserCertiCouponCount(user);
+	}
+
+	@Override
+	public Msg getRecvMsg(String recvEmail) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Msg getSendMsg(String sendEmail) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteMsg(Msg msg) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	
 	
 	
