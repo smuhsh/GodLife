@@ -31,14 +31,27 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	///Method
-	public void addProduct(Product product) throws Exception {
-		sqlSession.insert("ProductMapper.addProduct", product);		
+	public void addProductCoupon(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductCoupon", product);		
 	}
 	
-	public Product getProduct(int productNo) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getProduct", productNo);
+	public void addProductVoucher(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductVoucher", product);		
 	}
-
+	
+	public void addProductPoint(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductPoint", product);		
+	}
+///////////////////////////////////////////////////////////	
+	public Product getProductCoupon(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductCoupon", productNo);
+	}
+	public Product getProductVoucher(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductVoucher", productNo);
+	}
+	public Product getProductPoint(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductPoint", productNo);
+	}
 ///////////////////////////////////////////////////////////	
 	public List<Product> getProductCouponList(Search search) throws Exception {
 		return sqlSession.selectList("ProductMapper.getProductCouponList", search);
@@ -65,7 +78,7 @@ public class ProductDaoImpl implements ProductDao{
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
 	}
-	
+
 	
 //	public void addProductCouponView(Product product) throws Exception {
 //		sqlSession.insert("ProductMapper.addProductCouponView", product);		

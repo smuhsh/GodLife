@@ -11,9 +11,18 @@ public interface ProductService {
 	
 	///////////////////////////////////////////////////////////////
 	
-	public void addProduct(Product product) throws Exception ;
+	public void addProductCoupon(Product product) throws Exception ;
+
+	public void addProductVoucher(Product product) throws Exception ;
 	
-	public Product getProduct(int productNo) throws Exception ;
+	public void addProductPoint(Product product) throws Exception ;
+	///////////////////////////////////////////////////////////////	
+	
+	public Product getProductCoupon(int productNo) throws Exception ;
+	
+	public Product getProductVoucher(int productNo) throws Exception ;
+	
+	public Product getProductPoint(int productNo) throws Exception ;
 ///////////////////////////////////////////////////////////		
 	public Map<String, Object> getProductCouponList(Search search) throws Exception ;
 	

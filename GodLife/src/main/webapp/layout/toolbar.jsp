@@ -90,6 +90,10 @@
 	             <ul class="nav navbar-nav navbar-right">
 	                <li><a href="#">·Î±×¾Æ¿ô</a></li>
 	            </ul>
+	            
+	             <ul class="nav navbar-nav navbar-right">
+	                <li><a href="#" id="addChallengeTos">Ã§¸°Áö »ý¼º</a></li>
+	            </ul>
 		</div>
 		<!-- dropdown hover END -->	       
 	    
@@ -236,5 +240,10 @@
 		}); 
 	 	
 		
+	 	$(function(){
+	 		$("a#addChallengeTos").on("click",function(){
+	 			$(self.location).attr("href","/challenge/addChallengeTos.jsp");
+	 		});
+	 	});
 		
 	</script>  
