@@ -38,6 +38,9 @@
 	                     </a>
 	                     <ul class="dropdown-menu">
 	                         <li><a href="#">개인정보조회</a></li>
+	                         <li><a href="#">친구목록조회</a></li>
+	                          <li><a href="#">블랙리스트목록조회</a></li>
+	                          <li><a href="#">친구요청목록조회</a></li>
 	                         <li><a href="#">공지사항목록</a></li>
 	                         <li><a href="#">회원정보조회</a></li>
 	                         <li><a href="#">공지사항관리</a></li>
@@ -98,6 +101,10 @@
 	             <ul class="nav navbar-nav navbar-right">
 	                <li><a href="#">로그아웃</a></li>
 	            </ul>
+	            
+	             <ul class="nav navbar-nav navbar-right">
+	                <li><a href="#" id="addChallengeTos">챌린지 생성</a></li>
+	            </ul>
 		</div>
 		<!-- dropdown hover END -->	       
 	    
@@ -132,7 +139,27 @@
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/user/getUser?userEmail=${sessionScope.user.userEmail}");
 		});
+		
+		//=============  친구목록조회 Event  처리 =============	
+	 	$( "a:contains('친구목록조회')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/user/listFriend?userEmail=${sessionScope.user.userEmail}");
+		});
+		
+	 	//=============  블랙리스트목록조회 Event  처리 =============	
+	 	$( "a:contains('블랙리스트목록조회')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/user/listBlack?userEmail=${sessionScope.user.userEmail}");
+		});
+	 	
+	 	//=============  친구요청목록조회 Event  처리 =============	
+	 	$( "a:contains('친구요청목록조회')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/user/listFriendRequest");
+		});
 			
+		
+		
 	 	 $(function() {
 	 		//=============  판매상품등록 Event  처리 =============
 		 	$("a:contains('판매상품등록')").on("click" , function() {
@@ -243,5 +270,10 @@
 			}); 
 		});
 		
+	 	$(function(){
+	 		$("a#addChallengeTos").on("click",function(){
+	 			$(self.location).attr("href","/challenge/addChallengeTos.jsp");
+	 		});
+	 	});
 		
 	</script>  

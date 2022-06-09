@@ -47,7 +47,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listFriend").submit();
 		}
 		
 		//============= "검색"  Event  처리 =============	
@@ -87,7 +87,7 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>회원목록조회(관리자용)</h3>
+	       <h3>친구 목록조회</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -104,8 +104,7 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원 이메일</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>닉네임</option>
 					</select>
 				  </div>
 				  
@@ -133,10 +132,8 @@
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left" >회원 이메일</th>
-            <th align="left">닉네임</th>
-            <th align="left">가입날짜</th>
-            <th align="left">관심사 번호</th>
+            <th align="left" >친구 이메일</th>
+            <th align="left">친구 닉네임</th>
           </tr>
         </thead>
        
@@ -147,10 +144,9 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${user.userEmail}</td>
+			  <td align="left"  title="Click : 회원정보 확인">${user.userEmail} 
 			  <td align="left">${user.nick}</td>
-			  <td align="left">${user.regDate}</td>
-			   <td align="left">${user.categNo}</td>
+			  <td align="left">${user.profileImg}</td>
 			  <td align="left">
 			  	<input type="hidden" value="${user.userEmail}">
 			  </td>

@@ -1,9 +1,20 @@
 package com.godLife.io.web.user;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,14 +27,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.godLife.io.service.user.UserService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
 import com.godLife.io.service.domain.OneInq;
 import com.godLife.io.service.domain.User;
-import com.godLife.io.service.user.UserService;
 
 //==> 회원관리 Controller
 @Controller
@@ -48,7 +66,10 @@ public class UserController {
 	
 	////////////////////////////////회원관리/////////////////////////////////////////////////////////
 	
-	@GetMapping( value="login")  // 완료 
+	//checkdupulication 알아보기 
+	//전체적으로 세션 설정하기, 로그인안했을때.. 
+	
+	@GetMapping( value="login")  // 테스트완료 
 	public String login() throws Exception{
 		
 		System.out.println("/user/login : GET");
@@ -56,7 +77,8 @@ public class UserController {
 		return "redirect:/user/loginView.jsp"; // 로그인 페이지로 이동 
 	}
 	   
-	@PostMapping( value="login") // 미완료.. 로그인버튼이 안눌림 
+	
+	@PostMapping( value="login") // 테스트완료 ??? 아이디 없을때,, 이런거 다시 체크하기 
 	public String login(@ModelAttribute("user") User user , HttpSession session, Model model) throws Exception{
 		
 		System.out.println("/user/login : POST");
@@ -67,6 +89,7 @@ public class UserController {
 		
 		System.out.println("입력받은 ID/PW : "+user);
 		System.out.println("DB와 일치하는 ID/PW : "+dbUser);
+		
 		
 		//db에 아이디가 없을 경우
 		if(dbUser==null) {
@@ -80,20 +103,18 @@ public class UserController {
 			return "redirect:/user/loginView.jsp";	// 로그인 페이지 
 		}
 		
+		
 		if( user.getPwd().equals(dbUser.getPwd())){
 			session.setAttribute("user", dbUser);
 			System.out.println("세션 만들어짐...");
 			System.out.println(session.getAttribute("user"));
-			
 		}
-		
-		
 		
 		return "redirect:/index.jsp"; // 메인페이지로 이동 
 	}
 	
 	
-	@GetMapping( value="logout")
+	@GetMapping( value="logout") // 테스트완료  
 	public String logout(HttpSession session ) throws Exception{
 		
 		System.out.println("/user/logout : POST");
@@ -104,7 +125,7 @@ public class UserController {
 	}
 	
 
-	@GetMapping( value="addUser") // 완료
+	@GetMapping( value="addUser") // 테스트완료 
 	public String addUser() throws Exception{
 	
 		System.out.println("/user/addUser : GET");
@@ -112,7 +133,7 @@ public class UserController {
 		return "redirect:/user/addUserView.jsp"; // 회원가입 페이지로 이동 
 	}
 	
-	@PostMapping( value="addUser")
+	@PostMapping( value="addUser") // 테스트완료 
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {
 
 		System.out.println("/user/addUser : POST");
@@ -122,19 +143,25 @@ public class UserController {
 		return "redirect:/user/loginView.jsp"; // 회원가입하면 로그인페이지로 이동 
 	}
 	
-	@GetMapping( value="getUser")
-	public String getUser( @RequestParam("userEmail") String userEmail , Model model ) throws Exception {
+	
+	@GetMapping( value="getUser") // 본인정보조회, 테스트완료
+	public String getUser( @RequestParam("userEmail") String userEmail , Model model, Map<String,Object> map) 
+						   throws Exception {
 		
+					
 		System.out.println("/user/getUser : GET");
 		//Business Logic
 		User user = userService.getUser(userEmail);
+		
 		// Model 과 View 연결
 		model.addAttribute("user", user);
 		
 		return "forward:/user/getUser.jsp"; // 본인정보 조회 페이지로 이동 
 	}
 	
-	@GetMapping( value="updateUser")
+	
+	
+	@GetMapping( value="updateUser") // 테스트 완료 
 	public String updateUser( @RequestParam("userEmail") String userEmail , Model model ) throws Exception{
 
 		System.out.println("/user/updateUser : GET");
@@ -146,21 +173,23 @@ public class UserController {
 		return "forward:/user/updateUser.jsp"; // 본인정보 수정을 하기위한 조회페이지로 이동 
 	}
 	
-	@PostMapping( value="updateUser")
-	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
-
-		System.out.println("/user/updateUser : POST");
-		//Business Logic
-		userService.updateUser(user);
+	@PostMapping( value="updateUser") // 프로필이미지 수정 미완료, text area 값 데이터값 안나옴 
+	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session
+			) throws Exception{
 		
-		String sessionId=((User)session.getAttribute("user")).getUserEmail();
-		if(sessionId.equals(user.getUserEmail())){
-			session.setAttribute("user", user);
-		}
-		return "redirect:/user/getUser?userEmail="+user.getUserEmail(); // 수정된상태의 조회페이지로 이동 
+			System.out.println("/user/updateUser : POST");
+			//Business Logic
+			userService.updateUser(user);
+			
+			String sessionId=((User)session.getAttribute("user")).getUserEmail();
+			if(sessionId.equals(user.getUserEmail())){
+				session.setAttribute("user", user);
+			}
+			
+			return "redirect:/user/getUser?userEmail="+user.getUserEmail(); // 수정된상태의 조회페이지로 이동 
 	}
 	
-	@RequestMapping( value="listUser" )
+	@RequestMapping( value="listUser" )  // 테스트완료, 시간되면 매퍼에서 서치검색어 like로 바꾸기 
 	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
 		
@@ -185,7 +214,8 @@ public class UserController {
 		return "forward:/user/listUser.jsp"; // 유저전체 목록조회로 이동(관리자) 
 	}
 	
-	@GetMapping("findUserEmail")
+	
+	@GetMapping("findUserEmail") 
 	public String findUserEmail () throws Exception{
 
 		System.out.println("/user/findId : GET");
@@ -232,7 +262,7 @@ public class UserController {
 		return "user/updateUserPwd"; // 새 비밀번호 입력창으로 이동
 	}	
 	
-	@PostMapping("updateUserPwd")
+	@PostMapping("updateUserPwd") 
 	public String updateUserPwd( @ModelAttribute("user") User user, HttpSession session, Model model  ) throws Exception {
 
 		System.out.println("/user/updateUserPwd : POST");
@@ -245,13 +275,30 @@ public class UserController {
 		return "bbb"; // 비밀번호 변경되고 로그인페이지 또는 메인페이지로 이동 
 	}
 	
+	//coolSms api 사용
+	@GetMapping(value = "phoneCheck") // 테스트완료 
+	@ResponseBody
+	public String sendSMS(@RequestParam("phone") String userPhoneNumber) throws Exception { // 휴대폰 문자보내기
+		int randomNumber = (int)((Math.random()* (9999 - 1000 + 1)) + 1000);//난수 생성
+
+		userService.certifiedPhoneNumber(userPhoneNumber,randomNumber);
+		
+		return Integer.toString(randomNumber);
+	}
+	
+	
+	//타유저 상세조회 . 인젝션해야되는데... 개어려워... 
+	
+	
+
+	
+	
 	////////////////////////////////친구, 블랙리스트 관리/////////////////////////////////////////////////////////
 	
 	// 친구 목록조회
-	
-	@RequestMapping( value = "listFriend")
+	@RequestMapping( value = "listFriend") // 테스트완료 (썸네일 이미지 출력과, 닉네임 클릭 시 회원상세정보로 이동하는거 만들면될듯..) ,, 어자피 타유저상세조회라서.. 그땐 닉으로할까.. 
 	public String listFriend (@ModelAttribute("search") Search search, 
-							   @RequestParam("userEmail")String userEmail, 
+							  @RequestParam("userEmail")String userEmail, 
 							   Model model, HttpServletRequest request)throws Exception{
 		
 		System.out.println("listFriend : GET / POST");
@@ -272,13 +319,12 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 				
-	  return "aaa"; // 친구 목록조회 리스트로 이동 				
+		return "forward:/user/listFriend.jsp"; // 친구 목록조회 리스트로 이동 				
 								
 	}
 	
 	// 블랙리스트 목록조회
-	
-	@RequestMapping( value = "listBlack")
+	@RequestMapping( value = "listBlack") // 테스트 완료, 카운트 수 이상함 
 	public String listBlack (@ModelAttribute("search") Search search, 
 							   @RequestParam("userEmail")String userEmail, 
 							   Model model, HttpServletRequest request)throws Exception{
@@ -301,19 +347,19 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 				
-	  return "aaa"; // 블랙리스트 목록조회 리스트로 이동 				
+	  return "forward:/user/listBlack.jsp"; // 블랙리스트 목록조회 리스트로 이동 				
 								
 	}
 	
 	// 친구요청 목록조회 
-	
-	@RequestMapping( value = "listFriendRequest")
-	public String listFriendRequest (@ModelAttribute("search") Search search, 
-							   @RequestParam("targetEmail")String targetEmail, 
-							   Model model, HttpServletRequest request)throws Exception{
+	@RequestMapping( value = "listFriendRequest") // 테스트완료, 카운트값, 서치값만 확인 
+	public String listFriendRequest (@ModelAttribute("search") Search search,  
+							   Model model, HttpServletRequest request,HttpSession session)throws Exception{
 		
 		System.out.println("listFriendRequest : GET / POST");
 		
+		User user = (User)session.getAttribute("user");
+		String targetEmail = user.getUserEmail();
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
@@ -330,7 +376,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 				
-	  return "aaa"; // 친구요청 목록조회로 이동
+		 return "forward:/user/listFriendRequest.jsp";
 								
 	}
 
@@ -363,23 +409,42 @@ public class UserController {
 	}
 	
 	
-	//친구 요청 수락 (친구요청 목록조회에서) 
-	@PostMapping( value="updateAccStatus")
+	//친구 요청 수락 (친구요청 목록조회에서)  // 테스트완료 
+	@RequestMapping( value="updateAccStatus")
 	public String updateAccStatus( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
+								   @RequestParam("userEmail") String userEmail,
 								   Model model , HttpSession session) throws Exception{
 		
-		System.out.println("친구 요청수락 : post");
+		System.out.println("친구 요청수락 시작 ");
 		//Business Logic
 		userService.updateAccStatus(friendBlack);
 		//따로 뭐 더 안해줘도되는건가.. 
 		
-		return "aa"; // 수정된상태의 조회페이지로 이동 
+		 return "forward:/user/listFriendRequest";
 	}
 	
-	//친구 삭제 및 요청 거절 
+	//친구 요청 거절 (친구요청 목록조회에서)  // 테스트완료 
+	@RequestMapping( value="deleteFriend")
+	public String deleteFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
+								@RequestParam("userEmail") String userEmail,
+								Model model , HttpServletRequest request) throws Exception{
+		
+		System.out.println("친구 거절 시작 ");
+		//Business Logic
+		userService.deleteFriend(friendBlack);
+		//따로 뭐 더 안해줘도되는건가.. 
+		
+		 return "forward:/user/listFriendRequest"; // 수정된상태의 조회페이지로 이동 
+	}
 	
 	
 	
+	
+	//친구 삭제 
+	//블랙리스트 삭제 
+	
+	
+	//친구등록 중복방지, 블랙리스트 등록 중복방지.... 어떻게할까.... 
 	
 	
 	
@@ -498,6 +563,10 @@ public class UserController {
 	  return "aaa"; // 보낸 쪽지 목록으로 이동 						
 								
 	}
+	
+	
+	
+	
 							   	
 	////////////////////////////////일대일 문의 관리/////////////////////////////////////////////////////////
 	
@@ -609,7 +678,11 @@ public class UserController {
 	////////////////////////////////신고 관리/////////////////////////////////////////////////////////
 	
 	
+	//신고유저 목록조회 
 	
+	//레드카드발급 
+	
+	//계정정지 
 	
 	
 	
