@@ -18,5 +18,4 @@ public interface PointService {
 	
 	public Map<String,Object> getPointPurchaseDonationList(Search search,User user) throws Exception;
 	
-	
 }

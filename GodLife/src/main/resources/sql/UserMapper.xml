@@ -1,313 +1,218 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE mapper
-		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="UserMapper">
+    
+    
+   <resultMap id="userSelectMap" type="user">
+      <result property="userEmail"          column="user_email"          jdbcType="VARCHAR"/>
+      <result property="pwd"               column="pwd"                   jdbcType="VARCHAR" />
+      <result property="role"                column="role"                   jdbcType="CHAR" />
+      <result property="nick"                column="nick"                   jdbcType="VARCHAR" />
+      <result property="regDate"             column="reg_date"             jdbcType="DATE" />
+      <result property="categNo"             column="categ_no"             jdbcType="INTEGER" />
+      <result property="profileImg"          column="profile_img"          jdbcType="VARCHAR" />
+      <result property="intro"                column="intro"                   jdbcType="VARCHAR"  />
+      <result property="phone"             column="phone"                jdbcType="VARCHAR" />
+      <result property="redCardCount"    column="redcard_count"       jdbcType="INTEGER"  />
+      <result property="accountStatus"    column="account_status"    jdbcType="CHAR" />
+      <result property="reportCount"       column="report_count"       jdbcType="INTEGER" />
+      <result property="totalPoint"          column="total_point"          jdbcType="INTEGER" />
+      <!-- 아래추가-->
+      <result property="categName"       column="categ_name"          jdbcType="VARCHAR" />
+      <result property="redCouponCount"       column="red_coupon_count "          jdbcType="INTEGER" />
+      <result property="certiCouponCount"       column="certi_coupon_count  "          jdbcType="INTEGER" />
+      <result property="challengeTitle"         column="title"            jdbcType="VARCHAR" />
+      
+      
+      
+   </resultMap>
+   
+   <!-- SQL : 회원가입-->
+   <insert    id="addUser"      parameterType="user" >
+       INSERT
+      INTO users (user_email, pwd, role, nick, reg_date, categ_no, phone, account_status)
+      VALUES    (   #{userEmail : VARCHAR}, #{pwd : VARCHAR}, '1', #{nick : VARCHAR}, SYSDATE, #{categNo : INTEGER},
+                         #{phone : VARCHAR}, '1')
+    </insert>
+    
+    <!-- SQL : 파일 업로드-->
+    
+    <!-- SQL : 계정상태 변경(레드카드 3장이상, 관리자)-->
+    <update   id="updateAccStatus"   parameterType="user" >
+         UPDATE users
+         <set>
+            account_status = =#{accountStatus} 
+         </set>
+         WHERE user_email = #{userEmail}
+    </update>
+    
+    <!-- SQL : 본인정보 상세조회, 로그인 -->
+    <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
+      SELECT
+      u.user_email, u.pwd, u.nick, u.profile_img, u.phone, u.intro, u.redcard_count, u.reg_date, ca.categ_name, u.total_point,
+      u.red_coupon_count, u.certi_coupon_count, rp.report_count
+       FROM users u, categs ca,( SELECT count(*) report_count 
+                            FROM users u,reports r 
+                            WHERE u.user_email=r.target_email
+                            and r.target_email= #{userEmail} ) rp
+       WHERE u.categ_no = ca.categ_no 
+       AND u.user_email = #{userEmail}
+    </select>
+    
+    
+     <!-- SQL : 타유저 상세조회-->
+    <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
+      SELECT u.user_email, u.nick, u.intro, c.categ_name, ch.title, ce.certi_img, b.badge_name, b.badge_img
+      FROM users u, categs c, challenges ch, join_challenger j, certi_imgs ce, badges b, my_badge m
+      WHERE u.categ_no = c.categ_no 
+      AND u.user_email = j.user_email(+)
+      AND j.user_email = ce.user_email(+)
+      AND j.challenge_no = ch.challenge_no(+)
+      AND u.user_email = m.user_email(+)
+      AND m.badge_no = b.badge_no(+)
+       AND u.user_email = #{userEmail}
+    </select>
+    
+    <!-- SQL : 비밀번호 변경 -->
+    <update   id="updatePwd"   parameterType="user" >
+         UPDATE users
+         <set>
+            pwd = #{pwd}
+         </set>
+         WHERE user_email = #{userEmail}
+    </update>
+    
+    
+    <!-- SQL : 본인정보 수정 -->
+    <update   id="updateUser"   parameterType="user" >
+         UPDATE users u
+         <set>
+            u.nick = #{nick},
+            u.phone= #{phone},
+            u.categ_no= #{categNo},
+            u.intro = #{intro},
+            u.profile_img = #{profileImg}
+         </set>
+         WHERE u.user_email = #{userEmail}
+    </update>
+    
+    
+    <!-- SQL : 유저전체 목록조회(관리자) -->
+    
+   <select  id="getUserList"  parameterType="search"   resultMap="userSelectMap">
+        SELECT 
+        *
+        FROM (   
+                    SELECT 
+                    inner_table.* , ROWNUM AS row_seq
+                    FROM      (   SELECT 
+                                       *
+                                 FROM users 
+                                 <if test="searchCondition != null">
+                                    <where>
+                                       <if test="searchCondition == 0 and searchKeyword !='' ">
+                                           user_email = #{searchKeyword}
+                                       </if>
+                                       <if test="searchCondition == 1 and searchKeyword !='' ">
+                                           nick = #{searchKeyword}
+                                       </if>
+                                    </where>
+                                 </if>
+                                 ORDER BY reg_date ) inner_table
+                  WHERE ROWNUM &lt;= #{endRowNum} )
+      WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+    </select>
+   
+    
+    <!-- SQL : 아이디, 비밀번호 찾기 -->
+    <select  id="findUserPhone"   parameterType="string"   resultMap="userSelectMap">
+      SELECT *
+      FROM users
+      WHERE phone = #{phone}
+   </select>
+   
+<!-- SQL : 아이디, 비밀번호 찾기 -->
+    <select  id="findUserEmail"   parameterType="string"   resultMap="userSelectMap">
+      SELECT *
+      FROM users
+      WHERE user_email = #{userEmail}
+   </select>
+    
 
-
-	<resultMap id="userSelectMap" type="user">
-		<result property="userEmail" column="user_email"
-			jdbcType="VARCHAR" />
-		<result property="pwd" column="pwd" jdbcType="VARCHAR" />
-		<result property="role" column="role" jdbcType="CHAR" />
-		<result property="nick" column="nick" jdbcType="VARCHAR" />
-		<result property="regDate" column="reg_date" jdbcType="DATE" />
-		<result property="categNo" column="categ_no" jdbcType="INTEGER" />
-		<result property="profileImg" column="profile_img"
-			jdbcType="VARCHAR" />
-		<result property="intro" column="intro" jdbcType="VARCHAR" />
-		<result property="phone" column="phone" jdbcType="VARCHAR" />
-		<result property="redCardCount" column="redcard_count"
-			jdbcType="INTEGER" />
-		<result property="accountStatus" column="account_status"
-			jdbcType="CHAR" />
-		<result property="reportCount" column="report_count"
-			jdbcType="INTEGER" />
-		<result property="totalPoint" column="total_point"
-			jdbcType="INTEGER" />
-		<!-- 아래추가 -->
-		<result property="categName" column="categ_name"
-			jdbcType="VARCHAR" />
-		<result property="redCouponCount" column="red_coupon_count "
-			jdbcType="INTEGER" />
-		<result property="certiCouponCount"
-			column="certi_coupon_count  " jdbcType="INTEGER" />
-
-
-	</resultMap>
-
-	<!-- SQL : 회원가입 -->
-	<insert id="addUser" parameterType="user">
-		INSERT
-		INTO users (user_email,
-		pwd, nick, reg_date, categ_no, phone,
-		account_status )
-		VALUES (
-		#{userEmail : VARCHAR}, #{pwd : VARCHAR},
-		#{nick : VARCHAR}, SYSDATE,
-		#{categNo : INTEGER},
-		#{phone : VARCHAR}, '1'} )
-	</insert>
-
-
-	<!-- SQL : 파일 업로드 -->
-
-	<!-- SQL : 로그인(다시 생각하기 ) -->
-	<select id="login" parameterType="string"
-		resultMap="userSelectMap">
-		SELECT
-		user_email, pwd
-		FROM users
-		WHERE account_status = '1'
-		AND user_email =#{userEmail}
-	</select>
-
-	<!-- SQL : 계정상태 변경(레드카드 3장이상, 관리자) -->
-	<update id="updateAccStatus" parameterType="user">
-		UPDATE users
-		<set>
-			account_status = =#{accountStatus}
-		</set>
-		WHERE user_email = #{userEmail}
-	</update>
-
-
-	<!-- SQL : 본인정보 상세조회 -->
-	<select id="getUser" parameterType="string"
-		resultMap="userSelectMap">
-		SELECT
-		u.user_email, u.nick, u.pwd, u.phone, ca.categ_name, u.intro, u.profile_img,
-		( SELECT count(*)
-		FROM reports r
-		WHERE r.target_email = u.user_email)
-		AS report_count
-		FROM users u, categs ca
-		WHERE u.categ_no = ca.categ_no
-		AND u.user_email =#{userEmail}
-	</select>
-
-	<!-- SQL : 비밀번호 변경 -->
-
-	<!-- SQL : 비밀번호 변경 -->
-	<update id="updatePwd" parameterType="user">
-		UPDATE users
-		<set>
-			pwd = #{pwd}
-		</set>
-		WHERE user_email = #{userEmail}
-	</update>
-
-
-	<!-- SQL : 본인정보 수정 -->
-	<update id="updateUser" parameterType="user">
-		UPDATE users u, categs ca
-		<set>
-			u.nick = #{nick},
-			u.phone= #{phone},
-			ca.categ_name = #{categName},
-			u.intro = #{intro},
-			u.profile_img = #{profileImg}
-		</set>
-		WHERE u.categ_no = ca.categ_no
-		AND u.user_email = #{userEmail}
-	</update>
-
-
-	<!-- SQL : 유저전체 목록조회(관리자) -->
-
-	<select id="getUserList" parameterType="search"
-		resultMap="userSelectMap">
-		SELECT
-		*
-		FROM (
-		SELECT
-		inner_table.* , ROWNUM AS row_seq
-		FROM ( SELECT
-		user_email, nick, reg_date, categ_no, profile_img
-		FROM users
-		<if test="searchCondition != null">
-			<where>
-				<if test="searchCondition == 0 and searchKeyword !='' ">
-					user_email = #{searchKeyword}
-				</if>
-				<if test="searchCondition == 1 and searchKeyword !='' ">
-					user_nick = #{searchKeyword}
-				</if>
-				<if test="searchCondition == 2 and searchKeyword !='' ">
-					reg_date = #{searchKeyword}
-				</if>
-			</where>
-		</if>
-		ORDER BY reg_date ) inner_table
-		WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE
-		row_seq BETWEEN #{startRowNum} AND
-		#{endRowNum}
-	</select>
-
-
-	<!-- SQL : 아이디, 비밀번호 찾기 -->
-	<select id="findUserPhone" parameterType="string"
-		resultMap="userSelectMap">
-		 u.user_email, u.nick, u.pwd, u.phone, ca.categ_name, u.intro, u.profile_img, 	
-		 ( SELECT count(*) 
-		 FROM reports r 
-		 WHERE r.target_email = u.user_email) 
-		 AS report_count
-		 FROM users u, categs ca 
-		 WHERE u.categ_no = ca.categ_no 
-		 AND u.user_email =#{userEmail} 
-	 </select>
-	 
-	 <!-- SQL : 비밀번호 변경 -->
-	 <update	id="updatePwd"	parameterType="user" >
-	   	UPDATE users
-	   	<set>
-	   		pwd = #{pwd}
-	   	</set>
-	   	WHERE user_email = #{userEmail}
-	 </update>
-	 
-	 
-	 <!-- SQL : 본인정보 수정 -->
-	 <update	id="updateUser"	parameterType="user" >
-	   	UPDATE users u, categs ca
-	   	<set>
-	   		u.nick = #{nick},
-	   		u.phone= #{phone},
-	   		ca.categ_name = #{categName},
-	   		u.intro = #{intro},
-	   		u.profile_img = #{profileImg}
-	   	</set>
-	   	WHERE u.categ_no = ca.categ_no 
-	   	AND u.user_email = #{userEmail}
-	 </update>
-	 
-	 
-	 <!-- SQL : 유저전체 목록조회(관리자) -->
-	 
-	<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
-	  	SELECT 
-	  	*
-	  	FROM (	
-	  					SELECT 
-	  					inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT 
-	  					                   user_email, nick, reg_date, categ_no, profile_img
-											FROM users 
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				user_email = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				user_nick = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				reg_date = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY reg_date ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-	 </select>
-	
-	 
-	 <!-- SQL : 아이디, 비밀번호 찾기 -->
-	 <select  id="findUserPhone"	parameterType="string"	resultMap="userSelectMap">
-		SELECT *
-		FROM users
-		WHERE phone = #{phone}
-	</select>
-
-	<!-- SQL : 아이디, 비밀번호 찾기 -->
-	<select id="findUserEmail" parameterType="string"
-		resultMap="userSelectMap">
-		SELECT *
-		FROM users
-		WHERE user_email = #{userEmail}
-	</select>
-
-
-	<!-- SQL : 유저상세조회 -->
-
-
-
-
-	<!-- SQL : 레드카드 발급, 제거 -->
-	<update id="updateRedCard" parameterType="report">
-		UPDATE users u
-		<set>
-			recard_count = #{redcardCount}
-		</set>
-		WHERE u.user_email = {userEmail}
-	</update>
-
-
-
-
-
-
-
-	<!-- 병문 오빠 추가 -->
-	<update id="updateUserRedCoupon" parameterType="user">
-		UPDATE USERS
-		SET red_coupon_count = #{redCouponCount}
-		<where>
-			user_email=#{userEmail}
-		</where>
-	</update>
-
-
-	<!-- 병문 오빠 추가 -->
-	<update id="updateUserCertiCoupon" parameterType="user">
-		UPDATE USERS
-		SET certi_coupon_count = #{certiCouponCount}
-		<where>
-			user_email=#{userEmail}
-		</where>
-	</update>
-
-
-	<!-- 병문 오빠 추가 -->
-	<update id="updateUserTotalPoint" parameterType="user">
-		UPDATE USERS
-		SET total_point = #{totalPoint}
-		<where>
-			user_email=#{userEmail}
-		</where>
-	</update>
-
-
-
-	<!-- SQL : SELECT ROW Count -->
-	<select id="getTotalCount" parameterType="search"
-		resultType="int">
-		SELECT COUNT(*)
-		FROM( SELECT user_email , nick , reg_date
-		FROM users
-		<if test="searchCondition != null">
-			<where>
-				<if test="searchCondition == 0 and searchKeyword !='' ">
-					user_email = #{searchKeyword}
-				</if>
-				<if test="searchCondition == 1 and searchKeyword !='' ">
-					nick = #{searchKeyword}
-				</if>
-				<if test="searchCondition == 2 and searchKeyword !='' ">
-					reg_date = #{searchKeyword}
-				</if>
-			</where>
-		</if>
-		) countTable
-	</select>
-
-
-
-
-
-
+    <!-- SQL : 유저상세조회 -->
+    
+    
+    
+    
+     <!-- SQL : 레드카드 발급, 제거 -->
+    <update   id="updateRedCard"   parameterType="report" >
+         UPDATE users u
+         <set>
+         recard_count = #{redcardCount}
+         </set>
+         WHERE u.user_email = {userEmail}
+    </update>
+    
+    
+    
+    
+    
+    
+    
+    <!-- 병문 오빠 추가 -->
+    <update id="updateUserRedCoupon" parameterType="user" >
+       UPDATE USERS
+       SET red_coupon_count = #{redCouponCount}
+          <where>
+            user_email=#{userEmail}
+         </where>
+     </update>
+     
+     
+      <!-- 병문 오빠 추가 -->
+     <update id="updateUserCertiCoupon" parameterType="user" >
+       UPDATE USERS
+       SET certi_coupon_count = #{certiCouponCount}
+          <where>
+            user_email=#{userEmail}
+         </where>
+     </update>
+     
+     
+     <!-- 병문 오빠 추가 -->
+     <update id="updateUserTotalPoint" parameterType="user" >
+       UPDATE USERS
+       SET total_point = #{totalPoint}
+          <where>
+            user_email=#{userEmail}
+         </where>
+     </update>
+    
+   
+   <!-- SQL : SELECT ROW Count  -->
+    <select  id="getTotalCount"  parameterType="search"    resultType="int">
+        SELECT COUNT(*)
+        FROM(   SELECT user_email , nick 
+                  FROM users
+                  <if test="searchCondition != null">
+                     <where>
+                        <if test="searchCondition == 0 and searchKeyword !='' ">
+                            user_email = #{searchKeyword}
+                        </if>
+                        <if test="searchCondition == 1 and searchKeyword !='' ">
+                         nick = #{searchKeyword}
+                        </if>
+                     </where>
+                  </if> ) countTable                  
+    </select>
+    
+    
+    
+     
+    
+    
 </mapper>
