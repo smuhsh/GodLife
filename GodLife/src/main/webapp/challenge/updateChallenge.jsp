@@ -155,7 +155,7 @@
 				 
 				 	 
 				 $("form[name='addChallengeForm']").attr("method","POST")
-				 .attr("action","/challenge/addChallengeView").submit();
+				 .attr("action","/challenge/updateChallenge").submit();
 				 
 			 });
 		 });
@@ -171,7 +171,7 @@
 		<div class="row">
 		  <div class="col-md-2"></div>
 		  <div class="col-md-8">
-		   <h3 class="text-center bg-info">챌린지 등록</h3>
+		   <h3 class="text-center bg-info">챌린지 수정</h3>
 				
 				<ul class="list-group">
 				  <li class="list-group-item">
@@ -180,20 +180,21 @@
 						  <div class="form-group">
 						    <label for="exampleInputEmail1">챌린지 제목</label>
 						    <input type="email" class="form-control" 
-						    name="challengeTitle" id="exampleInputEmail1" placeholder="챌린지 제목">
+						    name="challengeTitle" id="exampleInputEmail1" placeholder="챌린지 제목" value="${challenge.challengeTitle }">
 						  </div>
 						  
 						  <div class="form-group">
 						    <label for="exampleInputPassword1">입장 포인트</label>
 						    <input type="number" class="form-control" 
-						    name="joinPoint" id="exampleInputPassword1" placeholder="최소 1000포인트 최대 10만포인트 제한입니다. 단위는 1000포인트 단위입니다.">
+						    name="joinPoint" id="exampleInputPassword1" value="${challenge.joinPoint }"
+						    placeholder="최소 1000포인트 최대 10만포인트 제한입니다. 단위는 1000포인트 단위입니다.">
 						  </div>
 						  
 						  <div class="form-group">
 						    <label for="exampleInputPassword1">챌린지 소개</label>
 						    <div>
-						    	<textarea name="challengeDetail" cols="45" rows="6" id="detail"
-						   		 placeholder="ex) 하루에 한번 물 500ml마시기 챌린지 입니다."></textarea>
+						    	<textarea name="challengeDetail" cols="45" rows="6" id="detail" 
+						   		 placeholder="ex) 하루에 한번 물 500ml마시기 챌린지 입니다." >${challenge.challengeDetail }</textarea>
 						    </div>
 						  </div>
 						  
@@ -201,7 +202,7 @@
 						    <label for="exampleInputPassword1">챌린지 규칙</label>
 						    <div>
 						    	<textarea name="challengeRule" cols="45" rows="6" id="rule"
-						   		 placeholder="ex) 인증사진은 숟가락과 같이 찍어 올려주세요."></textarea>
+						   		 placeholder="ex) 인증사진은 숟가락과 같이 찍어 올려주세요.">${challenge.challengeRule }</textarea>
 						    </div>
 						  </div>
 						  
@@ -257,14 +258,14 @@
 						  <div class="form-group">
 						    <label for="exampleInputEmail1">챌린지 시작일</label>
 						    <div>
-						    	<input type="text" name ="startDate" id="startDatePicker" readonly>
+						    	<input type="text" name ="startDate" id="startDatePicker" readonly value="${challenge.startDate }" >
 						    </div>
 						  </div>
 						  
 						  <div class="form-group">
 						    <label for="exampleInputEmail1">챌린지 종료일</label>
 						    <div>
-						    	<input type="text" name ="endDate" id="endDatePicker" readonly>
+						    	<input type="text" name ="endDate" id="endDatePicker" readonly value="${challenge.endDate }" >
 						    </div>
 						  </div>
 						  
@@ -286,7 +287,8 @@
 						  </div>
 						  
 						  
-						  
+						  <input type="hidden" name="fileName" value="${fileName }" />
+						  <input type="hidden" name="challengeFileName" value="${challengeFileName }" /> 
 				    </form>	
 				  </li>
 				</ul>
@@ -295,7 +297,7 @@
 			  <div class="buttonGroup">
 			  		<button type="button" id="cancel" class="btn btn-danger">취소</button>
 			  		&nbsp;&nbsp;&nbsp;
-			  		<button type="button" id="addChallenge" class="btn btn-primary">챌린지 등록</button>
+			  		<button type="button" id="addChallenge" class="btn btn-primary">수정 완료</button>
 			  </div>
 		  </div>
 			</center>

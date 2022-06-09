@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import com.godLife.io.service.domain.Challenge;
 
-public class CertiCycle {
+public class ChallengeUtil {
 	
 	
 	public static Challenge certiCycle(Challenge challenge)throws Exception {
@@ -145,6 +145,40 @@ for(int i=0; i<challenge.getCertiCycle().size(); i++) {
 	
 	challenge.setTotalCertiCount(counts);
 	challenge.setCertiDate(certiDate);
+	
+	
+	List<String> certiCycleName = new ArrayList<String>();
+	for(int i=0; i<challenge.getCertiCycle().size(); i++) {
+		if(challenge.getCertiCycle().get(i).equals("1")) {
+			certiCycleName.add("일");
+		}
+		if(challenge.getCertiCycle().get(i).equals("2")) {
+			certiCycleName.add("월");			
+		}
+		if(challenge.getCertiCycle().get(i).equals("3")) {
+			certiCycleName.add("화");
+		}
+		if(challenge.getCertiCycle().get(i).equals("4")) {
+			certiCycleName.add("수");
+		}
+		if(challenge.getCertiCycle().get(i).equals("5")) {
+			certiCycleName.add("목");
+		}
+		if(challenge.getCertiCycle().get(i).equals("6")) {
+			certiCycleName.add("금");				
+		}
+		if(challenge.getCertiCycle().get(i).equals("7")) {
+			certiCycleName.add("토");
+		}
+	}
+	
+	challenge.setCertiCycleName(certiCycleName);
+	
+	
+	
+	
+	
+	
 //		System.out.println("날짜 : "+inputDate);
 //		
 //		counts++;
@@ -172,9 +206,29 @@ for(int i=0; i<challenge.getCertiCycle().size(); i++) {
 		return challenge;
 	}
 	
-	
+	public static Challenge setCategName(Challenge challenge) {
+		
+		if(challenge.getChallengeCategNo() == 1) {
+			challenge.setChallengeCategName("운동");
+		}else if(challenge.getChallengeCategNo() == 2){
+			challenge.setChallengeCategName("식습관");
+		}else if(challenge.getChallengeCategNo() == 3){
+			challenge.setChallengeCategName("공부");
+		}else if(challenge.getChallengeCategNo() == 4){
+			challenge.setChallengeCategName("취미");
+		}else if(challenge.getChallengeCategNo() == 5){
+			challenge.setChallengeCategName("생활");
+		}
+		
+		
+		return challenge;
+	}
 	
 }
+
+
+
+	
 //int[] athentication = new int[7]; //일요일
 //Scanner sc = new Scanner(System.in);
 //for(int i=0; i<athentication.length; i++) {

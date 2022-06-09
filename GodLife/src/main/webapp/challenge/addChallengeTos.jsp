@@ -45,7 +45,6 @@
    		$(function(){
    			
    			$("button#addChallenge").on("click",function(){
-   				alert("챌린지 등록 눌러짐");
    				$(self.location).attr("href","/challenge/addChallenge");
    			});
    			
@@ -72,7 +71,8 @@
 				    <p class="text-left">1.등록 완료된 챌린지에 대해서 관리자는 절대 관여하지 않습니다.</p>
 				  	<p class="text-left">2.챌린지를 등록 했다면 성실히 참여해 주시기 바랍니다.</p>
 				  	<p class="text-left">3.비매너 행위를 하여 신고 횟수가 누적될시 이용제제의 대상이 됩니다.</p>
-				  	<p class="text-left">4.챌린지 생성후 진행단계가 되면 삭제가 불가능합니다.</p>	
+				  	<p class="text-left">4.챌린지 생성후 시작날짜가 되면 자동으로 진행되며 삭제가 불가능합니다.</p>
+				  	<p class="text-left">5.기간이 짧아서 인증주기가 포함되어있지 않아 포인트 환급에 문제가 생겨도 책임 지지않습니다.</p>
 				  </li>
 				</ul>
 		  	<center>
