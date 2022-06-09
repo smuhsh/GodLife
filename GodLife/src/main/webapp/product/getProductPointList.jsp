@@ -60,8 +60,21 @@
 			//document.getElementById("currentPage").value = currentPage;
 			$("#currentPage").val(currentPage)
 		   	//document.detailForm.submit();
-			$("form").attr("method" , "POST").attr("action", "/product/listProduct").submit();
+			$("form").attr("method" , "POST").attr("action", "/product/getProductPointList").submit();
 		};
+
+	//=====기존Code 주석 처리 후  jQuery 변경 ======//
+	// 구매하기 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용
+		
+	function fncGetPointList(currentPage) {
+			//document.getElementById("currentPage").value = currentPage;
+			$("#currentPage").val(currentPage)
+		   	//document.detailForm.submit();
+			$("form").attr("method" , "POST").attr("action", "/point/getPointlist").submit();
+		};	
+		
+		
+		
 	//==========================================================//
    	//==> 추가된부분 : "검색" ,  prodName link  Event 연결 및 처리
    	
@@ -79,16 +92,26 @@
 	
 	      
 	//============= productName 에 상품정보보기  Event  처리(Click) =============
-	$(function() {
+// 	$(function() {
 		         
-	     $( "td:nth-child(2)" ).on("click" , function() {
-	        if(${param.menu == 'manage'}) {
-	        	self.location ="/product/updateProductCoupn?prouctdNo="+$(this).attr("productNo");
-	        } else {
-	        	self.location ="/product/getProductCoupon?productNo="+$(this).attr("productNo");
-	        }
-	     });
-		         
+// 	     $( "td:nth-child(2)" ).on("click" , function() {
+// 	        if(${param.menu == 'manage'}) {
+// 	        	self.location ="/product/updateProductCoupn?prouctdNo="+$(this).attr("productNo");
+// 	        } else {
+// 	        	self.location ="/product/getProductCoupon?productNo="+$(this).attr("productNo");
+// 	        }
+// 	     });
+
+//	포인트 상품명 클릭 시, 상세 정보창 열기
+	 $(function() {
+	         
+		     $( "td:nth-child(2)" ).on("click" , function() {
+
+		        	self.location ="/product/getProductPoint?productNo="+$(this).attr("productNo");
+		        
+		 });
+	     
+	     
 	//==> prodName LINK Event End User 에게 보일수 있도록 
 	     $( "td:nth-child(2)" ).css("color" , "red");   
 		         
@@ -104,7 +127,7 @@
 		
 		 $.ajax( 
                  {
-                    url : "/product/json/getProductCoupon/"+productNo,
+                    url : "/product/json/getProductPoint/"+productNo,
                     method : "GET",
                     dataType : "json",
                     headers : {
@@ -127,7 +150,6 @@
               });
            
         });
-	
 
  	//=========================================================//
 	 //==> productNo LINK Event End User 에게 보일수 있도록 
@@ -146,7 +168,7 @@
        
           $.ajax( 
                 {
-                   url : "/product/json/getProductCoupon/"+productNo,
+                   url : "/product/json/getProductPoint/"+productNo,
                    method : "GET",
                    dataType : "json",
                    headers : {
@@ -188,7 +210,13 @@
  	      //console.log ( $(".ct_list_pop:nth-child(7)" ).html() ); 
  	   });  
  		
-    
+	//============= 신규 포인트 상품 등록 Event  처리 =============	
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "button.btn.btn-primary.addP" ).on("click" , function() {
+					self.location = "/product/addProductPointView?productNo=${product.productNo}"
+				});
+		});    
     
     
 	      
@@ -210,7 +238,7 @@
 		<div class="page-header text-info">
 			<c:set var="name" value="${param.menu}"/>
 				<c:if test="${name =='manage' }">
-						<h3>상품 관리</h3>
+						<h3>포인트상품 전체목록</h3>
 				</c:if>
 				
 				<c:if test="${name =='search' }">
@@ -225,11 +253,15 @@
 	    <div class="row">
 	    
 		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
+		    	<h3 class="text-primary font-weight-bold">
+		    		포인트상품 전체목록
+		     	</h3>
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
-		    	</p>
 		    </div>
-
+		    
+			<div class="col-md-6 text-right">
+				<button type="button" class="btn btn-primary addP">신규 포인트 상품 등록</button>
+			</div>
 
 		    <div class="col-md-6 text-right">
 			    <form class="form-inline" name="detailForm">
@@ -257,50 +289,81 @@
 	    	</div>
 	    	
 		</div>
+		
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
 		
       <!--  table Start /////////////////////////////////////-->
+
       <table class="table table-hover table-striped" >
       
         <thead>
           <tr>
-            <th align="center">No</th>
+            <th align="center">Check</th>
             <th align="left" >쿠폰 상품명</th>
             <th align="left">쿠폰 가격</th>
             <th align="left">쿠폰 내용</th>
             <th align="left">쿠폰 이미지</th>
-            <th align="left">상태값</th>
             
           </tr>
         </thead>
        
-		<tbody>
-		
+  		<tbody>
+			<form class="form-inline" name="selectForm">
+			
 		  <c:set var="i" value="0" />
 		  <c:forEach var="product" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
+			
 			<tr>
-			  <td align="center">${ i }</td>
+			  <td align="center"><input type="checkbox" name="${ i }"></td>
 			  <td align="left" productNo="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</td>
-			  <td align="left">${ product.productPrice }</td>
+			  <td align="left">${ product.productPrice } 원</td>
 			  <td align="left">${ product.productDetail }</td>
 			  <td align="left">
 			  	<i class="glyphicon glyphicon-ok" id= "${product.productNo}"></i>
 			  	<input type="hidden" value="${product.productNo}">
+			  	
 			  </td>
+			  
 			</tr>
+			
+			
           </c:forEach>
-        
         </tbody>
-      
+      	</form>
+  	
+      	
+
+      	
+      	
       </table>
+      <td align="center"><input type="submit" value="구매하기"></td>
 	  <!--  table End /////////////////////////////////////-->
-	  
- 	</div>
+        
+
+        <hr>
+        결제방식 : 
+        <input type="radio" name="payMethod" value="accountTransfer" checked /> 계좌이체
+        <input type="radio" name="payMethod" value="cardPayment" /> 카드결제
+        <input type="radio" name="payMethod" value="simplePayment" /> 간편결제
+        <input type="radio" name="payMethod" value="kakaoPayment" /> 카카오 페이
+        <br>
+        <span>
+		상품명 :	<input name="name01" value="${ product.productName }" /> 포인트 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+        결제금액 : <input name="name02" value="홍길동" /> <br />
+        은행명 :	<input name="name03" value="홍길동" /> 포인트 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+        계좌번호 : <input name="name04" value="홍길동" /> <br />
+        받는사람 : <input type="hidden" value="홍길동" />
+        <!-- label Tag 사용 / 미사용의 차이점 : 이름 3을 Click 해보면... -->
+		</span>
+        <hr/>
+
  	<!--  화면구성 div End /////////////////////////////////////-->
- 	
- 	
+ 		
+	<!-- PageNavigation Start... -->
+	<jsp:include page="../common/pageNavigator_new.jsp"/>
+	<!-- PageNavigation End... --> 	
 
 	
 </body>
