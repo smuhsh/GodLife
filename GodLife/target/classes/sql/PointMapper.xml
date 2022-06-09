@@ -100,7 +100,7 @@
 	<select id="getPointPurchaseDonationList" parameterType="map" resultMap="pointSelectMap">
 		SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(SELECT user_email,purchase_no,donation_place,reg_date,use_detail
+	  					FROM		(SELECT user_email,purchase_no,donation_place,point,reg_date,use_detail
 									FROM purchase
 									<where>
 									user_email=#{userEmail}
@@ -116,8 +116,28 @@
 		FROM( SELECT purchase_no
 		FROM purchase
 		where user_email=#{userEmail}
-		)
-		countTable
+		)countTable
+	</select>
+
+	<select id="getVoucherTotalCount" parameterType="point" resultType="int">
+		SELECT COUNT(*)
+		FROM(SELECT pc.purchase_no,u.user_email,p.product_no,p.product_name,pc.voucher_unique_no,pc.reg_date,pc.use_detail,u.phone
+			FROM
+			users u,products p,purchase pc
+			WHERE u.user_email = pc.user_email
+			AND p.product_no=pc.product_no
+			AND pc.user_email = #{userEmail}
+			AND pc.use_detail = '9'
+			)countTable
+	</select>
+	
+	<select id="getDonationTotalCount" parameterType="point" resultType="int">
+	SELECT COUNT(*)
+	FROM(SELECT user_email,purchase_no,donation_place,point,reg_date,use_detail
+		FROM purchase
+		WHERE user_email=#{userEmail}
+		AND use_detail = '7'
+		)countTable
 	</select>
 
 </mapper>

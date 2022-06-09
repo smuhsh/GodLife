@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>상품권 구매 목록</title>
+<title>포인트 이용 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -30,8 +30,9 @@ function fncGetList(currentPage) {
 	
 	$("#currentPage").val(currentPage)
    
-	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseVoucherList").submit();
+	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseList").submit();
 }
+
 $(function() {
 	 
 	$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
@@ -82,15 +83,11 @@ $(function() {
 		self.location="/purchase/updateTranCode?tranNo="+$(this).children("input").val()+"&tranCode=3";
 	});
 	
-
-	
-$( ".ct_list_pop td:nth-child(1)" ).css("color" , "#5F04B4");
-$( ".ct_list_pop td:nth-child(3)" ).css("color" , "#4C0B5F");
-$( ".ct_list_pop td:nth-child(5)" ).css("color" , "#610B5E");
-$( ".ct_list_pop td:contains('물건도착')" ).css("color" , "#B4045F");
-//$( ".ct_list_pop td:nth-child(9)" ).css("color" , "red");
-		
-$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+	$(function() {
+		$( ".btn.btn-default" ).on("click" , function() {
+			fncAddPointDonation();
+		});
+	});	
 
 });
 </script>
@@ -154,13 +151,13 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 	</tr>
 	<tr>
 		<td>번호<br></td>
-		<td>상품명<br></td>
+		<td>이용 유형<br></td>
 		<td></td>
-		<td>고유번호</td>
+		<td>금액</td>
 		<td></td>
-		<td>구매날짜</td>
+		<td>내용</td>
 		<td></td>
-		<td>메세지</td>
+		<td>날짜</td>
 		
 	</tr>
 	<tr>
@@ -172,13 +169,26 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		<c:set var="i"  value = "${i+1 }"/>
 		<tr>
 		<td>${i }</td>
-		<td>${point.productName}</td>
+		<td>
+				<c:if test="${! empty point.useStatus && point.useStatus=='1'}">충 전</c:if>
+				<c:if test="${! empty point.useStatus && point.useStatus=='2'}">소 비</c:if>
+			</td>
 		<td></td>
-		<td>${point.voucherUniqueNo}</td>
+		<td>${point.point}</td>
+		<td></td>
+		<td>
+		<c:if test="${! empty point.useDetail && point.useDetail=='1'}">포인트 충전</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='2'}">챌린지 참가</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='3'}">챌린지 환불</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='4'}">챌린지 보상</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='5'}">이벤트 참가</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='6'}">이벤트 보상</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='7'}">포인트 기부</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='8'}">쿠 폰 구매</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='9'}">상품권 구매</c:if>
+		</td>
 		<td></td>
 		<td>${point.regDate}</td>
-		<td></td>
-		<td>전송</td>
 	</tr>
 	
 	</c:forEach>
