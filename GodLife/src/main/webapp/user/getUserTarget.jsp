@@ -55,7 +55,7 @@
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
-
+	
 		<div class="page-header">
 	       <h3 class=" text-info">회원정보조회</h3>
 	       <h5 class="text-muted">내 정보를 <strong class="text-danger">최신정보로 관리</strong>해 주세요.</h5>
@@ -74,13 +74,7 @@
 		</div>
 		
 		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>핸드폰</strong></div>
-			<div class="col-xs-8 col-md-4">${user.phone}</div>
-		</div>
-		
-		<hr/>
+
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>관심사</strong></div>
@@ -104,32 +98,35 @@
 		<hr/>
 		
 		
-		
-		
-		
-	<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>신고 보유 개수</strong></div>
-			<div class="col-xs-8 col-md-4">${user.reportCount}</div>
-		</div>
-		
-		<hr/>
-		
-			<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>레드카드 보유 개수</strong></div>
-			<div class="col-xs-8 col-md-4">${user.redCardCount}</div>
-		</div>
-		
-		
-		<hr/>
-		
-		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>가입일자</strong></div>
-			<div class="col-xs-8 col-md-4">${user.regDate}</div>
+	  		<div class="col-xs-4 col-md-2 "><strong>소개글</strong></div>
+			<div class="col-xs-8 col-md-4">${user.intro}</div>
 		</div>
 		
 		<hr/>
-		
+		 <table class="table table-hover table-striped" >
+		  <thead>
+          <tr>
+            <th align="center">No</th>
+            <th align="left" >챌린지 제목</th>
+            <th align="left">챌린지 썸네일</th>
+          </tr>
+        </thead>
+        
+		<c:set var="i" value="0" />
+		  <c:forEach var="challenge" items="${list}">
+			<c:set var="i" value="${ i+1 }" />
+			<tr>
+			  <td align="center">${ i }</td>
+			  <td align="left"  title="Click : 회원정보 확인">${challenge.challengeTitle} 
+			  <td align="left">${challenge.challengeThumbnailImg}</td>
+			  <td align="left">
+			  	<input type="hidden" value="${user.userEmail}">
+			  </td>
+			</tr>
+          </c:forEach>
+          </table>
+	
 		
 		<div class="row">
 	  		<div class="col-md-12 text-center ">
