@@ -241,7 +241,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		
 		Challenge challenge = sqlSession.selectOne("ChallengeMapper.getChallenge",map);
 		
-		certiImg.setCategNo(challenge.getChallengeCateNo());
+		certiImg.setCategNo(challenge.getChallengeCategNo());
 		
 		sqlSession.insert("ChallengeMapper.insertCertiImg",certiImg);
 		

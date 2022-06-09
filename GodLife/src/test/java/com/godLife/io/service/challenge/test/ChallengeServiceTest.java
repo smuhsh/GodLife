@@ -83,7 +83,7 @@ public class ChallengeServiceTest {
 		challenge.setChallengeThumbnailImg("챌린지.jpg");//썸네일 이미지
 		challenge.setChallengeDetail("테스트 챌린지입니다.");// 소개
 		challenge.setChallengeRule("챌린지."); // 규칙
-		challenge.setChallengeCateNo(4); // 관심사 번호 1:운동
+		challenge.setChallengeCategNo(4); // 관심사 번호 1:운동
 		challenge.setStartDate("2022-06-07"); // 시작 날짜
 		challenge.setEndDate("2022-06-18"); // 종료 날짜
 		challenge.setCertiCycle(certiCycle); // 인증주기
@@ -109,7 +109,7 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void getChallengeList() { //전체 목록 조회
 		Search search = new Search();
 		
@@ -427,7 +427,7 @@ public class ChallengeServiceTest {
 		// deleteChallengeReview는 댓글 삭제만 지원한다.
 		//(추후에 좋아요 싫어요 한번 더 누른다면 비활성화 하는것도 만들어 볼만...)
 		
-		int reviewNo = 10006;
+		int reviewNo = 10000;
 		
 		challengeService.deleteChallengeReview(reviewNo);
 		
