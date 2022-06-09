@@ -1,5 +1,6 @@
 package com.godLife.io.service.product;
 
+import java.util.List;
 import java.util.Map;
 
 import com.godLife.io.common.Search;
@@ -10,17 +11,28 @@ public interface ProductService {
 	
 	///////////////////////////////////////////////////////////////
 	
-	public void addProduct(Product product) throws Exception ;
+	public void addProductCoupon(Product product) throws Exception ;
+
+	public void addProductVoucher(Product product) throws Exception ;
 	
-	public Product getProduct(int productNo) throws Exception ;
+	public void addProductPoint(Product product) throws Exception ;
+	///////////////////////////////////////////////////////////////	
 	
-	public Map<String, Object> getProductList(Search search) throws Exception ;
+	public Product getProductCoupon(int productNo) throws Exception ;
 	
+	public Product getProductVoucher(int productNo) throws Exception ;
+	
+	public Product getProductPoint(int productNo) throws Exception ;
+///////////////////////////////////////////////////////////		
+	public Map<String, Object> getProductCouponList(Search search) throws Exception ;
+	
+	public Map<String, Object> getProductVoucherList(Search search) throws Exception ;
+	
+	public Map<String, Object> getProductPointList(Search search) throws Exception ;
+///////////////////////////////////////////////////////////		
 	public void updateProduct(Product product) throws Exception ;	
 	
-	public void deleteProduct(Product product) throws Exception ;
-	
-	
+	public void deleteProduct(Product productNo) throws Exception ;
 	
 //	// 신규 쿠폰 상품 등록 UI 요청 
 //	public void addProductCouponView(Product product) throws Exception ;	

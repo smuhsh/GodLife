@@ -20,32 +20,38 @@
 	</resultMap>
 	
 	
-
-	<!-- 본인의 친구, 블랙리스트 목록조회 아래 쿼리 다시 확인 -->
-	<select  id="getFriendBlackList"  parameterType="map"	resultMap="friendBlackSelectMap">
+	<!-- 본인의 친구 목록조회 -->
+	<select  id="getFriendList"  parameterType="map"	resultMap="friendBlackSelectMap">
 	  	SELECT 
 	  	*
 	  	FROM (	
 	  					SELECT 
 	  					inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT 
-	  					                   u.nick, u.profile_img
-											FROM users u, friend_blacks f 
+	  					FROM		(	select u.user_email, u.nick, u.profile_img 
+											from users u, friend_blacks f 
+											where u.user_email = f.target_email 
+											and f.f_b_status = '1'
+											and f.acc_status = '2'
+											and f.user_email = #{userEmail}
+											union
+											select u.user_email, u.nick, u.profile_img 
+											from users u, friend_blacks f 
+											where u.user_email = f.user_email 
+											and f.f_b_status = '1'
+											and f.acc_status = '2'
+											and f.target_email = #{userEmail}
 											<where>
-											u.user_email = f.target_email 
-											AND f.f_b_status = '1' 
-											AND f.acc_status = '2'
-											AND f.user_email = #{userEmail} 
 											<if test="searchCondition == 0 and searchKeyword !='' ">
 											AND u.nick = #{searchKeyword}
 											</if>
 											</where>
-											ORDER BY f.friend_black_no ) inner_table
+											 ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	 
-	 <!-- 본인의 블랙리스트 목록조회. 동적쿼리로 만들기 실패..  -->
+	 
+	 <!-- 본인의 블랙리스트 목록조회  -->
 	<select  id="getBlackList"  parameterType="map"	resultMap="friendBlackSelectMap">
 	  	SELECT 
 	  	*
@@ -53,7 +59,7 @@
 	  					SELECT 
 	  					inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT 
-	  					                   u.nick, u.profile_img
+	  					                   u.user_email, u.nick, u.profile_img
 											FROM users u, friend_blacks f 
 											<where>
 											u.user_email = f.target_email 
@@ -76,7 +82,7 @@
 	  					SELECT 
 	  					inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT 
-	  					                   u.nick, u.profile_img
+	  					                   u.user_email, u.nick, u.profile_img, f.acc_status
 											FROM users u, friend_blacks f 
 											<where>
 											u.user_email = f.user_email 
@@ -91,11 +97,14 @@
 	 
 	 
 	
-	<!-- SQL : SELECT ROW Count  토탈 카운트 나오는 방식을 이해 X  -->	 
+	<!-- SQL : SELECT ROW Count // 친구목록조회  -->	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT u.nick
-						FROM users u 
+	  	FROM(	select u.nick, u.profile_img 
+											from users u, friend_blacks f 
+											where u.user_email = f.target_email 
+											and f.f_b_status = '1'
+											and f.acc_status = '2')
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">
@@ -115,9 +124,6 @@
 	 
 	 
 	 
-	 
-	 
-	 
 	 <!-- 블랙리스트 등록 -->
 	<insert 	id="addBlack"		parameterType="friendBlack" >
 	 	INSERT
@@ -131,14 +137,19 @@
 	   	<set>
 	   		acc_status = '2'
 	   	</set>
-	   	WHERE user_email = #{userEmail} and  target_email = #{targetEmail} and f_b_status = '1'
+	   	WHERE 	f_b_status = '1'
+	   	and user_email = #{userEmail}
 	 </update>
 	 
-	 <!-- 친구 요청 거절, 친구 삭제 (다시확인)  -->
+	 <!-- 친구 요청 거절  -->
 	 <delete id="deleteFriend">
 	   delete from friend_blacks 
-	   WHERE user_email = #{userEmail} and  target_email = #{targetEmail} and f_b_status = '1' and acc_status = #{accStatus}
+	   WHERE f_b_status = '1' and acc_status = '1'  
+	   and user_email = #{userEmail} 
 	 </delete>
+	 
+	  <!-- 친구 삭제  -->
+	  <!-- 블랙리스트 삭제  -->
 	 
 	 	
 	 

@@ -1,6 +1,7 @@
 package com.godLife.io.service.product.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,40 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	///Method
-	public void addProduct(Product product) throws Exception {
-		sqlSession.insert("ProductMapper.addProduct", product);		
+	public void addProductCoupon(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductCoupon", product);		
 	}
 	
-	public Product getProduct(int productNo) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getProduct", productNo);
+	public void addProductVoucher(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductVoucher", product);		
 	}
 	
-	public List<Product> getProductList(Search search) throws Exception {
-		return sqlSession.selectList("ProductMapper.getProductList", search);
+	public void addProductPoint(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductPoint", product);		
 	}
+///////////////////////////////////////////////////////////	
+	public Product getProductCoupon(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductCoupon", productNo);
+	}
+	public Product getProductVoucher(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductVoucher", productNo);
+	}
+	public Product getProductPoint(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductPoint", productNo);
+	}
+///////////////////////////////////////////////////////////	
+	public List<Product> getProductCouponList(Search search) throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductCouponList", search);
+	}
+	
+	public List<Product> getProductVoucherList(Search search) throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductVoucherList", search);
+	}
+
+	public List<Product> getProductPointList(Search search) throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductPointList", search);
+	}
+///////////////////////////////////////////////////////////		
 	
 	public void updateProduct(Product product) throws Exception {
 		sqlSession.update("ProductMapper.updateProduct", product);
@@ -54,7 +78,7 @@ public class ProductDaoImpl implements ProductDao{
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
 	}
-	
+
 	
 //	public void addProductCouponView(Product product) throws Exception {
 //		sqlSession.insert("ProductMapper.addProductCouponView", product);		

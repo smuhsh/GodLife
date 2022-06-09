@@ -12,7 +12,7 @@
 		<result property="challengeThumbnailImg"	column="thumbnail_img"		jdbcType="VARCHAR" />
 		<result property="challengeDetail"			column="detail"				jdbcType="VARCHAR" />
 		<result property="challengeRule"			column="rule"				jdbcType="VARCHAR" />
-		<result property="challengeCateNo"			column="categ_no"			jdbcType="NUMERIC" />
+		<result property="challengeCategNo"			column="categ_no"			jdbcType="NUMERIC" />
 		<result property="startDate"				column="start_date"			jdbcType="VARCHAR" />
 		<result property="endDate"					column="end_date"			jdbcType="VARCHAR" />
 		<result property="openRange"				column="open_range"			jdbcType="VARCHAR" />
@@ -98,7 +98,7 @@
 					,#{challengeThumbnailImg}
 					,#{challengeDetail}
 					,#{challengeRule}
-					,#{challengeCateNo}
+					,#{challengeCategNo}
 					,#{startDate}
 					,#{endDate}
 					,#{openRange}

@@ -19,21 +19,51 @@
 	
 	<!-- SQL : INSERT -->
 <!-- //////////////////쿠폰 상품 등록 UI, 등록 이미지, 등록 완료, 확인 /////////////////////////////////////////////////// -->
-	<insert 	id="addProduct"		parameterType="product" >
+	<insert 	id="addProductCoupon"		parameterType="product" >
 	 	INSERT
 		INTO products ( product_no , product_name , product_price, product_detail , product_img, status ) 
 		VALUES  ( SEQ_PRODUCTS_PRODUCT_NO.NEXTVAL , #{productName:VARCHAR} , #{productPrice} , #{productDetail:VARCHAR} , #{productImg:VARCHAR} , #{status} )
 
 	 </insert>
 
+	<insert 	id="addProductVoucher"		parameterType="product" >
+	 	INSERT
+		INTO products ( product_no , product_name , product_price, product_detail , product_img, status ) 
+		VALUES  ( SEQ_PRODUCTS_PRODUCT_NO.NEXTVAL , #{productName:VARCHAR} , #{productPrice} , #{productDetail:VARCHAR} , #{productImg:VARCHAR} , #{status} )
+
+	 </insert>
+
+	<insert 	id="addProductPoint"		parameterType="product" >
+	 	INSERT
+		INTO products ( product_no , product_name , product_price, product_detail , product_img, status ) 
+		VALUES  ( SEQ_PRODUCTS_PRODUCT_NO.NEXTVAL , #{productName:VARCHAR} , #{productPrice} , #{productDetail:VARCHAR} , #{productImg:VARCHAR} , #{status} )
+
+	 </insert>
+
+
 <!-- /////////////////////////////쿠폰, 상품권, 포인트 상세 조회/////////////////////////////////////////////////// -->
 	 
-	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
+	 <select 	id="getProductCoupon"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
 		product_no , product_name , product_detail ,  product_price ,  product_img , status 		
 		FROM products 
-		WHERE product_no = #{value}
+		WHERE product_no = #{value} and status = 1
 	 </select>
+
+	 <select 	id="getProductVoucher"	parameterType="int"	resultMap="productSelectMap">
+		SELECT
+		product_no , product_name , product_detail ,  product_price ,  product_img , status 		
+		FROM products 
+		WHERE product_no = #{value} and status = 2
+	 </select>
+
+	 <select 	id="getProductPoint"	parameterType="int"	resultMap="productSelectMap">
+		SELECT
+		product_no , product_name , product_detail ,  product_price ,  product_img , status 		
+		FROM products 
+		WHERE product_no = #{value} and status = 3
+	 </select>
+
 
 <!-- /////////////////////////////쿠폰, 상품권, 포인트 이미지 수정, 정보 수정 완료, 수정 확인////////////////////////////////// -->
 	 
@@ -68,13 +98,15 @@
 <!-- //////////////////////////쿠폰, 상품권, 포인트 전체 목록 조회//////////////////////////////////////////////////////  -->
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
+	<select  id="getProductCouponList"  parameterType="map"	 resultMap="productSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT product_no, product_name , product_price
+	  					FROM		(	SELECT product_no, product_name , product_price , product_detail , product_img
 											FROM products
-											<if test="searchCondition != null">
+											
 												<where>
+												status= 1
+												<if test="searchCondition != null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
 										 				product_no LIKE '%${searchKeyword}%'
 													</if>
@@ -84,12 +116,66 @@
 													<if test="searchCondition == 2 and searchKeyword !='' ">
 										 				product_price LIKE '%${searchKeyword}%'
 													</if>
-												</where>
+												
 											</if>
+											</where>
 											ORDER BY product_no ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
+
+	<select  id="getProductVoucherList"  parameterType="map"	 resultMap="productSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT product_no, product_name , product_price , product_detail , product_img
+											FROM products
+											
+												<where>
+												status= 2
+												<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				product_no LIKE '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				product_name LIKE '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				product_price LIKE '%${searchKeyword}%'
+													</if>
+												
+											</if>
+											</where>
+											ORDER BY product_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+
+	<select  id="getProductPointList"  parameterType="map"	 resultMap="productSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT product_no, product_name , product_price , product_detail , product_img 
+											FROM products
+											
+												<where>
+												status= 3
+												<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				product_no LIKE '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				product_name LIKE '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				product_price LIKE '%${searchKeyword}%'
+													</if>
+												
+											</if>
+											</where>
+											ORDER BY product_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+
 
 
 	 	<!--  위 두번째 subQuery 의  
@@ -123,5 +209,6 @@
 							</where>
 						</if> ) countTable						
 	 </select>
-	 
+
+
 </mapper>

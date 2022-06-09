@@ -20,6 +20,7 @@ import com.godLife.io.service.domain.User;
 
 //==> 회원관리 DAO CRUD 구현
 @Repository("userDaoImpl")
+
 public class UserDaoImpl implements UserDao{
 	
 	//Field
@@ -41,14 +42,13 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.insert("UserMapper.addUser", user);
 	}
 	
-	public User login(String userEmail) throws Exception {
-		return sqlSession.selectOne("UserMapper.login", userEmail);
-	}
-	
 	public User getUser(String userEmail) throws Exception {
 		return sqlSession.selectOne("UserMapper.getUser", userEmail);
 	}
 	
+	public User getUserTarget(String nick) throws Exception {
+		return sqlSession.selectOne("UserMapper.getUserTarget", nick);
+	}
 	
 	public void updatePwd(User user) throws Exception {
 		sqlSession.update("UserMapper.updatePwd", user);
@@ -76,6 +76,7 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	//================친구, 블랙리스트=================================================
+	
 	
 	public Map<String, Object> getFriendList(Search search, String userEmail) throws Exception {
 		
@@ -192,6 +193,9 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 
+	public void updateUserTotalPoint(User user) throws Exception{
+		sqlSession.update("UserMapper.updateUserTotalPoint", user);
+	}
 	
 	//================일대일문의================================================
 	
@@ -244,19 +248,22 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.update("userMapper.updateUserRedCouponCount",user );
 	}
 
-	public void updateUserTotalPoint(User user) throws Exception{
-		sqlSession.update("UserMapper.updateUserTotalPoint", user);
-	}
 	
-
 	public void updateUserCertiCouponCount(User user) throws Exception{
 		sqlSession.update("userMapper.updateUserCertiCouponCount",user);
 	}
 	
 	
-	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
+	
+	
+	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. 
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+		}
+	
+	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return, 
+	public int getTotalCount1(Search search) throws Exception {
+		return sqlSession.selectOne("FriendBlackMapper.getTotalCount", search);
 		}
 
 	
@@ -266,10 +273,3 @@ public class UserDaoImpl implements UserDao{
 	
 
 	}
-
-	
-
-	
-
-
-

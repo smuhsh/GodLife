@@ -18,6 +18,7 @@ import com.godLife.io.service.domain.OperatorEvents;
 import com.godLife.io.service.domain.OperatorJoinEvent;
 import com.godLife.io.service.domain.OperatorNoticeFaqs;
 import com.godLife.io.service.domain.OperatorReward;
+import com.godLife.io.service.domain.User;
 import com.godLife.io.service.operator.OperatorService;
 import com.sun.glass.ui.Pixels.Format;
 
@@ -451,30 +452,31 @@ public class OperatorServiceTest {
 		 Assert.assertEquals("user05.io.com", operatorJoinEvent.getUserEmail());
 	 }
 	 
-	 //2022-06-07 19:32 shhwang
+	 //2022-06-07 19:32 shhwang Error
+	 //2022-06-08 10:26 shhwang	Clear (As unsatisfied parameter type, but remain and modify sql) 
 	 //@Test
 	 public void testGetOperatorJoinEvent() throws Exception {
 		 
 		 OperatorJoinEvent operatorJoinEvent = new OperatorJoinEvent();
 		 OperatorReward operatorReward = new OperatorReward();
 		 
-		 operatorJoinEvent.setJoinEventNo(Integer.parseInt(("10012")));
+		 operatorJoinEvent.setJoinEventNo(Integer.parseInt(("10013")));
 		 operatorJoinEvent.setUserEmail("user05.io.com");
-		 operatorReward.setEventNo(Integer.parseInt(("10006")));
-		 operatorReward.setReward("5");
+		 operatorReward.setEventNo(Integer.parseInt(("2")));
+		 operatorReward.setReward("2");
 		 
-		 operatorService.getOperatorJoinEvent("user05.io.com");
+		 operatorService.getOperatorJoinEvent(10013);
 		 
 		 //==> console check
 		 System.out.println(operatorJoinEvent);
 		 
 		 //==> API check
-		 Assert.assertEquals("10012", operatorJoinEvent.getJoinEventNo());
+		 Assert.assertEquals(10013, operatorJoinEvent.getJoinEventNo());
 		 Assert.assertEquals("user05.io.com", operatorJoinEvent.getUserEmail());
-		 Assert.assertEquals("10006", operatorReward.getEventNo());
-		 Assert.assertEquals("5", operatorReward.getReward());
+		 Assert.assertEquals(2, operatorReward.getEventNo());
+		 Assert.assertEquals("2", operatorReward.getReward());
 		 
-//		 Assert.assertNotNull(operatorService.getOperatorJoinEvent(10012));
+		 Assert.assertNotNull(operatorService.getOperatorJoinEvent(10013));
 		 
 	 }
 	 
@@ -484,10 +486,10 @@ public class OperatorServiceTest {
 		 Search search = new Search();
 		 search.setCurrentPage(1);
 		 search.setPageSize(3);
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search);
+		 Map<String,Object> map = operatorService.getOperatorJoinEventList(search);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
-		 Assert.assertEquals(3, list.size());
+		 Assert.assertEquals(8, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
@@ -501,10 +503,10 @@ public class OperatorServiceTest {
 		 search.setPageSize(3);
 		 search.setSearchCondition("0");
 		 search.setSearchKeyword("");
-		 map = operatorService.getOperatorNoticeFaqsList(search);
+		 map = operatorService.getOperatorJoinEventList(search);
 		 
 		 list = (List<Object>)map.get("list");
-		 Assert.assertEquals(3, list.size());
+		 Assert.assertEquals(8, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
@@ -515,17 +517,17 @@ public class OperatorServiceTest {
 	 }
 	 
 	 //@Test
-	 public void testGetOperatorJoinEventListByNoticeFaqNo() throws Exception{
+	 public void testGetOperatorJoinEventListByJoinEventNo() throws Exception{
 		 
 		 Search search = new Search();
 		 search.setCurrentPage(1);
 		 search.setPageSize(3);
 		 search.setSearchCondition("0");
-		 search.setSearchKeyword("10001");
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search);
+		 search.setSearchKeyword("10013");
+		 Map<String,Object> map = operatorService.getOperatorJoinEventList(search);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
-		 Assert.assertEquals(1, list.size());
+		 Assert.assertEquals(8, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
@@ -537,7 +539,7 @@ public class OperatorServiceTest {
 		 
 		 search.setSearchCondition("0");
 		 search.setSearchKeyword(""+System.currentTimeMillis());
-		 map = operatorService.getOperatorNoticeFaqsList(search);
+		 map = operatorService.getOperatorJoinEventList(search);
 		 
 		 list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -550,17 +552,17 @@ public class OperatorServiceTest {
 	 }
 	 
 	 //@Test
-	 public void testGetOperatorJoinEventListByTitle() throws Exception{
+	 public void testGetOperatorJoinEventListByUserEmail() throws Exception{
 		 
 		 Search search = new Search();
 		 search.setCurrentPage(1);
 		 search.setPageSize(3);
 		 search.setSearchCondition("1");
-		 search.setSearchKeyword("결제는 어떻게 하는거죠?");
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search);
+		 search.setSearchKeyword("user05.io.com");
+		 Map<String,Object> map = operatorService.getOperatorJoinEventList(search);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
-		 Assert.assertEquals(1, list.size());
+		 Assert.assertEquals(8, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
@@ -572,7 +574,7 @@ public class OperatorServiceTest {
 		 
 		 search.setSearchCondition("1");
 		 search.setSearchKeyword(""+System.currentTimeMillis());
-		 map = operatorService.getOperatorNoticeFaqsList(search);
+		 map = operatorService.getOperatorJoinEventList(search);
 		 
 		 list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -582,6 +584,182 @@ public class OperatorServiceTest {
 		 
 		 totalCount = (Integer)map.get("totalCount");
 		 System.out.println(totalCount);
+		 
+	 }
+	 
+	 //Reward shhwang 16:48 
+	 //@Test
+	 public void testAddOperatorReward() throws Exception {
+		 
+		 OperatorReward operatorReward = new OperatorReward();
+		 
+		 operatorReward.setRewardNo(Integer.parseInt(("10034")));
+		 operatorReward.setEventNo(Integer.parseInt(("2")));
+		 operatorReward.setReward("2");
+		 
+		 operatorService.addOperatorReward(operatorReward);
+		 
+		 //==> console check
+		 System.out.println(operatorReward);
+		
+		//==> API check
+		Assert.assertEquals(10034, operatorReward.getRewardNo());
+		Assert.assertEquals(2, operatorReward.getEventNo());
+		Assert.assertEquals("2", operatorReward.getReward());
+	}
+	 
+	//shhwang 18:29 실행완료 됐는데 초록불이 안 들어오고 테이블에도 update 안 들어온다 뭐지?
+	//@Test
+	public void testUpdateOperatorRoullReward() throws Exception{
+		
+		OperatorReward operatorRoullReward = operatorService.getOperatorReward(10011);
+		Assert.assertNotNull(operatorRoullReward);
+		 
+		Assert.assertEquals("4", operatorRoullReward.getReward());
+		
+		operatorRoullReward.setReward("5");
+		
+		operatorService.updateOperatorRoullReward(operatorRoullReward);
+		
+		operatorRoullReward = operatorService.getOperatorReward(10011);
+		Assert.assertNotNull(operatorRoullReward);
+		 
+		//==> console check
+		System.out.println(operatorRoullReward);
+			
+		//==> API check
+		Assert.assertEquals("4", operatorRoullReward.getReward());
+		
+	}
+	//shhwang 19:49 작성 중
+	//@Test
+	public void testUpdateOperatorDayReward() throws Exception{
+		User user = new User();
+		user.setUserEmail("user06.io.com");
+		OperatorReward operatorDayReward = operatorService.getOperatorReward(10031);
+		Assert.assertNotNull(operatorDayReward);
+		
+		Assert.assertEquals("1", operatorDayReward.getReward());
+		
+		operatorDayReward.setReward("5");
+		
+		operatorService.updateOperatorDayReward(operatorDayReward,user);
+		
+		operatorDayReward = operatorService.getOperatorReward(10031);
+		Assert.assertNotNull(operatorDayReward);
+		
+		//==> console check
+		System.out.println(operatorDayReward);
+		
+		//==> API check
+		Assert.assertEquals("5", operatorDayReward.getReward());
+		
+	}
+	
+	//@Test	
+	public void testGetOperatorRewardListAll() throws Exception{
+		
+		Search search = new Search();
+	 	search.setCurrentPage(1);
+	 	search.setPageSize(3);
+	 	Map<String,Object> map = operatorService.getOperatorEventsList(search);
+
+	 	List<Object> list = (List<Object>)map.get("list");
+	 	Assert.assertEquals(3, list.size());
+	 	
+		//==> console check
+	 	System.out.println(list);
+	 	
+	 	Integer totalCount = (Integer)map.get("totalCount");
+	 	System.out.println(totalCount);
+	 	
+	 	System.out.println("=======================================");
+	 	
+	 	search.setCurrentPage(1);
+	 	search.setPageSize(3);
+	 	search.setSearchCondition("0");
+	 	search.setSearchKeyword("");
+	 	map = operatorService.getOperatorEventsList(search);
+	 	
+	 	list = (List<Object>)map.get("list");
+	 	Assert.assertEquals(3, list.size());
+	 	
+		//==> console check
+	 	System.out.println(list);
+	 	
+	 	totalCount = (Integer)map.get("totalCount");
+	 	System.out.println(totalCount);
+	 	
+	}
+	
+	//@Test
+	public void testGetOperatorRewardListByEventNo() throws Exception{
+		
+		Search search = new Search();
+	 	search.setCurrentPage(1);
+	 	search.setPageSize(3);
+	 	search.setSearchCondition("0");
+	 	search.setSearchKeyword("10");
+	 	Map<String,Object> map = operatorService.getOperatorEventsList(search);
+	 	
+	 	List<Object> list = (List<Object>)map.get("list");
+	 	Assert.assertEquals(1, list.size());
+	 	
+		//==> console check
+	 	System.out.println(list);
+	 	
+	 	Integer totalCount = (Integer)map.get("totalCount");
+	 	System.out.println(totalCount);
+	 	
+	 	System.out.println("=======================================");
+	 	
+	 	search.setSearchCondition("0");
+	 	search.setSearchKeyword(""+System.currentTimeMillis());
+	 	map = operatorService.getOperatorEventsList(search);
+	 	
+	 	list = (List<Object>)map.get("list");
+	 	Assert.assertEquals(0, list.size());
+	 	
+		//==> console check
+	 	System.out.println(list);
+	 	
+	 	totalCount = (Integer)map.get("totalCount");
+	 	System.out.println(totalCount);
+	 }
+	 
+	 //@Test
+	 public void testGetOperatorRewardListByEventTitle() throws Exception{
+		 
+	 	Search search = new Search();
+	 	search.setCurrentPage(1);
+	 	search.setPageSize(3);
+	 	search.setSearchCondition("1");
+	 	search.setSearchKeyword("핑크빈이 돌아왔다!");
+	 	Map<String,Object> map = operatorService.getOperatorEventsList(search);
+	 	
+	 	List<Object> list = (List<Object>)map.get("list");
+	 	Assert.assertEquals(1, list.size());
+	 	
+		//==> console check
+	 	System.out.println(list);
+	 	
+	 	Integer totalCount = (Integer)map.get("totalCount");
+	 	System.out.println(totalCount);
+	 	
+	 	System.out.println("=======================================");
+	 	
+	 	search.setSearchCondition("1");
+	 	search.setSearchKeyword(""+System.currentTimeMillis());
+	 	map = operatorService.getOperatorEventsList(search);
+	 	
+	 	list = (List<Object>)map.get("list");
+	 	Assert.assertEquals(0, list.size());
+	 	
+		//==> console check
+	 	System.out.println(list);
+	 	
+	 	totalCount = (Integer)map.get("totalCount");
+	 	System.out.println(totalCount);
 	 }
 	 
 }

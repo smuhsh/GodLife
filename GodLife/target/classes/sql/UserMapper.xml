@@ -25,6 +25,8 @@
       <result property="categName"       column="categ_name"          jdbcType="VARCHAR" />
       <result property="redCouponCount"       column="red_coupon_count "          jdbcType="INTEGER" />
       <result property="certiCouponCount"       column="certi_coupon_count  "          jdbcType="INTEGER" />
+      <result property="challengeTitle"         column="title"            jdbcType="VARCHAR" />
+      
       
       
    </resultMap>
@@ -58,6 +60,20 @@
                             WHERE u.user_email=r.target_email
                             and r.target_email= #{userEmail} ) rp
        WHERE u.categ_no = ca.categ_no 
+       AND u.user_email = #{userEmail}
+    </select>
+    
+    
+     <!-- SQL : 타유저 상세조회-->
+    <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
+      SELECT u.user_email, u.nick, u.intro, c.categ_name, ch.title, ce.certi_img, b.badge_name, b.badge_img
+      FROM users u, categs c, challenges ch, join_challenger j, certi_imgs ce, badges b, my_badge m
+      WHERE u.categ_no = c.categ_no 
+      AND u.user_email = j.user_email(+)
+      AND j.user_email = ce.user_email(+)
+      AND j.challenge_no = ch.challenge_no(+)
+      AND u.user_email = m.user_email(+)
+      AND m.badge_no = b.badge_no(+)
        AND u.user_email = #{userEmail}
     </select>
     
