@@ -11,11 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.godLife.io.service.user.UserService;
+
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
@@ -46,17 +51,16 @@ public class UserServiceImpl implements UserService{
 	
 	//================회원=======================================================
 	
-	
 	public void addUser(User user) throws Exception {
 		userDao.addUser(user);
 	}
 	
-	public User login(String userEmail) throws Exception {
-		return userDao.login(userEmail);
-	}
-	
 	public User getUser(String userEmail) throws Exception {
 		return userDao.getUser(userEmail);
+	}
+	
+	public User getUserTarget(String nick) throws Exception {
+		return userDao.getUserTarget(nick);
 	}
 	
 	public void updatePwd(User user) throws Exception {
@@ -87,8 +91,31 @@ public class UserServiceImpl implements UserService{
 		return userDao.findUserEmail(userEmail);
 	}
 	
+	//인증 문자 보내기 
+	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) throws Exception {
+		String api_key = "NCSFLNAKPLATWT5U";
+	    String api_secret = "UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI";
+	    Message coolsms = new Message(api_key, api_secret);
+
+	    // 4 params(to, from, type, text) are mandatory. must be filled
+	    HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", userPhoneNumber);    // 수신전화번호
+	    params.put("from", "01080077545");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	    params.put("type", "SMS");
+	    params.put("text", "[TEST] 인증번호는" + "["+randomNumber+"]" + "입니다."); // 문자 내용 입력
+	    params.put("app_version", "test app 1.2"); // application name and version
+
+	    try {
+	        JSONObject obj = (JSONObject) coolsms.send(params);
+	        System.out.println(obj.toString());
+	      } catch (CoolsmsException e) {
+	        System.out.println(e.getMessage());
+	        System.out.println(e.getCode());
+	      }
+	}
 	
 	//================친구, 블랙리스트=================================================
+	
 	
 	public Map<String , Object > getFriendList(Search search, String userEmail) throws Exception {
 		int totalCount = userDao.getTotalCount(search);
@@ -172,6 +199,14 @@ public class UserServiceImpl implements UserService{
 		
 		return map;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 	//================일대일문의================================================
 	
@@ -218,8 +253,6 @@ public class UserServiceImpl implements UserService{
 		return null;
 	}
 
-	
-
 
 	public void updateUserTotalPoint(User user) throws Exception{
 		userDao.updateUserTotalPoint(user);
@@ -232,26 +265,6 @@ public class UserServiceImpl implements UserService{
 	public void updateUserCertiCouponCount(User user) throws Exception{
 		userDao.updateUserCertiCouponCount(user);
 	}
-
-	@Override
-	public Msg getRecvMsg(String recvEmail) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Msg getSendMsg(String sendEmail) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteMsg(Msg msg) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	
 	
 	

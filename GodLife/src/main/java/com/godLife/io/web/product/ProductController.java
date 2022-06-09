@@ -47,38 +47,106 @@ public class ProductController {
 	//@Value("#{commonProperties['pageSize'] ?: 2}")
 	int pageSize;
 	
+////////////////////////////////////////////////////////	
+	@RequestMapping( value="addProductCouponView", method=RequestMethod.GET )
+	public String addProductCoupon() throws Exception {
+
+		System.out.println("/product/addProductCouponView : GET");
+		
+		return "/product/addProductCouponView.jsp";
+	}
+
+	@RequestMapping( value="addProductCoupon", method=RequestMethod.POST )
+	public String addProductCoupon( @ModelAttribute("product") Product product ) throws Exception {
+		
+		System.out.println("/product/addProductCoupon : POST");
+		//Business Logic
+		productService.addProductCoupon(product);
+
+		return "forward:/product/getProductCouponList.jsp";
+
+	}
 	
-	@RequestMapping( value="addProduct", method=RequestMethod.GET )
-	public String addProduct() throws Exception {
+	@RequestMapping( value="addProductVoucherView", method=RequestMethod.GET )
+	public String addProductVoucher() throws Exception {
 
-		System.out.println("/product/addProductView : GET");
+		System.out.println("/product/addProductVoucherView : GET");
 		
-		return "/product/addProductView.jsp";
+		return "/product/addProductVoucherView.jsp";
 	}
 
-	@RequestMapping( value="addProduct", method=RequestMethod.POST )
-	public String addProduct( @ModelAttribute("product") Product product ) throws Exception {
+	@RequestMapping( value="addProductVoucher", method=RequestMethod.POST )
+	public String addProductVoucher( @ModelAttribute("product") Product product ) throws Exception {
 		
-		System.out.println("/product/addProduct : POST");
+		System.out.println("/product/addProductVoucher : POST");
 		//Business Logic
-		productService.addProduct(product);
+		productService.addProductVoucher(product);
 
-		return "forward:/product/getProductList.jsp";
+		return "forward:/product/getProductVoucherList.jsp";
 
 	}
+	
+	@RequestMapping( value="addProductPointView", method=RequestMethod.GET )
+	public String addProductPoint() throws Exception {
 
-	@RequestMapping( value="getProduct", method=RequestMethod.GET )
-	public String getProduct( @RequestParam("productNo") int productNo , Model model ) throws Exception {
+		System.out.println("/product/addProductPointView : GET");
 		
-		System.out.println("/product/getProduct : GET");
+		return "/product/addProductPointView.jsp";
+	}
+
+	@RequestMapping( value="addProductPoint", method=RequestMethod.POST )
+	public String addProductPoint( @ModelAttribute("product") Product product ) throws Exception {
+		
+		System.out.println("/product/addProductPoint : POST");
+		//Business Logic
+		productService.addProductPoint(product);
+
+		return "forward:/product/getProductPointList";
+
+	}
+	
+////////////////////////////////////////////////////////
+	@RequestMapping( value="getProductCoupon", method=RequestMethod.GET )
+	public String getProductCoupon( @RequestParam("productNo") int productNo , Model model ) throws Exception {
+		
+		System.out.println("/product/getProductCoupon : GET");
 		
 		//Business Logic
-		Product product = productService.getProduct(productNo);
+		Product product = productService.getProductCoupon(productNo);
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		//setAttribute로 쓰고 value값이 들어간다면,
 		
-		return "forward:/product/getProduct.jsp";
+		return "forward:/product/getProductCoupon.jsp";
+	}
+	
+	@RequestMapping( value="getProductVoucher", method=RequestMethod.GET )
+	public String getProductVoucher( @RequestParam("productNo") int productNo , Model model ) throws Exception {
+		
+		System.out.println("/product/getProductVoucher : GET");
+		
+		//Business Logic
+		Product product = productService.getProductVoucher(productNo);
+		// Model 과 View 연결
+		model.addAttribute("product", product);
+		//setAttribute로 쓰고 value값이 들어간다면,
+		
+		return "forward:/product/getProductVoucher.jsp";
+	}
+	
+	@RequestMapping( value="getProductPoint", method=RequestMethod.GET )
+	public String getProductPoint( @RequestParam("productNo") int productNo , Model model ) throws Exception {
+		
+		System.out.println("/product/getProductPoint : GET");
+		
+		//Business Logic
+	
+		Product product = productService.getProductPoint(productNo);
+		// Model 과 View 연결
+		model.addAttribute("product", product);
+		//setAttribute로 쓰고 value값이 들어간다면,
+		
+		return "forward:/product/getProductPoint.jsp";
 	}
 	/////////////////////////////////Pass/////////////////////////////	
 

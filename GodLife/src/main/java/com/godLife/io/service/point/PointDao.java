@@ -19,4 +19,8 @@ public interface PointDao {
 	public Map<String,Object> getPointPurchaseDonationList(Search search,User user) throws Exception;
 	
 	public int getTotalCount(User user);
+	
+	public int getVoucherTotalCount(User user);
+	
+	public int getDonationTotalCount(User user);
 }

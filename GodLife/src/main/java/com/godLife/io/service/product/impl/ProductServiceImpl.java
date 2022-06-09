@@ -35,14 +35,30 @@ public class ProductServiceImpl implements ProductService{
 
 ///////////////////////////////////////////	
 
-	public void addProduct(Product product) throws Exception {
-		productDao.addProduct(product);
+	public void addProductCoupon(Product product) throws Exception {
+		productDao.addProductCoupon(product);
 	}
 	
-	public Product getProduct(int productNo) throws Exception {
-		return productDao.getProduct(productNo);
+	public void addProductVoucher(Product product) throws Exception {
+		productDao.addProductVoucher(product);
+	}
+	
+	public void addProductPoint(Product product) throws Exception {
+		productDao.addProductPoint(product);
+	}
+///////////////////////////////////////////		
+	public Product getProductCoupon(int productNo) throws Exception {
+		return productDao.getProductCoupon(productNo);
 	}
 
+	public Product getProductVoucher(int productNo) throws Exception {
+		return productDao.getProductVoucher(productNo);
+	}
+	
+	public Product getProductPoint(int productNo) throws Exception {
+		return productDao.getProductPoint(productNo);
+	}
+	
 ////////////////////////////////////////////////////////////////////////////
 	public Map<String , Object> getProductCouponList(Search search) throws Exception {
 		

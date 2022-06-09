@@ -45,7 +45,9 @@ public class PointDaoImpl implements PointDao {
 		User user = (User)map.get("user");
 		Point point = (Point)map.get("point");
 		
-		String useStatus = point.getUseStatus();
+		System.out.println("point 확인: "+ point);
+		
+		String useStatus=point.getUseStatus();
 		System.out.println("useStatus : "+useStatus);
 		
 		int usePoint = point.getPoint();
@@ -54,26 +56,34 @@ public class PointDaoImpl implements PointDao {
 		int totalPoint = user.getTotalPoint();
 		System.out.println("totalPoint : "+totalPoint);
 		
-			if(useStatus=="1") {
+		
+		if(useStatus.equals("2")) {
 			
-			int sumPoint = totalPoint + usePoint;
+		int sumPoint = totalPoint - usePoint;
 			
-			System.out.println(" sumPoint : " + sumPoint);
-			user.setTotalPoint(sumPoint);
-			
-			userService.updateUserTotalPoint(user);
-			}else if(useStatus=="2") {
-				
-				int sumPoint = totalPoint - usePoint;
-
-				System.out.println(" sumPoint : " + sumPoint);
-				
-				user.setTotalPoint(sumPoint);
-				userService.updateUserTotalPoint(user);
-			}
+		System.out.println(" 계산 : " + sumPoint);
+		user.setTotalPoint(sumPoint);
+		
 		System.out.println("map : "+map);
 		System.out.println("point : "+ point);
 		sqlSession.insert("PointMapper.addPointPurchase", point);
+		userService.updateUserTotalPoint(user);
+		
+		}else if(useStatus.equals("1")) {
+				
+			int sumPoint = totalPoint + usePoint;
+
+			System.out.println(" 계산 : " + sumPoint);
+				
+			user.setTotalPoint(sumPoint);
+			userService.updateUserTotalPoint(user);
+			System.out.println("map : "+map);
+			System.out.println("point : "+ point);
+			sqlSession.insert("PointMapper.addPointPurchase", point);
+		} else {
+			System.out.println("Error");
+		}
+		
 	}
 
 	@Override
@@ -124,5 +134,15 @@ public class PointDaoImpl implements PointDao {
 	@Override
 	public int getTotalCount(User user) {
 		return sqlSession.selectOne("PointMapper.getTotalCount", user);
+	}
+	
+	@Override
+	public int getVoucherTotalCount(User user) {
+		return sqlSession.selectOne("PointMapper.getVoucherTotalCount", user);
+	}
+	
+	@Override
+	public int getDonationTotalCount(User user) {
+		return sqlSession.selectOne("PointMapper.getDonationTotalCount", user);
 	}
 }
