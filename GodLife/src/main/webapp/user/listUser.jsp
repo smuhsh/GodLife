@@ -45,77 +45,34 @@
 	<script type="text/javascript">
 	
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
-		function fncGetUserList(currentPage) {
+		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
 		}
 		
-		
 		//============= "검색"  Event  처리 =============	
 		 $(function() {
 			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 //$( "button.btn.btn-default" ).on("click" , function() {
-			//	fncGetUserList(1);
-			//});
+			$( "button.btn.btn-default" ).on("click" , function() {
+			fncGetList(1);
+			});
 		 });
 		
 		
-		//============= userId 에 회원정보보기  Event  처리(Click) =============	
+		//============= userEmail 에 회원정보보기  Event  처리(Click) =============	
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser?userId="+$(this).text().trim();
+				 self.location ="/user/getUser?userEmail="+$(this).text().trim();
 			});
 						
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "red");
+			//==> userEmail LINK Event End User 에게 보일수 있도록 
+			$( "td:nth-child(2)" ).css("color" , "green");
 			
 		});	
 		
-		
-		//============= userId 에 회원정보보기  Event  처리 (double Click)=============
-		 $(function() {
-			 
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(  "td:nth-child(5) > i" ).on("click" , function() {
 
-					var userId = $(this).next().val();
-				
-					$.ajax( 
-							{
-								url : "/user/json/getUser/"+userId ,
-								method : "GET" ,
-								dataType : "json" ,
-								headers : {
-									"Accept" : "application/json",
-									"Content-Type" : "application/json"
-								},
-								success : function(JSONData , status) {
-
-									var displayValue = "<h6>"
-																+"아이디 : "+JSONData.userId+"<br/>"
-																+"이  름 : "+JSONData.userName+"<br/>"
-																+"이메일 : "+JSONData.email+"<br/>"
-																+"ROLE : "+JSONData.role+"<br/>"
-																+"등록일 : "+JSONData.regDateString+"<br/>"
-																+"</h6>";
-									$("h6").remove();
-									$( "#"+userId+"" ).html(displayValue);
-								}
-						});
-						////////////////////////////////////////////////////////////////////////////////////////////
-					
-			});
-			
-			//==> userId LINK Event End User 에게 보일수 있도록 
-			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-			$("h7").css("color" , "red");
-			
-			//==> 아래와 같이 정의한 이유는 ??
-			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
-		});	
-	
 	</script>
 	
 </head>
@@ -130,7 +87,7 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>회원목록조회</h3>
+	       <h3>회원목록조회(관리자용)</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -147,8 +104,8 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원ID</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>회원명</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원 이메일</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
 					</select>
 				  </div>
 				  
@@ -176,10 +133,10 @@
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left" >회원 ID</th>
-            <th align="left">회원명</th>
-            <th align="left">이메일</th>
-            <th align="left">간략정보</th>
+            <th align="left" >회원 이메일</th>
+            <th align="left">닉네임</th>
+            <th align="left">가입날짜</th>
+            <th align="left">관심사 번호</th>
           </tr>
         </thead>
        
@@ -190,12 +147,12 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${user.userId}</td>
-			  <td align="left">${user.userName}</td>
-			  <td align="left">${user.email}</td>
+			  <td align="left"  title="Click : 회원정보 확인">${user.userEmail}</td>
+			  <td align="left">${user.nick}</td>
+			  <td align="left">${user.regDate}</td>
+			   <td align="left">${user.categNo}</td>
 			  <td align="left">
-			  	<i class="glyphicon glyphicon-ok" id= "${user.userId}"></i>
-			  	<input type="hidden" value="${user.userId}">
+			  	<input type="hidden" value="${user.userEmail}">
 			  </td>
 			</tr>
           </c:forEach>

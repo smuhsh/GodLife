@@ -14,16 +14,15 @@ public interface UserService {
 	
 	
 	public String getAccessToken (String authorize_code);
-	
 
 	// 회원가입 *
 	public void addUser(User user) throws Exception;
 	
-	// 로그인 *
-	public User login(String userEmail)throws Exception;
-	
-	// 본인정보확인 *
+	// 본인정보확인, 로그인 *
 	public User getUser(String userEmail) throws Exception;
+	
+	// 타유저 상세조회 
+	public User getUserTarget(String nick) throws Exception ;
 	
 	// 비밀번호 수정 
 	public void updatePwd(User user) throws Exception;
@@ -34,7 +33,6 @@ public interface UserService {
 	//유저 전체 목록조회 *
 	public Map<String , Object> getUserList(Search search) throws Exception;
 	
-	
 	// 핸드폰번호로 아이디, 비번찾기  *
 	public User findUserPhone(String phone) throws Exception;
 	
@@ -43,6 +41,10 @@ public interface UserService {
 	
 		
     // 유저상세조회 > 쿼리 아직 완성 x
+	
+	
+	//인증문자 
+	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) throws Exception;
 	
 		
 	//================친구, 블랙리스트 ======================================
@@ -74,15 +76,6 @@ public interface UserService {
 	//쪽지 보내기 * 
 	public void addMsg(Msg msg)throws Exception;
 	
-	// 받은 쪽지 상세조회
-	public Msg getRecvMsg(String recvEmail) throws Exception ;
-	
-	// 보낸 쪽지 상세조회
-	public Msg getSendMsg(String sendEmail) throws Exception ;
-	
-	// 받은, 보낸 쪽지 삭제 
-    public void deleteMsg(Msg msg) throws Exception ;
-    
     // 받은 쪽지 상세조회(다시확인) *
 	public Msg getRecvMsg(int msgNo) throws Exception ;
 		
@@ -125,6 +118,7 @@ public interface UserService {
     // 신고 등록 
     public void addReport(Report report) throws Exception ;
 
+    // 병문오빠 추가건 
     public void updateUserTotalPoint(User user) throws Exception;
     
     public void updateUserRedCouponCount(User user) throws Exception;
@@ -132,11 +126,14 @@ public interface UserService {
     public void updateUserCertiCouponCount(User user) throws Exception;
 
     
+  	
+  	
     //신고 유저 목록조회(관리자) 
     
     //레드카드 발급, 제거 
     
-
+    
+	
 		
 		
 		

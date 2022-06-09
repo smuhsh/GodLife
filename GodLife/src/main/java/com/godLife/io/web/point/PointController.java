@@ -159,8 +159,8 @@ public class PointController {
 		return "forward:/point/getPointPurchaseList.jsp";
 	}
 
-	@RequestMapping(value = "addPointPurchase", method = RequestMethod.POST)
-	public void addPointPurchase(Map<String, Object> map, @ModelAttribute("point") Point point, HttpSession session)
+	@RequestMapping(value = "addPointPurchaseDonation", method = RequestMethod.POST)
+	public String addPointPurchaseDonation(Map<String, Object> map, @ModelAttribute("point") Point point, HttpSession session)
 			throws Exception {
 
 		System.out.println("/point/addPointPurchase : POST");
@@ -168,16 +168,17 @@ public class PointController {
 		User user = (User) session.getAttribute("user");
 
 		map.put("user", user);
+		System.out.println("@@@@@@@@user : "+user);
 		map.put("point", point);
 
 		System.out.println(map);
 
 		pointService.addPointPurchase(map);
 
-		return;
+		return "forward:/point/getPointPurchaseDonationList";
 	}
-
-
+	
+	
 	@RequestMapping(value = "getPointPurchaseList")
 	public String getPointPurchaseList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
 			throws Exception {

@@ -239,8 +239,9 @@ public class UserServiceTest {
         
         userService.addBlack(friendBlack);
      }
+     
    
-     @Test
+     //@Test
      public void testUpdateAccStatus() throws Exception{
          
         FriendBlack friendblack =new FriendBlack(); 
@@ -309,8 +310,6 @@ public class UserServiceTest {
 		userService.deleteMsg(10000);
 		 
 		 System.out.println(msg);
-		 
-		 
 		 
 		 
 	    }   

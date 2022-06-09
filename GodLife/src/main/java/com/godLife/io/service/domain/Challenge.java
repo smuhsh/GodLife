@@ -11,7 +11,7 @@ public class Challenge {
 	private String challengeThumbnailImg;
 	private String challengeDetail;
 	private String challengeRule;
-	private int challengeCateNo;
+	private int challengeCategNo;
 	private List<String> certiCycle;
 	private String startDate;
 	private String endDate;
@@ -48,8 +48,8 @@ public class Challenge {
 	public String getChallengeRule() {
 		return challengeRule;
 	}
-	public int getChallengeCateNo() {
-		return challengeCateNo;
+	public int getChallengeCategNo() {
+		return challengeCategNo;
 	}
 	public List<String> getCertiCycle() {
 		return certiCycle;
@@ -99,8 +99,8 @@ public class Challenge {
 	public void setChallengeRule(String challengeRule) {
 		this.challengeRule = challengeRule;
 	}
-	public void setChallengeCateNo(int challengeCateNo) {
-		this.challengeCateNo = challengeCateNo;
+	public void setChallengeCategNo(int challengeCategNo) {
+		this.challengeCategNo = challengeCategNo;
 	}
 	public void setCertiCycle(List<String> certiCycle) {
 		this.certiCycle = certiCycle;
@@ -161,7 +161,7 @@ public class Challenge {
 	public String toString() {
 		return "Challenge [challengeNo=" + challengeNo + ", hostEmail=" + hostEmail + ", challengeTitle="
 				+ challengeTitle + ", challengeThumbnailImg=" + challengeThumbnailImg + ", challengeDetail="
-				+ challengeDetail + ", challengeRule=" + challengeRule + ", challengeCateNo=" + challengeCateNo
+				+ challengeDetail + ", challengeRule=" + challengeRule + ", challengeCategNo=" + challengeCategNo
 				+ ", certiCycle=" + certiCycle + ", startDate=" + startDate + ", endDate=" + endDate + ", openRange="
 				+ openRange + ", joinPoint=" + joinPoint + ", challengeRegDate=" + challengeRegDate
 				+ ", challengeStatus=" + challengeStatus + ", joinCount=" + joinCount + ", certiDate=" + certiDate

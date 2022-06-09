@@ -19,11 +19,11 @@ public interface UserDao {
 	// 회원가입
 	public void addUser(User user) throws Exception ;
 	
-	// 로그인 
-	public User login(String userEmail)throws Exception;
-	
-	// 본인정보 상세조회
+	// 본인정보 상세조회, 로그인 
 	public User getUser(String userEmail) throws Exception ;
+	
+	// 타유저 상세조회 
+	public User getUserTarget(String nick) throws Exception ;
 	
 	// 비밀번호 변경 
 	public void updatePwd(User user) throws Exception ;
@@ -91,7 +91,6 @@ public interface UserDao {
     // 보낸 쪽지 목록조회 
     public Map<String, Object> getSendMsgList(Search search, String sendEmail) throws Exception ;
     
-    
 	////////////////////////////일대일문의 //////////////////
     
     // 일대일 문의 등록 
@@ -113,18 +112,25 @@ public interface UserDao {
     public void updateOneInqComment(OneInq oneInq) throws Exception ;
     
     
-    
 ////////////////////////////신고 //////////////////
     
     // 신고 등록 
     public void addReport(Report report) throws Exception ;
     
     
-    
     //신고 유저 목록조회(관리자) 
     
-    
     //레드 카드 발급, 제거 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -139,9 +145,16 @@ public interface UserDao {
     
     
     
-	
-	// 게시판 Page 처리를 위한 전체Row(totalCount)  return
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, usermapper 
 	public int getTotalCount(Search search) throws Exception ;
+	
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, friendBlack mapper 
+	public int getTotalCount1(Search search) throws Exception ;
+	
+	
+	
+	
+	
 	
 	
 
