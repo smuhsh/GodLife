@@ -7,20 +7,26 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import org.apache.maven.doxia.module.fml.model.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,6 +69,8 @@ public class UserController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
+	  @Resource(name="uploadPath")
+	    String uploadPath;
 	
 	////////////////////////////////회원관리/////////////////////////////////////////////////////////
 	
@@ -145,7 +153,7 @@ public class UserController {
 	
 	
 	@GetMapping( value="getUser") // 본인정보조회, 테스트완료
-	public String getUser( @RequestParam("userEmail") String userEmail , Model model, Map<String,Object> map) 
+	public String getUser( @RequestParam("userEmail") String userEmail , Model model) 
 						   throws Exception {
 		
 					
@@ -159,6 +167,19 @@ public class UserController {
 		return "forward:/user/getUser.jsp"; // 본인정보 조회 페이지로 이동 
 	}
 	
+	@GetMapping( value="getUserTarget") // 타유저정보조회, 쿼리 여러개값나와서.안돌아감... 
+	public String getUserTarget( @RequestParam("nick") String nick , Model model) 
+						   throws Exception {
+					
+		System.out.println("타유저 상세조회 시작");
+		//Business Logic
+		List<User> user = userService.getUserTarget(nick);
+		
+		// Model 과 View 연결
+		model.addAttribute("user", user);
+		
+		return "forward:/user/getUserTarget.jsp"; // 타유저 상세페이지 조회 
+	}
 	
 	
 	@GetMapping( value="updateUser") // 테스트 완료 
@@ -174,10 +195,18 @@ public class UserController {
 	}
 	
 	@PostMapping( value="updateUser") // 프로필이미지 수정 미완료, text area 값 데이터값 안나옴 
-	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session
-			) throws Exception{
+	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session,
+							  @RequestParam ("fileInfo" )  MultipartFile file)throws Exception{
 		
 			System.out.println("/user/updateUser : POST");
+			
+			 String fileName = file.getOriginalFilename();
+			 
+			 fileName =  uploadFile(fileName, file.getBytes());   // 파일 이름 중복 제거 
+	 		 System.out.println("파일이름" +  fileName );
+	 		 
+	 		 user.setProfileImg(fileName);
+			
 			//Business Logic
 			userService.updateUser(user);
 			
@@ -188,6 +217,23 @@ public class UserController {
 			
 			return "redirect:/user/getUser?userEmail="+user.getUserEmail(); // 수정된상태의 조회페이지로 이동 
 	}
+	
+    //파일명 랜덤 생성 메서드
+    private String uploadFile(String originalName, byte[] fileData) throws Exception{
+    
+        // uuid 생성 
+        UUID uuid = UUID.randomUUID();
+        
+        //savedName 변수에 uuid + 원래 이름 추가
+        String savedName = uuid.toString()+"_"+originalName;
+        //uploadPath경로의 savedName 파일에 대한 file 객체 생성
+        File target = new File(uploadPath, savedName);
+        //fileData의 내용을 target에 복사함
+        FileCopyUtils.copy(fileData, target);
+        
+        return savedName;
+    }
+	
 	
 	@RequestMapping( value="listUser" )  // 테스트완료, 시간되면 매퍼에서 서치검색어 like로 바꾸기 
 	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
@@ -289,8 +335,9 @@ public class UserController {
 	
 	//타유저 상세조회 . 인젝션해야되는데... 개어려워... 
 	
+	// 프로필이미지 업로드 
 	
-
+	 
 	
 	
 	////////////////////////////////친구, 블랙리스트 관리/////////////////////////////////////////////////////////
@@ -438,11 +485,9 @@ public class UserController {
 	}
 	
 	
+	//친구 삭제 (친구 목록에서, 이것도 세션처리??)
 	
-	
-	//친구 삭제 
-	//블랙리스트 삭제 
-	
+	//블랙리스트 삭제 (블랙리스트 목록, 이것도 세션처리?? ) 
 	
 	//친구등록 중복방지, 블랙리스트 등록 중복방지.... 어떻게할까.... 
 	
@@ -509,7 +554,7 @@ public class UserController {
 	
 	
 	//받은 쪽지 목록조회 
-	@RequestMapping( value = "listRecvMsg")
+	@RequestMapping( value = "listUserRecvMsg")
 	public String listRecvMsg (@ModelAttribute("search") Search search, 
 							   @RequestParam("recvEmail")String recvEmail, 
 							   Model model, HttpServletRequest request)throws Exception{
@@ -532,7 +577,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 				
-	  return "aaa"; // 받은 쪽지 목록으로 이동 						
+		 return "forward:/user/listUserRecvMsg.jsp";					
 								
 	}
 	
@@ -568,7 +613,7 @@ public class UserController {
 	
 	
 							   	
-	////////////////////////////////일대일 문의 관리/////////////////////////////////////////////////////////
+	////////////////////////////////일대일 문의 관리 /////////////////////////////////////////////////////////
 	
 	@GetMapping("addOneInq")
 	public String addOneInq() throws Exception{

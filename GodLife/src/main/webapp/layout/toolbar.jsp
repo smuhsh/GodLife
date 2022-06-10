@@ -10,7 +10,7 @@
 	
 	<div class="container">
 	       
-		<a class="navbar-brand" href="/index.jsp">Lego Land</a>
+		<a class="navbar-brand" href="/index.jsp">GodLife</a>
 		
 		<!-- toolBar Button Start //////////////////////// -->
 		<div class="navbar-header">
@@ -52,6 +52,21 @@
 	                      
 	                     </ul>
 	                 </li>
+	                 
+	                 <!--  회원관리 DrowDown -->
+	              <li class="dropdown">
+	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+	                         <span >쪽지관리</span>
+	                         <span class="caret"></span>
+	                     </a>
+	                     <ul class="dropdown-menu">
+	                         <li><a href="#">쪽지보내기</a></li>
+	                         <li><a href="#">받은쪽지 목록조회</a></li>
+	                          <li><a href="#">보낸쪽지 목록조회</a></li>
+	                     </ul>
+	                 </li>
+	                 
+	                 
 	                 
 	              <!-- 판매상품관리 DrowDown  -->
 	               <c:if test="${sessionScope.user.role == 'admin'}">
@@ -103,7 +118,11 @@
 	            </ul>
 	            
 	             <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#" id="addChallengeTos">챌린지 생성</a></li>
+	                <li><a href="#" id="addChallengeTos">챌린지 등록</a></li>
+	            </ul>
+	            
+	            <ul class="nav navbar-nav navbar-right">
+	                <li><a href="#" id="challengeList">챌린지 목록</a></li>
 	            </ul>
 		</div>
 		<!-- dropdown hover END -->	       
@@ -157,8 +176,31 @@
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/user/listFriendRequest");
 		});
+	 	
+	 	
+		//=============  쪽지보내기 Event  처리 =============	
+	 	$( "a:contains('쪽지보내기')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/user/add?");
+		});
+		
+	 	//=============  받은쪽지 목록조회 Event  처리 =============	
+	 	$( "a:contains('받은쪽지 목록조회')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/user/listUserRecvMsg?recvEmail=${sessionScope.user.userEmail}");
+		});
 			
 		
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
 		
 	 	 $(function() {
 	 		//=============  판매상품등록 Event  처리 =============
@@ -272,8 +314,13 @@
 		
 	 	$(function(){
 	 		$("a#addChallengeTos").on("click",function(){
-	 			$(self.location).attr("href","/challenge/addChallengeTos.jsp");
+	 			self.location = "/challenge/addChallengeTos.jsp"
 	 		});
+	 		
+	 		$("a#challengeList").on("click",function(){
+	 			self.location = "/challenge/listChallenge" //테스트
+	 		});
+	 		
 	 	});
 		
 	</script>  

@@ -14,76 +14,9 @@ public class ChallengeUtil {
 	
 	
 	public static Challenge certiCycle(Challenge challenge)throws Exception {
-		
-		
-	
-		
-//		switch(cal.get(Calendar.DAY_OF_WEEK)) {
-//			case 1 : day2 = "일";
-//			break;
-//			case 2 : day2 = "월";
-//			break;
-//			case 3 : day2 = "화";
-//			break;
-//			case 4 : day2 = "수";
-//			break;
-//			case 5 : day2 = "목";
-//			break;
-//			case 6 : day2 = "금";
-//			break;
-//			case 7 : day2 = "토";
-//			break;
-//		}
-//		
-//		System.out.println("시작 날짜 : "+inputDate2);
-//		System.out.println("종료 날짜 : "+inputDate);
-//		
-//		System.out.println("시작 날 종료날 차이 : "+diffDays);
-//		
-//		
-//		// 인증주기가 체크박스로 1일 / 2월 / 3화 / 4수 / 5목 / 6금 / 7토
-//		
-//		int startWeek = cal.get(Calendar.DAY_OF_WEEK);
-//		System.out.println("startWeek "+startWeek);
-//		//시작날짜의 요일이 나옴 위에 처럼 1이면 일 2면 월...
-//		
+			
 		int result = 0;
-//		for(int i=0; i<challenge.getCertiCycle().size(); i++) {// 3 5 두개
-//			
-//			System.out.println("인증주기 0: "+Integer.parseInt(challenge.getCertiCycle().get(i)));
-//			int count = 0;
-//			int largeCount = 0;
-//			
-//			if(startWeek > Integer.parseInt(challenge.getCertiCycle().get(i))) { //startweek = 4 
-//				int j = 0;
-//				
-//				System.out.println("인증주기 1: "+Integer.parseInt(challenge.getCertiCycle().get(i)));
-//				
-//				for(j = startWeek; j<=7; j++) {
-//					count++;
-//				}
-//				
-//				for(j = 0; j<startWeek; j++) {
-//					count++;
-//				}
-//				count = 1;
-//				result = result + ((int)(diffDays - count));//
-//				System.out.println("result :"+result);
-//				//       4                               6
-//			}else if(startWeek < Integer.parseInt(challenge.getCertiCycle().get(i))){
-////				for(int j = startWeek; j<challenge.getCertiCycle().size(); j++) {
-////					System.out.println("인증주기 2: "+Integer.parseInt(challenge.getCertiCycle().get(i)));
-////					count++;
-////				}
-////				count -= 1;
-//				largeCount++;
-//				result = result + (int)diffDays;
-//				
-//			}else {
-//				System.out.println("인증주기 3: "+Integer.parseInt(challenge.getCertiCycle().get(i)));
-//				result = result + (int)diffDays;
-//			}
-//	}
+
 		
 		String inputDate = challenge.getEndDate(); // 매게변수로 받을곳
 		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(inputDate);
@@ -174,37 +107,9 @@ for(int i=0; i<challenge.getCertiCycle().size(); i++) {
 	
 	challenge.setCertiCycleName(certiCycleName);
 	
-	
-	
-	
-	
-	
-//		System.out.println("날짜 : "+inputDate);
-//		
-//		counts++;
-//		System.out.println("week2 : "+week2);
-//		System.out.println("counts : "+counts);
-//		
-//		
-//		System.out.println("///////////////총정리////////////////////");
-//		
-//		System.out.println("시작날짜 : "+inputDate2);
-//		System.out.println("시작 요일 : "+day2);
-//		System.out.println("시작날짜 : "+inputDate);
-////		int stack = 0;
-////		for(int i=0; i<challenge.getCertiCycle().size(); i++) {
-////			stack++;
-////		}// 총 진행하는 날이 7일 이하일때 최소 그 만큼의 인증 횟수가 나오기때문에 만들어둔거같음.
-////		
-//		System.out.println("챌린지 총 인증 횟수 :"+((result/7))+"번");
-//		
-//		
-//		System.out.println("최종 분모 : "+((result/7)));
-//		
-//		challenge.setCertiCount((result/7));
-		
 		return challenge;
 	}
+	
 	
 	public static Challenge setCategName(Challenge challenge) {
 		
@@ -222,6 +127,28 @@ for(int i=0; i<challenge.getCertiCycle().size(); i++) {
 		
 		
 		return challenge;
+	}
+	
+	public List<Challenge> setCategNoList(List<Challenge> list){
+		
+		List<Challenge> challengeList = new ArrayList<Challenge>();
+		
+		for(Challenge challenge : list) {
+			if(challenge.getChallengeCategNo() == 1) {
+				challenge.setChallengeCategName("운동");
+			}else if(challenge.getChallengeCategNo() == 2){
+				challenge.setChallengeCategName("식습관");
+			}else if(challenge.getChallengeCategNo() == 3){
+				challenge.setChallengeCategName("공부");
+			}else if(challenge.getChallengeCategNo() == 4){
+				challenge.setChallengeCategName("취미");
+			}else if(challenge.getChallengeCategNo() == 5){
+				challenge.setChallengeCategName("생활");
+			}
+			challengeList.add(challenge);
+		}
+		
+		return challengeList;
 	}
 	
 }

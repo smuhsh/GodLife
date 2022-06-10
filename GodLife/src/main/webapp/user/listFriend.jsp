@@ -25,6 +25,8 @@
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   
+      <link href="../css/kfonts2.css" rel="stylesheet">
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
@@ -63,12 +65,12 @@
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser?userEmail="+$(this).text().trim();
+			$( "td:nth-child(3)" ).on("click" , function() {
+				 self.location ="/user/getUserTarget?nick="+$(this).text().trim();
 			});
 						
 			//==> userEmail LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "green");
+			$( "td:nth-child(3)" ).css("color" , "green");
 			
 		});	
 		
@@ -127,39 +129,34 @@
 		
 		
       <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover table-striped" >
-      
-        <thead>
-          <tr>
-            <th align="center">No</th>
-            <th align="left" >친구 이메일</th>
-            <th align="left">친구 닉네임</th>
-          </tr>
-        </thead>
-       
-		<tbody>
+      		
+		<c:forEach var="user" items="${list}">
 		
-		  <c:set var="i" value="0" />
-		  <c:forEach var="user" items="${list}">
-			<c:set var="i" value="${ i+1 }" />
-			<tr>
-			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${user.userEmail} 
-			  <td align="left">${user.nick}</td>
-			  <td align="left">${user.profileImg}</td>
-			  <td align="left">
-			  	<input type="hidden" value="${user.userEmail}">
-			  </td>
-			</tr>
-          </c:forEach>
-        
-        </tbody>
-      
-      </table>
-	  <!--  table End /////////////////////////////////////-->
-	  
- 	</div>
- 	<!--  화면구성 div End /////////////////////////////////////-->
+		<div class="col-sm-3 col-md-3 " >
+      <div class="thumbnail"  style="height: 400px;"   >
+       <img class="img-responsive" src="/images/uploadFiles/${user.profileImg }"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;" > 
+     
+		 
+          <div class="caption">
+            <h3> ${ user.userEmail } </h3>
+            <p>닉네임  :${user.nick}</p>
+
+            
+            </div>
+      </div>
+    </div> 
+
+
+	</c:forEach>	
+
+</div>
+		
+		
+		
+		
+		
+		
+		
  	
  	
  	<!-- PageNavigation Start... -->

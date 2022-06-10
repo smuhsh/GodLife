@@ -143,7 +143,7 @@
 	    </div>
 	    
 	    <!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
+		<form name="detailForm"  class="form-horizontal" encType="multipart/form-data" >
 		
 		  <div class="form-group">
 		    <label for="userEmail" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
@@ -170,6 +170,15 @@
 		    </div>
 		  </div>
 		  
+		  	<div class="form-group">
+	   		 <label for="profileImg" class="col-sm-offset-1 col-sm-3 control-label"> 프로필 이미지 </label>
+		 	   <div class="col-sm-4">
+		      <input type="file" class="form-control" id="fileInfo" multiple="multiple"  name="fileInfo">
+	    		</div>
+	    	
+		     </div> 
+		  
+			
 		  
 		   <tr class="mobileNo">
 		<th>
@@ -190,8 +199,10 @@
 		</td>
 	</tr>
 	
+	
+	
 	 <div class="form-group">
-		    <label for="categNo" class="col-sm-offset-1 col-sm-3 control-label">관심사</label>
+		    <label for="categNo" class="col-sm-offset-1 col-sm-3 control-label" >관심사</label>
 		    <div class="col-sm-4">
 		      <input type="checkbox" id="sports" name="categNo" value="1">
 					<label for="sports">운동</label>
