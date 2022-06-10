@@ -24,14 +24,17 @@ public interface OperatorService {
 
 	public Map<String , Object> getOperatorEventsList(Search search) throws Exception;
 	public Map<String , Object> getOperatorJoinEventList(Search search) throws Exception;
-	public Map<String , Object> getOperatorRewardList(Search search) throws Exception;
 	public Map<String , Object> getOperatorNoticeFaqsList(Search search) throws Exception;
 	
 	public void updateOperatorEvents(OperatorEvents operatorEvents) throws Exception;
 	public void updateOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception;
 	//public void updateOperatorReward(OperatorReward operatorReward) throws Exception;
-	public void updateOperatorDayReward(OperatorReward operatorDayReward, User user) throws Exception;
+	//public void updateOperatorDayReward(OperatorReward operatorDayReward, User user) throws Exception;
+	public void updateOperatorDayReward(OperatorReward operatorDayReward, OperatorJoinEvent user) throws Exception;
 	public void updateOperatorRoullReward(OperatorReward operatorRoullReward) throws Exception;
 	public void updateOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
+	
+	public void deleteOperatorEvents(OperatorEvents operatorEvents) throws Exception;
+	public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs ) throws Exception;	
 	
 }

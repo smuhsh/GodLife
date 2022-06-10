@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OperatorMapper">
+ 	
+	<!-- Events --> 	
+	<resultMap id="operatorEventsSelectMap"		type="operatorEvents">
+		<result property="eventNo" 				column="event_no" 			jdbcType="INTEGER"/>
+		<result property="eventTitle"			column="event_title" 		jdbcType="VARCHAR" />
+		<result property="thumbnailImg" 		column="thumbnail_img" 		jdbcType="VARCHAR" />
+		<result property="detail" 				column="detail"	 			jdbcType="VARCHAR" />
+		<result property="eventImg" 			column="event_img" 			jdbcType="VARCHAR" />
+		<result property="roullJoinPoint" 		column="roull_join_point"	jdbcType="INTEGER"  />
+		<result property="regDate" 				column="reg_date" 			jdbcType="DATE" />
+	</resultMap>
+	
+	<!-- JoinEvent --> 	
+	<resultMap id="operatorJoinEventSelectMap" 	type="operatorJoinEvent">
+		<result property="joinEventNo" 			column="join_event_no" 		jdbcType="INTEGER"/>
+		<result property="userEmail"			column="user_email" 		jdbcType="VARCHAR" />
+		<result property="eventNo" 				column="event_no" 			jdbcType="INTEGER" />
+		<result property="regDate" 				column="reg_date" 			jdbcType="DATE" />
+		<result property="rewardPoint" 			column="reward_point" 		jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- Reward -->
+	<resultMap id="operatorRewardSelectMap" 	type="operatorReward">
+		<result property="rewardNo" 			column="reward_no" 			jdbcType="INTEGER"/>
+		<result property="eventNo"				column="event_no" 			jdbcType="INTEGER" />
+		<result property="rewardPoint" 			column="reward_point" 		jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- NoticeFaqs -->	
+	<resultMap id="operatorNoticeFaqsSelectMap" type="operatorNoticeFaqs">
+		<result property="noticeFaqNo" 			column="notice_faq_no" 		jdbcType="INTEGER"/>
+		<result property="userEmail"			column="user_email" 		jdbcType="VARCHAR" />
+		<result property="status" 				column="status" 			jdbcType="VARCHAR" />
+		<result property="noticeMust" 			column="notice_must" 		jdbcType="VARCHAR" />
+		<result property="title" 				column="title" 				jdbcType="VARCHAR" />
+		<result property="detail" 				column="detail" 			jdbcType="VARCHAR"  />
+		<result property="img" 					column="img" 				jdbcType="VARCHAR" />
+		<result property="regDate" 				column="reg_date" 			jdbcType="DATE" />
+		<result property="faqTag" 				column="faq_tag" 			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- ///////////////////////// Events ///////////////////////// -->
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addOperatorEvents"		parameterType="operatorEvents" >
+	 	INSERT
+		INTO events( event_no , event_title , thumbnail_img , detail, event_img, roull_join_point, reg_date) 
+		VALUES	 (	#{eventNo:INTEGER}, #{eventTitle:VARCHAR} , #{thumbnailImg:VARCHAR} , #{detail:VARCHAR} , 
+							#{eventImg:VARCHAR} , #{roullJoinPoint:INTEGER} , SYSDATE )
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getOperatorEvents"	parameterType="int" resultMap="operatorEventsSelectMap">
+		SELECT
+		event_no , event_title , thumbnail_img , detail ,  event_img ,  roull_join_point , reg_date
+		FROM events 
+		WHERE event_no = #{eventNo}
+	 </select>
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateOperatorEvents"	parameterType="operatorEvents" >
+	   	UPDATE events
+	   	<set>
+	   		event_title 		= 	#{eventTitle} ,
+			thumbnail_img		= 	#{thumbnailImg},
+			detail 				= 	#{detail},
+			event_img 			= 	#{eventImg}
+	   	</set>
+		WHERE event_no = #{eventNo}
+	 </update>
+
+	 <!-- SQL : DELETE -->
+	 <delete	id="deleteOperatorEvents"	parameterType="operatorEvents" >
+	   	DELETE events
+		WHERE event_no = #{eventNo}
+	 </delete>
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getOperatorEventsList"  parameterType="search"	resultMap="operatorEventsSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT event_no , event_title , thumbnail_img, reg_date
+											FROM events
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				event_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				event_title = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY event_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getOperatorEventsTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT event_no , event_title , thumbnail_img
+						FROM events
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			event_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			event_title = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>	
+
+	<!-- ///////////////////////// JoinEvent ///////////////////////// -->
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addOperatorJoinEvent"		parameterType="operatorJoinEvent" >
+	 	INSERT
+		INTO join_event( join_event_no , user_email , event_no , reg_date, reward_point) 
+		VALUES	 (	seq_join_event_join_event_no.NEXTVAL, #{userEmail:VARCHAR} , #{eventNo:INTEGER} , SYSDATE, #{rewardPoint:INTEGER} )
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getOperatorJoinEvent"	parameterType="int" resultMap="operatorJoinEventSelectMap">
+        SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
+        FROM reward r, join_event j
+        WHERE j.join_event_no = #{joinEventNo}
+            AND j.join_event_no = r.reward_no
+	 </select>
+	 
+	 <!-- NOT 	USING -->
+	 <!-- SQL : UPDATE -->
+	 <!-- SQL : DELETE -->
+	 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getOperatorJoinEventList"  parameterType="search"	resultMap="operatorJoinEventSelectMap">
+		SELECT
+			j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
+											FROM reward r, join_event j
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				j.join_event_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				j.user_email = #{searchKeyword}
+													</if>
+													AND j.join_event_no = r.reward_no
+												</where>
+											</if>
+											ORDER BY join_event_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} ),join_event j, reward r
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+			AND j.join_event_no = r.reward_no
+			GROUP BY j.join_event_no, j.user_email, r.event_no, r.reward_point, j.reg_date
+			ORDER BY j.join_event_no
+	 </select>
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getOperatorJoinEventTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT join_event_no , user_email, reg_date
+						FROM join_event
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			join_event_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			user_email = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+
+	<!-- ///////////////////////// Reward ///////////////////////// -->
+	<!-- SQL : INSERT -->
+	<insert 	id="addOperatorReward"		parameterType="operatorReward" >
+	 	INSERT
+		INTO reward( reward_no , event_no , reward_point) 
+		VALUES	 (	seq_reward_reward_no.NEXTVAL, #{eventNo} , #{rewardPoint} )
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <!-- SQL : DELETE -->
+	 
+	 <!-- SQL : UPDATE ROULL -->
+	 <update	id="updateOperatorRoullReward"	parameterType="operatorReward" >
+	   	UPDATE reward r 
+	   	<set>
+		   	<![CDATA[
+			r.reward_point  = (
+	                  SELECT inv.reward
+	                  FROM
+	                  (
+                        WITH reward AS (
+                            SELECT 1000 reward, 70 percent FROM dual UNION ALL
+                            SELECT 3000 , 20  FROM dual UNION ALL
+                            SELECT 5000 , 5  FROM dual UNION ALL
+                            SELECT 10000 , 5  FROM dual
+	                  )
+	                      SELECT * FROM (
+	                          SELECT * FROM reward r, ( SELECT level lv FROM dual CONNECT BY LEVEL <= 100) WHERE percent >= lv ORDER BY DBMS_RANDOM.VALUE) 
+	                      WHERE ROWNUM <= 1
+	                  )inv
+	              )
+	        ]]>
+	   	</set>
+		WHERE r.reward_no = #{rewardNo}
+		    AND EXISTS (
+	        SELECT r.reward_no, r.event_no, r.reward_point, j.reg_date
+	        FROM reward r, join_event j
+	        WHERE r.event_no = #{eventNo}  
+	            AND j.join_event_no = r.reward_no
+			)
+	 </update>
+	 
+	 <!-- SQL : UPDATE DAY -->
+	 <update	id="updateOperatorDayReward"	parameterType="map" >
+	   	UPDATE reward
+	   	<set>
+	   	reward = #{reward}
+	   	</set>
+		WHERE EXISTS (
+		        SELECT j.user_email
+		        FROM join_event j
+		        WHERE j.user_email = #{userEmail}
+		    ) 
+		    AND reward_no = #{rewardNo}
+		    AND EXISTS (
+		        SELECT coupon
+		        FROM (    
+		                SELECT COUNT(inv.user_email) coupon
+		                FROM
+		                (
+		                    SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date 
+		                    FROM join_event j, reward r
+		                    WHERE j.reward_no = r.reward_no
+		                        AND j.user_email = #{userEmail}
+		                        AND r.event_no = #{eventNo}
+		                    GROUP BY j.join_event_no, j.user_email, r.event_no, r.reward_point, j.reg_date
+		                    ORDER BY j.join_event_no                    
+		                )inv
+		                WHERE inv.reg_date BETWEEN TO_DATE(TRUNC(SYSDATE,'MM')) AND TO_DATE(LAST_DAY(SYSDATE))
+		                AND inv.event_no = #{eventNo}
+		        ) c
+		        WHERE c.coupon = 14 OR c.coupon = 28
+		)	 
+	</update>
+
+	<!-- ///////////////////////// NoticeFaqs ///////////////////////// -->
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addOperatorNoticeFaqs"		parameterType="operatorNoticeFaqs" >
+	 	INSERT
+		INTO notice_faqs( notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag) 
+		VALUES	 (	seq_notice_faqs_notice_faq_no.NEXTVAL, #{userEmail:VARCHAR} , #{status:VARCHAR} , #{noticeMust:VARCHAR} , 
+							#{title:VARCHAR} , #{detail:VARCHAR} , #{img:VARCHAR}, SYSDATE , #{faqTag:VARCHAR})
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getOperatorNoticeFaqs"	parameterType="int" resultMap="operatorNoticeFaqsSelectMap">
+		SELECT
+		notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag
+		FROM notice_faqs 
+		WHERE notice_faq_no = #{noticeFaqNo}
+	 </select>
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateOperatorNoticeFaqs"	parameterType="operatorNoticeFaqs" >
+	   	UPDATE notice_faqs
+	   	<set>
+	   		status 				= 	#{status} ,
+	   		notice_must 		= 	#{noticeMust} ,
+	   		title		 		= 	#{title} ,
+			detail 				= 	#{detail} ,
+			img 				= 	#{img} ,
+			faq_tag 			= 	#{faqTag}
+	   	</set>
+		WHERE notice_faq_no = #{noticeFaqNo}
+	 </update>
+
+	 <!-- SQL : DELETE -->
+	 <delete	id="deleteOperatorNoticeFaqs"	parameterType="operatorEvents" >
+	   	DELETE notice_faqs
+		WHERE notice_faq_no = #{noticeFaqNo}
+	 </delete>
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getOperatorNoticeFaqsList"  parameterType="search"	resultMap="operatorNoticeFaqsSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT notice_faq_no , status, notice_must, title , detail,  reg_date, faq_tag
+											FROM notice_faqs
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				notice_faq_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				title = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY notice_faq_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getOperatorNoticeFaqsTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT notice_faq_no , title , detail
+						FROM notice_faqs
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			notice_faq_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			title = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>	
+	 		 
+</mapper>

@@ -20,33 +20,30 @@ public interface OperatorDao {
 	
 	//SELECT ONE
 	public OperatorEvents getOperatorEvents(int eventNo) throws Exception;
+	//public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception;
 	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception;
-//	public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception;
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception;
 	public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception;
 	
 	//SELECT LIST
 	public List<OperatorEvents> getOperatorEventsList(Search search) throws Exception;
 	public List<OperatorJoinEvent> getOperatorJoinEventList(Search search) throws Exception;
-	public List<OperatorReward> getOperatorRewardList(Search search) throws Exception;
 	public List<OperatorNoticeFaqs> getOperatorNoticeFaqsList(Search search) throws Exception;
 	
 	//UPDATE
 	public void updateOperatorEvents(OperatorEvents operatorEvents) throws Exception;
 	public void updateOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception;
 	//public void updateOperatorReward(OperatorReward operatorReward) throws Exception;
-	public void updateOperatorDayReward(OperatorReward operatorDayReward, User user) throws Exception;
+	public void updateOperatorDayReward(OperatorReward operatorDayReward, OperatorJoinEvent user) throws Exception;
 	public void updateOperatorRoullReward(OperatorReward operatorRoullReward) throws Exception;
 	public void updateOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
 	
 	//DELETE
 	public void deleteOperatorEvents(OperatorEvents operatorEvents) throws Exception;
-	public void deleteOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception;
-	public void deleteOperatorReward(OperatorReward operatorReward) throws Exception;
 	public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
 	
 	// Page All Row(totalCount)  return
-//	public int getTotalCount(Search search) throws Exception ;
+	//public int getTotalCount(Search search) throws Exception ;
 	public int getOperatorEventsTotalCount(Search search) throws Exception ;
 	public int getOperatorJoinEventTotalCount(Search search) throws Exception ;
 	public int getOperatorRewardTotalCount(Search search) throws Exception ;

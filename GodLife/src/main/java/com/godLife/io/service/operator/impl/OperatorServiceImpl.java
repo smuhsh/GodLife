@@ -56,14 +56,14 @@ public class OperatorServiceImpl implements OperatorService{
 	public OperatorEvents getOperatorEvents(int eventNo) throws Exception {
 		return operatorDao.getOperatorEvents(eventNo);
 	}
+	//public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception {
+	//	return operatorDao.getOperatorJoinEvent(userEmail);
+	//}	
 	
 	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
 		return operatorDao.getOperatorJoinEvent(joinEventNo);
 	}
-//	public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception {
-//		return operatorDao.getOperatorJoinEvent(userEmail);
-//	}
-
+	
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception {
 		return operatorDao.getOperatorReward(rewardNo);
 	}
@@ -75,7 +75,7 @@ public class OperatorServiceImpl implements OperatorService{
 	//Method List
 	public Map<String, Object> getOperatorEventsList(Search search) throws Exception {
 		List<OperatorEvents> list = operatorDao.getOperatorEventsList(search);
-//		int totalCount = operatorDao.getTotalCount(search);
+		//int totalCount = operatorDao.getTotalCount(search);
 		int totalCount = operatorDao.getOperatorEventsTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -95,19 +95,7 @@ public class OperatorServiceImpl implements OperatorService{
 		
 		return map;
 	}
-
-
-	public Map<String, Object> getOperatorRewardList(Search search) throws Exception {
-		List<OperatorReward> list = operatorDao.getOperatorRewardList(search);
-		int totalCount = operatorDao.getOperatorRewardTotalCount(search);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
-		map.put("totalCount", new Integer(totalCount));
-		
-		return map;
-	}
-
+	
 	public Map<String, Object> getOperatorNoticeFaqsList(Search search) throws Exception {
 		List<OperatorNoticeFaqs> list = operatorDao.getOperatorNoticeFaqsList(search);
 		int totalCount = operatorDao.getOperatorNoticeFaqsTotalCount(search);
@@ -127,11 +115,11 @@ public class OperatorServiceImpl implements OperatorService{
 	public void updateOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		operatorDao.updateOperatorJoinEvent(operatorJoinEvent);
 	}
-
-//	public void updateOperatorReward(OperatorReward operatorReward) throws Exception {
-//		operatorDao.updateOperatorReward(operatorReward);
-//	}
-	public void updateOperatorDayReward(OperatorReward operatorDayReward, User user) throws Exception {
+	//public void updateOperatorReward(OperatorReward operatorReward) throws Exception {
+	//	operatorDao.updateOperatorReward(operatorReward);
+	//}
+	
+	public void updateOperatorDayReward(OperatorReward operatorDayReward, OperatorJoinEvent user) throws Exception {
 		operatorDao.updateOperatorDayReward(operatorDayReward, user);
 	}
 	public void updateOperatorRoullReward(OperatorReward operatorRoullReward) throws Exception {
@@ -145,15 +133,7 @@ public class OperatorServiceImpl implements OperatorService{
 	//Method delete
 	public void deleteOperatorEvents(OperatorEvents operatorEvents) throws Exception {
 		operatorDao.deleteOperatorEvents(operatorEvents);		
-	}
-	
-	public void deleteOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
-		operatorDao.deleteOperatorJoinEvent(operatorJoinEvent);
-	}
-	
-	public void deleteOperatorReward(OperatorReward operatorReward) throws Exception {
-		operatorDao.deleteOperatorReward(operatorReward);
-	}
+	}	
 	
 	public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
 		operatorDao.deleteOperatorNoticeFaqs(operatorNoticeFaqs);
