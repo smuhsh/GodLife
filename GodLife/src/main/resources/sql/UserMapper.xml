@@ -25,7 +25,11 @@
 		<result property="categName" 		column="categ_name" 			jdbcType="VARCHAR" />
 		<result property="redCouponCount" 		column="red_coupon_count " 			jdbcType="INTEGER" />
 		<result property="certiCouponCount" 		column="certi_coupon_count  " 			jdbcType="INTEGER" />
-		
+		<!-- 아래추가-->
+		<result property="challengeTitle"			column="title"				jdbcType="VARCHAR" />
+		<result property="certiImg"					column="certi_img"			jdbcType="VARCHAR" />
+		<result property="badgeName"		column="badge_name" 	jdbcType="VARCHAR" />
+		<result property="badgeImg" 		column="badge_img" 		jdbcType="VARCHAR" />
 		
 	</resultMap>
 	
@@ -63,7 +67,7 @@
 	 
 	 
 	  <!-- SQL : 타유저 상세조회-->
-	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
+	 <select 	id="getUserTarget"	parameterType="string"	resultMap="userSelectMap">
 		SELECT u.user_email, u.nick, u.intro, c.categ_name, ch.title, ce.certi_img, b.badge_name, b.badge_img
 		FROM users u, categs c, challenges ch, join_challenger j, certi_imgs ce, badges b, my_badge m
 		WHERE u.categ_no = c.categ_no 
@@ -72,8 +76,9 @@
 		AND j.challenge_no = ch.challenge_no(+)
 		AND u.user_email = m.user_email(+)
 		AND m.badge_no = b.badge_no(+)
-	    AND u.user_email = #{userEmail}
+	    AND u.nick= #{nick}
 	 </select>
+	 
 	 
 	 <!-- SQL : 비밀번호 변경 -->
 	 <update	id="updatePwd"	parameterType="user" >
@@ -156,11 +161,6 @@
 	 </update>
 	 
 	 
-	 
-	 
-	 
-	 
-	 
 	 <!-- 병문 오빠 추가 -->
 	 <update id="updateUserRedCoupon" parameterType="user" >
 	 	UPDATE USERS
@@ -194,7 +194,7 @@
 	<!-- SQL : SELECT ROW Count  -->
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT user_email , nick 
+	  	FROM(	SELECT *
 						FROM users
 						<if test="searchCondition != null">
 							<where>

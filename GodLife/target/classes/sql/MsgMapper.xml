@@ -105,21 +105,27 @@
 	
 	
 	<!-- SQL : SELECT ROW Count  -->
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getUserRecvMsgTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT u.nick, m.title
-						FROM users u, msgs m 
-						<if test="searchCondition != null">
+	  	FROM(	SELECT 
+				             u.nick, m.title, m.reg_date
+							FROM msgs m, users u  
 							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			AND u.nick = #{searchKeyword} 
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 			AND m.title = #{searchKeyword}
-								</if>
-							</where>
-						</if> ) countTable						
+							m.send_email = u.user_email
+							AND  m.recv_email = #{recvEmail}
+							<if test="searchCondition != null">
+							<if test="searchCondition == 0 and searchKeyword !='' ">
+					 		AND u.nick = #{searchKeyword} 
+							</if>
+							<if test="searchCondition == 1 and searchKeyword !='' ">
+				 			AND m.title = #{searchKeyword}
+							</if>
+							</if>
+						</where> ) countTable						
 	 </select>
+	 
+	 
+	 
 	 
 	  
 	  
