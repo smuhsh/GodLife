@@ -1,12 +1,12 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 
 
 <html>
 <head>
-<title>∆˜¿Œ∆Æ ±‚∫Œ</title>
+<title>Ìè¨Ïù∏Ìä∏ Í∏∞Î∂Ä</title>
 
-
+<meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -39,15 +39,15 @@ function fncAddPointDonation(){
 			var useDetail =$("input[name='useDetail']").val();
 
 			if(donationPlace == null || donationPlace.length<1){
-				alert("±‚∫Œ√≥¥¬ π›µÂΩ√ ¿‘∑¬«œø©æﬂ «’¥œ¥Ÿ.");
+				alert("Í∏∞Î∂ÄÏ≤òÎäî Î∞òÎìúÏãú ÏûÖÎ†•ÌïòÏó¨Ïïº Ìï©ÎãàÎã§.");
 				return;
 			}
 			if(point == null || point.length<1 || point<1000){
-				alert("±‚∫Œ±›¿∫ π›µÂΩ√ 1000ø¯ ¿ÃªÛ ¿‘∑¬«ÿæﬂ «’¥œ¥Ÿ.");
+				alert("Í∏∞Î∂ÄÍ∏àÏùÄ Î∞òÎìúÏãú 1000Ïõê Ïù¥ÏÉÅ ÏûÖÎ†•Ìï¥Ïïº Ìï©ÎãàÎã§.");
 				return;
 			}
 
-			alert($("input[name='nick']").val()+"¥‘¿« "+$("input[name='point']").val()+"∆˜¿Œ∆Æ∞° "+$("input[name='donationPlace']").val()+"ø° ±‚∫Œµ«æ˙Ω¿¥œ¥Ÿ.");
+			alert($("input[name='nick']").val()+"ÎãòÏùò "+$("input[name='point']").val()+"Ìè¨Ïù∏Ìä∏Í∞Ä "+$("input[name='donationPlace']").val()+"Ïóê Í∏∞Î∂ÄÎêòÏóàÏäµÎãàÎã§.");
 			$("form").attr("method", "POST").attr("action","/point/addPointPurchaseDonation").submit()
 }
 
@@ -73,13 +73,13 @@ $(function() {
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Donation place</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" name="donationPlace" placeholder="±‚∫Œ√≥">
+      <input type="text" class="form-control" name="donationPlace" placeholder="Í∏∞Î∂ÄÏ≤ò">
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">Point</label>
     <div class="col-sm-6">
-      <input type="text" class="form-control" name="point" placeholder="±‚∫Œ±›">
+      <input type="text" class="form-control" name="point" placeholder="Í∏∞Î∂ÄÍ∏à">
       <input type="hidden" name="userEmail"  value="${user.userEmail}"/>
       <input type="hidden" name="nick"  value="${user.nick}"/>
       <input type="hidden" name="totalPoint"  value="${user.totalPoint}"/>
@@ -90,7 +90,7 @@ $(function() {
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="button" class="btn btn-default">±‚∫Œ«œ±‚</button>
+      <button type="button" class="btn btn-default">Í∏∞Î∂ÄÌïòÍ∏∞</button>
     </div>
   </div>
 </form>

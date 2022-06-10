@@ -25,8 +25,6 @@
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-      <link href="../css/kfonts2.css" rel="stylesheet">
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
@@ -35,11 +33,11 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
+  
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
-            padding-top : 50px;
+            padding-top : 50px;    <!--위 툴바랑 간격사이즈를 나타냄-->
         }
     </style>
     
@@ -49,7 +47,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listFriend").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listUserRecvMsg").submit();
 		}
 		
 		//============= "검색"  Event  처리 =============	
@@ -61,17 +59,16 @@
 		 });
 		
 		
-		//============= userEmail 에 회원정보보기  Event  처리(Click) =============	
+		//============= 보낸사람에 회원정보보기  Event  처리(Click) =============	
 		 $(function() {
 		
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(3)" ).on("click" , function() {
+			$( "td:nth-child(2)" ).on("click" , function() {
 				 self.location ="/user/getUserTarget?nick="+$(this).text().trim();
 			});
 						
 			//==> userEmail LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(3)" ).css("color" , "green");
-			
+			$( "td:nth-child(2)" ).css("color" , "green");
 		});	
 		
 
@@ -89,7 +86,7 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>친구 목록조회</h3>
+	       <h3>받은 쪽지 목록조회 </h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -107,6 +104,7 @@
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>닉네임</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
 					</select>
 				  </div>
 				  
@@ -129,34 +127,39 @@
 		
 		
       <!--  table Start /////////////////////////////////////-->
-      		
-		<c:forEach var="user" items="${list}">
+      <table class="table table-success table-striped">  <!-- 부트스트랩 안먹힘... -->
+        <thead class="table-dark">
+          <tr>
+            <th align="center">NO</th>
+            <th align="left" >보낸 사람</th>
+            <th align="left">쪽지 제목</th>
+            <th align="left">날짜</th>
+          </tr>
+        </thead>
+       
+		<tbody>
 		
-		<div class="col-sm-3 col-md-3 " >
-      <div class="thumbnail"  style="height: 400px;"   >
-       <img class="img-responsive" src="/images/uploadFiles/${user.profileImg }"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;" > 
-     
-		 
-          <div class="caption">
-            <h3> ${ user.userEmail } </h3>
-            <p>닉네임  :${user.nick}</p>
-
-            
-            </div>
-      </div>
-    </div> 
-
-
-	</c:forEach>	
-
-</div>
-		
-		
-		
-		
-		
-		
-		
+		  <c:set var="i" value="0" />
+		  <c:forEach var="msg" items="${list}">
+			<c:set var="i" value="${ i+1 }" />
+			<tr>
+			  <td align="center">${ i }</td>
+			  <td align="left"  title="Click : 회원정보 확인">${msg.nick} 
+			  <td align="left">${msg.title}</td>
+			  <td align="left">${msg.regDate}</td>
+			  <td align="left">
+			  	<input type="hidden" value="${msg.recvEmail}">
+			  </td>
+			</tr>
+          </c:forEach>
+        
+        </tbody>
+      
+      </table>
+	  <!--  table End /////////////////////////////////////-->
+	  
+ 	</div>
+ 	<!--  화면구성 div End /////////////////////////////////////-->
  	
  	
  	<!-- PageNavigation Start... -->

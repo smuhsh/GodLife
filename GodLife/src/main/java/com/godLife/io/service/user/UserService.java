@@ -1,5 +1,7 @@
 package com.godLife.io.service.user;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.godLife.io.service.domain.FriendBlack;
@@ -22,7 +24,7 @@ public interface UserService {
 	public User getUser(String userEmail) throws Exception;
 	
 	// 타유저 상세조회 
-	public User getUserTarget(String nick) throws Exception ;
+	public List<User> getUserTarget(String nick) throws Exception ;
 	
 	// 비밀번호 수정 
 	public void updatePwd(User user) throws Exception;

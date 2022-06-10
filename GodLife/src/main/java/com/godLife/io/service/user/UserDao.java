@@ -23,7 +23,7 @@ public interface UserDao {
 	public User getUser(String userEmail) throws Exception ;
 	
 	// 타유저 상세조회 
-	public User getUserTarget(String nick) throws Exception ;
+	public List<User> getUserTarget(String nick) throws Exception ;
 	
 	// 비밀번호 변경 
 	public void updatePwd(User user) throws Exception ;
@@ -120,7 +120,11 @@ public interface UserDao {
     
     //신고 유저 목록조회(관리자) 
     
+    
+    
     //레드 카드 발급, 제거 
+    
+    
     
     
     
@@ -148,17 +152,11 @@ public interface UserDao {
 	// 게시판 Page 처리를 위한 전체Row(totalCount) return, usermapper 
 	public int getTotalCount(Search search) throws Exception ;
 	
-	// 게시판 Page 처리를 위한 전체Row(totalCount) return, friendBlack mapper 
-	public int getTotalCount1(Search search) throws Exception ;
 	
-	
-	
-	
-	
-	
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 받은 쪽지 목록조회 
+	public int getUserRecvMsgTotalCount(Search search, String recvEmail) throws Exception ;
 	
 
-	
 
 
 }

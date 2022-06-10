@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -7,11 +7,11 @@
 
 <html lang="ko">
 <head>
-	<meta charset="EUC-KR">
-	<title>»óÇ°µî·Ï</title>
+	<meta charset="UTF-8">
+	<title>ìƒí’ˆë“±ë¡</title>
 
 
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -36,40 +36,47 @@
 	<script type="text/javascript">
 
 
-//=====±âÁ¸Code ÁÖ¼® Ã³¸® ÈÄ  jQuery º¯°æ ======//
+//=====ê¸°ì¡´Code ì£¼ì„ ì²˜ë¦¬ í›„  jQuery ë³€ê²½ ======//
+function fncAddProduct(){
+	$("form").attr("method", "POST").attr("action", "/product/addProductPoint").submit();
+}
+
 function fncAddProduct(){
 
 	//document.detailForm.action='/product/addProduct';
 	//document.detailForm.submit();
 	
-	//ÆÄÀÏ ¾÷·Îµå¸¦ À§ÇØ ¾Æ·¡¿Í °°ÀÌ ¾¸///¾ÆÁ÷ ¹Ì±¸Çö
+	//íŒŒì¼ ì—…ë¡œë“œë¥¼ ìœ„í•´ ì•„ëž˜ì™€ ê°™ì´ ì”€///ì•„ì§ ë¯¸êµ¬í˜„
 	//$("form").attr("method", "POST").attr("enctype", "multipart/form-data").attr("action", "/product/addProduct").submit();
 	$("form").attr("method", "POST").attr("action", "/product/addProductPoint").submit();
 
 	
 }
 
-//============= "Ãë¼Ò"  Event Ã³¸® ¹×  ¿¬°á =============
+
+
+
+//============= "ì·¨ì†Œ"  Event ì²˜ë¦¬ ë°  ì—°ê²° =============
 $(function() {
-	//==> DOM Object GET 3°¡Áö ¹æ¹ý ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	$("a[href='#' ]").on("click" , function() {
 		$("form")[0].reset();
 	});
 });	
 	
 	///////////////////////////////////////////////////////////////
-	//==> Ãß°¡µÈºÎºÐ : "µî·Ï"  Event Ã³¸® ¹×  ¿¬°á
+	//==> ì¶”ê°€ëœë¶€ë¶„ : "ë“±ë¡"  Event ì²˜ë¦¬ ë°  ì—°ê²°
 	$(function(){
-		//==> DOM Object GET 3°¡Áö ¹æ¹ý ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		//==> 1 °ú 3 ¹æ¹ý Á¶ÇÕ : $("tagName.className:filterÇÔ¼ö") »ç¿ëÇÔ.	
+		//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		//==> 1 ê³¼ 3 ë°©ë²• ì¡°í•© : $("tagName.className:filterí•¨ìˆ˜") ì‚¬ìš©í•¨.	
 		 $( "button.btn.btn-primary" ).on("click" , function() {
 				//Debug..
-				//alert(  $( "td.ct_btn01:contains('µî·Ï')" ).html() );
+				//alert(  $( "td.ct_btn01:contains('ë“±ë¡')" ).html() );
 				fncAddProduct();
 		});
 	});	
 	
-///////////////////³ªÁß¿¡ ¹Ø¿¡ ºÎºÐ ¹Ù²Ù°í ¿©±â µî·Ï°ú Ãë¼Ò ºÎºÐµµ ¹Ù²ã¾ß ÇÔ//////////////////////////	
+///////////////////ë‚˜ì¤‘ì— ë°‘ì— ë¶€ë¶„ ë°”ê¾¸ê³  ì—¬ê¸° ë“±ë¡ê³¼ ì·¨ì†Œ ë¶€ë¶„ë„ ë°”ê¿”ì•¼ í•¨//////////////////////////	
 
 	</script>
 </head>
@@ -84,61 +91,69 @@ $(function() {
     <jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<h1 class="bg-primary text-center">Æ÷ÀÎÆ® »óÇ°µî·Ï</h1>
+		<h1 class="bg-primary text-center">í¬ì¸íŠ¸ ìƒí’ˆë“±ë¡</h1>
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 		  
 		  <div class="form-group">
-		    <label for="productName" class="col-sm-offset-1 col-sm-3 control-label">»óÇ°¸í</label>
+		    <label for="productName" class="col-sm-offset-1 col-sm-3 control-label">ìƒí’ˆëª…</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="productName" name="productName" placeholder="»óÇ°¸í">
+		      <input type="text" class="form-control" id="productName" name="productName" placeholder="ìƒí’ˆëª…ì„ ìž…ë ¥í•´ì£¼ì„¸ìš”">
 		    </div>
 		  </div>
 
 		  <div class="form-group">
-		    <label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">°¡°Ý</label>
+		    <label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">ê°€ê²©</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="productPrice" name="productPrice" placeholder="»óÇ°°¡°Ý"> 
+		      <input type="number" class="form-control" id="productPrice" name="productPrice" placeholder="ìˆ«ìžë§Œ ìž…ë ¥ ê°€ëŠ¥"> 
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
-		    <label for="productDetail" class="col-sm-offset-1 col-sm-3 control-label">»óÇ°»ó¼¼Á¤º¸</label>
+		    <label for="productDetail" class="col-sm-offset-1 col-sm-3 control-label">ìƒí’ˆìƒì„¸ì •ë³´</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="productDetail" name="productDetail" placeholder="»óÇ° »ó¼¼Á¤º¸">
+		      <input type="text" class="form-control" id="productDetail" name="productDetail" placeholder="ìƒí’ˆ ìƒì„¸ì •ë³´">
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
-		    <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">»óÇ°ÀÌ¹ÌÁö</label>
+		    <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">ìƒí’ˆì´ë¯¸ì§€</label>
 		    <div class="col-sm-4">
-		    <input type="text" class="form-control" id="productImg" name="productImg" placeholder="ÆÄÀÏÀÌ¹ÌÁö">
+		    <input type="file" class="form-control" id="productImg" name="productImg" placeholder="ìƒí’ˆì´ë¯¸ì§€">
+		    		    
+		    <form name="productImg" action="requestupload1" method="post" enctype="multipart/form-data">
+		        <input type="file" name="productImg" />
+		        <input type="text" name="src" />
+		        <input type="submit" value="ì „ì†¡" />
+		    </form>
+
+
 		    </div>
 		  </div>
 
 		  <div class="form-group">
-		    <label for="status" class="col-sm-offset-1 col-sm-3 control-label">3¹ø ³Ö¾î¶ó</label>
+		    <label for="status" class="col-sm-offset-1 col-sm-3 control-label"></label>
 		    <div class="col-sm-4">
-		    <input type="text" class="form-control" id="status" name="status" placeholder="status">
+		    <input type="hidden" class="form-control" id="status" name="status" value="3">
 		    </div>
 		  </div>
 
 		
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >µî &nbsp;·Ï</button>
-			  <a class="btn btn-primary btn" href="#" role="button">Ãë&nbsp;¼Ò</a>
+		      <button type="button" class="btn btn-primary"  >ë“± &nbsp;ë¡</button>
+			  <a class="btn btn-primary btn" href="#" role="button">ì·¨&nbsp;ì†Œ</a>
 		    </div>
 		  </div>
 		</form>
 		<!-- form Start /////////////////////////////////////-->
 		
  	</div>
-	<!--  È­¸é±¸¼º div end /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div end /////////////////////////////////////-->
 	
 </body>
 

@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
 		return userDao.getUser(userEmail);
 	}
 	
-	public User getUserTarget(String nick) throws Exception {
+	public List<User> getUserTarget(String nick) throws Exception {
 		return userDao.getUserTarget(nick);
 	}
 	
@@ -182,9 +182,10 @@ public class UserServiceImpl implements UserService{
 		userDao.deleteMsg(msgNo);
 	}
 	
+	
+	
 	public Map<String , Object > getRecvMsgList(Search search, String recvEmail) throws Exception {
-		int totalCount = userDao.getTotalCount(search);
-
+		int totalCount = userDao.getUserRecvMsgTotalCount(search, recvEmail);
 		Map<String, Object> map = userDao.getRecvMsgList(search, recvEmail);
 		map.put("totalCount", new Integer(totalCount));
 		
