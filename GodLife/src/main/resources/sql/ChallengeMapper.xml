@@ -12,7 +12,7 @@
 		<result property="challengeThumbnailImg"	column="thumbnail_img"		jdbcType="VARCHAR" />
 		<result property="challengeDetail"			column="detail"				jdbcType="VARCHAR" />
 		<result property="challengeRule"			column="rule"				jdbcType="VARCHAR" />
-		<result property="challengeCateNo"			column="categ_no"			jdbcType="NUMERIC" />
+		<result property="challengeCategNo"			column="categ_no"			jdbcType="NUMERIC" />
 		<result property="startDate"				column="start_date"			jdbcType="VARCHAR" />
 		<result property="endDate"					column="end_date"			jdbcType="VARCHAR" />
 		<result property="openRange"				column="open_range"			jdbcType="VARCHAR" />
@@ -22,6 +22,7 @@
 		<result property="joinCount"				column="join_count"			jdbcType="NUMERIC" />
 		<result property="totalCertiCount"			column="total_certi_count"	jdbcType="NUMERIC" />
 		<result property="hostNick"					column="host_nick"			jdbcType="VARCHAR" />
+		<result property="challengeCategName"		column="categ_name"			jdbcType="VARCHAR" />
 	</resultMap>
  	
  	
@@ -98,7 +99,7 @@
 					,#{challengeThumbnailImg}
 					,#{challengeDetail}
 					,#{challengeRule}
-					,#{challengeCateNo}
+					,#{challengeCategNo}
 					,#{startDate}
 					,#{endDate}
 					,#{openRange}
@@ -151,26 +152,29 @@
 						FROM
 						(
 						SELECT
-						*
+						c.*, ct.categ_name
 						FROM
-						challenges
+						challenges c, categs ct
 						<where>
+							ct.categ_no = c.categ_no 
 							<if test="black != null">
 							<foreach item="value" collection="black">
 								AND NOT host_email = #{value}
 							</foreach>
 							</if>
+								AND c.status = '0'
 						</where>
 						UNION
 						SELECT
-						*
+						c.*, ct.categ_name
 						FROM
-						challenges
-						WHERE host_email = #{user.userEmail}
+						challenges c, categs ct
+						WHERE ct.categ_no = c.categ_no
+						AND host_email = #{user.userEmail}
 						AND status = '0'
 						UNION
 						SELECT
-						        c.*
+						        c.*,ct.categ_name
 						FROM
 						(
 							SELECT
@@ -185,13 +189,14 @@
 									OR target_email = #{user.userEmail}
 								)inv
 							WHERE acc_status = '2'
-						)outv, challenges c
+						)outv, challenges c, categs ct
 						WHERE outv.target_email(+) = c.host_email
+						AND ct.categ_no = c.categ_no
 						AND acc_status = '2'
 						AND NOT c.host_email = #{user.userEmail}
 						UNION
 						SELECT
-						        c.*
+						        c.*, ct.categ_name
 						FROM
 						(
 							SELECT
@@ -206,8 +211,9 @@
 									OR target_email = #{user.userEmail}
 								)inv
 							WHERE acc_status = '2'
-						)outv, challenges c
+						)outv, challenges c, categs ct
 						WHERE outv.user_email(+) = c.host_email
+						AND ct.categ_no = c.categ_no
 						AND acc_status = '2'
 						AND NOT c.host_email = #{user.userEmail}
 						)list
@@ -239,16 +245,9 @@
 	 <select id="getChallengeListLoginTotal" parameterType="java.util.Map"  resultType="int">
 	 		
 	 		
-	 			SELECT
-				COUNT(*)
-				FROM
-				(
-				SELECT
-				ROWNUM no, search.*
-				FROM
-					(
+	 			
 						SELECT
-						list.*
+						COUNT(*)
 						FROM
 						(
 						SELECT
@@ -331,10 +330,6 @@
 						<if test="search.searchCondition == null">
 							ORDER BY list.challenge_no
 						</if>
-					)search
-					WHERE ROWNUM &lt;= #{search.endRowNum}
-				)challenge
-				WHERE challenge.no BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 				
 				
 		</select>
@@ -352,13 +347,14 @@
 				ROWNUM no, search.*
 				FROM(
 		 		SELECT
-				c.*
+				c.*, ct.categ_name
 				FROM
 				<if test="challengeListOpt == 'total' or challengeListOpt == 'add'">
-					challenges c
+					challenges c, categs ct
 					<where>
+						ct.categ_no = c.categ_no
 						<if test="challengeListOpt == 'total'">
-							status = '0'
+							AND status = '0'
 							AND open_range = '0'
 						</if>
 						<if test="challengeListOpt == 'add'">
@@ -373,9 +369,10 @@
 					</where>
 				</if>
 				<if test="challengeListOpt == 'pick' or challengeListOpt == 'join'">
-					challenges c, join_challenger jc
+					challenges c, join_challenger jc, categs ct
 					<where>
 						c.challenge_no = jc.challenge_no
+						AND ct.categ_no = c.categ_no
 						AND jc.user_email = #{user.userEmail}
 						<if test="challengeListOpt == 'join'">
 							AND jc.status = '0'
@@ -415,11 +412,12 @@
 	 <select id="getChallenge" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
 	 
 		 	SELECT
-			u.nick, c.*
+			u.nick, c.*, ct.categ_name
 			FROM
-			challenges c, users u
+			challenges c, users u, categs ct
 			WHERE u.user_email = c.host_email
-			AND challenge_no = #{challengeNo}
+			AND ct.categ_no = c.categ_no
+			AND c.challenge_no = #{challengeNo}
 				 
 	 </select>
 	 

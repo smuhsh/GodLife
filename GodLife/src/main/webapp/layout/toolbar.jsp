@@ -99,11 +99,30 @@
 	                         <li><a href="#">최근 본 상품</a></li>
 	                     </ul>
 	                 </li>
-
+	              <li class="dropdown">
+	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+	                         <span >Point</span>
+	                         <span class="caret"></span>
+	                     </a>
+	                     <ul class="dropdown-menu">
+	                         <li><a href="#">기부하기</a></li>
+	                         <li><a href="#">기부내역</a></li>
+	                         <li><a href="#">포인트이용내역</a></li>
+	         				 <li><a href="#">상품권구매내역</a></li>
+	                     </ul>
+	                 </li>
 	             </ul>
 	             
 	             <ul class="nav navbar-nav navbar-right">
 	                <li><a href="#">로그아웃</a></li>
+	            </ul>
+	            
+	             <ul class="nav navbar-nav navbar-right">
+	                <li><a href="#" id="addChallengeTos">챌린지 등록</a></li>
+	            </ul>
+	            
+	            <ul class="nav navbar-nav navbar-right">
+	                <li><a href="#" id="challengeList">챌린지 목록</a></li>
 	            </ul>
 		</div>
 		<!-- dropdown hover END -->	       
@@ -271,8 +290,37 @@
 	 	$( "a:contains('최근 본 상품')" ).bind("click" , function() {
 	 		popWin = window.open("/history.jsp", "popWin",
 	 		"left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-		}); 
-	 	
+		});
+	 	$(function() {
+		 	$("a:contains('기부하기')").on("click" , function() {
+		 		self.location = "/point/addPointDonationView.jsp"
+			}); 
+		});
+	 	$(function() {
+		 	$("a:contains('기부내역')").on("click" , function() {
+		 		self.location = "/point/getPointPurchaseDonationList"
+			}); 
+		});
+	 	$(function() {
+		 	$("a:contains('포인트이용내역')").on("click" , function() {
+		 		self.location = "/point/getPointPurchaseList"
+			}); 
+		});
+	 	$(function() {
+		 	$("a:contains('상품권구매내역')").on("click" , function() {
+		 		self.location = "/point/getPointPurchaseVoucherList"
+			}); 
+		});
 		
+	 	$(function(){
+	 		$("a#addChallengeTos").on("click",function(){
+	 			self.location = "/challenge/addChallengeTos.jsp"
+	 		});
+	 		
+	 		$("a#challengeList").on("click",function(){
+	 			self.location = "/challenge/listChallenge" //테스트
+	 		});
+	 		
+	 	});
 		
 	</script>  

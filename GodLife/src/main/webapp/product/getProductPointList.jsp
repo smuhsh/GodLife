@@ -1,308 +1,204 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 <!DOCTYPE html>
 
 <html lang="ko">
-	
-<head>
-	<meta charset="EUC-KR">
-	
-	<!-- ¬¸¡∂ : http://getbootstrap.com/css/   ¬¸¡∂ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
-   <!-- jQuery UI toolTip ªÁøÎ CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip ªÁøÎ JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-	  body {
-            padding-top : 50px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
 
 <head>
-	<meta charset="EUC-KR">
-	<title>ªÛ«∞ ∏Ò∑œ¡∂»∏</title>
+<meta charset="UTF-8">
 
-	<link rel="stylesheet" href="/css/admin.css" type="text/css">
+<!-- Ï∞∏Ï°∞ : http://getbootstrap.com/css/   Ï∞∏Ï°∞ -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<!-- CDN(Content Delivery Network) »£Ω∫∆Æ ªÁøÎ -->
-	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript">
+<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+<link rel="stylesheet"
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	//=====±‚¡∏Code ¡÷ºÆ √≥∏Æ »ƒ  jQuery ∫Ø∞Ê ======//
-	// ∞Àªˆ / page µŒ∞°¡ˆ ∞ÊøÏ ∏µŒ Form ¿¸º€¿ª ¿ß«ÿ JavaScrpt ¿ÃøÎ
-	
-	function fncGetUserList(currentPage) {
-			//document.getElementById("currentPage").value = currentPage;
-			$("#currentPage").val(currentPage)
-		   	//document.detailForm.submit();
-			$("form").attr("method" , "POST").attr("action", "/product/listProduct").submit();
-		};
-	//==========================================================//
-   	//==> √ﬂ∞°µ»∫Œ∫– : "∞Àªˆ" ,  prodName link  Event ø¨∞· π◊ √≥∏Æ
-   	
-	$(function (){
-			
-	      //==> ∞Àªˆ Event ø¨∞·√≥∏Æ∫Œ∫–
-	      //==> DOM Object GET 3∞°¡ˆ πÊπ˝ ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	      //==> 1 ∞˙ 3 πÊπ˝ ¡∂«’ : $("tagName.className:filter«‘ºˆ") ªÁøÎ«‘. 
-			$("button.btn.btn-default").on("click", function(){
-		    //Debug..
-		    //alert(  $( "td.ct_btn01:contains('∞Àªˆ')" ).html() );
-			fncGetUserList(1);	
-			});
-		});
-	
-	      
-	//============= productName ø° ªÛ«∞¡§∫∏∫∏±‚  Event  √≥∏Æ(Click) =============
-	$(function() {
-		         
-	     $( "td:nth-child(2)" ).on("click" , function() {
-	        if(${param.menu == 'manage'}) {
-	        	self.location ="/product/updateProductCoupn?prouctdNo="+$(this).attr("productNo");
-	        } else {
-	        	self.location ="/product/getProductCoupon?productNo="+$(this).attr("productNo");
-	        }
-	     });
-		         
-	//==> prodName LINK Event End User ø°∞‘ ∫∏¿œºˆ ¿÷µµ∑œ 
-	     $( "td:nth-child(2)" ).css("color" , "red");   
-		         
-	    });
-	
-    //============= prodName ø° ƒÌ∆˘ ªÛ«∞¡§∫∏∫∏±‚  Event  √≥∏Æ (double Click)=============	
-	
-	$(function(){
-		
-	$( "td:nth-child(5) > i" ).on("click", function() {
-		
-		var productNo = $(this).next().val();
-		
-		 $.ajax( 
-                 {
-                    url : "/product/json/getProductCoupon/"+productNo,
-                    method : "GET",
-                    dataType : "json",
-                    headers : {
-                       "Accept" : "application/json",
-                       "Content-Type" : "application/json"
-                    },
-                    success : function(JSONData , status) {
 
-                       var displayValue = "<h6>"
-                                            +"ªÛ«∞π¯»£ : "+JSONData.productNo+"<br/>"
-                                            +"ªÛ«∞∏Ì : "+JSONData.productName+"<br/>"                                             
-                                            +"ªÛ«∞¿ÃπÃ¡ˆ : "+JSONData.productImg+"<br/>"                                             
-                                            +"ªÛ«∞ªÛºº¡§∫∏ : "+JSONData.productDetail+"<br/>"                                                                                         
-                                            +"∞°  ∞› : "+JSONData.productPrice+"<br/>"
-                                            +"ªÛ≈¬∞™ : "+JSONData.status+"<br/>"
-                                            +"</h6>";
-                       $("h6").remove();
-                       $( "#"+JSONData.productNo+"" ).append(displayValue);
-                 }
-              });
-           
-        });
-	
+<!-- Bootstrap Dropdown Hover CSS -->
+<link href="/css/animate.min.css" rel="stylesheet">
+<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+<!-- Bootstrap Dropdown Hover JS -->
+<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 
- 	//=========================================================//
-	 //==> productNo LINK Event End User ø°∞‘ ∫∏¿œºˆ ¿÷µµ∑œ 
-    $( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-    $("h7").css("color" , "red");
-    
-    //==> æ∆∑°øÕ ∞∞¿Ã ¡§¿««— ¿Ã¿Ø¥¬ ??
-    $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
- });
-    
-    $(function() {
-       
-    $( "td:nth-child(5)> i" ).on("click" , function() {
-       
-       var productNo = $(this).next.val();
-       
-          $.ajax( 
-                {
-                   url : "/product/json/getProductCoupon/"+productNo,
-                   method : "GET",
-                   dataType : "json",
-                   headers : {
-                      "Accept" : "application/json",
-                      "Content-Type" : "application/json"
-                   },
-                   success : function(JSONData , status) {
 
-                      var displayValue = "<h3>"
-					                          +"ªÛ«∞π¯»£ : "+JSONData.productNo+"<br/>"
-					                          +"ªÛ«∞∏Ì : "+JSONData.productName+"<br/>"                                             
-					                          +"ªÛ«∞¿ÃπÃ¡ˆ : "+JSONData.productImg+"<br/>"                                             
-					                          +"ªÛ«∞ªÛºº¡§∫∏ : "+JSONData.productDetail+"<br/>"                                                                                         
-					                          +"∞°  ∞› : "+JSONData.productPrice+"<br/>"
-					                          +"ªÛ≈¬∞™ : "+JSONData.status+"<br/>"
-                                           +"</h3>";
-                      $("h3").remove();
-                      $( "#"+JSONData.productNo+"" ).append(displayValue);
-                }
-             });
-          
-       });
-    
- 	//==========================================================//
-	  //==> UI ºˆ¡§ √ﬂ∞°∫Œ∫–  :  userId LINK Event End User ø°∞‘ ∫∏¿œºˆ ¿÷µµ∑œ 
-      $( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-      $("h7").css("color" , "red");
- 	
- 	
- 	      //==> æ∆∑°øÕ ∞∞¿Ã ¡§¿««— ¿Ã¿Ø¥¬ ??
- 	      //==> æ∆∑°¿« ¡÷ºÆ¿ª «œ≥™æø «ÆæÓ ∞°∏Á ¿Ã«ÿ«œººø‰.               
- 	      $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
- 	      //console.log ( $(".ct_list_pop:nth-child(1)" ).html() );
- 	      //console.log ( $(".ct_list_pop:nth-child(2)" ).html() );
- 	      //console.log ( $(".ct_list_pop:nth-child(3)" ).html() );
- 	      //console.log ( $(".ct_list_pop:nth-child(4)" ).html() ); //==> ok
- 	      //console.log ( $(".ct_list_pop:nth-child(5)" ).html() ); 
- 	      console.log ( $(".ct_list_pop:nth-child(6)" ).html() ); //==> ok
- 	      //console.log ( $(".ct_list_pop:nth-child(7)" ).html() ); 
- 	   });  
- 		
-    
-    
-    
-	      
-	
-	
+<!-- jQuery UI toolTip ÏÇ¨Ïö© CSS-->
+<link rel="stylesheet"
+   href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- jQuery UI toolTip ÏÇ¨Ïö© JS-->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<!--  ///////////////////////// CSS ////////////////////////// -->
+<style>
+body {
+   padding-top: 50px;
+}
+
+fieldset {
+   width: 400px;
+   text-align: center;
+   backgrond-color: white;
+}
+
+div.box {
+   width: 500px;
+   height: 50px;
+   box-align:center middle;
+   margin: 10px;
+   padding: 10px;
+   display: none;
+   background-color: #ffcc00;
+}
+</style>
+
+<!--  ///////////////////////// JavaScript ////////////////////////// -->
+<head>
+<meta charset="EUC-KR">
+<title>ÏÉÅÌíà Î™©Î°ùÏ°∞Ìöå</title>
+
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
+
+<!-- CDN(Content Delivery Network) Ìò∏Ïä§Ìä∏ ÏÇ¨Ïö© -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+   function fncAddPointPurchasePoint() {
+      var productNo = $('input[name="productNo"]:checked').val();
+      var payOpt = $('input[name="payOpt"]:checked').val();
+      var useStatus = $("input[name='useStatus']").val();
+      var useDetail = $("input[name='useDetail']").val();
+
+      alert(payOpt + " : payOpt   " + productNo + ": productNo   "
+            + useStatus + ":useStatus  " + useDetail + ":useDetail");
+      $("form").attr("method", "POST").attr("action",
+            "/point/addPointPurchaseProduct").submit()
+   }
+   $(function() {
+      $(".btn.btn-default").on("click", function() {
+         fncAddPointPurchasePoint();
+      });
+   });
+
+   function showDiv(element) {
+      var tag = document.getElementsByClassName("box");
+
+      for(var i=0; i<tag.length; i++){
+         if(element.id+"Box" == tag[i].id)
+            tag[i].style.display="block";
+         else
+            tag[i].style.display="none";
+      }
+   }
 </script>
 </head>
 
 <body>
-	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-	
-	<!--  »≠∏È±∏º∫ div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<div class="page-header text-info">
-			<c:set var="name" value="${param.menu}"/>
-				<c:if test="${name =='manage' }">
-						<h3>ªÛ«∞ ∞¸∏Æ</h3>
-				</c:if>
-				
-				<c:if test="${name =='search' }">
-						<h3>ªÛ«∞ ∏Ò∑œ¡∂»∏</h3>
-				</c:if>
-	    </div>
+   <form class="form-horizontal">
+      <!-- ToolBar Start /////////////////////////////////////-->
+      <jsp:include page="/layout/toolbar.jsp" />
+      <!-- ToolBar End /////////////////////////////////////-->
 
-		
+      <!--  ÌôîÎ©¥Íµ¨ÏÑ± div Start /////////////////////////////////////-->
+      <div class="container">
 
- 
-	    <!-- table ¿ß¬  ∞Àªˆ Start /////////////////////////////////////-->
-	    <div class="row">
-	    
-		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-		    		¿¸√º  ${resultPage.totalCount } ∞«ºˆ, «ˆ¿Á ${resultPage.currentPage}  ∆‰¿Ã¡ˆ
-		    	</p>
-		    </div>
+         <div class="page-header text-info">
+            <c:set var="name" value="${user.role}" />
+            <c:if test="${role =='admin' }">
+               <h3>Ìè¨Ïù∏Ìä∏ÏÉÅÌíà Ï†ÑÏ≤¥Î™©Î°ù</h3>
+            </c:if>
+
+            <c:if test="${role =='user' }">
+               <h3>ÏÉÅÌíà Î™©Î°ùÏ°∞Ìöå</h3>
+            </c:if>
+         </div>
+         <!-- table ÏúÑÏ™Ω Í≤ÄÏÉâ Start /////////////////////////////////////-->
+         <div class="row">
+            <div class="col-md-6 text-left">
+               <h3 class="text-primary font-weight-bold">Ìè¨Ïù∏Ìä∏ÏÉÅÌíà Ï†ÑÏ≤¥Î™©Î°ù</h3>
+            </div>
+            <div class="col-md-6 text-right">
+               <c:set var="name" value="${user.role}" />
+               <c:if test="${role =='admin' }">
+                  <button type="button" class="btn btn-primary addP">Ïã†Í∑ú Ìè¨Ïù∏Ìä∏
+                     ÏÉÅÌíà Îì±Î°ù</button>
+               </c:if>
+            </div>
+            <div class="col-md-6 text-right"></div>
+         </div>
 
 
-		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
-			    
-				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ªÛ«∞π¯»£</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>ªÛ«∞∏Ì</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>ªÛ«∞∞°∞›</option>
-					</select>
-				  </div>
-				  
-				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">∞ÀªˆæÓ</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="∞ÀªˆæÓ"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
-				  
-				  <button type="button" class="btn btn-default">∞Àªˆ</button>
-				  
-				  <!-- PageNavigation º±≈√ ∆‰¿Ã¡ˆ ∞™¿ª ∫∏≥ª¥¬ ∫Œ∫– -->
-				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  
-				</form>
-	    	</div>
-	    	
-		</div>
-		<!-- table ¿ß¬  ∞Àªˆ Start /////////////////////////////////////-->
-		
-		
-      <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover table-striped" >
-      
-        <thead>
-          <tr>
-            <th align="center">No</th>
-            <th align="left" >ƒÌ∆˘ ªÛ«∞∏Ì</th>
-            <th align="left">ƒÌ∆˘ ∞°∞›</th>
-            <th align="left">ƒÌ∆˘ ≥ªøÎ</th>
-            <th align="left">ƒÌ∆˘ ¿ÃπÃ¡ˆ</th>
-            <th align="left">ªÛ≈¬∞™</th>
+         <c:set var="i" value="0" />
+         <c:forEach var="product" items="${list}">
+            <c:set var="i" value="${ i+1 }" />
+            <div class="col-xs-6 col-md-3">
+               <input type="radio" name="productNo" value="${product.productNo}"
+                  checked /> <img src="/images/uploadFiles/${product.productImg }"
+                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
+               <div>${ product.productName }</div>
+               <div>${ product.productPrice }Ïõê</div>
+               <div>${ product.productDetail }</div>
+            </div>
+         </c:forEach>
+
+
+         <!--  table End /////////////////////////////////////-->
+
+         <div class="col-xs-6 col-md-12">
+            <fieldset>
+               <hr />
+               Í≤∞Ï†úÎ∞©Ïãù : 
+               <input type="radio" id="pay" name="payOpt" value="1" onclick="showDiv(this);">Í≥ÑÏ¢åÏù¥Ï≤¥ 
+               <input type="radio" id="card" name="payOpt" value="2" onclick="showDiv(this);" /> Ïπ¥ÎìúÍ≤∞Ï†ú 
+               <input type="radio" id="kakao" name="payOpt" value="3" onclick="showDiv(this);" /> Ïπ¥Ïπ¥Ïò§ ÌéòÏù¥
+               &nbsp&nbsp
+               <button type="button" class="btn btn-default">Íµ¨Îß§</button>
+            </fieldset>
+
+            <hr>
+
+            <div id="payBox" class="box" >
+               ÏùÄÌñâÎ™Ö : ÎÜçÌòë
+               <hr />
+               Í≥ÑÏ¢åÎ≤àÌò∏ : 901055-56-047-268
+               <hr />
+               Î∞õÎäîÏÇ¨Îûå : Ïú†Î≥ëÎ¨∏
+               <hr />
+            </div>
             
-          </tr>
-        </thead>
-       
-		<tbody>
-		
-		  <c:set var="i" value="0" />
-		  <c:forEach var="product" items="${list}">
-			<c:set var="i" value="${ i+1 }" />
-			<tr>
-			  <td align="center">${ i }</td>
-			  <td align="left" productNo="${ product.productNo }" title="Click : ªÛ«∞¡§∫∏ »Æ¿Œ">${ product.productName }</td>
-			  <td align="left">${ product.productPrice }</td>
-			  <td align="left">${ product.productDetail }</td>
-			  <td align="left">
-			  	<i class="glyphicon glyphicon-ok" id= "${product.productNo}"></i>
-			  	<input type="hidden" value="${product.productNo}">
-			  </td>
-			</tr>
-          </c:forEach>
-        
-        </tbody>
-      
-      </table>
-	  <!--  table End /////////////////////////////////////-->
-	  
- 	</div>
- 	<!--  »≠∏È±∏º∫ div End /////////////////////////////////////-->
- 	
- 	
+            <div id="cardBox" class="box" >
+            Ïπ¥ÎìúÍ≤∞Ï†ú
+            <hr/>
+            </div>
+            <div id="kakaoBox" class="box" >
+            Í∞ÑÌé∏Í≤∞Ï†ú
+            <hr/>
+            </div>
+            <!-- label Tag ÏÇ¨Ïö© / ÎØ∏ÏÇ¨Ïö©Ïùò Ï∞®Ïù¥Ï†ê : Ïù¥Î¶Ñ 3ÏùÑ Click Ìï¥Î≥¥Î©¥... -->
+            <div class="form-group">
+               <div class="col-sm-offset-2 col-sm-10">
+                  <input type="hidden" name="userEmail" value="${user.userEmail}" />
+                  <input type="hidden" name="useStatus" value="1" /> <input
+                     type="hidden" name="useDetail" value="1" />
+               </div>
+            </div>
+            <hr />
+         </div>
 
-	
+         <!--  ÌôîÎ©¥Íµ¨ÏÑ± div End /////////////////////////////////////-->
+
+
+
+      </div>
+   </form>
 </body>
-
 </html>

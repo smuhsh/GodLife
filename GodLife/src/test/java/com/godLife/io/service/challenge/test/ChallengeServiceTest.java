@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.godLife.io.common.CertiCycle;
+import com.godLife.io.common.ChallengeUtil;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.challenge.ChallengeService;
@@ -76,22 +76,22 @@ public class ChallengeServiceTest {
 		//certiCycle.add("6");//금
 		//certiCycle.add("7");//토
 		
-		challenge.setHostEmail("chilee4650@naver.com");//HostEmail
+		challenge.setHostEmail("user01@io.com");//HostEmail
 		User user = userService.getUser(challenge.getHostEmail());
 		challenge.setHostNick(user.getNick());
 		challenge.setChallengeTitle("테스트 챌린지"); // 챌린지 제목
 		challenge.setChallengeThumbnailImg("챌린지.jpg");//썸네일 이미지
 		challenge.setChallengeDetail("테스트 챌린지입니다.");// 소개
 		challenge.setChallengeRule("챌린지."); // 규칙
-		challenge.setChallengeCateNo(4); // 관심사 번호 1:운동
-		challenge.setStartDate("2022-06-07"); // 시작 날짜
+		challenge.setChallengeCategNo(1); // 관심사 번호 1:운동
+		challenge.setStartDate("2022-06-08"); // 시작 날짜
 		challenge.setEndDate("2022-06-18"); // 종료 날짜
 		challenge.setCertiCycle(certiCycle); // 인증주기
 		challenge.setOpenRange("0");//0이면 전체 1이면 친구
 		challenge.setJoinPoint(1000);// 입장 포인트
 		challenge.setJoinCount(1);//호스트 기본참여자명
 		challenge.setChallengeStatus("0");// 0 시작전 1 진행중 2 종료
-		challenge = CertiCycle.certiCycle(challenge); // 인증 날짜 및 총 인증 횟수
+		challenge = ChallengeUtil.certiCycle(challenge); // 인증 날짜 및 총 인증 횟수
 		
 		
 		System.out.println(challenge.getTotalCertiCount());
@@ -114,7 +114,7 @@ public class ChallengeServiceTest {
 		Search search = new Search();
 		
 		
-		search.setCurrentPage(1);
+		search.setCurrentPage(2);
 		
 		search.setPageSize(pageSize);
 		
@@ -130,14 +130,14 @@ public class ChallengeServiceTest {
 		User user = new User(); //로그인
 		//User user = null; //비로그인
 		//비로그인 이라면 아랫줄 주석
-		user.setUserEmail("chilee4650@naver.com");
+		user.setUserEmail("user01@io.com");
 		//////////////////////////////////////////////
 		
 		//ChallengeList 옵션
-		//String challengeListOpt = "total"; // 전체목록 조회 defalut = total // 비로그인은 total 고정
+		String challengeListOpt = "total"; // 전체목록 조회 defalut = total // 비로그인은 total 고정
 		//String challengeListOpt = "pick"; //찜목록
 		//String challengeListOpt = "add"; // 등록 목록
-		String challengeListOpt = "join"; // 참여 목록
+		//String challengeListOpt = "join"; // 참여 목록
 
 		
 		map.put("search", search);
@@ -163,7 +163,7 @@ public class ChallengeServiceTest {
 	
 	//@Test
 	public void getChallenge() throws Exception{
-		int challengeNo = 10014; // hostEmail : chilee4650@naver.com
+		int challengeNo = 10017; // hostEmail : chilee4650@naver.com
 		
 		//회원조회
 		User user = new User();
@@ -427,7 +427,7 @@ public class ChallengeServiceTest {
 		// deleteChallengeReview는 댓글 삭제만 지원한다.
 		//(추후에 좋아요 싫어요 한번 더 누른다면 비활성화 하는것도 만들어 볼만...)
 		
-		int reviewNo = 10006;
+		int reviewNo = 10000;
 		
 		challengeService.deleteChallengeReview(reviewNo);
 		

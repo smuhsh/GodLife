@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.Point;
+import com.godLife.io.service.domain.Product;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.point.PointService;
 import com.godLife.io.service.product.ProductService;
@@ -56,134 +57,50 @@ public class PointController {
 	int pageSize;
 
 	@RequestMapping(value = "addPointPurchaseProduct", method = RequestMethod.POST)
-	public String addPointPurchaseProdcut(@RequestParam("totalPoint") int totalPoint,
-			@RequestParam("userEmail") String userEmail, @ModelAttribute("point") Point point) throws Exception {
+	public String addPointPurchaseProdcut(Map<String, Object> map, @ModelAttribute("point") Point point, HttpSession session) throws Exception {
 
 		System.out.println("/point/addPointPurchaseProduct : POST");
-
-		User user = new User();
-		user.setUserEmail(userEmail);
-
-		point.setUserEmail(userEmail);
-		String useStatus = point.getUseStatus();
-		System.out.println("useStatus : " + useStatus);
-
-		String useDetail = point.getUseDetail();
-		System.out.println("useDetail : " + useDetail);
-
-		int usePoint = point.getPoint();
-		System.out.println("usePoint : " + usePoint);
-
-		int productNo = point.getProductNo();
-		System.out.println("productNo " + productNo);
-
-		if (useStatus == "1") {
-			int sumPoint = totalPoint + usePoint;
-
-			System.out.println(" sumPoint : " + sumPoint);
-			user.setTotalPoint(sumPoint);
-
-			userService.updateUserTotalPoint(user);
-
-			if (useDetail == "1") {
-
-				System.out.println(point);
-				pointService.addPointPurchaseProduct(point);
-
-				return "forward:/point/addPointPurchasePointProduct.jsp";
-			}
-
-		} else if (useStatus == "2") {
-			int sumPoint = totalPoint - usePoint;
-
-			System.out.println(" sumPoint : " + sumPoint);
-
-			user.setTotalPoint(sumPoint);
-			userService.updateUserTotalPoint(user);
-			if (useDetail == "8") {
-
-				if (productNo == 10000) {
-
-					int redCoupon = user.getRedCouponCount() + 1;
-					System.out.println("redCoupon : " + redCoupon);
-					user.setRedCardCount(redCoupon);
-
-					userService.updateUserRedCouponCount(user);
-
-				} else if (productNo == 10001) {
-
-					int certiCoupon = user.getCertiCouponCount() + 1;
-					System.out.println("certiCoupon : " + certiCoupon);
-					user.setCertiCouponCount(certiCoupon);
-					userService.updateUserCertiCouponCount(user);
-				}
-
-				System.out.println(point);
-				pointService.addPointPurchaseProduct(point);
-				return "forward:/product/getProductCouponList.jsp";
-
-			} else if (useDetail == "9") {
-				if (productNo >= 10002 || productNo <= 10006) {
-					Random rnd = new Random();
-					String voucherUniqueNo = new String();
-					StringBuffer buf = new StringBuffer();
-
-					for (int i = 0; i < 20; i++) {
-
-						// rnd.nextBoolean() 는 랜덤으로 true, false 를 리턴. true일 시 랜덤 한 소문자를, false 일 시 랜덤 한
-						// 숫자를 StringBuffer 에 append 한다.
-
-						if (rnd.nextBoolean()) {
-
-							buf.append((char) ((int) (rnd.nextInt(26)) + 97));
-							voucherUniqueNo = buf.toString();
-							point.setVoucherUniqueNo(voucherUniqueNo);
-
-						} else {
-
-							buf.append((rnd.nextInt(10)));
-							voucherUniqueNo = buf.toString();
-							point.setVoucherUniqueNo(voucherUniqueNo);
-						}
-						break;
-					}
-				}
-
-				System.out.println(point);
-				pointService.addPointPurchaseProduct(point);
-				return "forward:/product/getProductVoucherList.jsp";
-			}
-
-		}
-
-		return "forward:/point/getPointPurchaseList.jsp";
-	}
-
-	@RequestMapping(value = "addPointPurchase", method = RequestMethod.POST)
-	public void addPointPurchase(Map<String, Object> map, @ModelAttribute("point") Point point, HttpSession session)
-			throws Exception {
-
-		System.out.println("/point/addPointPurchase : POST");
-
-		User user = (User) session.getAttribute("user");
+		System.out.println("###########point "+point);
+		int productNo=point.getProductNo();
+		Product product = productService.getProductPoint(productNo);
+		point.setPoint(product.getProductPrice());
+		point.setCash(product.getProductPrice());
+		User user = (User)session.getAttribute("user");
+		
 
 		map.put("user", user);
+		System.out.println("@@@@@@@@user : "+user);
 		map.put("point", point);
+		
+		pointService.addPointPurchaseProduct(map);
 
+		return "forward:/point/getPointPurchaseList";
+	}
+
+	@RequestMapping(value = "addPointPurchaseDonation", method = RequestMethod.POST)
+	public String addPointPurchaseDonation(Map<String, Object> map, @ModelAttribute("point") Point point, HttpSession session)
+			throws Exception {
+
+		System.out.println("/point/addPointPurchaseDonation : POST");
+
+		User user = (User) session.getAttribute("user");
+		map.put("user", user);
+		System.out.println("@@@@@@@@user : "+user);
+		map.put("point", point);
 		System.out.println(map);
 
 		pointService.addPointPurchase(map);
 
-		return;
+		return "forward:/point/getPointPurchaseDonationList";
 	}
-
-
+	
+	
 	@RequestMapping(value = "getPointPurchaseList")
 	public String getPointPurchaseList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request)
 			throws Exception {
 
 		System.out.println("/point/getPointPurchaseList : GET / POST");
-
+	
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}

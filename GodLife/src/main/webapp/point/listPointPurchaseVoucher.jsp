@@ -16,6 +16,13 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<style>
+	  body {
+            padding-top : 70px;
+        }
+        
+    </style>
 	<script type="text/javascript">
 	
 
@@ -23,7 +30,7 @@ function fncGetList(currentPage) {
 	
 	$("#currentPage").val(currentPage)
    
-	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseList").submit();
+	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseVoucherList").submit();
 }
 $(function() {
 	 

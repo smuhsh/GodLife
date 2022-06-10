@@ -45,11 +45,8 @@
 		<mapper resource="sql/FriendBlackMapper.xml"/>
 		<mapper resource="sql/MsgMapper.xml"/>
 		<mapper resource="sql/ChallengeMapper.xml"/>
-		<mapper resource="sql/PointMapper.xml"/>
-		<mapper resource="sql/OperatorEventsMapper.xml"/>
-		<mapper resource="sql/OperatorJoinEventMapper.xml"/>
-		<mapper resource="sql/OperatorNoticeFaqsMapper.xml"/>
-		<mapper resource="sql/OperatorRewardMapper.xml"/>
+  		<mapper resource="sql/PointMapper.xml"/>
+		<mapper resource="sql/OperatorMapper.xml"/>
 		<mapper resource="sql/ProductMapper.xml"/>
 		<mapper resource="sql/BadgeMapper.xml"/>
 		<mapper resource="sql/MyBadgeMapper.xml"/>

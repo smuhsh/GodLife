@@ -31,14 +31,27 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	///Method
-	public void addProduct(Product product) throws Exception {
-		sqlSession.insert("ProductMapper.addProduct", product);		
+	public void addProductCoupon(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductCoupon", product);		
 	}
 	
-	public Product getProduct(int productNo) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getProduct", productNo);
+	public void addProductVoucher(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductVoucher", product);		
 	}
-
+	
+	public void addProductPoint(Product product) throws Exception {
+		sqlSession.insert("ProductMapper.addProductPoint", product);		
+	}
+///////////////////////////////////////////////////////////	
+	public Product getProductCoupon(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductCoupon", productNo);
+	}
+	public Product getProductVoucher(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductVoucher", productNo);
+	}
+	public Product getProductPoint(int productNo) throws Exception {
+		return sqlSession.selectOne("ProductMapper.getProductPoint", productNo);
+	}
 ///////////////////////////////////////////////////////////	
 	public List<Product> getProductCouponList(Search search) throws Exception {
 		return sqlSession.selectList("ProductMapper.getProductCouponList", search);
@@ -53,139 +66,33 @@ public class ProductDaoImpl implements ProductDao{
 	}
 ///////////////////////////////////////////////////////////		
 	
-	public void updateProduct(Product product) throws Exception {
-		sqlSession.update("ProductMapper.updateProduct", product);
+	public void updateProductCoupon(Product product) throws Exception {
+		sqlSession.update("ProductMapper.updateProductCoupon", product);
 	}
-	
-	public void deleteProduct(Product productNo) throws Exception {
-		sqlSession.delete("ProductMapper.deleteProduct", productNo);
+
+	public void updateProductVoucher(Product product) throws Exception {
+		sqlSession.update("ProductMapper.updateProductVoucher", product);
 	}
-	
+
+	public void updateProductPoint(Product product) throws Exception {
+		sqlSession.update("ProductMapper.updateProductPoint", product);
+	}
+///////////////////////////////////////////////////////////			
+	public void deleteProductCoupon(Product productNo) throws Exception {
+		sqlSession.delete("ProductMapper.deleteProductCoupon", productNo);
+	}
+	public void deleteProductVoucher(Product productNo) throws Exception {
+		sqlSession.delete("ProductMapper.deleteProductVoucher", productNo);
+	}
+	public void deleteProductPoint(Product productNo) throws Exception {
+		sqlSession.delete("ProductMapper.deleteProductPoint", productNo);
+	}
+///////////////////////////////////////////////////////////		
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
 	}
-	
-	
-//	public void addProductCouponView(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductCouponView", product);		
-//	}
-//	public void addProductCoupon(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductCoupon", product);	
-//	}
-//	public void addProductCouponConfirm(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductCouponConfirm", product);
-//	}
-//	public void addProductCouponImg(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductCouponImg", product);
-//	}
-//	public void addProductVoucherView(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductVoucherView", product);
-//	}
-//	public void addProductVoucher(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductVoucher", product);
-//	}
-//	public void addProductVoucherConfirm(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductVoucherConfirm", product);
-//	}
-//	public void addProductVoucherImg(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductVoucherImg", product);
-//	}
-//	public void addProductPointView(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductPointView", product);	
-//	}
-//	public void addProductPoint(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductPoint", product);
-//	}
-//	public void addProductPointConfirm(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductPointConfirm", product);	
-//	}
-//	public void addProductPointImg(Product product) throws Exception {
-//		sqlSession.insert("ProductMapper.addProductPointImg", product);	
-//	}
-	
-//////////////////////////////////////////////////////
 
-
-	
-//	public Product getProductCoupon(int productNo) throws Exception {
-//		return sqlSession.selectOne("ProductMapper.getProductCoupon", productNo);
-//	}
-//	public Product getProductVoucher(int productNo) throws Exception {
-//		return sqlSession.selectOne("ProductMapper.getProductVoucher", productNo);
-//	}
-//	public Product getProductPoint(int productNo) throws Exception {
-//		return sqlSession.selectOne("ProductMapper.getProductPoint", productNo);
-//	}
-	
-//////////////////////////////////////////////////////	
-	
-
-	
-//	public List<Product> getProductCouponList(Search search) throws Exception {
-//		return sqlSession.selectList("ProductMapper.getProductCouponList", search);
-//	}
-//	public List<Product> getProductVoucherList(Search search) throws Exception {
-//		return sqlSession.selectList("ProductMapper.getProductVoucherList", search);
-//	}
-//	public List<Product> getProductPointList(Search search) throws Exception {
-//		return sqlSession.selectList("ProductMapper.getProductPointList", search);
-//	}
-//////////////////////////////////////////////////////	
-
-
-	
-//	public void updateProductCouponImg(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductCouponImg", product);
-//	}
-//	public void updateProductCoupon(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductCoupon", product);
-//	}
-//	public void updateProductCouponConfirm(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductCouponConfirm", product);
-//	}
-//	public void updateProductVoucherImg(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductVoucherImg", product);
-//	}
-//	public void updateProductVoucher(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductVoucher", product);
-//	}
-//	public void updateProductVoucherConfirm(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductVoucherConfirm", product);
-//	}
-//	public void updateProductPointImg(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductPointImg", product);
-//	}
-//	public void updateProductPoint(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductPoint", product);
-//	}
-//	public void updateProductPointConfirm(Product product) throws Exception {
-//		sqlSession.update("ProductMapper.updateProductPointConfirm", product);
-//	}
-//////////////////////////////////////////////////////	
-	
-
-	
-//	public void deleteProductCoupon(int productNo) throws Exception {
-//		sqlSession.delete("ProductMapper.deleteProductCoupon", productNo);
-//	}
-//	public void deleteProductCouponConfirm(int productNo) throws Exception {
-//		sqlSession.delete("ProductMapper.deleteProductCouponConfirm", productNo);
-//	}
-//	public void deleteProductVoucher(int productNo) throws Exception {
-//		sqlSession.delete("ProductMapper.deleteProductVoucher", productNo);
-//	}
-//	public void deleteProductVoucherConfirm(int productNo) throws Exception {
-//		sqlSession.delete("ProductMapper.deleteProductVoucherConfirm", productNo);
-//	}
-//	public void deleteProductPoint(int productNo) throws Exception {
-//		sqlSession.delete("ProductMapper.deleteProductPoint", productNo);
-//	}
-//	public void deleteProductPointConfirm(int productNo) throws Exception {
-//		sqlSession.delete("ProductMapper.deleteProductPointConfirm", productNo);
-//	}
-//////////////////////////////////////////////////////	
-	
 
 	
 	

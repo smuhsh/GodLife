@@ -3,11 +3,13 @@ package com.godLife.io.service.domain;
 import java.sql.Date;
 
 public class OperatorJoinEvent {
-	
+
+	//Field
 	private int joinEventNo;
 	private String userEmail;
-	private String rewardNo;
+	private int eventNo;
 	private Date regDate;
+	private int rewardPoint;
 	
 	//Constructor
 	public OperatorJoinEvent() {
@@ -31,12 +33,12 @@ public class OperatorJoinEvent {
 		this.userEmail = userEmail;
 	}
 
-	public String getRewardNo() {
-		return rewardNo;
+	public int getEventNo() {
+		return eventNo;
 	}
 
-	public void setRewardNo(String rewardNo) {
-		this.rewardNo = rewardNo;
+	public void setEventNo(int eventNo) {
+		this.eventNo = eventNo;
 	}
 
 	public Date getRegDate() {
@@ -47,19 +49,30 @@ public class OperatorJoinEvent {
 		this.regDate = regDate;
 	}
 
-	@Override
-	public String toString() {
-		return "OperatorJoinEvent [joinEventNo=" + joinEventNo + ", userEmail=" + userEmail + ", rewardNo=" + rewardNo
-				+ ", regDate=" + regDate + "]";
+	public int getRewardPoint() {
+		return rewardPoint;
 	}
 
-	public OperatorJoinEvent(int joinEventNo, String userEmail, String rewardNo, Date regDate) {
+	public void setRewardPoint(int rewardPoint) {
+		this.rewardPoint = rewardPoint;
+	}
+
+	@Override
+	public String toString() {
+		return "OperatorJoinEvent [joinEventNo=" + joinEventNo + ", userEmail=" + userEmail + ", eventNo=" + eventNo
+				+ ", regDate=" + regDate + ", rewardPoint=" + rewardPoint + ", getJoinEventNo()=" + getJoinEventNo()
+				+ ", getUserEmail()=" + getUserEmail() + ", getEventNo()=" + getEventNo() + ", getRegDate()="
+				+ getRegDate() + ", getRewardPoint()=" + getRewardPoint() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+
+	public OperatorJoinEvent(int joinEventNo, String userEmail, int eventNo, Date regDate, int rewardPoint) {
 		super();
 		this.joinEventNo = joinEventNo;
 		this.userEmail = userEmail;
-		this.rewardNo = rewardNo;
+		this.eventNo = eventNo;
 		this.regDate = regDate;
+		this.rewardPoint = rewardPoint;
 	}
-
-
+	
 }
