@@ -18,7 +18,7 @@
 		<result property="voucherUniqueNo" column="VOUCHER_UNIQUE_NO" jdbcType="INTEGER" />
 		<result property="donationPlace"   column="DONATION_PLACE"    jdbcType="VARCHAR" />
 		<result property="regDate" 		   column="REG_DATE" 		  jdbcType="DATE" />
-		<result property="phone"     column="PHONE"             jdbcType="VARCHAR" />
+		<result property="phone"     	   column="PHONE"             jdbcType="VARCHAR" />
 		<result property="productName"     column="PRODUCT_NAME"             jdbcType="VARCHAR" />
 	</resultMap>
 
@@ -71,7 +71,7 @@
 							</if>
 						</if>
 						</where>
-						ORDER BY purchase_no) inner_table
+						ORDER BY purchase_no DESC) inner_table
 				WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND	#{endRowNum}
 	</select>
@@ -111,7 +111,7 @@
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 
-	<select id="getTotalCount" parameterType="point" resultType="int">
+	<select id="getTotalCount" parameterType="user" resultType="int">
 		SELECT COUNT(*)
 		FROM( SELECT purchase_no
 		FROM purchase
@@ -119,7 +119,7 @@
 		)countTable
 	</select>
 
-	<select id="getVoucherTotalCount" parameterType="point" resultType="int">
+	<select id="getVoucherTotalCount" parameterType="user" resultType="int">
 		SELECT COUNT(*)
 		FROM(SELECT pc.purchase_no,u.user_email,p.product_no,p.product_name,pc.voucher_unique_no,pc.reg_date,pc.use_detail,u.phone
 			FROM
@@ -131,7 +131,7 @@
 			)countTable
 	</select>
 	
-	<select id="getDonationTotalCount" parameterType="point" resultType="int">
+	<select id="getDonationTotalCount" parameterType="user" resultType="int">
 	SELECT COUNT(*)
 	FROM(SELECT user_email,purchase_no,donation_place,point,reg_date,use_detail
 		FROM purchase
