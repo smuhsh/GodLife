@@ -103,7 +103,11 @@
 	            </ul>
 	            
 	             <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#" id="addChallengeTos">챌린지 생성</a></li>
+	                <li><a href="#" id="addChallengeTos">챌린지 등록</a></li>
+	            </ul>
+	            
+	            <ul class="nav navbar-nav navbar-right">
+	                <li><a href="#" id="challengeList">챌린지 목록</a></li>
 	            </ul>
 		</div>
 		<!-- dropdown hover END -->	       
@@ -272,8 +276,13 @@
 		
 	 	$(function(){
 	 		$("a#addChallengeTos").on("click",function(){
-	 			$(self.location).attr("href","/challenge/addChallengeTos.jsp");
+	 			self.location = "/challenge/addChallengeTos.jsp"
 	 		});
+	 		
+	 		$("a#challengeList").on("click",function(){
+	 			self.location = "/challenge/listChallenge" //테스트
+	 		});
+	 		
 	 	});
 		
 	</script>  

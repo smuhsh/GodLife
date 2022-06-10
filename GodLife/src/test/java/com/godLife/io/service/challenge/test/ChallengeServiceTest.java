@@ -114,7 +114,7 @@ public class ChallengeServiceTest {
 		Search search = new Search();
 		
 		
-		search.setCurrentPage(1);
+		search.setCurrentPage(2);
 		
 		search.setPageSize(pageSize);
 		
@@ -134,10 +134,10 @@ public class ChallengeServiceTest {
 		//////////////////////////////////////////////
 		
 		//ChallengeList 옵션
-		//String challengeListOpt = "total"; // 전체목록 조회 defalut = total // 비로그인은 total 고정
+		String challengeListOpt = "total"; // 전체목록 조회 defalut = total // 비로그인은 total 고정
 		//String challengeListOpt = "pick"; //찜목록
 		//String challengeListOpt = "add"; // 등록 목록
-		String challengeListOpt = "join"; // 참여 목록
+		//String challengeListOpt = "join"; // 참여 목록
 
 		
 		map.put("search", search);
@@ -163,7 +163,7 @@ public class ChallengeServiceTest {
 	
 	//@Test
 	public void getChallenge() throws Exception{
-		int challengeNo = 10014; // hostEmail : chilee4650@naver.com
+		int challengeNo = 10017; // hostEmail : chilee4650@naver.com
 		
 		//회원조회
 		User user = new User();

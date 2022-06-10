@@ -1,6 +1,8 @@
 package com.godLife.io.web.challenge;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,11 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.godLife.io.common.ChallengeUtil;
+import com.godLife.io.common.Page;
+import com.godLife.io.common.Search;
 import com.godLife.io.service.challenge.ChallengeService;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
+import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.domain.User;
+import com.godLife.io.service.point.PointService;
 import com.godLife.io.service.user.UserService;
 
 @Controller
@@ -35,6 +42,10 @@ public class ChallengeController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("pointServiceImpl")
+	private PointService pointService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -53,21 +64,40 @@ public class ChallengeController {
 	@RequestMapping(value="addChallenge",method=RequestMethod.POST)
 	public String addChallenge(@ModelAttribute Challenge challenge,
 							   HttpSession session,
-							   JoinChallenger joinChallenger)throws Exception {
+							   JoinChallenger joinChallenger,
+							   Point point,
+							   Map<String,Object> map)throws Exception {
 		
 		User user = (User)session.getAttribute("user");
 		
-		System.out.println("DB에 등록될 Challenge 정보: "+challenge);
 		
 		challenge.setHostEmail(user.getUserEmail());
 		
 		challenge.setHostNick(user.getNick());
+		
+		challenge.setJoinCount(1);
 		
 		challenge = ChallengeUtil.certiCycle(challenge);
 		
 		joinChallenger.setEmail(challenge.getHostEmail());
 		
 		joinChallenger.setStatus("0");
+		
+		point.setUserEmail(challenge.getHostEmail());
+		
+		point.setUseStatus("2");
+		
+		point.setPoint(challenge.getJoinPoint());
+		
+		point.setUseDetail("2");
+		
+		map.put("user", user);
+		
+		map.put("point", point);
+		
+		pointService.addPointPurchase(map);
+		
+		System.out.println("DB에 등록될 Challenge 정보: "+challenge);
 		
 		challengeService.addChallenge(challenge, joinChallenger);
 		
@@ -78,7 +108,8 @@ public class ChallengeController {
 	public String addChallengeView(@ModelAttribute Challenge challenge,
 									MultipartHttpServletRequest mtfRequest,
 									Model model,
-									HttpServletRequest request)throws Exception {
+									HttpServletRequest request,
+									HttpSession session)throws Exception {
 		
 		//////////////////////////// 파일 업로드 /////////////////////////////////////////
 		
@@ -101,6 +132,9 @@ public class ChallengeController {
 		
 		////////////////////////////파일 업로드 /////////////////////////////////////////
 		
+		User user = (User)session.getAttribute("user");
+		
+		
 		
 		challenge = ChallengeUtil.certiCycle(challenge);
 		
@@ -111,6 +145,7 @@ public class ChallengeController {
 		model.addAttribute("challenge",challenge);
 		model.addAttribute("fileName",path+challenge.getChallengeThumbnailImg());
 		model.addAttribute("challengeFileName",challenge.getChallengeThumbnailImg());
+		model.addAttribute("user",user);
 		return "forward:/challenge/addChallengeView.jsp";
 		
 	}
@@ -179,6 +214,44 @@ public class ChallengeController {
 		}
 		
 		return "redirect:/main.jsp";
+	}
+	
+	@RequestMapping(value="listChallenge", method=RequestMethod.GET)
+	public String listChallenge(@ModelAttribute("search") Search search,
+								Map<String,Object> map,
+								HttpSession session,
+								@RequestParam(defaultValue="total") String challengeListOpt,
+								Model model) {
+		
+		
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		
+		search.setPageSize(pageSize);
+		
+		User user = (User)session.getAttribute("user");
+		
+		map.put("user", user);
+		map.put("search", search);
+		map.put("challengeListOpt", challengeListOpt);
+		
+		map = challengeService.getChallengeList(map);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		List<Challenge> challengeList = (List<Challenge>)map.get("list");
+		
+		for(Challenge challenge : challengeList) {
+			System.out.println("challenge List : "+challenge);
+		}
+		
+		System.out.println("totalCount: "+map.get("totalCount"));
+		
+		model.addAttribute("challengeList",challengeList);
+		model.addAttribute("resultPage",resultPage);
+		
+		return "forward:/challenge/listChallenge.jsp";
 	}
 	
 	

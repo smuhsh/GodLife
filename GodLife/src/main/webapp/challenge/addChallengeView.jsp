@@ -69,8 +69,26 @@
 		});
 		
 		$("button#addChallenge").on("click",function(){
-			$("form[name='addChallengeForm']").attr("method","POST")
-			.attr("action","/challenge/addChallenge").submit();
+			
+			var joinPoint = $("input[name='joinPoint']").val();
+			alert(${user.totalPoint});
+			alert(joinPoint);
+			if(window.confirm("챌린지 등록시 입력한 입장포인트 만큼 보유포인트가 차감됩니다."+
+							  "챌린지를 등록 하시겠습니까?")){
+				
+				if(${user.totalPoint} >= joinPoint){
+					$("form[name='addChallengeForm']").attr("method","POST")
+					.attr("action","/challenge/addChallenge").submit();
+				}else{
+					alert("보유 포인트가 부족합니다.");
+					return;
+				}
+				
+			}
+			
+			
+			
+			
 		});
 		
 	});
@@ -175,7 +193,12 @@
 						  
 						  
 						 <input type="hidden" name="fileName" value="${fileName }" />
-						 <input type="hidden" name="challengeFileName" value="${challengeFileName }" /> 
+						 <input type="hidden" name="challengeThumbnailImg" value="${challengeFileName }" />
+						 <input type="hidden" name="challengeCategNo" value="${challenge.challengeCategNo }" />
+						 <c:forEach var="certiCycle" items="${challenge.certiCycle }">
+							<input type="hidden" name="certiCycle" value="${certiCycle}" />		
+						 </c:forEach>
+						 <input type="hidden" name="openRange" value="${challenge.openRange }" />
 				    </form>	
 				  </li>
 				</ul>
