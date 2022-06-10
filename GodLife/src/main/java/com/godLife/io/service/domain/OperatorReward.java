@@ -2,9 +2,10 @@ package com.godLife.io.service.domain;
 
 public class OperatorReward {
 	
+	//Field
 	private int rewardNo;
 	private int eventNo;
-	private String reward;
+	private int rewardPoint;
 	
 	//Constructor
 	public OperatorReward() {
@@ -28,25 +29,27 @@ public class OperatorReward {
 		this.eventNo = eventNo;
 	}
 
-	public String getReward() {
-		return reward;
+	public int getRewardPoint() {
+		return rewardPoint;
 	}
 
-	public void setReward(String reward) {
-		this.reward = reward;
+	public void setRewardPoint(int rewardPoint) {
+		this.rewardPoint = rewardPoint;
 	}
 
 	@Override
 	public String toString() {
-		return "OperatorReward [rewardNo=" + rewardNo + ", eventNo=" + eventNo + ", reward=" + reward + "]";
+		return "OperatorReward [rewardNo=" + rewardNo + ", eventNo=" + eventNo + ", rewardPoint=" + rewardPoint
+				+ ", getRewardNo()=" + getRewardNo() + ", getEventNo()=" + getEventNo() + ", getRewardPoint()="
+				+ getRewardPoint() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
 
-	public OperatorReward(int rewardNo, int eventNo, String reward) {
+	public OperatorReward(int rewardNo, int eventNo, int rewardPoint) {
 		super();
 		this.rewardNo = rewardNo;
 		this.eventNo = eventNo;
-		this.reward = reward;
+		this.rewardPoint = rewardPoint;
 	}
-	
 
 }
