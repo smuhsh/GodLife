@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>상품권 구매 목록</title>
+<title>기부 목록</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -30,7 +30,7 @@ function fncGetList(currentPage) {
 	
 	$("#currentPage").val(currentPage)
    
-	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseVoucherList").submit();
+	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseDonationList").submit();
 }
 $(function() {
 	 
@@ -105,7 +105,7 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>포인트 이용내역 목록</h3>
+	       <h3>기부 목록</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -154,13 +154,11 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 	</tr>
 	<tr>
 		<td>번호<br></td>
-		<td>상품명<br></td>
+		<td>기부처<br></td>
 		<td></td>
-		<td>고유번호</td>
+		<td>기부액</td>
 		<td></td>
-		<td>구매날짜</td>
-		<td></td>
-		<td>메세지</td>
+		<td>기부날짜</td>
 		
 	</tr>
 	<tr>
@@ -172,13 +170,11 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		<c:set var="i"  value = "${i+1 }"/>
 		<tr>
 		<td>${i }</td>
-		<td>${point.productName}</td>
+		<td>${point.donationPlace}</td>
 		<td></td>
-		<td>${point.voucherUniqueNo}</td>
+		<td>${point.point}</td>
 		<td></td>
 		<td>${point.regDate}</td>
-		<td></td>
-		<td>전송</td>
 	</tr>
 	
 	</c:forEach>

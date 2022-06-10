@@ -8,7 +8,7 @@ import com.godLife.io.common.Search;
 
 public interface PointDao {
 
-	public void addPointPurchaseProduct(Point point) throws Exception;
+	public void addPointPurchaseProduct(Map<String,Object> map) throws Exception;
 	
 	public void addPointPurchase(Map<String,Object> map) throws Exception;
 	
@@ -19,4 +19,8 @@ public interface PointDao {
 	public Map<String,Object> getPointPurchaseDonationList(Search search,User user) throws Exception;
 	
 	public int getTotalCount(User user);
+	
+	public int getVoucherTotalCount(User user);
+	
+	public int getDonationTotalCount(User user);
 }
