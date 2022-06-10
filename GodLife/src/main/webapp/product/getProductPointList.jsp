@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,9 +10,9 @@
 <html lang="ko">
 	
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -29,9 +29,9 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
    
-   <!-- jQuery UI toolTip »ç¿ë CSS-->
+   <!-- jQuery UI toolTip ì‚¬ìš© CSS-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip »ç¿ë JS-->
+  <!-- jQuery UI toolTip ì‚¬ìš© JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -44,17 +44,17 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 
 <head>
-	<meta charset="EUC-KR">
-	<title>»óÇ° ¸ñ·ÏÁ¶È¸</title>
+	<meta charset="UTF-8">
+	<title>ìƒí’ˆ ëª©ë¡ì¡°íšŒ</title>
 
 	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-	<!-- CDN(Content Delivery Network) È£½ºÆ® »ç¿ë -->
+	<!-- CDN(Content Delivery Network) í˜¸ìŠ¤íŠ¸ ì‚¬ìš© -->
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript">
 
-	//=====±âÁ¸Code ÁÖ¼® Ã³¸® ÈÄ  jQuery º¯°æ ======//
-	// °Ë»ö / page µÎ°¡Áö °æ¿ì ¸ğµÎ Form Àü¼ÛÀ» À§ÇØ JavaScrpt ÀÌ¿ë
+	//=====ê¸°ì¡´Code ì£¼ì„ ì²˜ë¦¬ í›„  jQuery ë³€ê²½ ======//
+	// ê²€ìƒ‰ / page ë‘ê°€ì§€ ê²½ìš° ëª¨ë‘ Form ì „ì†¡ì„ ìœ„í•´ JavaScrpt ì´ìš©
 	
 	function fncGetUserList(currentPage) {
 			//document.getElementById("currentPage").value = currentPage;
@@ -63,8 +63,8 @@
 			$("form").attr("method" , "POST").attr("action", "/product/getProductPointList").submit();
 		};
 
-	//=====±âÁ¸Code ÁÖ¼® Ã³¸® ÈÄ  jQuery º¯°æ ======//
-	// ±¸¸ÅÇÏ±â µÎ°¡Áö °æ¿ì ¸ğµÎ Form Àü¼ÛÀ» À§ÇØ JavaScrpt ÀÌ¿ë
+	//=====ê¸°ì¡´Code ì£¼ì„ ì²˜ë¦¬ í›„  jQuery ë³€ê²½ ======//
+	// êµ¬ë§¤í•˜ê¸° ë‘ê°€ì§€ ê²½ìš° ëª¨ë‘ Form ì „ì†¡ì„ ìœ„í•´ JavaScrpt ì´ìš©
 		
 	function fncGetPointList(currentPage) {
 			//document.getElementById("currentPage").value = currentPage;
@@ -76,22 +76,22 @@
 		
 		
 	//==========================================================//
-   	//==> Ãß°¡µÈºÎºĞ : "°Ë»ö" ,  prodName link  Event ¿¬°á ¹× Ã³¸®
+   	//==> ì¶”ê°€ëœë¶€ë¶„ : "ê²€ìƒ‰" ,  prodName link  Event ì—°ê²° ë° ì²˜ë¦¬
    	
 	$(function (){
 			
-	      //==> °Ë»ö Event ¿¬°áÃ³¸®ºÎºĞ
-	      //==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	      //==> 1 °ú 3 ¹æ¹ı Á¶ÇÕ : $("tagName.className:filterÇÔ¼ö") »ç¿ëÇÔ. 
+	      //==> ê²€ìƒ‰ Event ì—°ê²°ì²˜ë¦¬ë¶€ë¶„
+	      //==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	      //==> 1 ê³¼ 3 ë°©ë²• ì¡°í•© : $("tagName.className:filterí•¨ìˆ˜") ì‚¬ìš©í•¨. 
 			$("button.btn.btn-default").on("click", function(){
 		    //Debug..
-		    //alert(  $( "td.ct_btn01:contains('°Ë»ö')" ).html() );
+		    //alert(  $( "td.ct_btn01:contains('ê²€ìƒ‰')" ).html() );
 			fncGetUserList(1);	
 			});
 		});
 	
 	      
-	//============= productName ¿¡ »óÇ°Á¤º¸º¸±â  Event  Ã³¸®(Click) =============
+	//============= productName ì— ìƒí’ˆì •ë³´ë³´ê¸°  Event  ì²˜ë¦¬(Click) =============
 // 	$(function() {
 		         
 // 	     $( "td:nth-child(2)" ).on("click" , function() {
@@ -102,7 +102,7 @@
 // 	        }
 // 	     });
 
-//	Æ÷ÀÎÆ® »óÇ°¸í Å¬¸¯ ½Ã, »ó¼¼ Á¤º¸Ã¢ ¿­±â
+//	í¬ì¸íŠ¸ ìƒí’ˆëª… í´ë¦­ ì‹œ, ìƒì„¸ ì •ë³´ì°½ ì—´ê¸°
 	 $(function() {
 	         
 		     $( "td:nth-child(2)" ).on("click" , function() {
@@ -112,12 +112,12 @@
 		 });
 	     
 	     
-	//==> prodName LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
+	//==> prodName LINK Event End User ì—ê²Œ ë³´ì¼ìˆ˜ ìˆë„ë¡ 
 	     $( "td:nth-child(2)" ).css("color" , "red");   
 		         
 	    });
 	
-    //============= prodName ¿¡ ÄíÆù »óÇ°Á¤º¸º¸±â  Event  Ã³¸® (double Click)=============	
+    //============= prodName ì— ì¿ í° ìƒí’ˆì •ë³´ë³´ê¸°  Event  ì²˜ë¦¬ (double Click)=============	
 	
 	$(function(){
 		
@@ -137,12 +137,12 @@
                     success : function(JSONData , status) {
 
                        var displayValue = "<h6>"
-                                            +"»óÇ°¹øÈ£ : "+JSONData.productNo+"<br/>"
-                                            +"»óÇ°¸í : "+JSONData.productName+"<br/>"                                             
-                                            +"»óÇ°ÀÌ¹ÌÁö : "+JSONData.productImg+"<br/>"                                             
-                                            +"»óÇ°»ó¼¼Á¤º¸ : "+JSONData.productDetail+"<br/>"                                                                                         
-                                            +"°¡  °İ : "+JSONData.productPrice+"<br/>"
-                                            +"»óÅÂ°ª : "+JSONData.status+"<br/>"
+                                            +"ìƒí’ˆë²ˆí˜¸ : "+JSONData.productNo+"<br/>"
+                                            +"ìƒí’ˆëª… : "+JSONData.productName+"<br/>"                                             
+                                            +"ìƒí’ˆì´ë¯¸ì§€ : "+JSONData.productImg+"<br/>"                                             
+                                            +"ìƒí’ˆìƒì„¸ì •ë³´ : "+JSONData.productDetail+"<br/>"                                                                                         
+                                            +"ê°€  ê²© : "+JSONData.productPrice+"<br/>"
+                                            +"ìƒíƒœê°’ : "+JSONData.status+"<br/>"
                                             +"</h6>";
                        $("h6").remove();
                        $( "#"+JSONData.productNo+"" ).append(displayValue);
@@ -152,11 +152,11 @@
         });
 
  	//=========================================================//
-	 //==> productNo LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
+	 //==> productNo LINK Event End User ì—ê²Œ ë³´ì¼ìˆ˜ ìˆë„ë¡ 
     $( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
     $("h7").css("color" , "red");
     
-    //==> ¾Æ·¡¿Í °°ÀÌ Á¤ÀÇÇÑ ÀÌÀ¯´Â ??
+    //==> ì•„ë˜ì™€ ê°™ì´ ì •ì˜í•œ ì´ìœ ëŠ” ??
     $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
  });
     
@@ -178,12 +178,12 @@
                    success : function(JSONData , status) {
 
                       var displayValue = "<h3>"
-					                          +"»óÇ°¹øÈ£ : "+JSONData.productNo+"<br/>"
-					                          +"»óÇ°¸í : "+JSONData.productName+"<br/>"                                             
-					                          +"»óÇ°ÀÌ¹ÌÁö : "+JSONData.productImg+"<br/>"                                             
-					                          +"»óÇ°»ó¼¼Á¤º¸ : "+JSONData.productDetail+"<br/>"                                                                                         
-					                          +"°¡  °İ : "+JSONData.productPrice+"<br/>"
-					                          +"»óÅÂ°ª : "+JSONData.status+"<br/>"
+					                          +"ìƒí’ˆë²ˆí˜¸ : "+JSONData.productNo+"<br/>"
+					                          +"ìƒí’ˆëª… : "+JSONData.productName+"<br/>"                                             
+					                          +"ìƒí’ˆì´ë¯¸ì§€ : "+JSONData.productImg+"<br/>"                                             
+					                          +"ìƒí’ˆìƒì„¸ì •ë³´ : "+JSONData.productDetail+"<br/>"                                                                                         
+					                          +"ê°€  ê²© : "+JSONData.productPrice+"<br/>"
+					                          +"ìƒíƒœê°’ : "+JSONData.status+"<br/>"
                                            +"</h3>";
                       $("h3").remove();
                       $( "#"+JSONData.productNo+"" ).append(displayValue);
@@ -193,13 +193,13 @@
        });
     
  	//==========================================================//
-	  //==> UI ¼öÁ¤ Ãß°¡ºÎºĞ  :  userId LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
+	  //==> UI ìˆ˜ì • ì¶”ê°€ë¶€ë¶„  :  userId LINK Event End User ì—ê²Œ ë³´ì¼ìˆ˜ ìˆë„ë¡ 
       $( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
       $("h7").css("color" , "red");
  	
  	
- 	      //==> ¾Æ·¡¿Í °°ÀÌ Á¤ÀÇÇÑ ÀÌÀ¯´Â ??
- 	      //==> ¾Æ·¡ÀÇ ÁÖ¼®À» ÇÏ³ª¾¿ Ç®¾î °¡¸ç ÀÌÇØÇÏ¼¼¿ä.               
+ 	      //==> ì•„ë˜ì™€ ê°™ì´ ì •ì˜í•œ ì´ìœ ëŠ” ??
+ 	      //==> ì•„ë˜ì˜ ì£¼ì„ì„ í•˜ë‚˜ì”© í’€ì–´ ê°€ë©° ì´í•´í•˜ì„¸ìš”.               
  	      $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
  	      //console.log ( $(".ct_list_pop:nth-child(1)" ).html() );
  	      //console.log ( $(".ct_list_pop:nth-child(2)" ).html() );
@@ -210,9 +210,9 @@
  	      //console.log ( $(".ct_list_pop:nth-child(7)" ).html() ); 
  	   });  
  		
-	//============= ½Å±Ô Æ÷ÀÎÆ® »óÇ° µî·Ï Event  Ã³¸® =============	
+	//============= ì‹ ê·œ í¬ì¸íŠ¸ ìƒí’ˆ ë“±ë¡ Event  ì²˜ë¦¬ =============	
 		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button.btn.btn-primary.addP" ).on("click" , function() {
 					self.location = "/product/addProductPointView?productNo=${product.productNo}"
 				});
@@ -232,35 +232,35 @@
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 	
 		<div class="page-header text-info">
 			<c:set var="name" value="${param.menu}"/>
 				<c:if test="${name =='manage' }">
-						<h3>Æ÷ÀÎÆ®»óÇ° ÀüÃ¼¸ñ·Ï</h3>
+						<h3>í¬ì¸íŠ¸ìƒí’ˆ ì „ì²´ëª©ë¡</h3>
 				</c:if>
 				
 				<c:if test="${name =='search' }">
-						<h3>»óÇ° ¸ñ·ÏÁ¶È¸</h3>
+						<h3>ìƒí’ˆ ëª©ë¡ì¡°íšŒ</h3>
 				</c:if>
 	    </div>
 
 		
 
  
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row">
 	    
 		    <div class="col-md-6 text-left">
 		    	<h3 class="text-primary font-weight-bold">
-		    		Æ÷ÀÎÆ®»óÇ° ÀüÃ¼¸ñ·Ï
+		    		í¬ì¸íŠ¸ìƒí’ˆ ì „ì²´ëª©ë¡
 		     	</h3>
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
+		    		ì „ì²´  ${resultPage.totalCount } ê±´ìˆ˜, í˜„ì¬ ${resultPage.currentPage}  í˜ì´ì§€
 		    </div>
 		    
 			<div class="col-md-6 text-right">
-				<button type="button" class="btn btn-primary addP">½Å±Ô Æ÷ÀÎÆ® »óÇ° µî·Ï</button>
+				<button type="button" class="btn btn-primary addP">ì‹ ê·œ í¬ì¸íŠ¸ ìƒí’ˆ ë“±ë¡</button>
 			</div>
 
 		    <div class="col-md-6 text-right">
@@ -268,21 +268,21 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>»óÇ°¹øÈ£</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>»óÇ°¸í</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>»óÇ°°¡°İ</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ìƒí’ˆë²ˆí˜¸</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>ìƒí’ˆëª…</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>ìƒí’ˆê°€ê²©</option>
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
+				    <label class="sr-only" for="searchKeyword">ê²€ìƒ‰ì–´</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="ê²€ìƒ‰ì–´"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>
 				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
+				  <button type="button" class="btn btn-default">ê²€ìƒ‰</button>
 				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 				</form>
@@ -290,7 +290,7 @@
 	    	
 		</div>
 		
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 		
 		
       <!--  table Start /////////////////////////////////////-->
@@ -300,10 +300,10 @@
         <thead>
           <tr>
             <th align="center">Check</th>
-            <th align="left" >ÄíÆù »óÇ°¸í</th>
-            <th align="left">ÄíÆù °¡°İ</th>
-            <th align="left">ÄíÆù ³»¿ë</th>
-            <th align="left">ÄíÆù ÀÌ¹ÌÁö</th>
+            <th align="left" >ì¿ í° ìƒí’ˆëª…</th>
+            <th align="left">ì¿ í° ê°€ê²©</th>
+            <th align="left">ì¿ í° ë‚´ìš©</th>
+            <th align="left">ì¿ í° ì´ë¯¸ì§€</th>
             
           </tr>
         </thead>
@@ -317,8 +317,8 @@
 			
 			<tr>
 			  <td align="center"><input type="checkbox" name="${ i }"></td>
-			  <td align="left" productNo="${ product.productNo }" title="Click : »óÇ°Á¤º¸ È®ÀÎ">${ product.productName }</td>
-			  <td align="left">${ product.productPrice } ¿ø</td>
+			  <td align="left" productNo="${ product.productNo }" title="Click : ìƒí’ˆì •ë³´ í™•ì¸">${ product.productName }</td>
+			  <td align="left">${ product.productPrice } ì›</td>
 			  <td align="left">${ product.productDetail }</td>
 			  <td align="left">
 			  	<i class="glyphicon glyphicon-ok" id= "${product.productNo}"></i>
@@ -338,28 +338,28 @@
       	
       	
       </table>
-      <td align="center"><input type="submit" value="±¸¸ÅÇÏ±â"></td>
+      <td align="center"><input type="submit" value="êµ¬ë§¤í•˜ê¸°"></td>
 	  <!--  table End /////////////////////////////////////-->
         
 
         <hr>
-        °áÁ¦¹æ½Ä : 
-        <input type="radio" name="payMethod" value="accountTransfer" checked /> °èÁÂÀÌÃ¼
-        <input type="radio" name="payMethod" value="cardPayment" /> Ä«µå°áÁ¦
-        <input type="radio" name="payMethod" value="simplePayment" /> °£Æí°áÁ¦
-        <input type="radio" name="payMethod" value="kakaoPayment" /> Ä«Ä«¿À ÆäÀÌ
+        ê²°ì œë°©ì‹ : 
+        <input type="radio" name="payMethod" value="accountTransfer" checked /> ê³„ì¢Œì´ì²´
+        <input type="radio" name="payMethod" value="cardPayment" /> ì¹´ë“œê²°ì œ
+        <input type="radio" name="payMethod" value="simplePayment" /> ê°„í¸ê²°ì œ
+        <input type="radio" name="payMethod" value="kakaoPayment" /> ì¹´ì¹´ì˜¤ í˜ì´
         <br>
         <span>
-		»óÇ°¸í :	<input name="name01" value="${ product.productName }" /> Æ÷ÀÎÆ® &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
-        °áÁ¦±İ¾× : <input name="name02" value="È«±æµ¿" /> <br />
-        ÀºÇà¸í :	<input name="name03" value="È«±æµ¿" /> Æ÷ÀÎÆ® &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
-        °èÁÂ¹øÈ£ : <input name="name04" value="È«±æµ¿" /> <br />
-        ¹Ş´Â»ç¶÷ : <input type="hidden" value="È«±æµ¿" />
-        <!-- label Tag »ç¿ë / ¹Ì»ç¿ëÀÇ Â÷ÀÌÁ¡ : ÀÌ¸§ 3À» Click ÇØº¸¸é... -->
+		ìƒí’ˆëª… :	<input name="name01" value="${ product.productName }" /> í¬ì¸íŠ¸ &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+        ê²°ì œê¸ˆì•¡ : <input name="name02" value="í™ê¸¸ë™" /> <br />
+        ì€í–‰ëª… :	<input name="name03" value="í™ê¸¸ë™" /> í¬ì¸íŠ¸ &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
+        ê³„ì¢Œë²ˆí˜¸ : <input name="name04" value="í™ê¸¸ë™" /> <br />
+        ë°›ëŠ”ì‚¬ëŒ : <input type="hidden" value="í™ê¸¸ë™" />
+        <!-- label Tag ì‚¬ìš© / ë¯¸ì‚¬ìš©ì˜ ì°¨ì´ì  : ì´ë¦„ 3ì„ Click í•´ë³´ë©´... -->
 		</span>
         <hr/>
 
- 	<!--  È­¸é±¸¼º div End /////////////////////////////////////-->
+ 	<!--  í™”ë©´êµ¬ì„± div End /////////////////////////////////////-->
  		
 	<!-- PageNavigation Start... -->
 	<jsp:include page="../common/pageNavigator_new.jsp"/>

@@ -47,29 +47,29 @@
 		SELECT
 		product_no , product_name , product_detail ,  product_price ,  product_img , status 		
 		FROM products 
-		WHERE product_no = #{value} and status = 1
+		WHERE product_no = #{value} and status = '1'
 	 </select>
 
 	 <select 	id="getProductVoucher"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
 		product_no , product_name , product_detail ,  product_price ,  product_img , status 		
 		FROM products 
-		WHERE product_no = #{value} and status = 2
+		WHERE product_no = #{value} and status = '2'
 	 </select>
 
 	 <select 	id="getProductPoint"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
 		product_no , product_name , product_detail ,  product_price ,  product_img , status 		
 		FROM products 
-		WHERE product_no = #{value} and status = 3
+		WHERE product_no = #{value} and status = '3'
 	 </select>
 
 
 <!-- /////////////////////////////쿠폰, 상품권, 포인트 이미지 수정, 정보 수정 완료, 수정 확인////////////////////////////////// -->
 	 
 	 <!-- SQL : UPDATE -->
-<!-- /////////////////////////////쿠폰/////////////////////////////////////////////////// -->
-	 <update	id="updateProduct"	parameterType="product" >
+<!-- /////////////////////////////상품 수정/////////////////////////////////////////////////// -->
+	 <update	id="updateProductCoupon"	parameterType="product" >
 	   	UPDATE products
 	   	<set>
 	   		product_name 			= #{productName:VARCHAR} ,
@@ -78,7 +78,31 @@
 			product_img				= #{productImg:VARCHAR},
 			status					= #{status:VARCHAR}
 	   	</set>
-	   	WHERE product_no = #{productNo}
+	   	WHERE product_no = #{productNo} and status = '1'
+	 </update>
+	 
+	 <update	id="updateProductVoucher"	parameterType="product" >
+	   	UPDATE products
+	   	<set>
+	   		product_name 			= #{productName:VARCHAR} ,
+			product_detail			= #{productDetail:VARCHAR},
+			product_price			= #{productPrice},
+			product_img				= #{productImg:VARCHAR},
+			status					= #{status:VARCHAR}
+	   	</set>
+	   	WHERE product_no = #{productNo} and status = '2'
+	 </update>
+
+	 <update	id="updateProductPoint"	parameterType="product" >
+	   	UPDATE products
+	   	<set>
+	   		product_name 			= #{productName:VARCHAR} ,
+			product_detail			= #{productDetail:VARCHAR},
+			product_price			= #{productPrice},
+			product_img				= #{productImg:VARCHAR},
+			status					= #{status:VARCHAR}
+	   	</set>
+	   	WHERE product_no = #{productNo} and status = '3'
 	 </update>
 <!-- //////////////////////////쿠폰, 상품권, 포인트 상품 삭제//////////////////////////////////////////////////////  -->
 
@@ -89,11 +113,20 @@
 
 <!-- //////////////////////////쿠폰, 상품권, 포인트 상품 삭제//////////////////////////////////////////////////////  -->
 
-	 <delete	id="deleteProduct"	parameterType="product" >
+	 <delete	id="deleteProductCoupon"	parameterType="product" >
 	   	DELETE from products
-	   	WHERE product_no = #{productNo}
+	   	WHERE product_no = #{productNo} and status = '1'
 	 </delete>
 
+	 <delete	id="deleteProductVoucher"	parameterType="product" >
+	   	DELETE from products
+	   	WHERE product_no = #{productNo} and status = '2'
+	 </delete>
+	 
+	 <delete	id="deleteProductPoint"	parameterType="product" >
+	   	DELETE from products
+	   	WHERE product_no = #{productNo} and status = '3'
+	 </delete>
 
 <!-- //////////////////////////쿠폰, 상품권, 포인트 전체 목록 조회//////////////////////////////////////////////////////  -->
 		 
@@ -105,7 +138,7 @@
 											FROM products
 											
 												<where>
-												status= 1
+												status= '1'
 												<if test="searchCondition != null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
 										 				product_no LIKE '%${searchKeyword}%'
@@ -131,7 +164,7 @@
 											FROM products
 											
 												<where>
-												status= 2
+												status= '2'
 												<if test="searchCondition != null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
 										 				product_no LIKE '%${searchKeyword}%'
@@ -157,7 +190,7 @@
 											FROM products
 											
 												<where>
-												status= 3
+												status= '3'
 												<if test="searchCondition != null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
 										 				product_no LIKE '%${searchKeyword}%'
