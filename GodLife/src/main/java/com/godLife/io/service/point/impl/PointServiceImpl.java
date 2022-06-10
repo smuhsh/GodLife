@@ -33,8 +33,8 @@ public class PointServiceImpl implements PointService {
 	
 	
 	@Override
-	public void addPointPurchaseProduct(Point point) throws Exception{
-		pointDao.addPointPurchaseProduct(point);
+	public void addPointPurchaseProduct(Map<String,Object> map) throws Exception{
+		pointDao.addPointPurchaseProduct(map);
 	}
 	
 	@Override
@@ -44,8 +44,11 @@ public class PointServiceImpl implements PointService {
 
 	@Override
 	public Map<String,Object> getPointPurchaseList(Search search,User user) throws Exception {
+		System.out.println("getPointPurchaseList user : "+user);
+		
 		int totalCount = pointDao.getTotalCount(user);
 		
+		System.out.println("getPointPurchaseList totalCount : "+totalCount);
 		Map<String, Object> map = pointDao.getPointPurchaseList(search, user);
 		map.put("totalCount", new Integer(totalCount));
 
@@ -54,9 +57,9 @@ public class PointServiceImpl implements PointService {
 
 	@Override
 	public Map<String, Object> getPointPurchaseVoucherList(Search search, User user) throws Exception {
-		
+		System.out.println("getPointPurchaseVoucherList user : "+user);
 		int totalCount = pointDao.getVoucherTotalCount(user);
-
+		System.out.println("getPointPurchaseVoucherList totalCount : "+totalCount);
 		Map<String, Object> map = pointDao.getPointPurchaseVoucherList(search, user);
 		map.put("totalCount", new Integer(totalCount));
 
@@ -65,9 +68,11 @@ public class PointServiceImpl implements PointService {
 
 	@Override
 	public Map<String, Object> getPointPurchaseDonationList(Search search, User user) throws Exception {
+		System.out.println("getPointPurchaseDonationList user : "+user);
 		
 		int totalCount = pointDao.getDonationTotalCount(user);
-
+		
+		System.out.println("getPointPurchaseDonationList totalCount : "+totalCount);
 		Map<String, Object> map = pointDao.getPointPurchaseDonationList(search, user);
 		map.put("totalCount", new Integer(totalCount));
 
