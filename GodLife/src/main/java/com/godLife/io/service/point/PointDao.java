@@ -8,7 +8,7 @@ import com.godLife.io.common.Search;
 
 public interface PointDao {
 
-	public void addPointPurchaseProduct(Point point) throws Exception;
+	public void addPointPurchaseProduct(Map<String,Object> map) throws Exception;
 	
 	public void addPointPurchase(Map<String,Object> map) throws Exception;
 	

@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
 
 
 <!DOCTYPE html>
@@ -7,9 +7,9 @@
 <html lang="ko">
 	
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -35,24 +35,23 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-		//============= È®ÀÎ Event  Ã³¸® =============	
+		//============= í™•ì¸ Event  ì²˜ë¦¬ =============	
 		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button.btn.btn-primary.btn" ).on("click" , function() {
 				history.go(-1);
 				});
 		});
-	
-	
-	
-	
-		//============= ±¸¸Å Event  Ã³¸® =============	
+
+		//============= ìˆ˜ì • Event  ì²˜ë¦¬ =============	
 		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button.btn.btn-primary" ).on("click" , function() {
-					self.location = "/product/getProductPointList?productNo=${product.productNo}"
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "button.btn.btn-primary.update" ).on("click" , function() {
+					self.location = "/product/updateProductPointView?productNo=${product.productNo}"
 				});
 		});
+
+
 		
 	</script>
 	
@@ -64,64 +63,68 @@
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 	
 		<div class="page-header">
-	       <h3 class=" text-info">ÄíÆù»óÇ°»ó¼¼Á¶È¸</h3>
+	       <h3 class=" text-info">í¬ì¸íŠ¸ìƒí’ˆìƒì„¸ì¡°íšŒ</h3>
 	    </div>
 	
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>»óÇ°¹øÈ£</strong></div>
+	  		<div class="col-xs-4 col-md-2"><strong>ìƒí’ˆë²ˆí˜¸</strong></div>
 			<div class="col-xs-8 col-md-4">${product.productNo}</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>»óÇ°¸í</strong></div>
+	  		<div class="col-xs-4 col-md-2 "><strong>ìƒí’ˆëª…</strong></div>
 			<div class="col-xs-8 col-md-4">${product.productName}</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>»óÇ°°¡°İ</strong></div>
+	  		<div class="col-xs-4 col-md-2 "><strong>ìƒí’ˆê°€ê²©</strong></div>
 			<div class="col-xs-8 col-md-4">${product.productPrice}</div>
 		</div>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>»óÇ°»ó¼¼Á¤º¸</strong></div>
+	  		<div class="col-xs-4 col-md-2 "><strong>ìƒí’ˆìƒì„¸ì •ë³´</strong></div>
 			<div class="col-xs-8 col-md-4">${product.productDetail}</div>
 		</div>
 		
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>»óÇ°ÀÌ¹ÌÁö</strong></div>
+	  		<div class="col-xs-4 col-md-2 "><strong>ìƒí’ˆì´ë¯¸ì§€</strong></div>
 			<div class="col-xs-8 col-md-4">${product.productImg}</div>
 		</div>
+
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "></div>
+			<div class="col-xs-8 col-md-4"></div>
+			<input type="hidden" class="form-control" id="status" name="status" value="3">
+		</div>
+
 		
 		<hr/>
 		
-		<div class="row">
-	  		<div class="col-md-12 text-center ">
-	  			<button type="button" class="btn btn-primary">±¸¸Å</button>
-	  		</div>
-		</div>
 		
-		<div class="row">
-	  		<div class="col-md-12 text-center ">
-	  			<button type="button" class="btn btn-primary btn">È®ÀÎ</button>
-	  		</div>
+		<div class="form-group">
+			<div class="row">
+		  		<div class="col-md-12 text-center ">
+		  			<button type="button" class="btn btn-primary update">ìˆ˜ì •</button>
+		  			<button type="button" class="btn btn-primary btn">í™•ì¸</button>
+		  		</div>
+			</div>		
 		</div>
-
 
 
 		
 		<br/>
 		
  	</div>
- 	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+ 	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 
 </body>
 

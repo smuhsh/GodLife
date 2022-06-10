@@ -1,371 +1,204 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 <!DOCTYPE html>
 
 <html lang="ko">
-	
-<head>
-	<meta charset="EUC-KR">
-	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
-   <!-- jQuery UI toolTip »ç¿ë CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip »ç¿ë JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-	  body {
-            padding-top : 50px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
 
 <head>
-	<meta charset="EUC-KR">
-	<title>»óÇ° ¸ñ·ÏÁ¶È¸</title>
+<meta charset="UTF-8">
 
-	<link rel="stylesheet" href="/css/admin.css" type="text/css">
+<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<!-- CDN(Content Delivery Network) È£½ºÆ® »ç¿ë -->
-	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript">
+<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+<link rel="stylesheet"
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	//=====±âÁ¸Code ÁÖ¼® Ã³¸® ÈÄ  jQuery º¯°æ ======//
-	// °Ë»ö / page µÎ°¡Áö °æ¿ì ¸ğµÎ Form Àü¼ÛÀ» À§ÇØ JavaScrpt ÀÌ¿ë
-	
-	function fncGetUserList(currentPage) {
-			//document.getElementById("currentPage").value = currentPage;
-			$("#currentPage").val(currentPage)
-		   	//document.detailForm.submit();
-			$("form").attr("method" , "POST").attr("action", "/product/getProductPointList").submit();
-		};
 
-	//=====±âÁ¸Code ÁÖ¼® Ã³¸® ÈÄ  jQuery º¯°æ ======//
-	// ±¸¸ÅÇÏ±â µÎ°¡Áö °æ¿ì ¸ğµÎ Form Àü¼ÛÀ» À§ÇØ JavaScrpt ÀÌ¿ë
-		
-	function fncGetPointList(currentPage) {
-			//document.getElementById("currentPage").value = currentPage;
-			$("#currentPage").val(currentPage)
-		   	//document.detailForm.submit();
-			$("form").attr("method" , "POST").attr("action", "/point/getPointlist").submit();
-		};	
-		
-		
-		
-	//==========================================================//
-   	//==> Ãß°¡µÈºÎºĞ : "°Ë»ö" ,  prodName link  Event ¿¬°á ¹× Ã³¸®
-   	
-	$(function (){
-			
-	      //==> °Ë»ö Event ¿¬°áÃ³¸®ºÎºĞ
-	      //==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	      //==> 1 °ú 3 ¹æ¹ı Á¶ÇÕ : $("tagName.className:filterÇÔ¼ö") »ç¿ëÇÔ. 
-			$("button.btn.btn-default").on("click", function(){
-		    //Debug..
-		    //alert(  $( "td.ct_btn01:contains('°Ë»ö')" ).html() );
-			fncGetUserList(1);	
-			});
-		});
-	
-	      
-	//============= productName ¿¡ »óÇ°Á¤º¸º¸±â  Event  Ã³¸®(Click) =============
-// 	$(function() {
-		         
-// 	     $( "td:nth-child(2)" ).on("click" , function() {
-// 	        if(${param.menu == 'manage'}) {
-// 	        	self.location ="/product/updateProductCoupn?prouctdNo="+$(this).attr("productNo");
-// 	        } else {
-// 	        	self.location ="/product/getProductCoupon?productNo="+$(this).attr("productNo");
-// 	        }
-// 	     });
+<!-- Bootstrap Dropdown Hover CSS -->
+<link href="/css/animate.min.css" rel="stylesheet">
+<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+<!-- Bootstrap Dropdown Hover JS -->
+<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 
-//	Æ÷ÀÎÆ® »óÇ°¸í Å¬¸¯ ½Ã, »ó¼¼ Á¤º¸Ã¢ ¿­±â
-	 $(function() {
-	         
-		     $( "td:nth-child(2)" ).on("click" , function() {
 
-		        	self.location ="/product/getProductPoint?productNo="+$(this).attr("productNo");
-		        
-		 });
-	     
-	     
-	//==> prodName LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
-	     $( "td:nth-child(2)" ).css("color" , "red");   
-		         
-	    });
-	
-    //============= prodName ¿¡ ÄíÆù »óÇ°Á¤º¸º¸±â  Event  Ã³¸® (double Click)=============	
-	
-	$(function(){
-		
-	$( "td:nth-child(5) > i" ).on("click", function() {
-		
-		var productNo = $(this).next().val();
-		
-		 $.ajax( 
-                 {
-                    url : "/product/json/getProductPoint/"+productNo,
-                    method : "GET",
-                    dataType : "json",
-                    headers : {
-                       "Accept" : "application/json",
-                       "Content-Type" : "application/json"
-                    },
-                    success : function(JSONData , status) {
+<!-- jQuery UI toolTip ì‚¬ìš© CSS-->
+<link rel="stylesheet"
+   href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- jQuery UI toolTip ì‚¬ìš© JS-->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-                       var displayValue = "<h6>"
-                                            +"»óÇ°¹øÈ£ : "+JSONData.productNo+"<br/>"
-                                            +"»óÇ°¸í : "+JSONData.productName+"<br/>"                                             
-                                            +"»óÇ°ÀÌ¹ÌÁö : "+JSONData.productImg+"<br/>"                                             
-                                            +"»óÇ°»ó¼¼Á¤º¸ : "+JSONData.productDetail+"<br/>"                                                                                         
-                                            +"°¡  °İ : "+JSONData.productPrice+"<br/>"
-                                            +"»óÅÂ°ª : "+JSONData.status+"<br/>"
-                                            +"</h6>";
-                       $("h6").remove();
-                       $( "#"+JSONData.productNo+"" ).append(displayValue);
-                 }
-              });
-           
-        });
+<!--  ///////////////////////// CSS ////////////////////////// -->
+<style>
+body {
+   padding-top: 50px;
+}
 
- 	//=========================================================//
-	 //==> productNo LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
-    $( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-    $("h7").css("color" , "red");
-    
-    //==> ¾Æ·¡¿Í °°ÀÌ Á¤ÀÇÇÑ ÀÌÀ¯´Â ??
-    $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
- });
-    
-    $(function() {
-       
-    $( "td:nth-child(5)> i" ).on("click" , function() {
-       
-       var productNo = $(this).next.val();
-       
-          $.ajax( 
-                {
-                   url : "/product/json/getProductPoint/"+productNo,
-                   method : "GET",
-                   dataType : "json",
-                   headers : {
-                      "Accept" : "application/json",
-                      "Content-Type" : "application/json"
-                   },
-                   success : function(JSONData , status) {
+fieldset {
+   width: 400px;
+   text-align: center;
+   backgrond-color: white;
+}
 
-                      var displayValue = "<h3>"
-					                          +"»óÇ°¹øÈ£ : "+JSONData.productNo+"<br/>"
-					                          +"»óÇ°¸í : "+JSONData.productName+"<br/>"                                             
-					                          +"»óÇ°ÀÌ¹ÌÁö : "+JSONData.productImg+"<br/>"                                             
-					                          +"»óÇ°»ó¼¼Á¤º¸ : "+JSONData.productDetail+"<br/>"                                                                                         
-					                          +"°¡  °İ : "+JSONData.productPrice+"<br/>"
-					                          +"»óÅÂ°ª : "+JSONData.status+"<br/>"
-                                           +"</h3>";
-                      $("h3").remove();
-                      $( "#"+JSONData.productNo+"" ).append(displayValue);
-                }
-             });
-          
-       });
-    
- 	//==========================================================//
-	  //==> UI ¼öÁ¤ Ãß°¡ºÎºĞ  :  userId LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
-      $( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
-      $("h7").css("color" , "red");
- 	
- 	
- 	      //==> ¾Æ·¡¿Í °°ÀÌ Á¤ÀÇÇÑ ÀÌÀ¯´Â ??
- 	      //==> ¾Æ·¡ÀÇ ÁÖ¼®À» ÇÏ³ª¾¿ Ç®¾î °¡¸ç ÀÌÇØÇÏ¼¼¿ä.               
- 	      $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
- 	      //console.log ( $(".ct_list_pop:nth-child(1)" ).html() );
- 	      //console.log ( $(".ct_list_pop:nth-child(2)" ).html() );
- 	      //console.log ( $(".ct_list_pop:nth-child(3)" ).html() );
- 	      //console.log ( $(".ct_list_pop:nth-child(4)" ).html() ); //==> ok
- 	      //console.log ( $(".ct_list_pop:nth-child(5)" ).html() ); 
- 	      console.log ( $(".ct_list_pop:nth-child(6)" ).html() ); //==> ok
- 	      //console.log ( $(".ct_list_pop:nth-child(7)" ).html() ); 
- 	   });  
- 		
-	//============= ½Å±Ô Æ÷ÀÎÆ® »óÇ° µî·Ï Event  Ã³¸® =============	
-		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button.btn.btn-primary.addP" ).on("click" , function() {
-					self.location = "/product/addProductPointView?productNo=${product.productNo}"
-				});
-		});    
-    
-    
-	      
-	
-	
+div.box {
+   width: 500px;
+   height: 50px;
+   box-align:center middle;
+   margin: 10px;
+   padding: 10px;
+   display: none;
+   background-color: #ffcc00;
+}
+</style>
 
+<!--  ///////////////////////// JavaScript ////////////////////////// -->
+<head>
+<meta charset="EUC-KR">
+<title>ìƒí’ˆ ëª©ë¡ì¡°íšŒ</title>
+
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
+
+<!-- CDN(Content Delivery Network) í˜¸ìŠ¤íŠ¸ ì‚¬ìš© -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+   function fncAddPointPurchasePoint() {
+      var productNo = $('input[name="productNo"]:checked').val();
+      var payOpt = $('input[name="payOpt"]:checked').val();
+      var useStatus = $("input[name='useStatus']").val();
+      var useDetail = $("input[name='useDetail']").val();
+
+      alert(payOpt + " : payOpt   " + productNo + ": productNo   "
+            + useStatus + ":useStatus  " + useDetail + ":useDetail");
+      $("form").attr("method", "POST").attr("action",
+            "/point/addPointPurchaseProduct").submit()
+   }
+   $(function() {
+      $(".btn.btn-default").on("click", function() {
+         fncAddPointPurchasePoint();
+      });
+   });
+
+   function showDiv(element) {
+      var tag = document.getElementsByClassName("box");
+
+      for(var i=0; i<tag.length; i++){
+         if(element.id+"Box" == tag[i].id)
+            tag[i].style.display="block";
+         else
+            tag[i].style.display="none";
+      }
+   }
 </script>
 </head>
 
 <body>
-	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<div class="page-header text-info">
-			<c:set var="name" value="${param.menu}"/>
-				<c:if test="${name =='manage' }">
-						<h3>Æ÷ÀÎÆ®»óÇ° ÀüÃ¼¸ñ·Ï</h3>
-				</c:if>
-				
-				<c:if test="${name =='search' }">
-						<h3>»óÇ° ¸ñ·ÏÁ¶È¸</h3>
-				</c:if>
-	    </div>
+   <form class="form-horizontal">
+      <!-- ToolBar Start /////////////////////////////////////-->
+      <jsp:include page="/layout/toolbar.jsp" />
+      <!-- ToolBar End /////////////////////////////////////-->
 
-		
+      <!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
+      <div class="container">
 
- 
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
-	    <div class="row">
-	    
-		    <div class="col-md-6 text-left">
-		    	<h3 class="text-primary font-weight-bold">
-		    		Æ÷ÀÎÆ®»óÇ° ÀüÃ¼¸ñ·Ï
-		     	</h3>
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
-		    </div>
-		    
-			<div class="col-md-6 text-right">
-				<button type="button" class="btn btn-primary addP">½Å±Ô Æ÷ÀÎÆ® »óÇ° µî·Ï</button>
-			</div>
+         <div class="page-header text-info">
+            <c:set var="name" value="${user.role}" />
+            <c:if test="${role =='admin' }">
+               <h3>í¬ì¸íŠ¸ìƒí’ˆ ì „ì²´ëª©ë¡</h3>
+            </c:if>
 
-		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
-			    
-				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>»óÇ°¹øÈ£</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>»óÇ°¸í</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>»óÇ°°¡°İ</option>
-					</select>
-				  </div>
-				  
-				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
-				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
-				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
-				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  
-				</form>
-	    	</div>
-	    	
-		</div>
-		
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
-		
-		
-      <!--  table Start /////////////////////////////////////-->
+            <c:if test="${role =='user' }">
+               <h3>ìƒí’ˆ ëª©ë¡ì¡°íšŒ</h3>
+            </c:if>
+         </div>
+         <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
+         <div class="row">
+            <div class="col-md-6 text-left">
+               <h3 class="text-primary font-weight-bold">í¬ì¸íŠ¸ìƒí’ˆ ì „ì²´ëª©ë¡</h3>
+            </div>
+            <div class="col-md-6 text-right">
+               <c:set var="name" value="${user.role}" />
+               <c:if test="${role =='admin' }">
+                  <button type="button" class="btn btn-primary addP">ì‹ ê·œ í¬ì¸íŠ¸
+                     ìƒí’ˆ ë“±ë¡</button>
+               </c:if>
+            </div>
+            <div class="col-md-6 text-right"></div>
+         </div>
 
-      <table class="table table-hover table-striped" >
-      
-        <thead>
-          <tr>
-            <th align="center">Check</th>
-            <th align="left" >ÄíÆù »óÇ°¸í</th>
-            <th align="left">ÄíÆù °¡°İ</th>
-            <th align="left">ÄíÆù ³»¿ë</th>
-            <th align="left">ÄíÆù ÀÌ¹ÌÁö</th>
+
+         <c:set var="i" value="0" />
+         <c:forEach var="product" items="${list}">
+            <c:set var="i" value="${ i+1 }" />
+            <div class="col-xs-6 col-md-3">
+               <input type="radio" name="productNo" value="${product.productNo}"
+                  checked /> <img src="/images/uploadFiles/${product.productImg }"
+                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
+               <div>${ product.productName }</div>
+               <div>${ product.productPrice }ì›</div>
+               <div>${ product.productDetail }</div>
+            </div>
+         </c:forEach>
+
+
+         <!--  table End /////////////////////////////////////-->
+
+         <div class="col-xs-6 col-md-12">
+            <fieldset>
+               <hr />
+               ê²°ì œë°©ì‹ : 
+               <input type="radio" id="pay" name="payOpt" value="1" onclick="showDiv(this);">ê³„ì¢Œì´ì²´ 
+               <input type="radio" id="card" name="payOpt" value="2" onclick="showDiv(this);" /> ì¹´ë“œê²°ì œ 
+               <input type="radio" id="kakao" name="payOpt" value="3" onclick="showDiv(this);" /> ì¹´ì¹´ì˜¤ í˜ì´
+               &nbsp&nbsp
+               <button type="button" class="btn btn-default">êµ¬ë§¤</button>
+            </fieldset>
+
+            <hr>
+
+            <div id="payBox" class="box" >
+               ì€í–‰ëª… : ë†í˜‘
+               <hr />
+               ê³„ì¢Œë²ˆí˜¸ : 901055-56-047-268
+               <hr />
+               ë°›ëŠ”ì‚¬ëŒ : ìœ ë³‘ë¬¸
+               <hr />
+            </div>
             
-          </tr>
-        </thead>
-       
-  		<tbody>
-			<form class="form-inline" name="selectForm">
-			
-		  <c:set var="i" value="0" />
-		  <c:forEach var="product" items="${list}">
-			<c:set var="i" value="${ i+1 }" />
-			
-			<tr>
-			  <td align="center"><input type="checkbox" name="${ i }"></td>
-			  <td align="left" productNo="${ product.productNo }" title="Click : »óÇ°Á¤º¸ È®ÀÎ">${ product.productName }</td>
-			  <td align="left">${ product.productPrice } ¿ø</td>
-			  <td align="left">${ product.productDetail }</td>
-			  <td align="left">
-			  	<i class="glyphicon glyphicon-ok" id= "${product.productNo}"></i>
-			  	<input type="hidden" value="${product.productNo}">
-			  	
-			  </td>
-			  
-			</tr>
-			
-			
-          </c:forEach>
-        </tbody>
-      	</form>
-  	
-      	
+            <div id="cardBox" class="box" >
+            ì¹´ë“œê²°ì œ
+            <hr/>
+            </div>
+            <div id="kakaoBox" class="box" >
+            ê°„í¸ê²°ì œ
+            <hr/>
+            </div>
+            <!-- label Tag ì‚¬ìš© / ë¯¸ì‚¬ìš©ì˜ ì°¨ì´ì  : ì´ë¦„ 3ì„ Click í•´ë³´ë©´... -->
+            <div class="form-group">
+               <div class="col-sm-offset-2 col-sm-10">
+                  <input type="hidden" name="userEmail" value="${user.userEmail}" />
+                  <input type="hidden" name="useStatus" value="1" /> <input
+                     type="hidden" name="useDetail" value="1" />
+               </div>
+            </div>
+            <hr />
+         </div>
 
-      	
-      	
-      </table>
-      <td align="center"><input type="submit" value="±¸¸ÅÇÏ±â"></td>
-	  <!--  table End /////////////////////////////////////-->
-        
+         <!--  í™”ë©´êµ¬ì„± div End /////////////////////////////////////-->
 
-        <hr>
-        °áÁ¦¹æ½Ä : 
-        <input type="radio" name="payMethod" value="accountTransfer" checked /> °èÁÂÀÌÃ¼
-        <input type="radio" name="payMethod" value="cardPayment" /> Ä«µå°áÁ¦
-        <input type="radio" name="payMethod" value="simplePayment" /> °£Æí°áÁ¦
-        <input type="radio" name="payMethod" value="kakaoPayment" /> Ä«Ä«¿À ÆäÀÌ
-        <br>
-        <span>
-		»óÇ°¸í :	<input name="name01" value="${ product.productName }" /> Æ÷ÀÎÆ® &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
-        °áÁ¦±İ¾× : <input name="name02" value="È«±æµ¿" /> <br />
-        ÀºÇà¸í :	<input name="name03" value="È«±æµ¿" /> Æ÷ÀÎÆ® &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
-        °èÁÂ¹øÈ£ : <input name="name04" value="È«±æµ¿" /> <br />
-        ¹Ş´Â»ç¶÷ : <input type="hidden" value="È«±æµ¿" />
-        <!-- label Tag »ç¿ë / ¹Ì»ç¿ëÀÇ Â÷ÀÌÁ¡ : ÀÌ¸§ 3À» Click ÇØº¸¸é... -->
-		</span>
-        <hr/>
 
- 	<!--  È­¸é±¸¼º div End /////////////////////////////////////-->
- 		
-	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_new.jsp"/>
-	<!-- PageNavigation End... --> 	
 
-	
+      </div>
+   </form>
 </body>
-
 </html>

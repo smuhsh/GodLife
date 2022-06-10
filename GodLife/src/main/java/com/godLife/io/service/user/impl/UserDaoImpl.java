@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("UserMapper.getUser", userEmail);
 	}
 	
-	public User getUserTarget(String nick) throws Exception {
+	public List<User> getUserTarget(String nick) throws Exception {
 		return sqlSession.selectOne("UserMapper.getUserTarget", nick);
 	}
 	
@@ -203,6 +203,7 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.insert("OneInqMapper.addOneInq", oneInq);
 	}
 	
+	
 	public Map<String, Object> getOneInqList(Search search, String userEmail) throws Exception {
 		
 		   Map<String, Object> map=new HashMap<String, Object>();
@@ -217,6 +218,7 @@ public class UserDaoImpl implements UserDao{
 		   
 		   return map;
 	}
+	
 	
 	public OneInq getOneInq(int oneInqNo) throws Exception {
 		return sqlSession.selectOne("OneInqMapper.getOneInq", oneInqNo);
@@ -241,9 +243,6 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	
-	
-	
-
 	public void updateUserRedCouponCount(User user) throws Exception{
 		sqlSession.update("userMapper.updateUserRedCouponCount",user );
 	}
@@ -255,18 +254,23 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	
-	
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. 
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 		}
 	
-	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return, 
-	public int getTotalCount1(Search search) throws Exception {
-		return sqlSession.selectOne("FriendBlackMapper.getTotalCount", search);
-		}
-
 	
+	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. 
+	public int getUserRecvMsgTotalCount(Search search, String recvEmail) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		
+		map.put("search", search);
+		map.put("recvEmail", recvEmail);
+		
+		return sqlSession.selectOne("MsgMapper.getUserRecvMsgTotalCount", map);
+		
+		}
 	
 	
 	

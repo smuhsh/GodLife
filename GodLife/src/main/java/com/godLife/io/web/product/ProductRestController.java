@@ -126,56 +126,93 @@ public Product getProductPoint( @PathVariable int productNo ) throws Exception {
 	return product;
 }
 
-///////////////////////2022.04.27//////////////////////////////////
-////////////////GEt방식이 안돼/////////////////////////////////////////	
+///////////////////////상품 수정//////////////////////////////////
 
-//	@RequestMapping("/updateProductView.do")
-//	public String updateProductView( @RequestParam("prodNo") int prodNo , Model model ) throws Exception{
-	@RequestMapping( value="json/updateProduct/{prodNo}", method=RequestMethod.GET )
-	public Product updateProduct( @PathVariable int prodNo ) throws Exception{	
+	@RequestMapping( value="json/updateProductCoupon/{productNo}", method=RequestMethod.GET )
+	public Product updateProductCoupon( @PathVariable int productNo ) throws Exception{	
 
-//		System.out.println("/updateProductView.do");
-		System.out.println("/product/json/updateProduct : GET");
-		
+		System.out.println("/product/json/updateProductCoupon : GET");
 		//Business Logic
-		Product product = productService.getProduct(prodNo);
-		// Model 과 View 연결
-//		model.addAttribute("product", product);
-		
-//		return "forward:/product/updateProductView.jsp";
-//		return "redirect:/product/updateProduct.jsp"; 
-		//이렇게 하니 상품수정 버튼이 안눌러짐 => 경로가 updateProduct여기로 갔다가 거기에 있는 fncupdate를 받게 됨
+		Product product = productService.getProductCoupon(productNo);
+
 		return product;
-		
 	}
 
-////////////////GEt방식이 안돼/////////////////////////////////////////	
+	@RequestMapping( value="json/updateProductCoupon", method=RequestMethod.POST )
+	public Product updateProductCoupon( @RequestBody Product product, HttpSession session) throws Exception{
 
-///////////////////////2022.04.27//////////////////////////////////	
-//@RequestMapping("/updateProduct.do")
-//public String updateProduct( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
-@RequestMapping( value="json/updateProduct", method=RequestMethod.POST )
-public Product updateProduct( @RequestBody Product product, HttpSession session) throws Exception{
-
-
-//	System.out.println("/updateProduct.do");
-	System.out.println("/product/json/updateProduct : POST");
+	System.out.println("/product/json/updateProductCoupon : POST");
 	
 	//Business Logic
-	productService.updateProduct(product);
+	productService.updateProductCoupon(product);
 	
 	if(session.getAttribute("product") != null) {
 	
-	int sessionId=((Product)session.getAttribute("product")).getProdNo();
-	if(sessionId == (product.getProdNo())){
+	int sessionId=((Product)session.getAttribute("product")).getProductNo();
+	if(sessionId == (product.getProductNo())){
 		session.setAttribute("product", product);
 		}
 	}
-	
-//	return "redirect:/getProduct.do?prodNo=" + product.getProdNo();
 	return product;
 }
 
+	@RequestMapping( value="json/updateProductVoucher/{productNo}", method=RequestMethod.GET )
+	public Product updateProductVoucher( @PathVariable int productNo ) throws Exception{	
+
+		System.out.println("/product/json/updateProductVoucher : GET");
+		//Business Logic
+		Product product = productService.getProductVoucher(productNo);
+
+		return product;
+	}
+
+	@RequestMapping( value="json/updateProductVoucher", method=RequestMethod.POST )
+	public Product updateProductVoucher( @RequestBody Product product, HttpSession session) throws Exception{
+
+	System.out.println("/product/json/updateProductVoucher : POST");
+	
+	//Business Logic
+	productService.updateProductVoucher(product);
+	
+	if(session.getAttribute("product") != null) {
+	
+	int sessionId=((Product)session.getAttribute("product")).getProductNo();
+	if(sessionId == (product.getProductNo())){
+		session.setAttribute("product", product);
+		}
+	}
+	return product;
+}
+	
+	@RequestMapping( value="json/updateProductPoint/{productNo}", method=RequestMethod.GET )
+	public Product updateProductPoint( @PathVariable int productNo ) throws Exception{	
+
+		System.out.println("/product/json/updateProductPoint : GET");
+		//Business Logic
+		Product product = productService.getProductPoint(productNo);
+
+		return product;
+	}
+
+	@RequestMapping( value="json/updateProductPoint", method=RequestMethod.POST )
+	public Product updateProductPoint( @RequestBody Product product, HttpSession session) throws Exception{
+
+	System.out.println("/product/json/updateProductPoint : POST");
+	
+	//Business Logic
+	productService.updateProductPoint(product);
+	
+	if(session.getAttribute("product") != null) {
+	
+	int sessionId=((Product)session.getAttribute("product")).getProductNo();
+	if(sessionId == (product.getProductNo())){
+		session.setAttribute("product", product);
+		}
+	}
+	return product;
+}
+	
+	
 ///////////////////////2022.04.27//////////////////////////////////
 //@RequestMapping("/listProduct.do")
 //public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
@@ -283,8 +320,35 @@ public Map getProductPointList( @RequestBody Search search , HttpServletRequest 
 
 
 /////////////////////////////////////////////////////////////////////////////	
+	@RequestMapping( value="json/deleteProductCoupon", method=RequestMethod.POST )
+	public void deleteProductCoupon( @PathVariable Product productNo) throws Exception {
+	
+	//Data가 들어온지 혹인 하기 위해 json 넣어주기
+	System.out.println("/product/json/deleteProductCoupon : POST");
+	//Business Logic
+	productService.deleteProductCoupon(productNo);
+	
+	}
 
-
+	@RequestMapping( value="json/deleteProductVoucher", method=RequestMethod.POST )
+	public void deleteProductVoucher( @PathVariable Product productNo) throws Exception {
+	
+	//Data가 들어온지 혹인 하기 위해 json 넣어주기
+	System.out.println("/product/json/deleteProductVoucher : POST");
+	//Business Logic
+	productService.deleteProductVoucher(productNo);
+	
+	}
+	
+	@RequestMapping( value="json/deleteProductPoint", method=RequestMethod.POST )
+	public void deleteProductPoint( @RequestBody Product productNo, HttpSession session) throws Exception {
+	
+	//Data가 들어온지 혹인 하기 위해 json 넣어주기
+	System.out.println("/product/json/deleteProductPoint : POST");
+	//Business Logic
+	productService.deleteProductPoint(productNo);
+	
+	}
 
 
 

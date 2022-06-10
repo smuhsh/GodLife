@@ -1,6 +1,7 @@
 package com.godLife.io.web.product;
 
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
@@ -148,34 +151,83 @@ public class ProductController {
 		
 		return "forward:/product/getProductPoint.jsp";
 	}
-	/////////////////////////////////Pass/////////////////////////////	
-
+/////////////////////////////////////////////Update 상품/////////////////////////////	
+///////////쿠폰 상품
 	
-	@RequestMapping( value="updateProduct", method=RequestMethod.GET )
-	public String updateProduct( @RequestParam("productNo") int productNo , Model model ) throws Exception{	
+	@RequestMapping( value="updateProductCouponView", method=RequestMethod.GET )
+	public String updateProductCoupon( @RequestParam("productNo") int productNo , Model model ) throws Exception{	
 	
-		System.out.println("/product/updateProduct : GET");
+		System.out.println("/product/updateProductCouponView : GET");
 		
 		//Business Logic
-		Product product = productService.getProduct(productNo);
+		Product product = productService.getProductCoupon(productNo);
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
-		return "forward:/product/updateProductView.jsp";
+		return "forward:/product/updateProductCouponView.jsp";
 
 	}
 
+	@RequestMapping( value="updateProductCoupon", method=RequestMethod.POST )
+	public String updateProductCoupon( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
 
-	@RequestMapping( value="updateProduct", method=RequestMethod.POST )
-	public String updateProduct( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
-
-		System.out.println("/product/updateProduct : POST");
+		System.out.println("/product/updateProductCoupon : POST");
 		
 		//Business Logic
-		productService.updateProduct(product);
+		productService.updateProductCoupon(product);
 
-		return "redirect:/product/getProduct?productNo="+product.getProductNo();
+		return "forward:/product/getProductCouponList?productNo="+product.getProductNo();
 	}
+///////////상품권 상품
+	@RequestMapping( value="updateProductVoucherView", method=RequestMethod.GET )
+	public String updateProductVoucher( @RequestParam("productNo") int productNo , Model model ) throws Exception{	
+	
+		System.out.println("/product/updateProductVoucherView : GET");
+		
+		//Business Logic
+		Product product = productService.getProductVoucher(productNo);
+		// Model 과 View 연결
+		model.addAttribute("product", product);
+		
+		return "forward:/product/updateProductVoucherView.jsp";
+
+	}
+
+	@RequestMapping( value="updateProductVoucher", method=RequestMethod.POST )
+	public String updateProductVoucher( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
+
+		System.out.println("/product/updateProductVoucher : POST");
+		
+		//Business Logic
+		productService.updateProductVoucher(product);
+
+		return "forward:/product/getProductVoucherList?productNo="+product.getProductNo();
+	}
+///////////포인트 상품
+	@RequestMapping( value="updateProductPointView", method=RequestMethod.GET )
+	public String updateProductPoint( @RequestParam("productNo") int productNo , Model model ) throws Exception{	
+	
+		System.out.println("/product/updateProductPointView : GET");
+		
+		//Business Logic
+		Product product = productService.getProductPoint(productNo);
+		// Model 과 View 연결
+		model.addAttribute("product", product);
+		
+		return "forward:/product/updateProductPointView.jsp";
+
+	}
+
+	@RequestMapping( value="updateProductPoint", method=RequestMethod.POST )
+	public String updateProductPoint( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
+
+		System.out.println("/product/updateProductPoint : POST");
+		
+		//Business Logic
+		productService.updateProductPoint(product);
+
+		return "redirect:/product/getProductPointList?productNo="+product.getProductNo();
+	}	
 //////////////////////////////////////////////////////////////////
 	@RequestMapping( value="getProductCouponList" )
 	public String getProductCouponList( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
@@ -259,19 +311,59 @@ public class ProductController {
 	
 //////////////////////////////////////////////////////////////////	
 	
-	
-	
-	@RequestMapping (value = "deleteProduct")
-	public String deleteProduct( @ModelAttribute("product") Product productNo , Model model ) throws Exception {
-		
-	System.out.println("/product/deleteProduct : POST");
+	@RequestMapping (value = "deleteProductCoupon")
+	public String deleteProductCoupon( @ModelAttribute("product") Product productNo , Model model ) throws Exception {
+	System.out.println("/product/deleteProductCoupon : POST");
 	//Business Logic
-	productService.deleteProduct(productNo);
-
-	return "redirect:/product/listProduct.jsp";
+	productService.deleteProductCoupon(productNo);
 	
-	
+	return "forward:/product/getProductCouponList";
 	}
+
+	@RequestMapping (value = "deleteProductVoucher")
+	public String deleteProductVoucher( @ModelAttribute("product") Product productNo , Model model ) throws Exception {
+	System.out.println("/product/deleteProductVoucher : POST");
+	//Business Logic
+	productService.deleteProductCoupon(productNo);
+	
+	return "forward:/product/getProductVoucherList";
+	}
+
+	@RequestMapping (value = "deleteProductPoint")
+	public String deleteProductPoint( @ModelAttribute("product") Product productNo , Model model ) throws Exception {
+	System.out.println("/product/deleteProductPoint : POST");
+	//Business Logic
+	productService.deleteProductPoint(productNo);
+	
+	return "forward:/product/getProductPointList";
+	}
+/////////////////////파일 업로드/////////////////////////////////////////////	
+	 @RequestMapping(value = "requestupload1")
+	    public String requestupload1(MultipartHttpServletRequest mtfRequest) {
+	        String src = mtfRequest.getParameter("src");
+	        System.out.println("src value : " + src);
+	        MultipartFile mf = mtfRequest.getFile("file");
+
+	        String path = "C:\\image\\";
+
+	        String originFileName = mf.getOriginalFilename(); // 원본 파일 명
+	        long fileSize = mf.getSize(); // 파일 사이즈
+
+	        System.out.println("originFileName : " + originFileName);
+	        System.out.println("fileSize : " + fileSize);
+
+	        String safeFile = path + System.currentTimeMillis() + originFileName;
+
+	        try {
+	            mf.transferTo(new File(safeFile));
+	        } catch (IllegalStateException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+
+	        return "redirect:/";
+	    }
 	
 	
 	
