@@ -55,6 +55,14 @@
 	<!--  :: FileUpload를 위한 MultiPartResolver 선언 -->	
     <bean id="multipartResolver"
 				class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
+				
+	
+	<!-- 파일 경로  -->
+	<bean id="uploadPath" class="java.lang.String">
+    <constructor-arg value="C:\Users\bitcamp\git\GodLife\GodLife\src\main\webapp\images\uploadFiles"/>
+   </bean>			
+				
+				
 	
 	
 	<!--	
@@ -65,13 +73,14 @@
 	    실제 PJT 진행시 일반적으로 resources 폴더를 만들고 폴더내부에
 	     css , image, js 등 넣어 관리하며 아래와 같이 1번의 설정으로 관리
 	     <mvc:resources mapping="/resources/**" location="/resources/" />
+	     
 	--> 
 	<mvc:resources mapping="/css/**" location="/css/" />
    	<mvc:resources mapping="/images/**" location="/images/" />
    	<mvc:resources mapping="/javascript/**" location="/javascript/" />
    	<mvc:resources mapping="/summernoteImage/**" location="file:///C:/summernote_image/" />
    	
-
+   	
 	<!-- 	:: exception resolver  선언 :: 서술적 / 선언적 예외처리 
 			:: Servlet 에서의 선언적 예외처리를 다시 생각하며....  -->
 	<bean id="exceptionResolver"
