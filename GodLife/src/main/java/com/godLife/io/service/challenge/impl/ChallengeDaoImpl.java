@@ -60,7 +60,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 				//전체 목록 조회 challengeListOpt = total;
 				System.out.println("로그인");
 				List<String> black = new ArrayList<String>();
-				
+				List<String> friend = new ArrayList<String>();
 				List<String> targetEmail = sqlSession.selectList("ChallengeMapper.getFbTarget",map);
 				List<String> userEmail = sqlSession.selectList("ChallengeMapper.getFbUser",map);
 				
@@ -78,6 +78,27 @@ public class ChallengeDaoImpl implements ChallengeDao {
 				System.out.println("black : "+black);
 				
 				map.put("black", black);
+				
+				targetEmail = sqlSession.selectList("ChallengeMapper.getFbTarget",map);
+				userEmail = sqlSession.selectList("ChallengeMapper.getFbUser",map);
+				
+				if(targetEmail != null) {
+					for(int i=0; i<targetEmail.size(); i++) {
+						friend.add(targetEmail.get(i));
+					}
+				}
+				if(userEmail != null) {
+					for(int i=0; i<userEmail.size(); i++) {
+						friend.add(userEmail.get(i));
+					}
+				}
+				
+				System.out.println("friend : "+friend);
+				System.out.println(friend.size());
+				if(friend.size() != 0) {
+					map.put("friend", friend);
+				}
+				
 				
 				List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeListLogin",map);
 				

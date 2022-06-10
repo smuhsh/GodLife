@@ -77,6 +77,8 @@ public class ChallengeController {
 		
 		challenge.setJoinCount(1);
 		
+		challenge.setChallengeStatus("0");
+		
 		challenge = ChallengeUtil.certiCycle(challenge);
 		
 		joinChallenger.setEmail(challenge.getHostEmail());
