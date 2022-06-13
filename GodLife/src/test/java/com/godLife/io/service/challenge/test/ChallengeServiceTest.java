@@ -76,7 +76,7 @@ public class ChallengeServiceTest {
 		//certiCycle.add("6");//금
 		//certiCycle.add("7");//토
 		
-		challenge.setHostEmail("user01@io.com");//HostEmail
+		challenge.setHostEmail("user04@io.com");//HostEmail
 		User user = userService.getUser(challenge.getHostEmail());
 		challenge.setHostNick(user.getNick());
 		challenge.setChallengeTitle("테스트 챌린지"); // 챌린지 제목
@@ -87,7 +87,7 @@ public class ChallengeServiceTest {
 		challenge.setStartDate("2022-06-08"); // 시작 날짜
 		challenge.setEndDate("2022-06-18"); // 종료 날짜
 		challenge.setCertiCycle(certiCycle); // 인증주기
-		challenge.setOpenRange("0");//0이면 전체 1이면 친구
+		challenge.setOpenRange("1");//0이면 전체 1이면 친구
 		challenge.setJoinPoint(1000);// 입장 포인트
 		challenge.setJoinCount(1);//호스트 기본참여자명
 		challenge.setChallengeStatus("0");// 0 시작전 1 진행중 2 종료
@@ -114,7 +114,7 @@ public class ChallengeServiceTest {
 		Search search = new Search();
 		
 		
-		search.setCurrentPage(2);
+		search.setCurrentPage(3);
 		
 		search.setPageSize(pageSize);
 		
@@ -211,11 +211,11 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void deleteChallenge() {
 		//10007 ~ 10011
 		
-		int challengerNo = 10006;
+		int challengerNo = 10022;
 		
 		Map<String,Object> map = challengeService.deleteChallenge(challengerNo);
 		

@@ -18,6 +18,7 @@ public class Point {
 	private Date regDate;
 	private String phone;
 	private String productName;
+	private String nick;
 	
 	
 	public int getPurchaseNO() {
@@ -88,7 +89,8 @@ public class Point {
 		return "Point [purchaseNo=" + purchaseNo + ", userEmail=" + userEmail + ", useStatus=" + useStatus
 				+ ", productNo=" + productNo + ", payOpt=" + payOpt + ", cash=" + cash + ", point=" + point
 				+ ", useDetail=" + useDetail + ", voucherUniqueNo=" + voucherUniqueNo + ", donationPlace="
-				+ donationPlace + ", regDate=" + regDate + ", phone=" + phone + ", productName=" + productName + "]";
+				+ donationPlace + ", regDate=" + regDate + ", phone=" + phone + ", productName=" + productName
+				+ ", nick=" + nick + "]";
 	}
 	
 	public String getPhone() {
@@ -111,5 +113,17 @@ public class Point {
 	}
 	public String getVoucherUniqueNo(){
 		return voucherUniqueNo;
+	}
+	/**
+	 * @return the nick
+	 */
+	public String getNick() {
+		return nick;
+	}
+	/**
+	 * @param nick the nick to set
+	 */
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 }

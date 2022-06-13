@@ -19,7 +19,8 @@
 		<result property="donationPlace"   column="DONATION_PLACE"    jdbcType="VARCHAR" />
 		<result property="regDate" 		   column="REG_DATE" 		  jdbcType="DATE" />
 		<result property="phone"     	   column="PHONE"             jdbcType="VARCHAR" />
-		<result property="productName"     column="PRODUCT_NAME"             jdbcType="VARCHAR" />
+		<result property="productName"     column="PRODUCT_NAME"      jdbcType="VARCHAR" />
+		<result property="nick"            column="NICK"              jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<insert id="addPointPurchaseProduct" parameterType="point">
@@ -105,12 +106,37 @@
 									<where>
 									user_email=#{userEmail}
 									AND use_detail = '7'
+									<if test="search.searchCondition != null">
+										<!--기부처 조회 -->
+										<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										AND DONATION_PLACE like '%${search.searchKeyword}%'
+										</if>
+										<!--기부 금액 -->
+										<if test="search.searchCondition ==1 and search.searchKeyword !='' ">
+										AND point like '%${search.searchKeyword}%' 
+										</if>
+										<!--기부 날짜 -->
+										<if test="search.searchCondition ==2 and search.searchKeyword !='' ">
+										AND reg_date like '%${search.searchKeyword}%'
+										</if>
+									</if>
 									</where>
 									ORDER BY purchase_no ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
-
+	
+	<select id="getPointPurchaseDonationRank" parameterType="point" resultMap="pointSelectMap">
+		SELECT rank.nick nick,rank.total point
+		FROM (SELECT u.nick nick,SUM(point) total 
+		  		FROM users u, purchase p
+		  		WHERE u.user_Email=p.user_Email
+		  		AND use_detail = '7'
+          		GROUP BY nick
+		  		ORDER BY total DESC) rank
+		WHERE ROWNUM &lt; 4
+	</select>
+	
 	<select id="getTotalCount" parameterType="user" resultType="int">
 		SELECT COUNT(*)
 		FROM( SELECT purchase_no
@@ -131,13 +157,29 @@
 			)countTable
 	</select>
 	
-	<select id="getDonationTotalCount" parameterType="user" resultType="int">
+	<select id="getDonationTotalCount" parameterType="map" resultType="int">
 	SELECT COUNT(*)
 	FROM(SELECT user_email,purchase_no,donation_place,point,reg_date,use_detail
-		FROM purchase
-		WHERE user_email=#{userEmail}
-		AND use_detail = '7'
-		)countTable
+									FROM purchase
+									<where>
+									user_email=#{userEmail}
+									AND use_detail = '7'
+									<if test="search.searchCondition != null">
+										<!--기부처 조회 -->
+										<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										AND DONATION_PLACE like '%${search.searchKeyword}%'
+										</if>
+										<!--기부 금액 -->
+										<if test="search.searchCondition ==1 and search.searchKeyword !='' ">
+										AND point like '%${search.searchKeyword}%' 
+										</if>
+										<!--기부 날짜 -->
+										<if test="search.searchCondition ==2 and search.searchKeyword !='' ">
+										AND reg_date like '%${search.searchKeyword}%'
+										</if>
+									</if>
+									</where>
+									ORDER BY purchase_no )countTable
 	</select>
 
 </mapper>

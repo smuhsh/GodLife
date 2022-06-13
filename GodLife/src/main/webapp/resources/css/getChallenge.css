@@ -1,0 +1,115 @@
+@charset "UTF-8";
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}
+
+        body {
+            padding-top : 70px;
+            background-size: cover;
+            font-family: 'oneMobile';
+        }
+
+		
+		h2.page-header{
+			font-family: 'oneMobile';
+		}
+		
+		div.thumbnail{
+			width:900px;
+        	position:relative;
+        	right:3px;
+		}
+		
+		img{
+			width:850px;
+        	height:230px;
+        	position:relative;
+        	left:15px;
+		}
+		
+		
+		div#imgArea{
+        	width:850px;
+        	height:230px;
+        	position:relative;
+        	left:5px;
+        	top:5px;
+        }
+        
+        #title{
+        	position:relative;
+        	top:40px;
+        	font-size:40px;
+        	text-align:center;
+        	
+        }
+        
+        .rightInfo{
+        	position:relative;
+        	left:695px;
+        }
+        
+        #joinCount{
+        	position:relative;
+        	bottom:50px;
+        }
+        
+        div#certiCycle{
+        	display:flex;
+        }
+        
+        div#hostArea{
+        	display:flex;
+        	position:relative;
+        	right:20px;
+        }
+        
+        img#profile{
+        	width:50px;
+        	height:50px;
+        	position:relative;
+        	right:100px;
+        	border-radius: 30px 30px 30px 30px
+        }
+        
+        p#nick{
+        	font-size:30px;
+        	position:relative;
+        	left:30px;
+        }
+        
+        p#categ{
+        	font-size:20px;
+        }
+        
+        textarea{
+        	width:100%;
+        	height:100px;
+        	resize:none;
+        	text-align:center;
+        	font-size:17px;
+        	
+        }
+        
+        p#detail{
+        	text-align:center;
+        	font-size:20px;
+        }
+        
+        p#rule{
+        	text-align:center;
+        	font-size:20px;
+        }
+        
+        div#centerButton{
+        	display:flex;
+        	position:relative;
+        	left : 300px;
+        	padding-bottom:30px;
+        }
+        
+        div#rigthButton{
+        	flex-direction: row-reverse;
+        }
+        

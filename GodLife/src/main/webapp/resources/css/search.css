@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}
+
+input#searchKeyword{
+	width:200px;
+	font-family: 'oneMobile';
+}
+#search{
+	height:34px;
+	font-family: 'oneMobile';
+}

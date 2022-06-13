@@ -3,7 +3,9 @@ package com.godLife.io.web.product;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,6 +53,10 @@ public class ProductController {
 	//@Value("#{commonProperties['pageSize'] ?: 2}")
 	int pageSize;
 	
+	  @Resource(name="uploadPath")
+	    String uploadPath;
+	
+	
 ////////////////////////////////////////////////////////	
 	@RequestMapping( value="addProductCouponView", method=RequestMethod.GET )
 	public String addProductCoupon() throws Exception {
@@ -60,14 +67,25 @@ public class ProductController {
 	}
 
 	@RequestMapping( value="addProductCoupon", method=RequestMethod.POST )
-	public String addProductCoupon( @ModelAttribute("product") Product product ) throws Exception {
+	public String addProductCoupon( @ModelAttribute("product") Product product, 
+								@RequestParam ("imageUpload" )  MultipartFile file) throws Exception {
 		
 		System.out.println("/product/addProductCoupon : POST");
 		//Business Logic
+		
+		String fileName = file.getOriginalFilename();
+		//System.out.println("After : getOriginalFilename ");
+		
+		
+		//System.out.println("Byte : " + file.getBytes());
+		 fileName =  uploadFile(fileName, file.getBytes());   // 파일 이름 중복 제거 
+		//System.out.println("파일이름" +  fileName );
+		
+		product.setProductImg(fileName);
+		
 		productService.addProductCoupon(product);
-
-		return "forward:/product/getProductCouponList.jsp";
-
+		//Redirect로 안하고 Forward로 했을때는 Session때문인지 새로고침 할때마다 반복된 행동으로 계속 추가 됨
+		return "redirect:/product/getProductCouponList?productNo="+product.getProductNo();
 	}
 	
 	@RequestMapping( value="addProductVoucherView", method=RequestMethod.GET )
@@ -86,7 +104,7 @@ public class ProductController {
 		productService.addProductVoucher(product);
 
 		return "forward:/product/getProductVoucherList.jsp";
-
+		
 	}
 	
 	@RequestMapping( value="addProductPointView", method=RequestMethod.GET )
@@ -167,17 +185,81 @@ public class ProductController {
 		return "forward:/product/updateProductCouponView.jsp";
 
 	}
-
+//세팅 화면에서 이미지 바꾸고 싶다면...이라고 생각하면서 만든 컨트롤러... 맞나?	
+//	@RequestMapping( value="updateProductCouponImage", method=RequestMethod.POST )
+//	public String updateProductCouponImage( @RequestParam ("imageUpload" )  MultipartFile file, HttpSession session,
+//			@RequestParam("productNo") int productNo , Model model) throws Exception {
+//		System.out.println("/product/updateProductCouponImage");
+//		System.out.println(productNo);
+//		
+//	
+//		
+//		
+//		
+//		
+//		
+//		return "forward:/product/updateProductCouponView";
+//		
+//	}
+	
+	
+ 
+	
+	
+	
+	
+	
+	
+//이미지 업로드
 	@RequestMapping( value="updateProductCoupon", method=RequestMethod.POST )
-	public String updateProductCoupon( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
+	public String updateProductCoupon( @ModelAttribute("product") Product product , Model model , HttpSession session,
+									   @RequestParam ("imageUpload" )  MultipartFile file) throws Exception{
 
 		System.out.println("/product/updateProductCoupon : POST");
+		
+		//System.out.println("Before : getOriginalFilename ");
+		String fileName = file.getOriginalFilename();
+		//System.out.println("After : getOriginalFilename ");
+		
+		
+		//System.out.println("Byte : " + file.getBytes());
+		 fileName =  uploadFile(fileName, file.getBytes());   // 파일 이름 중복 제거 
+		//System.out.println("파일이름" +  fileName );
+		
+		product.setProductImg(fileName);
 		
 		//Business Logic
 		productService.updateProductCoupon(product);
 
 		return "forward:/product/getProductCouponList?productNo="+product.getProductNo();
 	}
+
+	   //이미지 업로드 파일명 랜덤 생성 메서드
+    private String uploadFile(String originalName, byte[] fileData) throws Exception{
+    
+        // uuid 생성 
+        UUID uuid = UUID.randomUUID();
+        
+        //savedName 변수에 uuid + 원래 이름 추가
+        String savedName = uuid.toString()+"_"+originalName;
+        System.out.println("Before : target path " + uploadPath);
+
+        //uploadPath경로의 savedName 파일에 대한 file 객체 생성
+        File target = new File(uploadPath, savedName);
+        //fileData의 내용을 target에 복사함
+        System.out.println("Before : FileCopyUtils");
+        System.out.println("Before : target " + target);
+
+        FileCopyUtils.copy(fileData, target);	
+        
+        System.out.println("After : FileCopyUtils");
+        
+        return savedName;
+    }	
+	
+	
+	
+	
 ///////////상품권 상품
 	@RequestMapping( value="updateProductVoucherView", method=RequestMethod.GET )
 	public String updateProductVoucher( @RequestParam("productNo") int productNo , Model model ) throws Exception{	
@@ -219,10 +301,11 @@ public class ProductController {
 	}
 
 	@RequestMapping( value="updateProductPoint", method=RequestMethod.POST )
-	public String updateProductPoint( @ModelAttribute("product") Product product , Model model , HttpSession session) throws Exception{
+	public String updateProductPoint( @ModelAttribute("product") Product product , Model model , HttpSession session
+										) throws Exception{
 
 		System.out.println("/product/updateProductPoint : POST");
-		
+
 		//Business Logic
 		productService.updateProductPoint(product);
 
