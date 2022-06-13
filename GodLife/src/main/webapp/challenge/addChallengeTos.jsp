@@ -23,8 +23,9 @@
 	
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 	<style>
-        body {
+         body {
             padding-top : 70px;
+            background-size: cover;
         }
         
         p {

@@ -27,6 +27,7 @@
 	<style>
         body {
             padding-top : 70px;
+            background-size: cover;
         }
         
        	p{
