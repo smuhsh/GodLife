@@ -18,4 +18,7 @@ public interface PointService {
 	
 	public Map<String,Object> getPointPurchaseDonationList(Search search,User user) throws Exception;
 	
+	public Map<String,Object> getPointPurchaseDonationRank(Point point) throws Exception;
+	
 }
+

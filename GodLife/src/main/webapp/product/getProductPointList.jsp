@@ -79,6 +79,7 @@ div.box {
       var useStatus = $("input[name='useStatus']").val();
       var useDetail = $("input[name='useDetail']").val();
 
+      
       alert(payOpt + " : payOpt   " + productNo + ": productNo   "
             + useStatus + ":useStatus  " + useDetail + ":useDetail");
       $("form").attr("method", "POST").attr("action",
@@ -135,6 +136,41 @@ div.box {
 		   }
 	});
   }
+  
+  $(function() {
+      $(".payco").on("click", function() {
+    	  fncPayco();
+      });
+   });
+  
+  function fncPayco(){
+		var productName = $('input[name="productName"]').val();
+		var productPrice = $('input[name="productPrice"]').val();
+		var userEmail = $('input[name="userEmail"]').val();
+		var nick = $('input[name="nick"]').val();
+		var phone = $('input[name="phone"]').val();
+		  
+		var IMP = window.IMP;
+		IMP.init('imp68438670');
+		IMP.request_pay({
+		    pg : 'payco',
+		    pay_method : 'card', //생략 가능
+		    merchant_uid: 'merchant_'+new Date().getTime(), // 상점에서 관리하는 주문 번호
+		    name : productName,
+		    amount : productPrice,
+		    buyer_email : userEmail,
+		    buyer_name : nick,
+		    buyer_tel : phone
+		    
+		}, function(rsp) { // callback 로직
+			if(rsp.success){
+				   alert("완료-> imp_uid: "+rsp.imp_uid+" / merchant_uid(orderkey): "+rsp.merchant_uid);
+				   fncAddPointPurchasePoint();
+			   } else{
+				   alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg +")");
+			   }
+		});
+	  }
 </script>
 </head>
 
@@ -214,6 +250,7 @@ div.box {
             
             <div id="cardBox" class="box" >
             카드결제
+            <button type="button" class="payco">구매</button>
             <hr/>
             </div>
             <div id="kakaoBox" class="box" >

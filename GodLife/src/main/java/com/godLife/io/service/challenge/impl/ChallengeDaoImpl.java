@@ -89,7 +89,8 @@ public class ChallengeDaoImpl implements ChallengeDao {
 			}else {
 				//그외 목록 조회 challengeListOpt = pick / join / add
 				List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeList",map);
-				int totalCount = 0;
+				int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeListCount",map);
+				System.out.println("DAO : "+totalCount);
 				map.put("totalCount", totalCount);
 				map.put("list", list);
 			}
@@ -197,7 +198,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		map.put("challengeNo",challengeNo);
 		
 		sqlSession.delete("ChallengeMapper.deleteCertiCycle",challengeNo);//인증주기 삭제
-		sqlSession.delete("ChallengeMapper.deleteCertiImg",map);
+//		sqlSession.delete("ChallengeMapper.deleteCertiImg",map);
 		sqlSession.delete("ChallengeMapper.deleteChallengeJoin",joinChallenger);//참여자 목록 삭제
 		//동적 쿼리로 사용하기위해 이 부분만 파라메터를 JoinChallenger로 처리
 		//챌린지 나가기에 같이 사용 (필요정보 : 참여자 이메일 / challengeNo)

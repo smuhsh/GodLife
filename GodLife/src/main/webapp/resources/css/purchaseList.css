@@ -4,46 +4,13 @@
 		    font-family: 'oneMobile';
 		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
 		}
-
-		
-		.input-group{
-			display:flex;
-			padding-bottom : 30px;
-		}
-		
-		
 		
         body {
             padding-top : 70px;
             background-size: cover;
         }
         
-        
-        img{
-        	width : 230px;
-        	height : 230px;
-        }
-        
-        div.thumbnail{
-        	width:250px;
-        	height:375px;
-        }
-        div#imgArea{
-        	width:230px;
-        	height:230px;
-        	position:relative;
-        	left:5px;
-        	top:5px;
-        }
-        div#startEndDate{
-        	position:relative;
-        	top:100px;
-        	left:4px;
-        	font-family: 'oneMobile';
-        	font-size : 13px;
-        }
-        
-        h4#title{
+        h3{
         	overflow:hidden;
         	text-overflow:ellipsis;
         	white-space:nowrap;
@@ -58,9 +25,8 @@
         	font-family: 'oneMobile';
         }
        	
-       	h5.info{
+       	p.text-primary{
        		position:relative;
-       		bottom:32px;
        		font-family: 'oneMobile';
        	}
        	h5.info#categ{
@@ -73,16 +39,7 @@
        		left:145px;
        		font-family: 'oneMobile';
        	}
-       	h5#regDate{
+       	td{
        		position:relative;
-       		bottom:65px;
        		font-family: 'oneMobile';
-       	}
-       	.delete{
-       		font-family: 'oneMobile';
-       		position:relative;
-       		bottom:113px;
-       		left:158px;
-       		text-decoration: none;
-       		color:black;
        	}

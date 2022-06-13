@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html>
 <head>
-<title>±âºÎ ¸ñ·Ï</title>
+<title>ê¸°ë¶€ ëª©ë¡</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -16,13 +16,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<link rel="stylesheet" href="/resources/css/purchaseList.css" type="text/css">
 	
-	<style>
-	  body {
-            padding-top : 70px;
-        }
-        
-    </style>
 	<script type="text/javascript">
 	
 
@@ -32,137 +27,75 @@ function fncGetList(currentPage) {
    
 	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseDonationList").submit();
 }
-$(function() {
-	 
-	$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
-		self.location ="/purchase/getPurchase?tranNo="+$(this).children("input").val();
-	});
-	
-	$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
-			self.location ="/user/getUser?userId="+$(this).children("input").val();
-	});
-	
-	$( ".ct_list_pop td:nth-child(5)" ).on("click" , function() {
-		var tranNo = $(this).children("input").val().trim();
-		$.ajax({
-			url : "/purchase/json/getPurchase/" + tranNo,
-			method : "GET",
-			dataType : "json",
-			headers : {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			success : function(JSONData, status) {
-
-				//alert(status);
-				//alert("JSONData : \n"+JSONData.tranNo);
-
-				var displayValue = "<h3>" + 
-				"Á¦Ç°¹øÈ£ : "+JSONData.purchaseProd.prodNo + "<br/>" +
-				"±¸¸ÅÀÚ ÀÌ¸§ : "+JSONData.purchaseProd.receiverName + "<br/>" +
-				"Àç°í : "+ JSONData.quantity + "<br/>" +
-				"±¸¸ÅÀÚ ¿¬¶ôÃ³ : "+ JSONData.receiverPhone + "<br/>" +
-				"±¸¸ÅÀÚ ÁÖ¼Ò : "+ JSONData.divyAddr + "<br/>" +
-				"±¸¸Å ¿äÃ» »çÇ×: "+ JSONData.divyRequest + "<br/>" +
-				"¹è¼ÛÈñ¸ÁÀÏ: "+ JSONData.divyDate + "<br/>" +
-				"ÁÖ¹®ÀÏ: "+ JSONData.orderDate + "<br/>" +
-				"»óÇ°ÀÌ¹ÌÁö : <img src=/images/uploadFiles/"+ JSONData.purchaseProd.fileName+ "/><br/>" 
-				"</h3>";
-
-				//alert(displayValue);
-				$("h3").remove();
-				$("#" + tranNo + "").html(displayValue);
-			}
+$(function(){
+		$("button:contains('ê²€ìƒ‰')").on("click",function(){
+			fncGetList(1);
 		});
-	});
-	
-	$(".ct_list_pop td:nth-child(11):contains('¹°°ÇµµÂø')" ).on("click",function() {
-		//alert( $(this).children("input").val() );
-		var tranNo =$(this).children("input").val().trim();
-		self.location="/purchase/updateTranCode?tranNo="+$(this).children("input").val()+"&tranCode=3";
-	});
-	
-
-	
-$( ".ct_list_pop td:nth-child(1)" ).css("color" , "#5F04B4");
-$( ".ct_list_pop td:nth-child(3)" ).css("color" , "#4C0B5F");
-$( ".ct_list_pop td:nth-child(5)" ).css("color" , "#610B5E");
-$( ".ct_list_pop td:contains('¹°°ÇµµÂø')" ).css("color" , "#B4045F");
-//$( ".ct_list_pop td:nth-child(9)" ).css("color" , "red");
-		
-$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
-
 });
 </script>
 </head>
 
 <body>
-	
+<form class="form-inline" name="detailForm">	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>±âºÎ ¸ñ·Ï</h3>
+	       <h3>ê¸°ë¶€ ëª©ë¡</h3>
 	    </div>
 	    
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row">
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
+		    		ì „ì²´  ${resultPage.totalCount } ê±´
 		    	</p>
 		    </div>
 		    
 		    <div class="col-md-6 text-right">
 		    
-			    <form class="form-inline" name="detailForm">
+			    
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>Æ÷ÀÎÆ®ÃæÀü</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>Ã§¸°Áö</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>ÀÌº¥Æ®</option>
-						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>±âºÎ</option>					
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ê¸°ë¶€ì²˜</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>ê¸°ë¶€ê¸ˆì•¡</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>ê¸°ë¶€ë‚ ì§œ</option>				
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
+				    <label class="sr-only" for="searchKeyword">ê²€ìƒ‰ì–´</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="ê²€ìƒ‰ì–´"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>
 				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
+				  <button type="button" class="btn btn-default">ê²€ìƒ‰</button>
 				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
-				</form>
+			
 	    	</div>
 	    	
 		</div>
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 		
 		
 <table class="table table-striped">
+	
 	<tr>
-		<td colspan="11">ÀüÃ¼ ${resultPage.totalCount} °Ç¼ö, ÇöÀç ${resultPage.currentPage } ÆäÀÌÁö</td>
-	</tr>
-	<tr>
-		<td>¹øÈ£<br></td>
-		<td>±âºÎÃ³<br></td>
+		<td>ë²ˆí˜¸<br></td>
+		<td>ê¸°ë¶€ì²˜<br></td>
 		<td></td>
-		<td>±âºÎ¾×</td>
+		<td>ê¸°ë¶€ê¸ˆì•¡</td>
 		<td></td>
-		<td>±âºÎ³¯Â¥</td>
+		<td>ê¸°ë¶€ë‚ ì§œ</td>
 		
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 
 	<c:set var = "i" value = "0"/>
@@ -180,7 +113,7 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 	</c:forEach>
 </table>	
 	
-<!--  ÆäÀÌÁö Navigator ½ÃÀÛ -->
+<!--  í˜ì´ì§€ Navigator ì‹œì‘ -->
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
@@ -192,11 +125,11 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
     	</td>
 	</tr>
 </table>
-<!--  ÆäÀÌÁö Navigator ³¡ -->
+<!--  í˜ì´ì§€ Navigator ë -->
 
-</form>
+
 
 </div>
-
+	</form>
 </body>
 </html>

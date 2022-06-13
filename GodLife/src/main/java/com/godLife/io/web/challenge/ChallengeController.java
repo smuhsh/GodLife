@@ -238,6 +238,8 @@ public class ChallengeController {
 		map.put("search", search);
 		map.put("challengeListOpt", challengeListOpt);
 		
+		System.out.println("challengeListOpt "+challengeListOpt);
+		
 		map = challengeService.getChallengeList(map);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
@@ -252,17 +254,69 @@ public class ChallengeController {
 		
 		model.addAttribute("challengeList",challengeList);
 		model.addAttribute("resultPage",resultPage);
+		model.addAttribute("challengeListOpt",challengeListOpt);
 		
 		return "forward:/challenge/listChallenge.jsp";
 	}
 	
 	
+	
+	
+	@RequestMapping(value="deleteChallenge", method= RequestMethod.POST)
+	public String deleteChallenge(@RequestParam int challengeNo,
+								  User user,
+								  Point point,
+								  Model model)throws Exception {
+		
+		System.out.println("삭제될 챌린지 번호 : "+challengeNo);
+		
+		Map<String,Object> map = challengeService.deleteChallenge(challengeNo);
+		
+		List<String> userList = (List<String>)map.get("challengeJoinList");
+		
+		//챌린지에 참여했던 유저들의 포인트 환불 작업
+		for(String userEmail : userList) {
+			
+			user = userService.getUser(userEmail);
+			
+			point.setUserEmail(user.getUserEmail());
+			
+			point.setUseStatus("1");
+			
+			point.setPoint((Integer)map.get("challengeJoinPoint"));
+			
+			point.setUseDetail("3");
+			
+			map.put("user", user);
+			
+			map.put("point", point);
+			
+			pointService.addPointPurchase(map);
+			
+		}
+		
+		
+		return "redirect:/challenge/listChallenge?challengeListOpt=add";
+	}
+	
 	@RequestMapping(value="getChallenge", method=RequestMethod.GET)
-	public String getChallenge(@RequestParam int challengeNo) {
+	public String getChallenge(@RequestParam int challengeNo,
+							   User user,
+							   HttpSession session,
+							   Map<String,Object> map,
+							   Model model) throws Exception {
 		
+		user = (User)session.getAttribute("user");
+		map.put("user", user);
+		map.put("challengeNo", challengeNo);
+		Challenge challenge = challengeService.getChallenge(map);
 		
+		User hostUser = userService.getUser(challenge.getHostEmail());
 		
-		return "";
+		model.addAttribute("challenge",challenge);
+		model.addAttribute("hostUser",hostUser);
+		
+		return "forward:/challenge/getChallenge.jsp";
 	}
 	
 	
