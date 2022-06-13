@@ -1,5 +1,6 @@
 package com.godLife.io.service.operator.impl;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.OperatorEvents;
 import com.godLife.io.service.domain.OperatorJoinEvent;
 import com.godLife.io.service.domain.OperatorReward;
+import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.domain.OperatorNoticeFaqs;
 import com.godLife.io.service.operator.OperatorDao;
@@ -89,11 +91,29 @@ public class OperatorDaoImpl implements OperatorDao{
 		return sqlSession.selectList("OperatorMapper.getOperatorJoinEventList",search);
 	}
 		
-	public List<OperatorNoticeFaqs> getOperatorNoticeFaqsList(Search search) throws Exception {
-		//return sqlSession.selectList("OperatorNoticeFaqsMapper.getOperatorNoticeFaqsList",search);
-		return sqlSession.selectList("OperatorMapper.getOperatorNoticeFaqsList",search);
-	}
-	
+//	public List<OperatorNoticeFaqs> getOperatorNoticeFaqsList(Search search) throws Exception {
+//		//return sqlSession.selectList("OperatorNoticeFaqsMapper.getOperatorNoticeFaqsList",search);
+//		return sqlSession.selectList("OperatorMapper.getOperatorNoticeFaqsList",search);
+//	}
+	public Map<String, Object> getOperatorNoticeFaqsList(Search search, User user, OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String userEmail=user.getUserEmail();
+		String title = operatorNoticeFaqs.getTitle();
+		Date regDate = operatorNoticeFaqs.getRegDate();
+		
+		map.put("userEmail",userEmail);
+		map.put("title",title);
+		map.put("regDate",regDate);
+		
+		List<OperatorNoticeFaqs> list = sqlSession.selectList("OperatorMapper.getOperatorNoticeFaqsList", map);
+		System.out.println("@@@@@@@@@@dao list : "+list);
+		map.put("list", list);
+		
+		return map;
+		
+		
+	}	
 	///Method Update
 	public void updateOperatorEvents(OperatorEvents operatorEvents) throws Exception {
 		//sqlSession.update("OperatorEventsMapper.updateOperatorEvents",operatorEvents);
@@ -175,5 +195,7 @@ public class OperatorDaoImpl implements OperatorDao{
 		//return sqlSession.selectOne("OperatorNoticeFaqsMapper.getOperatorNoticeFaqsTotalCount");
 		return sqlSession.selectOne("OperatorMapper.getOperatorNoticeFaqsTotalCount");
 	}
+
+
 
 }
