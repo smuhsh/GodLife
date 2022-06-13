@@ -27,6 +27,8 @@
    <style>
    body {
       padding-top: 50px;
+     
+      
    }
    
    </style>
@@ -39,14 +41,19 @@
    function fncUpdateProduct() {
 
       $("form").attr("method", "POST").attr("action",
-            "/product/updateProductPoint").submit();
+            "/product/updateProductCoupon").submit();
    }
-
+   
+   function fncProductCouponImageUpdate() {
+	      $("form").attr("enctype", "multipart/form-data").attr("method", "POST").attr("action",
+	            "/product/updateProductCouponView").submit();
+   }
+   
    function fncDeleteProduct() {
 
 	      $("form").attr("method", "POST").attr("action",
-	            "/product/deleteProductPoint").submit();
-	   }   
+	            "/product/deleteProductCoupon").submit();
+	}   
    
 
    //==> 추가된부분 : "수정"  Event 연결
@@ -61,6 +68,17 @@
 	     fncDeleteProduct();
 	   });
 	});   
+ 
+   
+   ////////파일 업로드
+	 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( ".imageUplaod" ).on("change" , function() {
+				fncProductCouponImageUpdate();
+				alert(productNo + ": productNo   "+ productImg + ":productImg  " + productName + ":productName");	
+			});
+		});	
+	////////파일 업로드
    
    
    
@@ -71,19 +89,21 @@
       });
    });
 
-	//============= 확인 Event  처리 =============	
+	
+	//============= 뒤로 돌아가기 Event  처리 =============	
 	 $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 $( "button.btn.btn-primary.back" ).on("click" , function() {
 			history.go(-1);
 			});
-	});
-   
-   
-   
-   
-   
-   
+	});	
+	
+	
+	
+	
+	
+	
+	
    $(function (){
       /*    ：startView: 2,
        maxViewMode: 1,
@@ -127,14 +147,14 @@
    <div class="container">
 
       <div class="page-header text-center">
-         <h3 class=" text-info">포인트 상품정보수정</h3>
+         <h3 class=" text-info">쿠폰 상품정보수정</h3>
          <h5 class="text-muted">
-            포인트 상품을 <strong class="text-danger">최신정보로 관리</strong>해 주세요.
+            쿠폰 상품을 <strong class="text-danger">최신정보로 관리</strong>해 주세요.
          </h5>
       </div>
 
       <!-- form Start /////////////////////////////////////-->
-      <form class="form-horizontal">
+      <form class="form-horizontal" encType="multipart/form-data">
 
          <div class="form-group">
             <label for="productNo" class="col-sm-offset-1 col-sm-3 control-label"></label>
@@ -143,7 +163,20 @@
                   value="${product.productNo}">
             </div>
          </div>
+<!-- 파일 업로드 구현 필요 Start  -->
 
+		 <div class="form-group">
+            <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>            
+            <div class="col-sm-4">
+			    <input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
+            </div>
+         </div>
+
+         
+         
+         
+
+<!-- 파일 업로드 구현 필요 End  -->
          <div class="form-group">
             <label for="productName" class="col-sm-offset-1 col-sm-3 control-label">상 품 명</label>
             <div class="col-sm-4">
@@ -155,7 +188,7 @@
          <div class="form-group">
             <label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
             <div class="col-sm-4">
-               <input type="number" class="form-control" id="price" name="price"
+               <input type="number" class="form-control" id="productPrice" name="productPrice"
                   value="${product.productPrice}">
             </div>
          </div>
@@ -163,24 +196,18 @@
          <div class="form-group">
             <label for="productDetail" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
             <div class="col-sm-4">
-               <input type="text" class="form-control" id="prodDetail" name="prodDetail" 
+               <input type="text" class="form-control" id="productDetail" name="productDetail" 
                   value="${product.productDetail}">
             </div>
          </div>
 
-         <div class="form-group">
-            <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
-            <div class="col-sm-4">
-               <input type="text" class="form-control" id="productImg"
-                  name="productImg" value="${product.productImg}">
-            </div>
-         </div>
+
 
 		 <div class="form-group">
             <label for="status" class="col-sm-offset-1 col-sm-3 control-label"></label>
             <div class="col-sm-4">
                <input type="hidden" class="form-control" id="status"
-                  name="status" value="3">
+                  name="status" value="1">
             </div>
          </div>
 

@@ -221,7 +221,17 @@ public class PointDaoImpl implements PointDao {
 		
 		return map;
 	}
-
+	
+	@Override
+	public Map<String,Object> getPointPurchaseDonationRank(Point point) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<Point> list = sqlSession.selectList("PointMapper.getPointPurchaseDonationRank", map);
+		System.out.println("@@@List : "+ list);
+		map.put("list", list);
+		return map;
+	}
+	
 	@Override
 	public int getTotalCount(User user) {
 		System.out.println("daoimpl getTotalCount User : "+user);

@@ -76,7 +76,18 @@ public class PointController {
 
 		return "forward:/point/getPointPurchaseList";
 	}
+	
+	@RequestMapping(value = "addPointDonationView", method = RequestMethod.GET)
+	public String addPurchaseView(Point point,Model model) throws Exception {
 
+		System.out.println("/purchase/addPurchaseView : GET");
+
+		Map<String, Object> map = pointService.getPointPurchaseDonationRank(point);
+		
+		model.addAttribute("list", map.get("list"));
+		return "forward:/point/addPointDonationView.jsp";
+	}
+	
 	@RequestMapping(value = "addPointPurchaseDonation", method = RequestMethod.POST)
 	public String addPointPurchaseDonation(Map<String, Object> map, @ModelAttribute("point") Point point, HttpSession session)
 			throws Exception {
@@ -90,7 +101,7 @@ public class PointController {
 		System.out.println(map);
 
 		pointService.addPointPurchase(map);
-
+		
 		return "forward:/point/getPointPurchaseDonationList";
 	}
 	

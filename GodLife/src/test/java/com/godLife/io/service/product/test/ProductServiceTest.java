@@ -72,12 +72,12 @@ public class ProductServiceTest {
 	}
 	
 	@Test
-	public void testGetProduct() throws Exception {
+	public void testGetProductCoupoon() throws Exception {
 		
 		Product product = new Product();
 		
 		product.setProductNo(10011);
-		product = productService.getProduct(product.getProductNo());
+		product = productService.getProductCoupon(product.getProductNo());
 
 		//==> console 확인
 		System.out.println(product);
@@ -91,7 +91,7 @@ public class ProductServiceTest {
 		Assert.assertEquals("1", product.getStatus());
 		
 		//오류 내고 싶으면 오류내고, validation 체크용
-		Assert.assertNotNull(productService.getProduct(product.getProductNo()));
+		Assert.assertNotNull(productService.getProductCoupon(product.getProductNo()));
 		
 
 	}

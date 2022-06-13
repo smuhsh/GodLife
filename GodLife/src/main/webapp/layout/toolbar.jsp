@@ -302,7 +302,7 @@
 		});
 	 	$(function() {
 		 	$("a:contains('기부하기')").on("click" , function() {
-		 		self.location = "/point/addPointDonationView.jsp"
+		 		self.location = "/point/addPointDonationView"
 			}); 
 		});
 	 	$(function() {

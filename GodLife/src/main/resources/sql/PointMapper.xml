@@ -19,7 +19,8 @@
 		<result property="donationPlace"   column="DONATION_PLACE"    jdbcType="VARCHAR" />
 		<result property="regDate" 		   column="REG_DATE" 		  jdbcType="DATE" />
 		<result property="phone"     	   column="PHONE"             jdbcType="VARCHAR" />
-		<result property="productName"     column="PRODUCT_NAME"             jdbcType="VARCHAR" />
+		<result property="productName"     column="PRODUCT_NAME"      jdbcType="VARCHAR" />
+		<result property="nick"            column="NICK"              jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<insert id="addPointPurchaseProduct" parameterType="point">
@@ -110,7 +111,18 @@
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
-
+	
+	<select id="getPointPurchaseDonationRank" parameterType="point" resultMap="pointSelectMap">
+		SELECT rank.nick nick,rank.total point
+		FROM (SELECT u.nick nick,SUM(point) total 
+		  		FROM users u, purchase p
+		  		WHERE u.user_Email=p.user_Email
+		  		AND use_detail = '7'
+          		GROUP BY nick
+		  		ORDER BY total DESC) rank
+		WHERE ROWNUM &lt; 4
+	</select>
+	
 	<select id="getTotalCount" parameterType="user" resultType="int">
 		SELECT COUNT(*)
 		FROM( SELECT purchase_no
