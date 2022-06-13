@@ -96,12 +96,21 @@ public class OperatorServiceImpl implements OperatorService{
 		return map;
 	}
 	
-	public Map<String, Object> getOperatorNoticeFaqsList(Search search) throws Exception {
-		List<OperatorNoticeFaqs> list = operatorDao.getOperatorNoticeFaqsList(search);
+//	public Map<String, Object> getOperatorNoticeFaqsList(Search search) throws Exception {
+//		List<OperatorNoticeFaqs> list = operatorDao.getOperatorNoticeFaqsList(search);
+//		int totalCount = operatorDao.getOperatorNoticeFaqsTotalCount(search);
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("list", list );
+//		map.put("totalCount", new Integer(totalCount));
+//		
+//		return map;
+//	}
+	public Map<String, Object> getOperatorNoticeFaqsList(Search search, User user, OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+		Map<String, Object> map = operatorDao.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
 		int totalCount = operatorDao.getOperatorNoticeFaqsTotalCount(search);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
+		//Map<String, Object> map = new HashMap<String, Object>();
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;

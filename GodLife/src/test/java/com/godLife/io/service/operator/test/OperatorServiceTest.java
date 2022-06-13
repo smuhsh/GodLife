@@ -269,12 +269,12 @@ public class OperatorServiceTest {
 		 
 		 operatorNoticeFaqs.setStatus("1"); //Notice:0	Faqs:1
 		 operatorNoticeFaqs.setNoticeMust("0");	//default:0	Must:1 		
-		 operatorNoticeFaqs.setTitle("결제는 어떻게 하는거죠?");
-		 operatorNoticeFaqs.setDetail("계좌이체 하세요.");
-		 operatorNoticeFaqs.setImg("account.jpg");
-		 operatorNoticeFaqs.setFaqTag("1");//certification:0 payment:1 reward:2
+		 operatorNoticeFaqs.setTitle("인증은 어떻게 하는건가요?");
+		 operatorNoticeFaqs.setDetail("FAQ 게시판입니다. 인증을 하려면 인증을 하세요.");
+		 //operatorNoticeFaqs.setImg("account.jpg");
+		 operatorNoticeFaqs.setFaqTag("0");//certification:0 payment:1 reward:2
 		 
-		 operatorService.getOperatorNoticeFaqs(10003);
+		 operatorService.getOperatorNoticeFaqs(10002);
 		 
 		 //==> console check
 		 System.out.println(operatorNoticeFaqs);
@@ -282,12 +282,12 @@ public class OperatorServiceTest {
 		 //==> API check
 		 Assert.assertEquals("1", operatorNoticeFaqs.getStatus());
 		 Assert.assertEquals("0", operatorNoticeFaqs.getNoticeMust());
-		 Assert.assertEquals("결제는 어떻게 하는거죠?", operatorNoticeFaqs.getTitle());
-		 Assert.assertEquals("계좌이체 하세요.", operatorNoticeFaqs.getDetail());
-		 Assert.assertEquals("account.jpg", operatorNoticeFaqs.getImg());
-		 Assert.assertEquals("1", operatorNoticeFaqs.getFaqTag());
+		 Assert.assertEquals("인증은 어떻게 하는건가요?", operatorNoticeFaqs.getTitle());
+		 Assert.assertEquals("FAQ 게시판입니다. 인증을 하려면 인증을 하세요.", operatorNoticeFaqs.getDetail());
+		 //Assert.assertEquals("account.jpg", operatorNoticeFaqs.getImg());
+		 Assert.assertEquals("0", operatorNoticeFaqs.getFaqTag());
 		 
-		 Assert.assertNotNull(operatorService.getOperatorNoticeFaqs(10003));
+		 Assert.assertNotNull(operatorService.getOperatorNoticeFaqs(10002));
 		 
 	 }
 	 
@@ -329,16 +329,20 @@ public class OperatorServiceTest {
 		 
 	 }
 	 
-	 //@Test	
+	 @Test	
 	 public void testGetOperatorNoticeFaqsListAll() throws Exception{
 		 
 		 Search search = new Search();
+		 User user = new User();
+		 OperatorNoticeFaqs operatorNoticeFaqs = new OperatorNoticeFaqs();
+		 
 		 search.setCurrentPage(1);
-		 search.setPageSize(3);
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search);
+		 search.setPageSize(0);
+		 //Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search);
+		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
-		 Assert.assertEquals(3, list.size());
+		 Assert.assertEquals(0, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
@@ -349,13 +353,13 @@ public class OperatorServiceTest {
 		 System.out.println("=======================================");
 		 
 		 search.setCurrentPage(1);
-		 search.setPageSize(3);
+		 search.setPageSize(0);
 		 search.setSearchCondition("0");
 		 search.setSearchKeyword("");
-		 map = operatorService.getOperatorNoticeFaqsList(search);
+		 map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
 		 
 		 list = (List<Object>)map.get("list");
-		 Assert.assertEquals(3, list.size());
+		 Assert.assertEquals(0, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
@@ -369,14 +373,17 @@ public class OperatorServiceTest {
 	 public void testGetOperatorNoticeFaqsListByNoticeFaqNo() throws Exception{
 		 
 		 Search search = new Search();
-		 search.setCurrentPage(1);
+		 User user = new User();
+		 OperatorNoticeFaqs operatorNoticeFaqs = new OperatorNoticeFaqs();
+		 
+		 search.setCurrentPage(0);
 		 search.setPageSize(3);
 		 search.setSearchCondition("0");
 		 search.setSearchKeyword("10001");
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search);
+		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
-		 Assert.assertEquals(1, list.size());
+		 Assert.assertEquals(0, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
@@ -388,7 +395,7 @@ public class OperatorServiceTest {
 		 
 		 search.setSearchCondition("0");
 		 search.setSearchKeyword(""+System.currentTimeMillis());
-		 map = operatorService.getOperatorNoticeFaqsList(search);
+		 map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
 		 
 		 list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -404,14 +411,17 @@ public class OperatorServiceTest {
 	 public void testGetOperatorNoticeFaqsListByTitle() throws Exception{
 		 
 		 Search search = new Search();
+		 User user = new User();
+		 OperatorNoticeFaqs operatorNoticeFaqs = new OperatorNoticeFaqs();
+		 
 		 search.setCurrentPage(1);
 		 search.setPageSize(3);
 		 search.setSearchCondition("1");
 		 search.setSearchKeyword("결제는 어떻게 하는거죠?");
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search);
+		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
-		 Assert.assertEquals(1, list.size());
+		 Assert.assertEquals(0, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
@@ -423,7 +433,7 @@ public class OperatorServiceTest {
 		 
 		 search.setSearchCondition("1");
 		 search.setSearchKeyword(""+System.currentTimeMillis());
-		 map = operatorService.getOperatorNoticeFaqsList(search);
+		 map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
 		 
 		 list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -436,7 +446,7 @@ public class OperatorServiceTest {
 	 }
 	 
 	 //OperatorJoinEvent
-	 @Test
+	 //@Test
 	 public void testAddOperatorJoinEvent() throws Exception {
 		 
 		 OperatorJoinEvent operatorJoinEvent = new OperatorJoinEvent();
