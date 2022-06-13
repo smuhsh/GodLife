@@ -21,3 +21,4 @@ public interface PointService {
 	public Map<String,Object> getPointPurchaseDonationRank(Point point) throws Exception;
 	
 }
+
