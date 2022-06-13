@@ -7,9 +7,9 @@ import com.godLife.io.common.Search;
 
 public interface PointService {
 
-	public void addPointPurchaseProduct(Point point) throws Exception;
+	public void addPointPurchaseProduct(Map<String, Object> map) throws Exception;
 	
-	public void addPointPurchase(Point point) throws Exception;
+	public void addPointPurchase(Map<String, Object> map) throws Exception;
 	
 	public Map<String,Object> getPointPurchaseList(Search search,String userEmail) throws Exception;
 

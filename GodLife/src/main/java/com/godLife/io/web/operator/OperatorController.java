@@ -231,7 +231,7 @@ public class OperatorController {
 	}
 	
 	@RequestMapping(value="addOperatorJoinEvent", method=RequestMethod.POST)
-	public String addOperatorJoinEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session) throws Exception {
+	public String addOperatorJoinEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map) throws Exception {
 		
 		System.out.println("/operator/addOperatorJoinEvent : POST");
 		//Business Logic
@@ -243,12 +243,14 @@ public class OperatorController {
 		Point point = new Point();
 		
 		if(operatorJoinEvent.getEventNo()==2) {
-		point.setUserEmail(user.getUserEmail());
 		point.setUseStatus("2");
 		point.setPoint(1000);
 		point.setUseDetail("5");
 		
-		pointService.addPointPurchase(point);
+		map.put("user", user);
+		map.put("point", point);
+		
+		pointService.addPointPurchase(map);
 		}
 		
 		System.out.println("oper@@@@@@@@@ : "+ operatorJoinEvent);
@@ -258,7 +260,10 @@ public class OperatorController {
 		point.setUseStatus("1");
 		point.setPoint(operatorJoinEvent.getRewardPoint());
 		point.setUseDetail("6");
-		pointService.addPointPurchase(point);
+		
+		map.put("user", user);
+		map.put("point", point);
+		pointService.addPointPurchase(map);
 		
 		
 		return "forward:/operator/addOperatorJoinEvent.jsp";
