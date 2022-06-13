@@ -31,24 +31,60 @@
    	<script type="text/javascript">
    		function fncGetList(currentPage){
    			$("#currentPage").val(currentPage)
-   			$("form[name='challengeList']").attr("action","/challenge/listChallenge").submit();
+   			$("form[name='challengeList']")
+   			.attr("action","/challenge/listChallenge").
+   			attr("method","GET").submit();
    		}
    		$(function(){
    			$("button:contains('검색')").on("click",function(){
    				fncGetList(1);
    			});
    			
-   			$("img").on("click",function(){
-   				var challengeNo = this.data("param");
-   				self.location = "/challenge/getChallenge?challengeNo="+challengeNo;
-   			});
    			
+   			$("a#deleteChallenge").on("click",function(){
+   				
+   				var challengeNo = $(this).data("param");	
+				alert(challengeNo);
+   				
+   					if (window.confirm("챌린지를 삭제 하시겠습니까?")) {
+   						$.ajax({
+   							
+   							url:"/challenge/challengeRest/deleteChallenge",
+   							method:"POST",
+   							dataType:"json",
+   							headers:{
+   								"Accept":"application/json",
+   								"Content-Type":"application/json"
+   							},
+   							data:JSON.stringify({
+   								challengeNo:challengeNo
+   							}),
+   							success:function(JSONData,status){
+   								window.location.href = '/challenge/listChallenge?challengeListOpt=add';
+   							}
+   							
+   						});
+   					};
+   			});
    		});
    	</script>
 <title>Insert title here</title>
 </head>
 <body>
-<form name="challengeList" method="GET" >
+<form name="challengeList">
+			<c:if test = "${challengeListOpt == 'total'}">
+	 			<input type="hidden" name ="challengeListOpt" value="total">
+	 		</c:if>
+	 		<c:if test = "${challengeListOpt == 'add'}">
+	 			<input type="hidden" name ="challengeListOpt" value="add">
+	 		</c:if>
+	 		<c:if test = "${challengeListOpt == 'join'}">
+	 			<input type="hidden" name ="challengeListOpt" value="join">
+	 		</c:if>
+	 		<c:if test = "${challengeListOpt == 'pick'}">
+	 			<input type="hidden" name ="challengeListOpt" value="pick">
+	 		</c:if>
+				
 	<div class="container">
 	<jsp:include page="/layout/toolbar.jsp" />
 	<div class="row">
@@ -57,7 +93,18 @@
 			  </div>
 			  <div class="col-xs-6 col-sm-10">
 			  	<div class="page-header">
-			  		<h2>챌린지 목록</h2>
+			  		<c:if test = "${challengeListOpt == 'total'}">
+			  			<h2>챌린지 목록</h2>
+			  		</c:if>
+			  		<c:if test = "${challengeListOpt == 'add'}">
+			  			<h2>등록한 챌린지 목록</h2>
+			  		</c:if>
+			  		<c:if test = "${challengeListOpt == 'join'}">
+			  			<h2>참여한 챌린지 목록</h2>
+			  		</c:if>
+			  		<c:if test = "${challengeListOpt == 'pick'}">
+			  			<h2>찜한 챌린지 목록</h2>
+			  		</c:if>
 				</div>
 				
 					<div class="row">
@@ -93,12 +140,18 @@
 					</div>
 				
 				
+				
+				
+			<div id="challengeListContainer">
+				<div id="challenge">	
 				 <c:forEach var="challenge" items="${challengeList}">
 				  <div class="col-sm-6 col-md-4">
 				    <div class="thumbnail">
 				    <div id="imgArea">
-				      <img src="/resources/images/uploadFiles/${challenge.challengeThumbnailImg }" 
-				      onerror="this.src='https://dummyimage.com/230x230/1af0d4/000000.gif'" data-param="${challenge.challengeNo }">
+				      <a id="img" href="/challenge/getChallenge?challengeNo=${challenge.challengeNo }">
+				      <img style="width:230px; height:230px;" src="/resources/images/uploadFiles/${challenge.challengeThumbnailImg }" 
+				      onerror="this.src='https://dummyimage.com/230x230/1af0d4/000000.gif'">
+				      </a>
 				      	<div id="startEndDate">
 				      			<p>기간 : ${challenge.startDate} ~ ${challenge.endDate }</p>
 				      	</div>
@@ -118,10 +171,24 @@
 					       		<h5 class="status">상태 : 종료</h5>
 					       </c:if>
 					       <h5 id="regDate">등록일 : ${challenge.challengeRegDate }</h5>
+					       <c:if test="${challengeListOpt == 'add' }">
+					       		<a href="#" id="deleteChallenge" data-param="${challenge.challengeNo }" >
+					       			<h5 class="delete">[삭제하기]</h5>
+					       		</a>
+					       </c:if>
+					       <c:if test="${challengeListOpt == 'pick' }">
+					       		<a href="#" id="deleteChallengePick" data-param="${challenge.challengeNo }" >
+					       			<h5 class="delete">[삭제하기]</h5>
+					       		</a>
+					       </c:if>
 				      </div>
 				    </div>
 				  </div>
 				</c:forEach>
+			</div>
+		</div>
+			
+			
 						
 			  </div>
 			  <div class="col-xs-6 col-sm-1">

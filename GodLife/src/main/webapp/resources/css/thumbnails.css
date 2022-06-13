@@ -78,3 +78,11 @@
        		bottom:65px;
        		font-family: 'oneMobile';
        	}
+       	.delete{
+       		font-family: 'oneMobile';
+       		position:relative;
+       		bottom:113px;
+       		left:158px;
+       		text-decoration: none;
+       		color:black;
+       	}

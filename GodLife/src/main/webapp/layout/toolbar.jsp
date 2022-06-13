@@ -119,11 +119,20 @@
 	            
 	             <ul class="nav navbar-nav navbar-right">
 	                <li><a href="#" id="addChallengeTos">챌린지 등록</a></li>
+	                <li class="dropdown">
+	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+	                         <span >챌린지</span>
+	                         <span class="caret"></span>
+	                     </a>
+	                     <ul class="dropdown-menu">
+	                         <li><a href="#" id="listChallenge">챌린지 목록</a></li>
+	                         <li><a href="#" id="listChallengeAdd">등록한 챌린지 목록</a></li>
+	                         <li><a href="#" id="listChallengeJoin">참여한 챌린지 목록</a></li>
+	         				 <li><a href="#" id="listChallengePick">찜한 챌린지 목록</a></li>
+	                     </ul>
+	                 </li>
 	            </ul>
 	            
-	            <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#" id="challengeList">챌린지 목록</a></li>
-	            </ul>
 		</div>
 		<!-- dropdown hover END -->	       
 	    
@@ -317,8 +326,20 @@
 	 			self.location = "/challenge/addChallengeTos.jsp"
 	 		});
 	 		
-	 		$("a#challengeList").on("click",function(){
+	 		$("a#listChallenge").on("click",function(){
 	 			self.location = "/challenge/listChallenge" //테스트
+	 		});
+	 		
+	 		$("a#listChallengeAdd").on("click",function(){
+	 			self.location = "/challenge/listChallenge?challengeListOpt=add";
+	 		});
+	 		
+	 		$("a#listChallengeJoin").on("click",function(){
+	 			self.location = "/challenge/listChallenge?challengeListOpt=join";
+	 		});
+	 		
+	 		$("a#listChallengePick").on("click",function(){
+	 			self.location = "/challenge/listChallenge?challengeListOpt=pick";
 	 		});
 	 		
 	 	});

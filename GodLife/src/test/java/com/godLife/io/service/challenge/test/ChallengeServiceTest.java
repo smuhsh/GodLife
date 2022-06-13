@@ -211,11 +211,11 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void deleteChallenge() {
 		//10007 ~ 10011
 		
-		int challengerNo = 10006;
+		int challengerNo = 10022;
 		
 		Map<String,Object> map = challengeService.deleteChallenge(challengerNo);
 		

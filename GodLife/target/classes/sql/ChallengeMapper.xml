@@ -221,10 +221,10 @@
 							</if>
 						</where>
 						<if test="search.searchCondition != null">
-							<if test="search.searchCondition == 1">
+							<if test="search.searchCondition == 0">
 								ORDER BY list.reg_date DESC
 							</if>
-							<if test="search.searchCondition == 2">
+							<if test="search.searchCondition == 1">
 								ORDER BY list.join_count DESC
 							</if>
 						</if>
@@ -240,7 +240,7 @@
 	 <select id="getChallengeListLoginTotal" parameterType="java.util.Map"  resultType="int">
 	 		
 	 		
-	 				SELECT
+	 					SELECT
 						COUNT(*)
 						FROM
 						(
@@ -279,6 +279,7 @@
 						WHERE outv.target_email(+) = c.host_email
 						AND ct.categ_no = c.categ_no
 						AND acc_status = '2'
+						AND c.status = '0'
 						AND NOT c.host_email = #{user.userEmail}
 						UNION
 						SELECT
@@ -301,6 +302,7 @@
 						WHERE outv.user_email(+) = c.host_email
 						AND ct.categ_no = c.categ_no
 						AND acc_status = '2'
+						AND c.status = '0'
 						AND NOT c.host_email = #{user.userEmail}
 						)list
 						<where>
@@ -312,10 +314,10 @@
 							</if>
 						</where>
 						<if test="search.searchCondition != null">
-							<if test="search.searchCondition == 1">
+							<if test="search.searchCondition == 0">
 								ORDER BY list.reg_date DESC
 							</if>
-							<if test="search.searchCondition == 2">
+							<if test="search.searchCondition == 1">
 								ORDER BY list.join_count DESC
 							</if>
 						</if>
@@ -381,10 +383,10 @@
 					</where>
 				</if>
 				<if test="search.searchCondition != null">
-					<if test="search.searchCondition == 1">
+					<if test="search.searchCondition == 0">
 						ORDER BY c.reg_date DESC
 					</if>
-					<if test="search.searchCondition == 2">
+					<if test="search.searchCondition == 1">
 						ORDER BY c.join_count DESC
 					</if>
 				</if>
@@ -398,6 +400,70 @@
 	 		
 	 </select>
 	 
+	 
+	 <select id="getChallengeListCount" parameterType="java.util.Map" resultType="int">
+	 	
+	 	
+	 	
+			
+				
+		 		SELECT
+				COUNT(*)
+				FROM
+				<if test="challengeListOpt == 'total' or challengeListOpt == 'add'">
+					challenges c, categs ct
+					<where>
+						ct.categ_no = c.categ_no
+						<if test="challengeListOpt == 'total'">
+							AND status = '0'
+							AND open_range = '0'
+						</if>
+						<if test="challengeListOpt == 'add'">
+							AND c.host_email = #{user.userEmail}
+						</if>
+						<if test="search.searchKeyword != null and search.searchKeyword != ''">
+						  	AND c.title LIKE '%'||#{search.searchKeyword}||'%'
+						</if>
+						<if test="search.orderCondition != 0">
+							AND c.categ_no = #{search.orderCondition}
+						</if>
+					</where>
+				</if>
+				<if test="challengeListOpt == 'pick' or challengeListOpt == 'join'">
+					challenges c, join_challenger jc, categs ct
+					<where>
+						c.challenge_no = jc.challenge_no
+						AND ct.categ_no = c.categ_no
+						AND jc.user_email = #{user.userEmail}
+						<if test="challengeListOpt == 'join'">
+							AND jc.status = '0'
+						</if>
+						<if test="challengeListOpt == 'pick'">
+							AND jc.status = '1'
+						</if>
+						<if test="search.searchKeyword != null and search.searchKeyword != ''">
+						  	AND c.title LIKE '%'||#{search.searchKeyword}||'%'
+						</if>
+						<if test="search.orderCondition != 0">
+							AND c.categ_no = #{search.orderCondition}
+						</if>
+					</where>
+				</if>
+				<if test="search.searchCondition != null">
+					<if test="search.searchCondition == 0">
+						ORDER BY c.reg_date DESC
+					</if>
+					<if test="search.searchCondition == 1">
+						ORDER BY c.join_count DESC
+					</if>
+				</if>
+				<if test="search.searchCondition == null">
+					ORDER BY c.challenge_no
+				</if>
+			
+		
+	 		
+	 </select>
 	 
 	 
 	 
