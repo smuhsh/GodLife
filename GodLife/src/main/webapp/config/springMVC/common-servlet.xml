@@ -79,7 +79,7 @@
    	<mvc:resources mapping="/images/**" location="/images/" />
    	<mvc:resources mapping="/javascript/**" location="/javascript/" />
    	<mvc:resources mapping="/summernoteImage/**" location="file:///C:/summernote_image/" />
-   	
+   	<mvc:resources mapping="/resources/**" location="/resources/" />
    	
 	<!-- 	:: exception resolver  선언 :: 서술적 / 선언적 예외처리 
 			:: Servlet 에서의 선언적 예외처리를 다시 생각하며....  -->

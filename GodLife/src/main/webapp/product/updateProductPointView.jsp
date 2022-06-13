@@ -70,6 +70,19 @@
          $("form")[0].reset();
       });
    });
+
+	//============= 확인 Event  처리 =============	
+	 $(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 $( "button.btn.btn-primary.back" ).on("click" , function() {
+			history.go(-1);
+			});
+	});
+   
+   
+   
+   
+   
    
    $(function (){
       /*    ：startView: 2,
@@ -176,7 +189,8 @@
             <div class="col-sm-offset-4  col-sm-4 text-center">
                <button type="button" class="btn btn-primary update">수 &nbsp;정</button>
                <button type="button" class="btn btn-primary delete">삭 &nbsp;제</button>
-               <a class="btn btn-primary btn" href="#" role="button">되돌리기</a>
+               <button type="button" class="btn btn-primary back">이전페이지로 돌아가기</button>
+               <a class="btn btn-primary btn" href="#" role="button">내용리셋</a>
             </div>
          </div>
       </form>

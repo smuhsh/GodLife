@@ -77,6 +77,8 @@ public class ChallengeController {
 		
 		challenge.setJoinCount(1);
 		
+		challenge.setChallengeStatus("0");
+		
 		challenge = ChallengeUtil.certiCycle(challenge);
 		
 		joinChallenger.setEmail(challenge.getHostEmail());
@@ -113,7 +115,7 @@ public class ChallengeController {
 		
 		//////////////////////////// 파일 업로드 /////////////////////////////////////////
 		
-		String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\images\\uploadFiles\\";
+		String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
 		
 		MultipartFile mf = mtfRequest.getFile("thumbnail");
 		
@@ -253,6 +255,16 @@ public class ChallengeController {
 		
 		return "forward:/challenge/listChallenge.jsp";
 	}
+	
+	
+	@RequestMapping(value="getChallenge", method=RequestMethod.GET)
+	public String getChallenge(@RequestParam int challengeNo) {
+		
+		
+		
+		return "";
+	}
+	
 	
 	
 }
