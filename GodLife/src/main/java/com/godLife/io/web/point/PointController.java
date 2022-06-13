@@ -180,7 +180,7 @@ public class PointController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-
+		System.out.println("@@@@Search "+search);
 		User user = (User) request.getSession().getAttribute("user");
 		String userEmail = user.getUserEmail();
 		System.out.println("session userEmail : " + userEmail);
