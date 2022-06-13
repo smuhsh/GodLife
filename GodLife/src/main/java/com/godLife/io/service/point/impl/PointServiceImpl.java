@@ -78,6 +78,12 @@ public class PointServiceImpl implements PointService {
 
 		return map;
 	}
+
+	@Override
+	public Map<String, Object> getPointPurchaseDonationRank(Point point) throws Exception {
+		Map<String, Object> map = pointDao.getPointPurchaseDonationRank(point);
+		return map;
+	}
 	
 	
 	
