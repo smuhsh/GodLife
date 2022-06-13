@@ -18,6 +18,7 @@ import com.godLife.io.service.domain.OperatorEvents;
 import com.godLife.io.service.domain.OperatorJoinEvent;
 import com.godLife.io.service.domain.OperatorNoticeFaqs;
 import com.godLife.io.service.domain.OperatorReward;
+import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.operator.OperatorService;
 import com.sun.glass.ui.Pixels.Format;
@@ -435,7 +436,7 @@ public class OperatorServiceTest {
 	 }
 	 
 	 //OperatorJoinEvent
-	 //@Test
+	 @Test
 	 public void testAddOperatorJoinEvent() throws Exception {
 		 
 		 OperatorJoinEvent operatorJoinEvent = new OperatorJoinEvent();
@@ -444,13 +445,14 @@ public class OperatorServiceTest {
 		 operatorJoinEvent.setEventNo(2);
 		 operatorJoinEvent.setRewardPoint(1000);
 		 
+		 
 		 operatorService.addOperatorJoinEvent(operatorJoinEvent);
 		 
 		 //==> console check
 		 System.out.println(operatorJoinEvent);
 		 
 		 //==> API check
-		 Assert.assertEquals("user05.io.com", operatorJoinEvent.getUserEmail());
+		 Assert.assertEquals("user01.io.com", operatorJoinEvent.getUserEmail());
 	 }
 	 
 	 //2022-06-07 19:32 shhwang Error
@@ -564,7 +566,7 @@ public class OperatorServiceTest {
 		 Map<String,Object> map = operatorService.getOperatorJoinEventList(search);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
-		 Assert.assertEquals(6, list.size());
+		 Assert.assertEquals(24, list.size());
 		 
 		 //==> console check
 		 System.out.println(list);
