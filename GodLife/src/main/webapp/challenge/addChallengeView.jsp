@@ -26,7 +26,6 @@
 <style>
 	  body {
             padding-top : 70px;
-            background-image :url("http://newsimg.hankookilbo.com/2018/03/07/201803070494276763_1.jpg");
             background-size: cover;
         }
 	  p{

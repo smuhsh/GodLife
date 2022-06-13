@@ -257,4 +257,14 @@ public class ChallengeController {
 	}
 	
 	
+	@RequestMapping(value="getChallenge", method=RequestMethod.GET)
+	public String getChallenge(@RequestParam int challengeNo) {
+		
+		
+		
+		return "";
+	}
+	
+	
+	
 }

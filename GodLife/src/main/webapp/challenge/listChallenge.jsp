@@ -37,6 +37,12 @@
    			$("button:contains('검색')").on("click",function(){
    				fncGetList(1);
    			});
+   			
+   			$("img").on("click",function(){
+   				var challengeNo = this.data("param");
+   				self.location = "/challenge/getChallenge?challengeNo="+challengeNo;
+   			});
+   			
    		});
    	</script>
 <title>Insert title here</title>
@@ -92,7 +98,7 @@
 				    <div class="thumbnail">
 				    <div id="imgArea">
 				      <img src="/resources/images/uploadFiles/${challenge.challengeThumbnailImg }" 
-				      onerror="this.src='https://dummyimage.com/230x230/1af0d4/000000.gif'">
+				      onerror="this.src='https://dummyimage.com/230x230/1af0d4/000000.gif'" data-param="${challenge.challengeNo }">
 				      	<div id="startEndDate">
 				      			<p>기간 : ${challenge.startDate} ~ ${challenge.endDate }</p>
 				      	</div>
