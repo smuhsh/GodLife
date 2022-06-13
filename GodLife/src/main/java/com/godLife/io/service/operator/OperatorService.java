@@ -24,7 +24,8 @@ public interface OperatorService {
 
 	public Map<String , Object> getOperatorEventsList(Search search) throws Exception;
 	public Map<String , Object> getOperatorJoinEventList(Search search) throws Exception;
-	public Map<String , Object> getOperatorNoticeFaqsList(Search search) throws Exception;
+	//public Map<String , Object> getOperatorNoticeFaqsList(Search search) throws Exception;
+	public Map<String , Object> getOperatorNoticeFaqsList(Search search, User user, OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
 	
 	public void updateOperatorEvents(OperatorEvents operatorEvents) throws Exception;
 	public void updateOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception;

@@ -70,12 +70,18 @@ public class PointServiceImpl implements PointService {
 	public Map<String, Object> getPointPurchaseDonationList(Search search, User user) throws Exception {
 		System.out.println("getPointPurchaseDonationList user : "+user);
 		
-		int totalCount = pointDao.getDonationTotalCount(user);
+		int totalCount = pointDao.getDonationTotalCount( search, user);
 		
 		System.out.println("getPointPurchaseDonationList totalCount : "+totalCount);
 		Map<String, Object> map = pointDao.getPointPurchaseDonationList(search, user);
 		map.put("totalCount", new Integer(totalCount));
 
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getPointPurchaseDonationRank(Point point) throws Exception {
+		Map<String, Object> map = pointDao.getPointPurchaseDonationRank(point);
 		return map;
 	}
 	

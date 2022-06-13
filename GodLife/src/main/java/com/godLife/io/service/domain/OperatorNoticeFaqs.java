@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class OperatorNoticeFaqs {
 	
-	private Integer noticeFaqNo;
+	private int noticeFaqNo;
 	private String userEmail;
 	private String status;
 	private String noticeMust;
@@ -20,11 +20,11 @@ public class OperatorNoticeFaqs {
 	}
 	
 	//Method
-	public Integer getNoticeFaqNo() {
+	public int getNoticeFaqNo() {
 		return noticeFaqNo;
 	}
 
-	public void setNoticeFaqNo(Integer noticeFaqNo) {
+	public void setNoticeFaqNo(int noticeFaqNo) {
 		this.noticeFaqNo = noticeFaqNo;
 	}
 
@@ -99,7 +99,7 @@ public class OperatorNoticeFaqs {
 				+ ", faqTag=" + faqTag + ", regDate=" + regDate + "]";
 	}
 
-	public OperatorNoticeFaqs(Integer noticeFaqNo, String userEmail, String status, String noticeMust, String title, String detail,
+	public OperatorNoticeFaqs(int noticeFaqNo, String userEmail, String status, String noticeMust, String title, String detail,
 			String img, String faqTag, Date regDate) {
 		super();
 		this.noticeFaqNo = noticeFaqNo;
