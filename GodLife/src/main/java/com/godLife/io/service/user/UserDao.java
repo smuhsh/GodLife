@@ -34,14 +34,26 @@ public interface UserDao {
     // 유저 전체 목록조회(관리자) 
 	public List<User> getUserList(Search search) throws Exception ;
 	
-	// 핸드폰번호로 아이디, 비번찾기  
-	public User findUserPhone(String phone) throws Exception;
+	//아이디 찾기 
+	public String findUserEmail(String phone) throws Exception;
 	
-	// 이메일로 비번찾기  
-	public User findUserEmail(String userEmail)throws Exception;
+	
+//	// 핸드폰번호로 아이디, 비번찾기  
+//	public User findUserPhone(String phone) throws Exception;
+//	
+//	// 이메일로 비번찾기  
+//	public User findUserEmail(String userEmail)throws Exception;
 	
 	
 	// 유저상세조회
+	
+	
+	// id 중복체크
+	public int checkUserEmail(String userEmail) throws Exception;
+	// 닉네임 중복체크
+	public int checkNick(String nick) throws Exception;
+
+	
 	
 	
 	////////////////////////////친구,블랙리스트 관리//////////////////
