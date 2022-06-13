@@ -39,6 +39,18 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!--  ///////////////////////// CSS ////////////////////////// -->
+
+
+<!--  ///////////////////////// JavaScript ////////////////////////// -->
+<title>상품 목록조회</title>
+
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
+
+<!-- CDN(Content Delivery Network) 호스트 사용 -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- iamport.payment.js -->
+  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+  
 <style>
 body {
    padding-top: 50px;
@@ -60,17 +72,6 @@ div.box {
    background-color: #ffcc00;
 }
 </style>
-
-<!--  ///////////////////////// JavaScript ////////////////////////// -->
-<head>
-<meta charset="EUC-KR">
-<title>상품 목록조회</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<!-- CDN(Content Delivery Network) 호스트 사용 -->
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-
 <script type="text/javascript">
    function fncAddPointPurchasePoint() {
       var productNo = $('input[name="productNo"]:checked').val();
@@ -98,7 +99,42 @@ div.box {
          else
             tag[i].style.display="none";
       }
-   }
+   };
+   
+   $(function() {
+	      $(".kakao").on("click", function() {
+	    	  fncKakaoPay();
+	      });
+	   });
+   
+  function fncKakaoPay(){
+	var productName = $('input[name="productName"]').val();
+	var productPrice = $('input[name="productPrice"]').val();
+	var userEmail = $('input[name="userEmail"]').val();
+	var nick = $('input[name="nick"]').val();
+	var phone = $('input[name="phone"]').val();
+	  
+	var IMP = window.IMP;
+	IMP.init('imp68438670');
+	IMP.request_pay({
+	    pg : 'kakaopay',
+	    pay_method : 'card', //생략 가능
+	    merchant_uid: 'merchant_'+new Date().getTime(), // 상점에서 관리하는 주문 번호
+	    name : productName,
+	    amount : productPrice,
+	    buyer_email : userEmail,
+	    buyer_name : nick,
+	    buyer_tel : phone
+	    
+	}, function(rsp) { // callback 로직
+		if(rsp.success){
+			   alert("완료-> imp_uid: "+rsp.imp_uid+" / merchant_uid(orderkey): "+rsp.merchant_uid);
+			   fncAddPointPurchasePoint();
+		   } else{
+			   alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg +")");
+		   }
+	});
+  }
 </script>
 </head>
 
@@ -144,8 +180,8 @@ div.box {
                <input type="radio" name="productNo" value="${product.productNo}"
                   checked /> <img src="/images/uploadFiles/${product.productImg }"
                   onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
-               <div>${ product.productName }</div>
-               <div>${ product.productPrice }원</div>
+               <div>${ product.productName }</div><input type="hidden" name="productName" value="${product.productName}" />
+               <div>${ product.productPrice }원</div><input type="hidden" name="productPrice" value="${ product.productPrice }" />
                <div>${ product.productDetail }</div>
             </div>
          </c:forEach>
@@ -161,7 +197,7 @@ div.box {
                <input type="radio" id="card" name="payOpt" value="2" onclick="showDiv(this);" /> 카드결제 
                <input type="radio" id="kakao" name="payOpt" value="3" onclick="showDiv(this);" /> 카카오 페이
                &nbsp&nbsp
-               <button type="button" class="btn btn-default">구매</button>
+               
             </fieldset>
 
             <hr>
@@ -173,6 +209,7 @@ div.box {
                <hr />
                받는사람 : 유병문
                <hr />
+               <button type="button" class="btn btn-default">구매</button>
             </div>
             
             <div id="cardBox" class="box" >
@@ -181,12 +218,15 @@ div.box {
             </div>
             <div id="kakaoBox" class="box" >
             간편결제
+            <button type="button" class="kakao">구매</button>
             <hr/>
             </div>
             <!-- label Tag 사용 / 미사용의 차이점 : 이름 3을 Click 해보면... -->
             <div class="form-group">
                <div class="col-sm-offset-2 col-sm-10">
                   <input type="hidden" name="userEmail" value="${user.userEmail}" />
+                  <input type="hidden" name="nick" value="${user.nick}" />
+                  <input type="hidden" name="phone" value="${user.phone}" />
                   <input type="hidden" name="useStatus" value="1" /> <input
                      type="hidden" name="useDetail" value="1" />
                </div>

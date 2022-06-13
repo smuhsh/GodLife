@@ -66,96 +66,14 @@ public class PointServiceTest {
 		point.setVoucherUniqueNo(null);
 		point.setRegDate(null);
 		
-		String useStatus = point.getUseStatus();
-		System.out.println("useStatus : "+useStatus);
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		String useDetail = point.getUseDetail();
-		System.out.println("useDetail : "+useDetail);
+		map.put("user", user);
+		System.out.println("@@@@@@@@user : "+user);
+		map.put("point", point);
 		
-		int usePoint = point.getPoint();
-		System.out.println("usePoint : "+usePoint);
-		
-		int productNo = point.getProductNo();
-		System.out.println("productNo " +productNo);
-		
-		
-		if(useStatus=="1") {
-			int sumTotalPoint = totalPoint + usePoint;
-			
-			System.out.println(" sumPoint : " + sumTotalPoint);
-			user.setTotalPoint(sumTotalPoint);
-			
-			userService.updateUserTotalPoint(user);
-			
-			if(useDetail=="1") {
-				
-				System.out.println(point);
-				pointService.addPointPurchaseProduct(point);
-				
-			}
-			
-		} else if(useStatus=="2") {
-			int sumTotalPoint = totalPoint - usePoint;
+		pointService.addPointPurchaseProduct(map);
 
-			System.out.println(" sumPoint : " + sumTotalPoint);
-			
-			user.setTotalPoint(sumTotalPoint);
-			userService.updateUserTotalPoint(user);
-			if(useDetail=="8") {
-			
-				if(productNo==10000) {
-				
-					int redCoupon = user.getRedCouponCount()+1;
-					System.out.println("redCoupon : "+redCoupon);
-					user.setRedCardCount(redCoupon);
-				
-					userService.updateUserRedCouponCount(user);
-				
-				} else if(productNo==10001) {
-				
-					int certiCoupon = user.getCertiCouponCount()+1;
-					System.out.println("certiCoupon : "+certiCoupon);
-					user.setCertiCouponCount(certiCoupon);
-					userService.updateUserCertiCouponCount(user);
-				}
-				
-				System.out.println(point);
-				pointService.addPointPurchaseProduct(point);
-				
-			}else if(useDetail=="9") {
-				if(productNo>=10002 || productNo <= 10006) {
-				Random rnd =new Random();
-				String voucherUniqueNo=new String(); 
-				StringBuffer buf =new StringBuffer();
-
-					for(int i=0;i<10;i++){
-
-						// rnd.nextBoolean() 는 랜덤으로 true, false 를 리턴. true일 시 랜덤 한 소문자를, false 일 시 랜덤 한 숫자를 StringBuffer 에 append 한다.
-
-						if(rnd.nextBoolean()){
-							
-							buf.append((char)((int)(rnd.nextInt(26))+97));
-							
-							
-						}else{
-
-							buf.append((rnd.nextInt(10)));
-						
-						}
-					
-					}
-					voucherUniqueNo=buf.toString();
-					point.setVoucherUniqueNo(voucherUniqueNo);
-				}
-				
-				System.out.println(point);
-				pointService.addPointPurchaseProduct(point);
-				
-			}
-			
-		}
-		
-	
 	}
 
 		
