@@ -25,8 +25,10 @@
 
 <style>
 	  body {
-	            padding-top : 70px;
-	        }
+            padding-top : 70px;
+            background-image :url("http://newsimg.hankookilbo.com/2018/03/07/201803070494276763_1.jpg");
+            background-size: cover;
+        }
 	  p{
 	       		font-size : 14px;
 	       		text-aling : center;
@@ -44,7 +46,7 @@
 		$("#thumbnail").on("click",function(){
 			var thumbnail = $("#thumbnail").data("param");
 			
-			var img = "<img src=\"/images/uploadFiles/"+thumbnail+"\" style=\"width:200; height:200px;\">"+
+			var img = "<img src=\"/resources/images/uploadFiles/"+thumbnail+"\" style=\"width:200; height:200px;\">"+
 					  "<p id=\"ex\" class=\"help-block\">이미지가 보이지 않는다면 잠시후 다시 시도해주십시오.</p>"+
 					  "<a href=\"#\" id =\"cancelSummary\" class=\"btn btn-primary\" role=\"button\">그만보기</a>";
 			

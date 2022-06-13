@@ -115,7 +115,7 @@ public class ChallengeController {
 		
 		//////////////////////////// 파일 업로드 /////////////////////////////////////////
 		
-		String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\images\\uploadFiles\\";
+		String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
 		
 		MultipartFile mf = mtfRequest.getFile("thumbnail");
 		

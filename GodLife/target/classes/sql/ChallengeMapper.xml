@@ -121,17 +121,8 @@
 	 	target_email
 	 	FROM
 	 	friend_blacks
-	 	<where>
-	 		user_email = #{user.userEmail}
-	 		<if test="black==null">
-	 			AND f_b_status = '2'
-	 		</if>
-	 		<if test="black!=null">
-	 			AND f_b_status = '1'
-	 			AND acc_status = '2'
-	 		</if>
-	 	</where>
-	 	
+	 	WHERE user_email = #{user.userEmail}
+	 	AND f_b_status = '2'
 	 	
 	 </select>
 	 
@@ -141,16 +132,8 @@
 	 	user_email
 	 	FROM
 	 	friend_blacks
-	 	<where>
-	 		user_email = #{user.userEmail}
-	 		<if test="black==null">
-	 			AND f_b_status = '2'
-	 		</if>
-	 		<if test="black!=null">
-	 			AND f_b_status = '1'
-	 			AND acc_status = '2'
-	 		</if>
-	 	</where>
+	 	WHERE target_email = #{user.userEmail}
+	 	AND f_b_status = '2'
 	 </select>
 	 
 	 
@@ -184,26 +167,50 @@
 						</where>
 						UNION
 						SELECT
-						c.*, ct.categ_name
+						        c.*,ct.categ_name
 						FROM
-						challenges c, categs ct
-						WHERE ct.categ_no = c.categ_no
-						AND host_email = #{user.userEmail}
-						AND status = '0'
+						(
+							SELECT
+							inv.*
+							FROM
+								(
+									SELECT
+									*
+									FROM
+									friend_blacks
+									WHERE user_email = #{user.userEmail}
+									OR target_email = #{user.userEmail}
+								)inv
+							WHERE acc_status = '2'
+						)outv, challenges c, categs ct
+						WHERE outv.target_email(+) = c.host_email
+						AND ct.categ_no = c.categ_no
+						AND acc_status = '2'
+						AND c.status = '0'
+						AND NOT c.host_email = #{user.userEmail}
 						UNION
-						<if test="friend != null">
 						SELECT
-						c.*, ct.categ_name
+						        c.*, ct.categ_name
 						FROM
-						challenges c, categs ct
-						<where>
-							ct.categ_no = c.categ_no 
-							<foreach item="value" collection="friend">
-								AND host_email = #{value}
-							</foreach>
-								AND c.status = '0'
-						</where>
-						</if>
+						(
+							SELECT
+							inv.*
+							FROM
+								(
+									SELECT
+									*
+									FROM
+									friend_blacks
+									WHERE user_email = #{user.userEmail}
+									OR target_email = #{user.userEmail}
+								)inv
+							WHERE acc_status = '2'
+						)outv, challenges c, categs ct
+						WHERE outv.user_email(+) = c.host_email
+						AND ct.categ_no = c.categ_no
+						AND acc_status = '2'
+						AND c.status = '0'
+						AND NOT c.host_email = #{user.userEmail}
 						)list
 						<where>
 							<if test="search.searchKeyword != null and search.searchKeyword != ''">
@@ -233,8 +240,7 @@
 	 <select id="getChallengeListLoginTotal" parameterType="java.util.Map"  resultType="int">
 	 		
 	 		
-	 			
-						SELECT
+	 				SELECT
 						COUNT(*)
 						FROM
 						(
@@ -254,26 +260,48 @@
 						</where>
 						UNION
 						SELECT
-						c.*, ct.categ_name
+						        c.*,ct.categ_name
 						FROM
-						challenges c, categs ct
-						WHERE ct.categ_no = c.categ_no
-						AND host_email = #{user.userEmail}
-						AND status = '0'
+						(
+							SELECT
+							inv.*
+							FROM
+								(
+									SELECT
+									*
+									FROM
+									friend_blacks
+									WHERE user_email = #{user.userEmail}
+									OR target_email = #{user.userEmail}
+								)inv
+							WHERE acc_status = '2'
+						)outv, challenges c, categs ct
+						WHERE outv.target_email(+) = c.host_email
+						AND ct.categ_no = c.categ_no
+						AND acc_status = '2'
+						AND NOT c.host_email = #{user.userEmail}
 						UNION
-						<if test="friend != null">
 						SELECT
-						c.*, ct.categ_name
+						        c.*, ct.categ_name
 						FROM
-						challenges c, categs ct
-						<where>
-							ct.categ_no = c.categ_no 
-							<foreach item="value" collection="friend">
-								AND host_email = #{value}
-							</foreach>
-								AND c.status = '0'
-						</where>
-						</if>
+						(
+							SELECT
+							inv.*
+							FROM
+								(
+									SELECT
+									*
+									FROM
+									friend_blacks
+									WHERE user_email = #{user.userEmail}
+									OR target_email = #{user.userEmail}
+								)inv
+							WHERE acc_status = '2'
+						)outv, challenges c, categs ct
+						WHERE outv.user_email(+) = c.host_email
+						AND ct.categ_no = c.categ_no
+						AND acc_status = '2'
+						AND NOT c.host_email = #{user.userEmail}
 						)list
 						<where>
 							<if test="search.searchKeyword != null and search.searchKeyword != ''">
