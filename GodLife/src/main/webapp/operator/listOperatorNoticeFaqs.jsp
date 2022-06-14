@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html>
 <head>
-<title>°øÁö»çÇ×</title>
+<title>ê³µì§€ì‚¬í•­</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -25,104 +24,51 @@
     </style>
 	<script type="text/javascript">
 	
-
-function fncGetList(currentPage) {
-	
-	$("#currentPage").val(currentPage)
-	$("form").attr("method" , "POST").attr("action" , "/operator/getOperatorNoticeFaqsList").submit();
-	
-}
-
-$(function() {
-	 
-	$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
-		self.location ="/operator/getOperatorNoticeFaqs?noticeFaqNo="+$(this).children("input").val();
-	});
-	
-	$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
-			self.location ="/operator/getOperatorNoticeFaqs?noticeFaqNo="+$(this).children("input").val();
-	});
-	
-	$( ".ct_list_pop td:nth-child(5)" ).on("click" , function() {
-		var tranNo = $(this).children("input").val().trim();
-		$.ajax({
-			url : "/operator/json/getOperatorNoticeFaqs/" + tranNo,
-			method : "GET",
-			dataType : "json",
-			headers : {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			success : function(JSONData, status) {
-
-				//alert(status);
-				//alert("JSONData : \n"+JSONData.tranNo);
-
-				var displayValue = "<h3>" + 
-				"Á¦Ç°¹øÈ£ : "+JSONData.purchaseProd.prodNo + "<br/>" +
-				"±¸¸ÅÀÚ ÀÌ¸§ : "+JSONData.purchaseProd.receiverName + "<br/>" +
-				"Àç°í : "+ JSONData.quantity + "<br/>" +
-				"±¸¸ÅÀÚ ¿¬¶ôÃ³ : "+ JSONData.receiverPhone + "<br/>" +
-				"±¸¸ÅÀÚ ÁÖ¼Ò : "+ JSONData.divyAddr + "<br/>" +
-				"±¸¸Å ¿äÃ» »çÇ×: "+ JSONData.divyRequest + "<br/>" +
-				"¹è¼ÛÈñ¸ÁÀÏ: "+ JSONData.divyDate + "<br/>" +
-				"ÁÖ¹®ÀÏ: "+ JSONData.orderDate + "<br/>" +
-				"»óÇ°ÀÌ¹ÌÁö : <img src=/images/uploadFiles/"+ JSONData.purchaseProd.fileName+ "/><br/>" 
-				"</h3>";
-
-				//alert(displayValue);
-				$("h3").remove();
-				$("#" + tranNo + "").html(displayValue);
-			}
+		function fncGetList(currentPage) {
+			
+			$("#currentPage").val(currentPage)
+			$("form").attr("method" , "POST").attr("action" , "/operator/listOperatorNoticeFaqs").submit();	
+		}
+		
+		$(function() {
+			 
+			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
+					self.location ="/operator/getOperatorNoticeFaqs?noticeFaqNo="+$(this).data("value");
+			});
+			
+			var noticeFaqNo = $(this).text().trim();
+			$.ajax( 
+					{
+						url : "/operator/json/getOperatorNoticeFaqs/"+noticeFaqNo ,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+		
+							//Debug...
+							//alert(status);
+							//Debug...
+							//alert("JSONData : \n"+JSONData);
+							
+							var displayValue = "<h3>"
+														+"ë²ˆ  í˜¸ : "+JSONData.noticeFaqNo+"<br/>"
+														+"ì œ  ëª© : "+JSONData.title+"<br/>"
+														+"ì‘ì„±ì : "+JSONData.userEmail+"<br/>"
+														+"ì‘ì„±ì¼ : "+JSONData.regDate+"<br/>"
+														+"</h3>";
+							//Debug...									
+							//alert(displayValue);
+							$("h3").remove();
+							$( "#"+noticeFaqNo+"" ).html(displayValue);
+						}
+				});
+		
+		
 		});
-	});
-	
-	$(".ct_list_pop td:nth-child(11):contains('¹°°ÇµµÂø')" ).on("click",function() {
-		//alert( $(this).children("input").val() );
-		var tranNo =$(this).children("input").val().trim();
-		self.location="/purchase/updateTranCode?tranNo="+$(this).children("input").val()+"&tranCode=3";
-	});
-	
-	$(function() {
-		$( ".btn.btn-default" ).on("click" , function() {
-			fncAddPointDonation();
-		});
-	});	
-	
-	
-	var userId = $(this).text().trim();
-	$.ajax( 
-			{
-				url : "/operator/json/getOperatorNoticeFaqs/"+noticeFaqNo ,
-				method : "GET" ,
-				dataType : "json" ,
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
-				success : function(JSONData , status) {
-
-					//Debug...
-					//alert(status);
-					//Debug...
-					//alert("JSONData : \n"+JSONData);
-					
-					var displayValue = "<h3>"
-												+"¹ø  È£ : "+JSONData.noticeFaqNo+"<br/>"
-												+"Á¦  ¸ñ : "+JSONData.title+"<br/>"
-												+"ÀÛ¼ºÀÏ : "+JSONData.regDate+"<br/>"
-												+"ÀÛ¼ºÀÚ : "+JSONData.userEmail+"<br/>"
-												+"</h3>";
-					//Debug...									
-					//alert(displayValue);
-					$("h3").remove();
-					$( "#"+userId+"" ).html(displayValue);
-				}
-		});
-
-
-});
-</script>
+	</script>
 </head>
 
 <body>
@@ -131,18 +77,18 @@ $(function() {
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>°øÁö»çÇ×</h3>
+	       <h3>ê³µì§€ì‚¬í•­</h3>
 	    </div>
 	    
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row">
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
+		    		ì „ì²´  ${resultPage.totalCount } ê±´ìˆ˜, í˜„ì¬ ${resultPage.currentPage}  í˜ì´ì§€
 		    	</p>
 		    </div>
 		    
@@ -152,44 +98,45 @@ $(function() {
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>Á¦¸ñ</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>¹øÈ£</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ì œëª©</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>ë²ˆí˜¸</option>
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
+				    <label class="sr-only" for="searchKeyword">ê²€ìƒ‰ì–´</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="ê²€ìƒ‰ì–´"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>
 				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
+				  <button type="button" class="btn btn-default">ê²€ìƒ‰</button>
 				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 				</form>
 	    	</div>
 	    	
 		</div>
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 
-<!-- »õ±Û¾²±â ´©¸¦ ¶§ -->
+<!-- ìƒˆê¸€ì“°ê¸° ëˆ„ë¥¼ ë•Œ -->
 <form action="/operator/addOperatorNoticeFaqs" method="post">
 
-	<!-- »õ±ÛÀÇ °èÃş Á¤º¸ -->
-	<button type="submit" class="btn btn-secondary mb-3">±Û¾²±â</button>
+	<!-- ìƒˆê¸€ì˜ ê³„ì¸µ ì •ë³´ -->
+	<button type="submit" class="btn btn-secondary mb-3">ê¸€ì“°ê¸°</button>
 </form>		
 		
 <table class="table table-striped">
 	<tr>
-		<td colspan="11">ÀüÃ¼ ${resultPage.totalCount} °Ç¼ö, ÇöÀç ${resultPage.currentPage } ÆäÀÌÁö</td>
+		<td colspan="11">ì „ì²´ ${resultPage.totalCount} ê±´ìˆ˜, í˜„ì¬ ${resultPage.currentPage } í˜ì´ì§€</td>
 	</tr>
 	<tr>
-		<th scope="col" class="text-center">¹øÈ£</th>
-		<th scope="col" class="text-center">Á¦¸ñ</th>
-		<th scope="col" class="text-center">ÀÛ¼ºÀÏ</th>
-		<th scope="col" class="text-center">ÀÛ¼ºÀÚ</th>
+		<th scope="col" class="text-center">ë²ˆí˜¸</th>
+		<th scope="col" class="text-center">ì œëª©</th>
+		<th scope="col" class="text-center">ì‘ì„±ì</th>
+		<th scope="col" class="text-center">ì‘ì„±ì¼</th>
+
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
@@ -198,24 +145,22 @@ $(function() {
 	<c:set var = "i" value = "0"/>
 	<c:forEach var ="NoticeFaqs" items ="${list }">
 		<c:set var="i"  value = "${i+1 }"/>
-		<tr>
-		<td>${i }</td>
-			  <td align="left" noticeFaqNo="${ NoticeFaqs.noticeFaqNo }" title="Click : »óÇ°Á¤º¸ È®ÀÎ">${ NoticeFaqs.title }</td>
-			  <td align="left">${ NoticeFaqs.regDate }</td>
+		<tr class="ct_list_pop">
+		<td align="center">${ i }</td>
+		<td></td>
+			  <td align="left" data-value="${ NoticeFaqs.noticeFaqNo }" title="Click : ìƒí’ˆì •ë³´ í™•ì¸">${ NoticeFaqs.title }</td>
 			  <td align="left">${ NoticeFaqs.userEmail }</td>
+			  <td align="left">${ NoticeFaqs.regDate }</td>
 			  <td align="left">
-			  	<i class="glyphicon glyphicon-ok" id= "${NoticeFaqs.noticeFaqNo}"></i>
+			  	
 			  	<input type="hidden" value="${NoticeFaqs.noticeFaqNo}">
 			  </td>
-	</tr>
-	
+	</tr>	
 	</c:forEach>
 </table>	
 
-
-
 	
-<!--  ÆäÀÌÁö Navigator ½ÃÀÛ -->
+<!--  í˜ì´ì§€ Navigator ì‹œì‘ -->
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
@@ -227,7 +172,7 @@ $(function() {
     	</td>
 	</tr>
 </table>
-<!--  ÆäÀÌÁö Navigator ³¡ -->
+<!--  í˜ì´ì§€ Navigator ë -->
 
 </form>
 
