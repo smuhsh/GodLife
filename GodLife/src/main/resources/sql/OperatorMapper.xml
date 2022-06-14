@@ -314,7 +314,7 @@
 													</if>
 												</where>
 											</if>-->
-											ORDER BY notice_faq_no<!--  ) inner_table
+											ORDER BY notice_faq_no DESC<!--  ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} --> 
 	 </select>

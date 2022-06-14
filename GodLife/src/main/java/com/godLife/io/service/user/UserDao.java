@@ -134,7 +134,8 @@ public interface UserDao {
     
     
     
-    //레드 카드 발급, 제거 
+    //레드카드 발급, 제거 
+    public void updateRedCard(User user) throws Exception; 
     
     
     

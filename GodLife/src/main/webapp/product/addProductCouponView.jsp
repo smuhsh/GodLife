@@ -27,7 +27,11 @@
 		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
 		}
 	
-	
+		h1 {
+		 	padding-top : 50px;
+		
+		
+		}
 	
  		body {
             padding-top : 50px;
@@ -37,7 +41,7 @@
         }
         
         body > div.container{
-        	border: 3px solid #D6CDB7;
+        	border: 3px;
             margin-top: 10px;
             font-family: 'oneMobile';
         }
@@ -59,7 +63,7 @@
 
 
 //=====기존Code 주석 처리 후  jQuery 변경 ======//
-function fncAddProduct(){
+function fncAddProductCoupon(){
 	$("form").attr("method", "POST").attr("action", "/product/addProductCoupon").submit();
 }
 
@@ -96,10 +100,10 @@ $(function() {
 	$(function(){
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-		 $( "button.btn.btn-primary" ).on("click" , function() {
+		 $( "button.btn.btn-primary.addP" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
-				fncAddProduct();
+				fncAddProductCoupon();
 		});
 	});	
 	
@@ -133,7 +137,7 @@ $(function() {
 		<h1 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">쿠폰 상품등록</h1>
 		
 		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal" encType="multipart/form-data">
+		<form class="form-horizontal" encType="multipart/form-data" style="border-color: black;">
 
 		  <div class="form-group">
 		    <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
@@ -180,8 +184,8 @@ $(function() {
 		
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+		      <button type="button" class="btn btn-primary addP"  >등록 완료</button>
+			  <a class="btn btn-primary reset" href="#" role="button">리셋</a>
 			  <button type="button" class="btn btn-primary getList">리스트로 돌아가기</button>
 		    </div>
 		  </div>

@@ -1,347 +1,155 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!--  ///////////////////////// JSTL  ////////////////////////// -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GodLife</title>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+<link rel="stylesheet" href="/css/toolbar.css" />
+
+<style type="text/css">
+</style>
+
+</head>
+<body>
+
+	<!-- header -->
+	<div class="header">
+
+		<div align="center" class="header_bar">
+			<ul class="member_items">
+			
+				<c:if test="${user.userEmail== null}">
+					<li class="sign_up_item"><a href="/user/addUser">íšŒì›ê°€ì…</a></li>
+					<li class="sign_in_item"><a href="/user/login">ë¡œê·¸ì¸</a></li>
+				</c:if>
 
 
-<!-- ToolBar Start /////////////////////////////////////-->
-<div class="navbar  navbar-inverse navbar-fixed-top">
-	
-	<div class="container">
-	       
-		<a class="navbar-brand" href="/index.jsp">GodLife</a>
-		
-		<!-- toolBar Button Start //////////////////////// -->
-		<div class="navbar-header">
-		    <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#target">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		    </button>
+				<c:if test="${user.userEmail != null}">
+				
+	             <li class="service_center_item">
+					<a class="service_center" href="/user/getUser?userEmail=${sessionScope.user.userEmail}"> ë§ˆì´í˜ì´ì§€</a>
+					<button type="button" class="service_center_icon"></button>
+					
+					<ul class="service_center_detail">
+						<li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">ê°œì¸ì •ë³´ ì¡°íšŒ</a></li>
+						<li><a href="ë§í¬">í¬ì¸íŠ¸ êµ¬ë§¤</a></li>
+						<li><a href="ë§í¬">ìƒí’ˆê¶Œ êµ¬ë§¤</a></li>
+						<li><a href="ë§í¬">ì¿ í° êµ¬ë§¤</a></li>
+						<li><a href="ë§í¬">ê¸°ë¶€í•˜ê¸°</a></li>
+						
+						</ul>
+						</li>
+	                 
+						</c:if>
+					
+					<c:if test="${user.userEmail != null}">
+					<li class="sign_in_item"><a href="/user/logout">ë¡œê·¸ì•„ì›ƒ</a></li>
+				</c:if>
+
+			</ul>
 		</div>
-		<!-- toolBar Button End //////////////////////// -->
-		
-	    <!--  dropdown hover Start -->
-		<div 	class="collapse navbar-collapse" id="target" 
-	       			data-hover="dropdown" data-animations="fadeInDownNew fadeInRightNew fadeInUpNew fadeInLeftNew">
-	         
-	         	<!-- Tool Bar ¸¦ ´Ù¾çÇÏ°Ô »ç¿ëÇÏ¸é.... -->
-	             <ul class="nav navbar-nav">
-	             
-	              <!--  È¸¿ø°ü¸® DrowDown -->
-	              <li class="dropdown">
-	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-	                         <span >È¸¿ø°ü¸®</span>
-	                         <span class="caret"></span>
-	                     </a>
-	                     <ul class="dropdown-menu">
-	                         <li><a href="#">°³ÀÎÁ¤º¸Á¶È¸</a></li>
-	                         <li><a href="#">Ä£±¸¸ñ·ÏÁ¶È¸</a></li>
-	                          <li><a href="#">ºí·¢¸®½ºÆ®¸ñ·ÏÁ¶È¸</a></li>
-	                          <li><a href="#">Ä£±¸¿äÃ»¸ñ·ÏÁ¶È¸</a></li>
-	                         <li><a href="#">°øÁö»çÇ×¸ñ·Ï</a></li>
-	                         <li><a href="#">È¸¿øÁ¤º¸Á¶È¸</a></li>
-	                         <li><a href="#">°øÁö»çÇ×°ü¸®</a></li>
-	                         <li><a href="#">ÄíÆù»óÇ°ÀüÃ¼¸ñ·Ï</a></li>
-	                         <li><a href="#">»óÇ°±Ç»óÇ°ÀüÃ¼¸ñ·Ï</a></li>
-	                         <li><a href="#">Æ÷ÀÎÆ®»óÇ°ÀüÃ¼¸ñ·Ï</a></li>
-	                         <li><a href="#">»ı¼ºÄíÆù¸ñ·ÏÁ¶È¸</a></li>
-	                         <li><a href="#">ÄíÆù¹ß±Ş¸ñ·ÏÁ¶È¸</a></li>
-	                      
-	                     </ul>
-	                 </li>
-	                 
-	                 <!--  È¸¿ø°ü¸® DrowDown -->
-	              <li class="dropdown">
-	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-	                         <span >ÂÊÁö°ü¸®</span>
-	                         <span class="caret"></span>
-	                     </a>
-	                     <ul class="dropdown-menu">
-	                         <li><a href="#">ÂÊÁöº¸³»±â</a></li>
-	                         <li><a href="#">¹ŞÀºÂÊÁö ¸ñ·ÏÁ¶È¸</a></li>
-	                          <li><a href="#">º¸³½ÂÊÁö ¸ñ·ÏÁ¶È¸</a></li>
-	                     </ul>
-	                 </li>
-	                 
-	                 
-	                 
-	              <!-- ÆÇ¸Å»óÇ°°ü¸® DrowDown  -->
-	               <c:if test="${sessionScope.user.role == 'admin'}">
-		              <li class="dropdown">
-		                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-		                         <span >ÆÇ¸Å°ü¸®</span>
-		                         <span class="caret"></span>
-		                     </a>
-		                     <ul class="dropdown-menu">
-		                         <li><a href="#">ÆÇ¸Å»óÇ°µî·Ï</a></li>
-		                         <li><a href="#">ÆÇ¸Å»óÇ°°ü¸®</a></li>
-		                         <li><a href="#">ÆÇ¸Å¸ñ·ÏÁ¶È¸</a></li>
-		                     </ul>
-		                </li>
-	                 </c:if>
-	                 
-	              <!-- ±¸¸Å°ü¸® DrowDown -->
-	              <li class="dropdown">
-	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-	                         <span >»óÇ°±¸¸Å</span>
-	                         <span class="caret"></span>
-	                     </a>
-	                     <ul class="dropdown-menu">
-	                         <li><a href="#">»ó Ç° °Ë »ö</a></li>
-	                         
-	                         <c:if test="${sessionScope.user.role == 'user'}">
-	                           <li><a href="#">±¸¸ÅÀÌ·ÂÁ¶È¸</a></li>
-	                         </c:if>
-	                         
-	                         <li><a href="#">ÃÖ±Ù º» »óÇ°</a></li>
-	                     </ul>
-	                 </li>
-	              <li class="dropdown">
-	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-	                         <span >Point</span>
-	                         <span class="caret"></span>
-	                     </a>
-	                     <ul class="dropdown-menu">
-	                         <li><a href="#">±âºÎÇÏ±â</a></li>
-	                         <li><a href="#">±âºÎ³»¿ª</a></li>
-	                         <li><a href="#">Æ÷ÀÎÆ®ÀÌ¿ë³»¿ª</a></li>
-	         				 <li><a href="#">»óÇ°±Ç±¸¸Å³»¿ª</a></li>
-	                     </ul>
-	                 </li>
-	             </ul>
-	             
-	             <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#">·Î±×¾Æ¿ô</a></li>
-	            </ul>
-	            
-	             <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#" id="addChallengeTos">Ã§¸°Áö µî·Ï</a></li>
-	                <li class="dropdown">
-	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-	                         <span >Ã§¸°Áö</span>
-	                         <span class="caret"></span>
-	                     </a>
-	                     <ul class="dropdown-menu">
-	                         <li><a href="#" id="listChallenge">Ã§¸°Áö ¸ñ·Ï</a></li>
-	                         <li><a href="#" id="listChallengeAdd">µî·ÏÇÑ Ã§¸°Áö ¸ñ·Ï</a></li>
-	                         <li><a href="#" id="listChallengeJoin">Âü¿©ÇÑ Ã§¸°Áö ¸ñ·Ï</a></li>
-	         				 <li><a href="#" id="listChallengePick">ÂòÇÑ Ã§¸°Áö ¸ñ·Ï</a></li>
-	                     </ul>
-	                 </li>
-	            </ul>
-	            
+
+		<div class="logo_image">
+		<h1 class="logo">
+		<a href="/"> 
+				<img src="/images/uploadFiles/GodLife ì„ì‹œë¡œê³ .png" />
+				</a>
+		</h1>
 		</div>
-		<!-- dropdown hover END -->	       
-	    
+		
+
+		<div class="menuDiv">
+
+			<ul class="menu">
+				<!-- == main -->
+				<li class="all_category header_a_li">
+					<!-- == MAIN01 == ï¿½ï¿½ï§£ëŒë­…ï¿½ï¿½æ€¨ï¿½ç”±ï¿½ --> <a href="#" class="button">
+						<button type="button" class="menu_button"></button> ì±Œë¦°ì§€ ê´€ì‹¬ì‚¬
+				</a> <!-- ï¿½ï¿½ï§£ëŒë­…ï¿½ï¿½æ€¨ï¿½ç”±ï¿½ hoverï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. -->
+					<ul class="all_category_item" id="all_category_item">
+
+						<li><a class="1">ìš´ë™</a></li>
+						<li><a class="2">ì‹ìŠµê´€</a></li>
+						<li><a class="3">ê³µë¶€</a></li>
+						<li><a class="4"> ì·¨ë¯¸</a></li>
+						<li><a class="5"> ìƒí™œ</a></li>
+					</ul>
+				</li>
+
+				<li class="new-product-category">
+					<a	href="ë§í¬" style="text-decoration:none;">ì´ë²¤íŠ¸</a></li>
+					
+					<li class="new-product-category">
+					<a	href="ë§í¬" style="text-decoration:none;">ê³µì§€ì‚¬í•­</a></li>
+					
+					<li class="new-product-category">
+					<a	href="ë§í¬" style="text-decoration:none;">FAQ</a></li>
+					
+			</ul>
+
+		</div>
 	</div>
-</div>
-		<!-- ToolBar End /////////////////////////////////////-->
- 	
-   	
-   	
-   	<script type="text/javascript">
+
+
+
+	<script type="text/javascript"
+		src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+		
+	<script type="text/javascript">
 	
-		//============= logout Event  Ã³¸® =============	
-		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		 	$("a:contains('·Î±×¾Æ¿ô')").on("click" , function() {
-				$(self.location).attr("href","/user/logout");
-				//self.location = "/user/logout"
-			}); 
-		 });
-		
-		//============= È¸¿øÁ¤º¸Á¶È¸ Event  Ã³¸® =============	
-		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		 	$("a:contains('È¸¿øÁ¤º¸Á¶È¸')").on("click" , function() {
-				//$(self.location).attr("href","/user/logout");
-				self.location = "/user/listUser"
-			}); 
-		 });
-		
-		//=============  °³ÀÎÁ¤º¸Á¶È¸ Event  Ã³¸® =============	
-	 	$( "a:contains('°³ÀÎÁ¤º¸Á¶È¸')" ).on("click" , function() {
-	 		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/user/getUser?userEmail=${sessionScope.user.userEmail}");
-		});
-		
-		//=============  Ä£±¸¸ñ·ÏÁ¶È¸ Event  Ã³¸® =============	
-	 	$( "a:contains('Ä£±¸¸ñ·ÏÁ¶È¸')" ).on("click" , function() {
-	 		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/user/listFriend?userEmail=${sessionScope.user.userEmail}");
-		});
-		
-	 	//=============  ºí·¢¸®½ºÆ®¸ñ·ÏÁ¶È¸ Event  Ã³¸® =============	
-	 	$( "a:contains('ºí·¢¸®½ºÆ®¸ñ·ÏÁ¶È¸')" ).on("click" , function() {
-	 		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/user/listBlack?userEmail=${sessionScope.user.userEmail}");
-		});
-	 	
-	 	//=============  Ä£±¸¿äÃ»¸ñ·ÏÁ¶È¸ Event  Ã³¸® =============	
-	 	$( "a:contains('Ä£±¸¿äÃ»¸ñ·ÏÁ¶È¸')" ).on("click" , function() {
-	 		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/user/listFriendRequest");
-		});
-	 	
-	 	
-		//=============  ÂÊÁöº¸³»±â Event  Ã³¸® =============	
-	 	$( "a:contains('ÂÊÁöº¸³»±â')" ).on("click" , function() {
-	 		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/user/add?");
-		});
-		
-	 	//=============  ¹ŞÀºÂÊÁö ¸ñ·ÏÁ¶È¸ Event  Ã³¸® =============	
-	 	$( "a:contains('¹ŞÀºÂÊÁö ¸ñ·ÏÁ¶È¸')" ).on("click" , function() {
-	 		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/user/listUserRecvMsg?recvEmail=${sessionScope.user.userEmail}");
-		});
+		$(document).ready(function() {
+			
+			//ì „ì²´ ì¹´í…Œì½”ë¦¬ í˜¸ë²„ ì´ë²¤íŠ¸
+			$(".menu>.all_category").mouseover(function() {
+				$(this).children(".all_category_item").stop().slideDown();
+			});
+			
+			$(".menu>.all_category").mouseleave(function() {
+				$(this).children(".all_category_item").stop().slideUp();
+			});
 			
 		
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
+		//ë§ˆì´í˜ì´ì§€ í˜¸ë²„ì´ë²¤íŠ¸
+		$(".member_items .service_center_item").mouseover(function() {
+			$(this).children(".service_center_detail").stop().slideDown();
+		});
 		
-	 	 $(function() {
-	 		//=============  ÆÇ¸Å»óÇ°µî·Ï Event  Ã³¸® =============
-		 	$("a:contains('ÆÇ¸Å»óÇ°µî·Ï')").on("click" , function() {
-				self.location = "/product/addProductView.jsp"
-			}); 			 		
-		 });
-	 	 
-	 	$(function() {
-	 	//=============  ÆÇ¸Å»óÇ°°ü¸® Event  Ã³¸® =============
-		 	$("a:contains('ÆÇ¸Å»óÇ°°ü¸®')").on("click" , function() {
-				self.location = "/product/listProduct?menu=manage"
-			}); 
-	 	 });
-	 	
-	 	$(function() {
-		//=============  »ó Ç° °Ë »ö Event  Ã³¸® =============
-			$("a:contains('»ó Ç° °Ë »ö')").on("click" , function() {
-				self.location = "/product/listProduct?menu=search"
-			}); 
-		});
-	 	
-	 	$(function() {
-		 //=============  ÆÇ¸Å¸ñ·ÏÁ¶È¸ Event  Ã³¸® =============
-		 	$("a:contains('ÆÇ¸Å¸ñ·ÏÁ¶È¸')").on("click" , function() {
-				self.location = "/purchase/listSale?menu=manage"
-			}); 
-		});
-	 	
-	 	$(function() {
-		//=============  ±¸¸ÅÀÌ·ÂÁ¶È¸ Event  Ã³¸® =============
-		 	$("a:contains('±¸¸ÅÀÌ·ÂÁ¶È¸')").on("click" , function() {
-				self.location = "/purchase/listPurchase"
-			}); 
-		});
-	 	
-	 	$(function() {
-		 	$("a:contains('°øÁö»çÇ×°ü¸®')").on("click" , function() {
-		 		self.location = "/operator/getOperatorNoticeFaqs"
-			}); 
-		});
-	 	
-	 	$(function() {
-		 	$("a:contains('°øÁö»çÇ×¸ñ·Ï')").on("click" , function() {
-		 		self.location = "/operator/listOperatorNoticeFaqs"
-			}); 
-		});
-///////////////////////////////////////////////////////////////	 	
-	 	$(function() {
-		 	$("a:contains('ÄíÆù»óÇ°ÀüÃ¼¸ñ·Ï')").on("click" , function() {
-		 		self.location = "/product/getProductCouponList"
-			}); 
+		$(".member_items .service_center_item").mouseleave(function() {
+			$(this).children(".service_center_detail").stop().slideUp();
 		});
 		
 	
-	 	$(function() {
-		 	$("a:contains('»óÇ°±Ç»óÇ°ÀüÃ¼¸ñ·Ï')").on("click" , function() {
-		 		self.location = "/product/getProductVoucherList"
-			}); 
-		});
-	 	
-	 	$(function() {
-		 	$("a:contains('Æ÷ÀÎÆ®»óÇ°ÀüÃ¼¸ñ·Ï')").on("click" , function() {
-		 		self.location = "/product/getProductPointList"
-			}); 
-		});
-	 	
-///////////////////////////////////////////////////////////////	 	 	 	
-		$(function() {
-		 	$("a:contains('ÄíÆù¹ß±Ş')").on("click" , function() {
-		 		self.location = "/coupon/addCouponView"
-			}); 
+		$('#all_category_item>li').click(function(){
+			//alert
+			location.href = '/challenge/listChallenge?searchCondtion=' + $(this).children('a').attr('class');
 		});
 		
-		$(function() {
-		 	$("a:contains('»ı¼ºÄíÆù¸ñ·ÏÁ¶È¸')").on("click" , function() {
-		 		self.location = "/coupon/listCoupon"
-			}); 
-		});
+});	
 		
-		$(function() {
-		 	$("a:contains('ÄíÆù¹ß±Ş¸ñ·ÏÁ¶È¸')").on("click" , function() {
-		 		self.location = "/coupon/listIssuedCoupon"
-			}); 
-		});
-	 	
-	 	$( "a:contains('ÃÖ±Ù º» »óÇ°')" ).bind("click" , function() {
-	 		popWin = window.open("/history.jsp", "popWin",
-	 		"left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-		});
-	 	$(function() {
-		 	$("a:contains('±âºÎÇÏ±â')").on("click" , function() {
-		 		self.location = "/point/addPointDonationView"
-			}); 
-		});
-	 	$(function() {
-		 	$("a:contains('±âºÎ³»¿ª')").on("click" , function() {
-		 		self.location = "/point/getPointPurchaseDonationList"
-			}); 
-		});
-	 	$(function() {
-		 	$("a:contains('Æ÷ÀÎÆ®ÀÌ¿ë³»¿ª')").on("click" , function() {
-		 		self.location = "/point/getPointPurchaseList"
-			}); 
-		});
-	 	$(function() {
-		 	$("a:contains('»óÇ°±Ç±¸¸Å³»¿ª')").on("click" , function() {
-		 		self.location = "/point/getPointPurchaseVoucherList"
-			}); 
-		});
+		//header ê³ ì • ì´ë²¤íŠ¸
+	    $(function(){
+	        var top_pos= $('.menuDiv').offset().top;
+	        win = window;
+	        $(win).on('scroll',
+	           function(){
+	             var pos = $(this).scrollTop();
+	             
+	             if(pos >= top_pos){
+	                $('.menuDiv').addClass('fix');
+	             } 
+	              else{
+	                $('.menuDiv').removeClass('fix');
+	              }
+	        });         
+	      });
 		
-	 	$(function(){
-	 		$("a#addChallengeTos").on("click",function(){
-	 			self.location = "/challenge/addChallengeTos.jsp"
-	 		});
-	 		
-	 		$("a#listChallenge").on("click",function(){
-	 			self.location = "/challenge/listChallenge" //Å×½ºÆ®
-	 		});
-	 		
-	 		$("a#listChallengeAdd").on("click",function(){
-	 			self.location = "/challenge/listChallenge?challengeListOpt=add";
-	 		});
-	 		
-	 		$("a#listChallengeJoin").on("click",function(){
-	 			self.location = "/challenge/listChallenge?challengeListOpt=join";
-	 		});
-	 		
-	 		$("a#listChallengePick").on("click",function(){
-	 			self.location = "/challenge/listChallenge?challengeListOpt=pick";
-	 		});
-	 		
-	 	});
 		
-	</script>  
+		
+	</script>
+</body>
+</html>
