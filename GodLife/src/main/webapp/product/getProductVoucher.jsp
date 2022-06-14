@@ -68,7 +68,7 @@
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button.btn.btn-primary.update" ).on("click" , function() {
-					self.location = "/product/updateProductPointView?productNo=${product.productNo}"
+					self.location = "/product/updateProductVoucherView?productNo=${product.productNo}"
 				});
 		});
 
@@ -90,7 +90,7 @@
 	<div class="container">
 	
 		<div class="page-header">
-	       <h3 class=" text-info" style="color:#000000; font-weight: bold; font-family:impact;">포인트상품상세조회</h3>
+	       <h3 class=" text-info" style="color:#000000; font-weight: bold; font-family:impact;">상품권 상품 상세조회</h3>
 	    </div>
 	    
 <!-- 이미지 미리 보기 -->	
@@ -131,7 +131,7 @@
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "></div>
 			<div class="col-xs-8 col-md-4"></div>
-			<input type="hidden" class="form-control" id="status" name="status" value="3">
+			<input type="hidden" class="form-control" id="status" name="status" value="2">
 		</div>
 
 		

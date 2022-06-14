@@ -52,50 +52,34 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
       
-   function fncUpdateProduct() {
+   function fncUpdateProductVoucher() {
 
       $("form").attr("method", "POST").attr("action",
-            "/product/updateProductCoupon").submit();
+            "/product/updateProductVoucher").submit();
    }
+
    
-   function fncProductCouponImageUpdate() {
-	      $("form").attr("enctype", "multipart/form-data").attr("method", "POST").attr("action",
-	            "/product/updateProductCouponView").submit();
-   }
-   
-   function fncDeleteProduct() {
+   function fncDeleteProductVoucher() {
 
 	      $("form").attr("method", "POST").attr("action",
-	            "/product/deleteProductCoupon").submit();
+	            "/product/deleteProductVoucher").submit();
 	}   
    
 
    //==> 추가된부분 : "수정"  Event 연결
    $(function() {
       $("button.btn.btn-primary.update").on("click", function() {
-         fncUpdateProduct();
+         fncUpdateProductVoucher();
       });
    });
 
    $(function() {
 	  $("button.btn.btn-primary.delete").on("click", function() {
-	     fncDeleteProduct();
+	     fncDeleteProductVoucher();
 	   });
 	});   
  
-   
-   ////////파일 업로드
-	 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( ".imageUplaod" ).on("change" , function() {
-				fncProductCouponImageUpdate();
-				alert(productNo + ": productNo   "+ productImg + ":productImg  " + productName + ":productName");	
-			});
-		});	
-	////////파일 업로드
-   
-   
-   
+
    //==> 추가된부분 : "취소"  Event 연결 및 처리
    $(function() {
       $("a[href='#' ]").on("click", function() {
@@ -127,9 +111,9 @@
    <div class="container">
 
       <div class="page-header text-center">
-         <h3 class=" text-info">쿠폰 상품정보수정</h3>
+         <h3 class=" text-info">상품권 상품정보수정</h3>
          <h5 class="text-muted">
-            쿠폰 상품을 <strong class="text-danger">최신정보로 관리</strong>해 주세요.
+            상품권 상품을 <strong class="text-danger">최신정보로 관리</strong>해 주세요.
          </h5>
       </div>
 
@@ -185,7 +169,7 @@
             <label for="status" class="col-sm-offset-1 col-sm-3 control-label"></label>
             <div class="col-sm-4">
                <input type="hidden" class="form-control" id="status"
-                  name="status" value="1">
+                  name="status" value="2">
             </div>
          </div>
 

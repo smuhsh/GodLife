@@ -28,19 +28,25 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}	
+		
  		body {
             padding-top : 50px;
             background-color: #708090 ;
 		    font-weight: bold; 
-		    font-family:impact;
+		    font-family: 'oneMobile';
         }
         
+          
 		textarea {
 		    width: 100%;
 		    height: 6.25em;
 		    border: none;
 		    resize: none;
-		    
+		    font-family: 'oneMobile';
 		  }        
         
         
@@ -53,7 +59,7 @@
 		//============= 확인 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button.btn.btn-primary.btn" ).on("click" , function() {
+			 $( "button.btn.btn-primary.getList" ).on("click" , function() {
 				history.go(-1);
 				});
 		});
@@ -136,7 +142,7 @@
 			<div class="row">
 		  		<div class="col-md-12 text-center ">
 		  			<button type="button" class="btn btn-primary update">수정</button>
-		  			<button type="button" class="btn btn-primary btn">확인</button>
+		  			<button type="button" class="btn btn-primary getList">리스트로 돌아가기</button>
 		  		</div>
 			</div>		
 		</div>

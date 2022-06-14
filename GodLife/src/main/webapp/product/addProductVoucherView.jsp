@@ -63,16 +63,16 @@
 
 
 //=====기존Code 주석 처리 후  jQuery 변경 ======//
-function fncAddProductPoint(){
-	$("form").attr("method", "POST").attr("action", "/product/addProductPoint").submit();
+function fncAddProductVoucher(){
+	$("form").attr("method", "POST").attr("action", "/product/addProductVoucher").submit();
 }
 
 
 
-   function fncGetProductPointList() {
+   function fncGetProductVoucherList() {
 
       $("form").attr("method", "GET").attr("action",
-            "/product/getProductPointList").submit();
+            "/product/getProductVoucherList").submit();
    }
 
 
@@ -92,7 +92,7 @@ $(function() {
 		 $( "button.btn.btn-primary.addP" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
-				fncAddProductPoint();
+				fncAddProductVoucher();
 		});
 	});	
 	
@@ -101,7 +101,7 @@ $(function() {
 
 	   $(function() {
 			  $("button.btn.btn-primary.getList").on("click", function() {
-			     fncGetProductPointList();
+			     fncGetProductVoucherList();
 			   });
 			});    
 
@@ -123,7 +123,7 @@ $(function() {
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<h1 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">포인트 상품등록</h1>
+		<h1 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">상품권 상품등록</h1>
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal" encType="multipart/form-data" style="border-color: black;">
@@ -166,7 +166,7 @@ $(function() {
 		  <div class="form-group">
 		    <label for="status" class="col-sm-offset-1 col-sm-3 control-label"></label>
 		    <div class="col-sm-4">
-		    <input type="hidden" class="form-control" id="status" name="status" value="3">
+		    <input type="hidden" class="form-control" id="status" name="status" value="2">
 		    </div>
 		  </div>
 
@@ -192,3 +192,6 @@ $(function() {
 							
 					
 					
+					
+					
+		
