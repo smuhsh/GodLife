@@ -132,7 +132,7 @@ public class BadgeController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/badge/listBadge.jsp";
+		return "forward:/badge/getBadgeList.jsp";
 	}
 	
 	@RequestMapping (value = "deleteBadge")

@@ -52,14 +52,24 @@
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
   
 <style>
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}
+
+
 body {
    padding-top: 50px;
+   background-color: #708090 ;
+   font-weight: bold; 
+   font-family: 'oneMobile';
 }
 
 fieldset {
    width: 400px;
    text-align: center;
    backgrond-color: white;
+   font-family: 'oneMobile';
 }
 
 div.box {
@@ -70,9 +80,33 @@ div.box {
    padding: 10px;
    display: none;
    background-color: #ffcc00;
+   font-family: 'oneMobile';
 }
+
+.detail {
+   color : white ;
+   margin : 20px;
+   width: 380px;
+   height: auto;
+   padding-top: 1px;
+   background-color: #070719 ;
+   font-weight: bold; 
+   font-family:impact;
+   font-family: 'oneMobile';
+}
+
+
 </style>
+<!--  ///////////////////////// JavaScript ////////////////////////// -->
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
+
+<!-- CDN(Content Delivery Network) 호스트 사용 -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
 <script type="text/javascript">
+
+
+/////////////////구매 유효성 검사////////////
    function fncAddPointPurchasePoint() {
       var productNo = $('input[name="productNo"]:checked').val();
       var payOpt = $('input[name="payOpt"]:checked').val();
@@ -171,6 +205,56 @@ div.box {
 			   }
 		});
 	  }
+
+/////////////////////신규 쿠폰 상품 등록 Event  처리///////////////////////////
+	 $(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 $( "button.btn.btn-primary.addP" ).on("click" , function() {
+				self.location = "/product/addProductPointView?productNo=${product.productNo}"
+			});
+	});    
+//============= productName 에 쿠폰 상품 상세 정보(관리자 모드)  Event  처리(Click) =============
+	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	$(function() { 
+	     $( ".images" ).on("click" , function() {
+	    	 self.location ="/product/getProductPoint?productNo="+$(this).attr("productNo");
+	     });
+	});
+//============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
+	$(function(){
+		$( ".productName" ).on("click", function() {
+			var productNo = $(this).data("value");
+//			var productNo = $(this).next.val();
+
+			 $.ajax( 
+	                 {
+	                    url : "/product/json/getProductPoint/"+productNo,
+	                    method : "GET",
+	                    dataType : "json",
+	                    headers : {
+	                       "Accept" : "application/json",
+	                       "Content-Type" : "application/json"
+	                    },
+
+	                    success : function(JSONData , status) {
+	                    	
+	                       const displayDetail = 
+	                    	   `<div class="row">
+		                         	<div class="detail">상품 명 :&nbsp \${JSONData.productName} </div>
+		                         	<div class="detail">상품 상세정보: <br/> \${JSONData.productDetail} </div>
+	                     		</div>`
+	                       $("div.detail").remove();
+	                       $( "#"+JSONData.productNo+"" ).append(displayDetail);
+	                       console.log(JSONData , status);
+	                 }
+	              }); 
+	        });
+		//=========================================================//
+		 //==> prodNo LINK Event End User 에게 보일수 있도록 
+	    $( "div#productName" ).css("color" , "red");
+	    $("div#productName").css("font-size", "20px");
+	});
+
 </script>
 </head>
 
@@ -183,45 +267,59 @@ div.box {
       <!--  화면구성 div Start /////////////////////////////////////-->
       <div class="container">
 
-         <div class="page-header text-info">
-            <c:set var="name" value="${user.role}" />
-            <c:if test="${role =='admin' }">
-               <h3>포인트상품 전체목록</h3>
-            </c:if>
-
-            <c:if test="${role =='user' }">
-               <h3>상품 목록조회</h3>
-            </c:if>
-         </div>
-         <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-         <div class="row">
-            <div class="col-md-6 text-left">
-               <h3 class="text-primary font-weight-bold">포인트상품 전체목록</h3>
-            </div>
+      <!-- 상품 이미지 위쪽 /////////////////////////////////////-->
+         <div class="row" style="height: 150px; width: 1400px;">
+         
+         
             <div class="col-md-6 text-right">
-               <c:set var="name" value="${user.role}" />
-               <c:if test="${role =='admin' }">
-                  <button type="button" class="btn btn-primary addP">신규 포인트
-                     상품 등록</button>
-               </c:if>
-            </div>
-            <div class="col-md-6 text-right"></div>
+               <h1 class="text-primary font-weight-bold" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">포인트 상품 전체목록</h1>
+         	</div>
+
+       	    <div class="col-md-6 text-right"> 
+				<br/>
+            	<button type="button" class="btn btn-primary addP">신규 포인트 상품 등록</button> 
+	        </div>
+
+	         
          </div>
-
-
+         <div class="col-md-8 text-left"> 
+         	* Radio박스를 클릭하면 상세 정보를 조회 할 수 있습니다.<br>
+         	* RadioBox를 클릭 후, 구매를 눌러주시면 구매가 가능 합니다.<br>
+         	* 구현 예정 기능<br>
+         	1) serach<br>
+         	2) RestController 써서 Get으로 상세 정보가 뜨면 안없어짐.<br>
+         	   : 없어지는 버튼 하나 만들자<br>
+         	3) Ajax 글자 꾸미기 <br>
+         	4) Admin 일때, 유저 일때 보이는게 다르게 해야함 <br>
+         	   : 관리자 : 이미지 클릭으로 상세 정보 창으로 이동 => 수정, 삭제 가능 <br>
+         	   : 유저 : radioBox 체크로 상품 상세 정보 및, 상품 구매 가능
+         	   
+         </div>
+		<!-- 상품 이미지 시작 /////////////////////////////////////-->
+		<div class="row">
          <c:set var="i" value="0" />
          <c:forEach var="product" items="${list}">
-            <c:set var="i" value="${ i+1 }" />
-            <div class="col-xs-6 col-md-3">
-               <input type="radio" name="productNo" value="${product.productNo}"
-                  checked /> <img src="/images/uploadFiles/${product.productImg }"
-                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
-               <div>${ product.productName }</div><input type="hidden" name="productName" value="${product.productName}" />
-               <div>${ product.productPrice }원</div><input type="hidden" name="productPrice" value="${ product.productPrice }" />
-               <div>${ product.productDetail }</div>
+            <c:set var="i" value="${ i+1 }" />            
+	            <div class="col-xs-6 col-md-3" style="height: auto; width: 472px;">
+	            <input type="radio" name="radio" class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인" value="${product.productNo}" checked />
+	            
+		            <div style="height: auto; width: auto; border: 1px solid black; margin:20px; background-color: black;">
+		               <img productNo="${ product.productNo }" width="400" height="400" class="images" src="../images/uploadFiles/${product.productImg }"
+		                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
+		                
+		              <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->
+		               <div></div>
+		               
+		               <i id= "${product.productNo}" style="font-size:20px; "></i>
+		               <input type="hidden" value="${product.productNo}">
+		              <!-- <div>${ product.productPrice }원</div> -->
+		               <!-- 상세내용은 상세정보 창에서만 보이게 하자  -->
+		               <!--  <div>${ product.productDetail }</div>-->
+					</div>
             </div>
          </c:forEach>
-
+		</div>
+			<button type="button" class="btn btn-default">구매</button>
 
          <!--  table End /////////////////////////////////////-->
 
