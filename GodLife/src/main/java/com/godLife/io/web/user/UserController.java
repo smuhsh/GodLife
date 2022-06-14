@@ -17,6 +17,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -90,33 +91,33 @@ public class UserController {
 	public String login(@ModelAttribute("user") User user , HttpSession session, Model model) throws Exception{
 		
 		System.out.println("/user/login : POST");
+		
 		//Business Logic
-		System.out.println("입력받은 파라메터 : "+user);
 		User dbUser=userService.getUser(user.getUserEmail());
 		System.out.println("getUser 결과 : "+dbUser);
 		
-		System.out.println("입력받은 ID/PW : "+user);
-		System.out.println("DB와 일치하는 ID/PW : "+dbUser);
-		
-		
 		//db에 아이디가 없을 경우
-		if(dbUser==null) {
-			model.addAttribute("message", "가입되지않은 아이디입니다.");
-			return "redirect:/user/loginView.jsp"; // 로그인 페이지 
+		if(dbUser.getUserEmail()==null && dbUser.getPwd()==null) {
+			model.addAttribute("message", "아이디 및 비밀번호가 올바르지 않습니다."); // 해당 메세지 알러트창으로 어떻게?
+			model.addAttribute("url", "redirect:/user/loginView.jsp"); // 이거아닌듯.. 
+			//return "redirect:/user/loginView.jsp"; // 로그인 페이지 
 		}
 		
 		// 계정정지 상태 
-		if(dbUser.getRole()=="2") {
-			model.addAttribute("message", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다.");
+		if(dbUser.getAccountStatus()=="2") {
+			model.addAttribute("message1", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다."); // 해당 메세지 알러트창으로 어떻게?
 			return "redirect:/user/loginView.jsp";	// 로그인 페이지 
 		}
+		
+		// 관리자일때 
 		
 		
 		if( user.getPwd().equals(dbUser.getPwd())){
 			session.setAttribute("user", dbUser);
-			System.out.println("세션 만들어짐...");
-			System.out.println(session.getAttribute("user"));
 		}
+		
+		System.out.println("세션 만들어짐...");
+		System.out.println(session.getAttribute("user"));
 		
 		return "redirect:/index.jsp"; // 메인페이지로 이동 
 	}
@@ -142,11 +143,13 @@ public class UserController {
 	}
 	
 	@PostMapping( value="addUser") // 테스트완료 
-	public String addUser( @ModelAttribute("user") User user ) throws Exception {
+	public String addUser( @ModelAttribute("user") User user, Model model) throws Exception {
 
 		System.out.println("/user/addUser : POST");
 		//Business Logic
 		userService.addUser(user);
+		
+		model.addAttribute("message", "GodLife에 가입해주셔서 감사합니다.");
 		
 		return "redirect:/user/loginView.jsp"; // 회원가입하면 로그인페이지로 이동 
 	}
@@ -194,6 +197,8 @@ public class UserController {
 		return "forward:/user/updateUser.jsp"; // 본인정보 수정을 하기위한 조회페이지로 이동 
 	}
 	
+	
+	
 	@PostMapping( value="updateUser") // 프로필이미지 수정 미완료, text area 값 데이터값 안나옴 
 	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session,
 							  @RequestParam ("fileInfo" )  MultipartFile file)throws Exception{
@@ -217,6 +222,8 @@ public class UserController {
 			
 			return "redirect:/user/getUser?userEmail="+user.getUserEmail(); // 수정된상태의 조회페이지로 이동 
 	}
+	
+	
 	
     //파일명 랜덤 생성 메서드
     private String uploadFile(String originalName, byte[] fileData) throws Exception{
@@ -266,47 +273,50 @@ public class UserController {
 
 		System.out.println("/user/findId : GET");
 		
-		return "bbb"; // 이메일 찾기 페이지로 이동 
+		return "redirect:/user/getUserEmailView.jsp"; // 이메일 찾기 페이지로 이동 
 	}
 	
-	@PostMapping("findUserEmail")
-	public String findUserEmail (String phone, String sms) throws Exception{
-		System.out.println("/user/findUserEmail : POST");
+	@PostMapping(value = "findUserEmail")
+	public String findUserEmail(HttpServletResponse response, @RequestParam("phone") String phone, Model md) throws Exception{
+		md.addAttribute("userEmail", userService.findUserEmail(response, phone));
 		
-		// sms 인증필요 보낸 sms와 유저sms가 일치해야함???? 
-		// 다시 확인 
-		
-		User user= userService.findUserPhone(phone);
-		 
-		return "bbb"; // 이메일 찾기가 성공하고 이메일을 보여주는 페이지
+		return "forward:/user/getUserEmail.jsp";
 	}
 	
-	@GetMapping("findUserPwd")
-	public String findUserPwd() throws Exception{
-		
-		System.out.println("/user/findUserPwd : GET");
-		
-		return "bbb"; // 비밀번호 찾기 페이지로 이동 
-	}
 	
-	@PostMapping("findUserPwd")
-	public String findUserPwd(String userEmail, String phone, String sms, HttpSession session) throws Exception{
-		
-		System.out.println("/user/findPwd : POST");
-		
-		// sms인증 필요
-		
-		User user = userService.getUser(userEmail);
-		User user1 = userService.findUserPhone(phone);
-		
-		if(user.getUserEmail() == user1.getUserEmail()){
-			session.setAttribute("user", user);
-			
-			return "user/updateUserPwd";
-		}
-		
-		return "user/updateUserPwd"; // 새 비밀번호 입력창으로 이동
-	}	
+	
+	
+	
+	
+	
+	
+	
+//	@GetMapping("findUserPwd")
+//	public String findUserPwd() throws Exception{
+//		
+//		System.out.println("/user/findUserPwd : GET");
+//		
+//		return "bbb"; // 비밀번호 찾기 페이지로 이동 
+//	}
+//	
+//	@PostMapping("findUserPwd")
+//	public String findUserPwd(String userEmail, String phone, String sms, HttpSession session) throws Exception{
+//		
+//		System.out.println("/user/findPwd : POST");
+//		
+//		// sms인증 필요
+//		
+//		User user = userService.getUser(userEmail);
+//		User user1 = userService.findUserPhone(phone);
+//		
+//		if(user.getUserEmail() == user1.getUserEmail()){
+//			session.setAttribute("user", user);
+//			
+//			return "user/updateUserPwd";
+//		}
+//		
+//		return "user/updateUserPwd"; // 새 비밀번호 입력창으로 이동
+//	}	
 	
 	@PostMapping("updateUserPwd") 
 	public String updateUserPwd( @ModelAttribute("user") User user, HttpSession session, Model model  ) throws Exception {
@@ -335,9 +345,11 @@ public class UserController {
 	
 	//타유저 상세조회 . 인젝션해야되는데... 개어려워... 
 	
-	// 프로필이미지 업로드 
 	
-	 
+	///////////////////////////////마이페이지/////////////////////////////////////////////////////////
+	
+	
+	
 	
 	
 	////////////////////////////////친구, 블랙리스트 관리/////////////////////////////////////////////////////////
@@ -495,15 +507,15 @@ public class UserController {
 	
 	////////////////////////////////쪽지관리/////////////////////////////////////////////////////////
 	
-	@GetMapping( value="addMsg")
+	@GetMapping( value="addUserMsg")
 	public String addMsg() throws Exception{
 	
 		System.out.println("쪽지보내기 : GET");
 		
-		return "aa"; // 쪽지 보낼수있는 화면으로 이동 
+		return "forward:/user/addUserMsgView.jsp"; // 쪽지 보낼수있는 화면으로 이동 
 	}
 	
-	@PostMapping( value="addMsg")
+	@PostMapping( value="addUserMsg")
 	public String addMsg( @ModelAttribute("msg") Msg msg ) throws Exception {
 
 		System.out.println("쪽지보내기 : POST");
@@ -513,7 +525,7 @@ public class UserController {
 		return "bbb"; // 쪽지를 보내고 보낸 쪽지함으로 이동? 또는 상세조회페이지로 이동 
 	}
 	
-	@GetMapping( value="getRecvMsg")
+	@GetMapping( value="getUserRecvMsg")
 	public String getMsg( @RequestParam("msgNo") int msgNo , Model model ) throws Exception {
 		
 		System.out.println("받은 쪽지 조회 : GET");
@@ -524,7 +536,7 @@ public class UserController {
 		// Model 과 View 연결
 		model.addAttribute("msg", msg);
 		
-		return "bbb"; // 받은 쪽지 상세페이지로 이동 
+		return "forward:/user/getUserRecvMsg.jsp";  // 받은 쪽지 상세페이지로 이동 
 	}
 	
 	@GetMapping( value="getSendMsg")

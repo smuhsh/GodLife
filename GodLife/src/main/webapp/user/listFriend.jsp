@@ -41,7 +41,14 @@
 	  body {
             padding-top : 50px;
         }
+        
+        h3{
+                font-size: 2.0rem;
+            }
+            
     </style>
+    
+    <link rel="stylesheet" href="/css/listFriendBlack.css" />
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
@@ -81,22 +88,20 @@
 
 <body>
 	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
 	
-		<div class="page-header text-info">
-	       <h3>친구 목록조회</h3>
+	
+	<div class="container" >
+	
+		<div class="head_aticle" align="center">
+	      <h2 class="tit" style="color: #333;">나의 친구 목록조회</h2>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
 	    
 		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
+		    	<p class="text-secondary" >
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
 		    </div>
@@ -129,15 +134,14 @@
 		
 		
       <!--  table Start /////////////////////////////////////-->
+      		<br></br>
       		
 		<c:forEach var="user" items="${list}">
-		
 		<div class="col-sm-3 col-md-3 " >
-      <div class="thumbnail"  style="height: 400px;"   >
+      <div class="thumbnail"  style="height: 300px;"   >
        <img class="img-responsive" src="/images/uploadFiles/${user.profileImg }"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;" > 
      
-		 
-          <div class="caption">
+          <div class="caption"  id = "caption">
             <h3> ${ user.userEmail } </h3>
             <p>닉네임  :${user.nick}</p>
 
@@ -150,8 +154,6 @@
 	</c:forEach>	
 
 </div>
-		
-		
 		
 		
 		

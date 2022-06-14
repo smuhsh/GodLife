@@ -1,148 +1,139 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<html lang="ko">
-	
+<html>
 <head>
-	<meta charset="EUC-KR">
-	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-     </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
+<meta charset="UTF-8">
+
+<!-- CSS-->
+<link rel="stylesheet" href="/css/getUser.css" />
+<style>
+img
+{
+border : 5px solid white;
+width : 200px;
+height : 200px;
+float : center;
+}
+
+
+</style>
+
+<!--  ìë°”ìŠ¤í¬ë¦½íŠ¸ -->
+<script type="text/javascript">
 		
-		//============= È¸¿øÁ¤º¸¼öÁ¤ Event  Ã³¸® =============	
+		//============= íšŒì›ì •ë³´ìˆ˜ì • Event  ì²˜ë¦¬ =============	
 		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button" ).on("click" , function() {
 					self.location = "/user/updateUser?userEmail=${user.userEmail}"
 				});
 		});
 		
 	</script>
-	
+
+<title>ê°œì¸ì •ë³´ ì¡°íšŒ</title>
 </head>
-
 <body>
-
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
+	<div class="page_aticle">
+		<div class="type_form getUser">
+			<form id="form" name="frmMember">
+				<div class="field_head">
+					<h3 class="tit">ê°œì¸ì •ë³´ ì¡°íšŒ</h3>
+				</div>
+				
+				<table class="tbl_comm">
+				
+				<tr class="profileImg">
+						<th>í”„ë¡œí•„ì´ë¯¸ì§€</th>
+						<td>
+						<div class="profileImg">
+								<img src="/images/uploadFiles/${user.profileImg } " onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" > </div>
+						</td>
+					</tr>
+				
+					<tr class="userEmail">
+						<th>ì´ë©”ì¼</th>
+						<td>
+							<input type="text" name="userEmail" id="userEmail" maxlength="16" required="" fld_esssential="" option="regId" label="ì•„ì´ë””" placeholder="${user.userEmail}" readonly/>
+						</td>
+					</tr>
+					<tr>
+					
+					<tr class="nick">
+						<th>ë‹‰ë„¤ì„</th>
+						<td>
+							<input type="text" name="nick" id="nick" value="" required="" fld_esssential="" label="ë‹‰ë„¤ì„" placeholder="${user.nick}" readonly/>
+						</td>
+					</tr>
+					
+					<tr class="phone">
+						<th>íœ´ëŒ€í° ë²ˆí˜¸</th>
+						<td>
+							<div class="phone"">
+								<input type="text" value="" pattern="[0-9]*" name="phone" id="phone" maxlength="13" placeholder="${user.phone}" class="inp" readonly/>
+							</div>
+						</td>
+					</tr>
+					
+					<tr class="categNo">
+						<th>ê´€ì‹¬ì‚¬</th>
+						<td>
+						<div class="categNo">
+								<input type="text" value=""  name="categNo" id="categNo" placeholder="${user.categName}"  readonly/>
+							</div>
+						</td>
+					</tr>
+					
+					<tr class="intro">
+						<th>í•œì¤„ ì†Œê°œ</th>
+						<td>
+						<div class="intro">
+								<input type="text" value=""  name="intro" id="intro" placeholder="${user.intro}"  readonly/>
+							</div>
+						</td>
+					</tr>
+					
+					<tr class="reportCount">
+						<th>ì‹ ê³  ë³´ìœ  ê°œìˆ˜</th>
+						<td>
+						<div class="intro">
+								<input type="text" value=""  name="reportCount" id="reportCount" placeholder="${user.reportCount}"  readonly/>
+							</div>
+							<button type="button" class="btn btn-info">Info</button>
+							
+						</td>
+					</tr>
+					
+					<tr class="redCardCount">
+						<th>ë ˆë“œì¹´ë“œ ê°œìˆ˜</th>
+						<td>
+						<div class="redCardCount">
+								<input type="text" value=""  name="redCardCount" id="redCardCount" placeholder="${user.redCardCount}" readonly/>
+							</div>
+						</td>
+					</tr>
+					
+					</table>
+					
+					
+					
+					
+					
+					
+					
+					
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
-	<div class="container">
-
-		<div class="page-header">
-	       <h3 class=" text-info">È¸¿øÁ¤º¸Á¶È¸</h3>
-	       <h5 class="text-muted">³» Á¤º¸¸¦ <strong class="text-danger">ÃÖ½ÅÁ¤º¸·Î °ü¸®</strong>ÇØ ÁÖ¼¼¿ä.</h5>
-	    </div>
-	
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>¾Æ ÀÌ µğ</strong></div>
-			<div class="col-xs-8 col-md-4">${user.userEmail}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>´Ğ³×ÀÓ</strong></div>
-			<div class="col-xs-8 col-md-4">${user.nick}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>ÇÚµåÆù</strong></div>
-			<div class="col-xs-8 col-md-4">${user.phone}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>°ü½É»ç</strong></div>
-			<div class="col-xs-8 col-md-4">${user.categName}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>ÇÁ·ÎÇÊÀÌ¹ÌÁö</strong></div>
-			 <div class="col-xs-8 col-md-4"> <img src="/images/uploadFiles/${user.profileImg }" >  </div>
-			
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>¼Ò°³±Û</strong></div>
-			<div class="col-xs-8 col-md-4">${user.intro}</div>
-		</div>
-		
-		<hr/>
-		
-		
-		
-		
-		
-	<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>½Å°í º¸À¯ °³¼ö</strong></div>
-			<div class="col-xs-8 col-md-4">${user.reportCount}</div>
-		</div>
-		
-		<hr/>
-		
-			<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>·¹µåÄ«µå º¸À¯ °³¼ö</strong></div>
-			<div class="col-xs-8 col-md-4">${user.redCardCount}</div>
+				<div id="formSubmit" class="form_footer">
+					<button type="button" class="btn active btn_join" id="writeBtn">ìˆ˜ì •í•˜ê¸°</button>
+				</div>
+				
+			</form>
 		</div>
 		
 		
-		<hr/>
-		
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>°¡ÀÔÀÏÀÚ</strong></div>
-			<div class="col-xs-8 col-md-4">${user.regDate}</div>
-		</div>
-		
-		<hr/>
-		
-		
-		<div class="row">
-	  		<div class="col-md-12 text-center ">
-	  			<button type="button" class="btn btn-primary">È¸¿øÁ¤º¸¼öÁ¤</button>
-	  		</div>
-		</div>
-		
-		<br/>
-		
- 	</div>
- 	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
-
+<iframe id="ifrmRnCheck" name="ifrmRnCheck" style="display:none;"></iframe>
+<iframe id="ifrmHpauth" name="ifrmHpauth" style="display:none;"></iframe>
+	</div>
 </body>
-
 </html>

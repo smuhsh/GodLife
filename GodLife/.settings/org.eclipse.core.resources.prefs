@@ -9,6 +9,7 @@ encoding//src/main/java/com/godLife/io/service/challenge/impl/ChallengeServiceIm
 encoding//src/main/java/com/godLife/io/service/domain/FriendBlack.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/webapp/operator/listOperatorNoticeFaqs.jsp=UTF-8
+encoding//src/main/webapp/badge/getBadgeList.jsp=UTF-8
 encoding//src/main/webapp/product/addProductPointView.jsp=UTF-8
 encoding//src/main/webapp/product/getProductPoint.jsp=UTF-8
 encoding//src/main/webapp/product/getProductPointList.jsp=UTF-8
