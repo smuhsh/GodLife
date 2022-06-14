@@ -21,17 +21,95 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
+   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 	<link rel="stylesheet" href="/resources/css/getChallenge.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/title.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/search.css" type="text/css">
 
+	<script type="text/javascript">
+		$(function(){
+			$("button#back").on("click",function(){
+				window.history.back();
+			});
+			
+			$("button#join").on("click",function(){
+				if(window.confirm("참여시 입장 포인트 만큼 포인트가 차감됩니다.\n"+
+								  "참여 하시겠습니까?")){
+					var joinPoint = ${challenge.joinPoint}
+					var userPoint = ${user.totalPoint}
+					if(userPoint < joinPoint){
+						alert("보유 포인트가 부족합니다.");
+						return;
+					}
+					
+					$("form[name='challenge']").attr("method","POST").attr("action","/challenge/addChallengeJoin")
+					.submit();
+				}
+				
+			});
+			
+			$("button#exit").on("click",function(){
+				if(window.confirm("챌린지에서 나가시겠습니까?")){
+					if(${user.userEmail == challenge.hostEmail}){
+						alert("회원님은 챌린지의 호스트입니다.\n"+
+								  "챌린지에서 나갈시 챌린지가 삭제됩니다.");
+						if(window.confirm("챌린지에서 나가시겠습니까?")){
+							$("form[name='challenge']").attr("method","POST").attr("action","/challenge/deleteChallengeJoin")
+							.submit();
+						}
+					}
+					
+					$("form[name='challenge']").attr("method","POST").attr("action","/challenge/deleteChallengeJoin")
+					.submit();
+				}
+				
+			});
+			
+			$("button#pick").on("click",function(){
+				if(window.confirm("챌린지를 찜 하시겠습니까?")){
+					
+					
+					$.ajax({
+						
+						url:"/challenge/challengeRest/getChallengePick?challengeNo=${challenge.challengeNo}",
+						method:"GET",
+						dataType:"json",
+						headers:{
+							"Accept":"application/json",
+							"Content-Type":"application/json"
+						},
+						success:function(JSONData,status){
+							if(JSONData.result != null ){
+								alert("이미 찜한 챌린지 입니다.");
+								return
+							}else{
+								alert("챌린지가 찜 목록에 등록 되었습니다.")
+								$("form[name='challenge']").attr("method","POST").attr("action","/challenge/addChallengePick")
+								.submit();
+							}
+							
+						}
+						
+					});
+					
+				}
+			});
+		});
+		
+		
+		
+		
+		
+	</script>
 <title>Insert title here</title>
 </head>
 <body>
 <form name="challenge">
-				
+		
+		<input type="hidden" name="challengeNo" value="${challenge.challengeNo }" >
+		<input type="hidden" name="joinPoint" value="${challenge.joinPoint }" >
+		<input type="hidden" name="hostEmail" value="${challenge.hostEmail }" >
 	<div class="container">
 	<jsp:include page="/layout/toolbar.jsp" />
 			  <div class="col-xs-6 col-sm-1">
@@ -80,16 +158,29 @@
 			        	</div>
 			        </div>
 			        <div id="centerButton">
-			        		<button type="button" class="btn btn-default abc">나가기</button>
+			        		<button type="button" id="back" class="btn btn-default abc">뒤로가기</button>
 				        		<c:forEach var="i" begin="1" step="1" end="20">
 				        		&nbsp;
 				        		</c:forEach>
-			        		<button type="button" class="btn btn-default abc">참여하기</button>
+				        	<c:if test="${challenge.challengeJoinFlag == 0 }">
+				        		<button type="button" id="join" class="btn btn-default abc">참여하기</button>
+				        	</c:if>
+				        	<c:if test="${challenge.challengeJoinFlag == 1 }">
+				        		<button type="button" id="exit" class="btn btn-default abc">나가기</button>
+				        	</c:if>
 			        </div>
 			        
 			        <div id="rightButton">
-			        	<button type="button" class="btn btn-default abc">찜하기</button>
+			        	<c:if test="${challenge.challengeJoinFlag == 0 }">
+			        		<button type="button" id="pick" class="btn btn-default abc">찜하기</button>
+			        	</c:if>
 			        	<button type="button" class="btn btn-default abc">공유하기</button>
+			        	<a id="kakao-link-btn" href="javascript:;">
+						  <img
+						    src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+						    alt="카카오톡 공유 보내기 버튼" style="width:40px; height:40px; bottom:40px;"
+						  />
+						</a>
 			        </div>
 			      </div>
 			    </div>
@@ -103,4 +194,23 @@
 	
 </form>
 </body>
+<script type="text/javascript">
+
+Kakao.init('46b01871c9b671c1fdd5d67fc7998a96');
+console.log(Kakao.isInitialized());
+
+Kakao.Link.createDefaultButton({
+	  container: '#kakao-link-btn',
+	  objectType: 'text',
+	  text:
+	    '기본 템플릿으로 제공되는 텍스트 템플릿은 텍스트를 최대 200자까지 표시할 수 있습니다. 텍스트 템플릿은 텍스트 영역과 하나의 기본 버튼을 가집니다. 임의의 버튼을 설정할 수도 있습니다. 여러 장의 이미지, 프로필 정보 등 보다 확장된 형태의 카카오톡 공유는 다른 템플릿을 이용해 보낼 수 있습니다.',
+	  link: {
+	    mobileWebUrl:
+	      'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+	    webUrl:
+	      'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+	  },
+});
+
+</script>
 </html>

@@ -25,11 +25,16 @@
    
    <!--  ///////////////////////// CSS ////////////////////////// -->
    <style>
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}   
+   
  		body {
             padding-top : 50px;
             background-color: #708090 ;
 		    font-weight: bold; 
-		    font-family:impact;
+		    font-family: 'oneMobile';
         }
         
 		textarea {
@@ -37,7 +42,7 @@
 		    height: 6.25em;
 		    border: none;
 		    resize: none;
-		    
+		    font-family: 'oneMobile';
 		  }  
    
    </style>
@@ -107,41 +112,7 @@
 			});
 	});	
 	
-	
-	
-	
-	
-	
-	
-   $(function (){
-      /*    ：startView: 2,
-       maxViewMode: 1,
-       minViewMode:1,
-            ，           ，0  ，1  ，2  ，
-                    ，
-                  。          。
-      */
-        //     startView: 4, minView: 4, format: 'yyyy', 
-      $('.form_date').datetimepicker({
-      format: 'yyyy', 
-      startView:4, 
-      minView:4,
-      language: 'zh-CN' ,
-      forceParse: false, 
-      autoclose:true,
-        pickerPosition: "bottom-left" 
-        });
-       //      
-        $('.form_date').datetimepicker({
-        language: 'zh-CN',
-        minView: 'month', 
-        format: 'yyyy-mm-dd',
-        autoclose: true,
-       startView: 2,
-        showMeridian: 1,
-        pickerPosition: "bottom-left"
-       });
-      });
+
 </script>
    
 </head>
@@ -223,8 +194,8 @@
             <div class="col-sm-offset-4  col-sm-4 text-center">
                <button type="button" class="btn btn-primary update">수 &nbsp;정</button>
                <button type="button" class="btn btn-primary delete">삭 &nbsp;제</button>
-               <button type="button" class="btn btn-primary back">이전페이지로 돌아가기</button>
                <a class="btn btn-primary btn" href="#" role="button">내용리셋</a>
+               <button type="button" class="btn btn-primary back">이전페이지로 돌아가기</button>          
             </div>
          </div>
       </form>

@@ -232,6 +232,7 @@ public class ChallengeController {
 		
 		search.setPageSize(pageSize);
 		
+		
 		User user = (User)session.getAttribute("user");
 		
 		map.put("user", user);
@@ -256,6 +257,7 @@ public class ChallengeController {
 		model.addAttribute("resultPage",resultPage);
 		model.addAttribute("challengeListOpt",challengeListOpt);
 		
+		
 		return "forward:/challenge/listChallenge.jsp";
 	}
 	
@@ -276,6 +278,8 @@ public class ChallengeController {
 		
 		//챌린지에 참여했던 유저들의 포인트 환불 작업
 		for(String userEmail : userList) {
+			
+			System.out.println("userEamil : "+userEmail);
 			
 			user = userService.getUser(userEmail);
 			
@@ -315,10 +319,173 @@ public class ChallengeController {
 		
 		model.addAttribute("challenge",challenge);
 		model.addAttribute("hostUser",hostUser);
+		model.addAttribute("user",user);
 		
 		return "forward:/challenge/getChallenge.jsp";
 	}
 	
+	
+	@RequestMapping(value="addChallengeJoin",method=RequestMethod.POST)
+	public String addChallengeJoin(JoinChallenger joinChallenger,
+								   @ModelAttribute Challenge challenge,
+								   HttpSession session,
+								   Map<String,Object> map,
+								   Model model,
+								   Point point) throws Exception {
+		
+		User user = (User)session.getAttribute("user");
+		
+		joinChallenger.setEmail(user.getUserEmail());
+		joinChallenger.setChallengeNo(challenge.getChallengeNo());
+		joinChallenger.setStatus("0");
+		
+		
+		point.setUserEmail(user.getUserEmail());
+		
+		point.setUseStatus("2");
+		
+		point.setPoint(challenge.getJoinPoint());
+		
+		point.setUseDetail("2");
+		
+		map.put("user", user);
+		
+		map.put("point", point);
+		
+		pointService.addPointPurchase(map);
+		
+		challengeService.addChallengeJoin(joinChallenger);
+		
+		map.put("challengeNo", challenge.getChallengeNo());
+		
+		challenge = challengeService.getChallenge(map);
+		
+		model.addAttribute(challenge);
+		
+		return "forward:/challenge/getChallenge.jsp";
+	}
+	
+	
+	@RequestMapping(value = "deleteChallengeJoin",method=RequestMethod.POST)
+	public String deleteChallengeJoin(@ModelAttribute Challenge challenge,
+									  JoinChallenger joinChallenger,
+									  HttpSession session,
+									  Map<String,Object> map,
+									  Model model,
+									  Point point) throws Exception {
+		
+		User user = (User)session.getAttribute("user");
+		
+		joinChallenger.setEmail(user.getUserEmail());
+		joinChallenger.setChallengeNo(challenge.getChallengeNo());
+		joinChallenger.setStatus("0");
+		
+		
+		if(challenge.getHostEmail().equals(user.getUserEmail())) {
+			
+			map.put("user", user);
+			map.put("challengeNo", challenge.getChallengeNo());
+			
+			Challenge deleteChallengeThumbnail = challengeService.getChallenge(map);
+			
+			String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
+			
+			File file = new File(path+deleteChallengeThumbnail.getChallengeThumbnailImg());
+			
+			if(file.exists()) {
+				if(file.delete()) {
+					System.out.println("파일 삭제 성공");
+				}else {
+					System.out.println("파일 삭제 실패");
+				}
+			}else {
+				System.out.println("파일이 존재하지 않습니다.");
+			}
+			
+			map = challengeService.deleteChallenge(challenge.getChallengeNo());
+			
+			List<String> userList = (List<String>)map.get("challengeJoinList");
+			
+			//챌린지에 참여했던 유저들의 포인트 환불 작업
+			for(String userEmail : userList) {
+				
+				user = userService.getUser(userEmail);
+				
+				point.setUserEmail(user.getUserEmail());
+				
+				point.setUseStatus("1");
+				
+				point.setPoint((Integer)map.get("challengeJoinPoint"));
+				
+				point.setUseDetail("3");
+				
+				map.put("user", user);
+				
+				map.put("point", point);
+				
+				pointService.addPointPurchase(map);
+				
+			}
+			
+			System.out.println("삭제 테스트");
+			
+			return "redirect:/challenge/listChallenge";
+			
+		}
+		
+		
+		
+		int challengeJoinPoint = challengeService.deleteChallengeJoin(joinChallenger);
+		
+		
+		point.setUserEmail(user.getUserEmail());
+		
+		point.setUseStatus("1");
+		
+		point.setPoint(challengeJoinPoint);
+		
+		point.setUseDetail("3");
+		
+		map.put("user", user);
+		
+		map.put("point", point);
+		
+		pointService.addPointPurchase(map);
+		
+		map.put("challengeNo", challenge.getChallengeNo());
+		
+		challenge = challengeService.getChallenge(map);
+		
+		model.addAttribute("challenge",challenge);
+		
+		return "/challenge/getChallenge.jsp";                    
+	}                                 
+	        
+	@RequestMapping(value="addChallengePick",method=RequestMethod.POST)
+	public String addChallengePick(JoinChallenger joinChallenger,
+								   @ModelAttribute Challenge challenge,
+								   HttpSession session,
+								   Map<String,Object> map,
+								   Model model) {
+		
+		User user = (User)session.getAttribute("user");
+		
+		joinChallenger.setEmail(user.getUserEmail());
+		joinChallenger.setChallengeNo(challenge.getChallengeNo());
+		joinChallenger.setStatus("1");
+		challengeService.addChallengeJoin(joinChallenger);
+		
+		map.put("user",user);
+		map.put("challengeNo", challenge.getChallengeNo());
+		
+		
+		challenge = challengeService.getChallenge(map);
+		
+		
+		model.addAttribute("challenge",challenge);
+		
+		return "/challenge/getChallenge.jsp";
+	}
 	
 	
 }
