@@ -66,7 +66,45 @@
    						});
    					};
    			});
+   		
+				$("a#deleteChallengePick").on("click",function(){
+				
+					var challengeNo = $(this).data("param");	
+					alert(challengeNo);
+					
+						if (window.confirm("찜목록에서 삭제 하시겠습니까?")) {
+							$.ajax({
+								
+								url:"/challenge/challengeRest/deleteChallengePick",
+								method:"POST",
+								dataType:"json",
+								headers:{
+									"Accept":"application/json",
+									"Content-Type":"application/json"
+								},
+								data:JSON.stringify({
+									challengeNo:challengeNo
+								}),
+								success:function(JSONData,status){
+									window.location.href = '/challenge/listChallenge?challengeListOpt=pick';
+								}
+								
+							});
+					};
+			});
+   		
+   		
+   		
+   		
+   		
+   		
    		});
+   		
+   		
+   		
+   		
+   		
+		
    	</script>
 <title>Insert title here</title>
 </head>
@@ -126,7 +164,7 @@
 								  &nbsp;
 							  	<div class="form-group">
 								    <select class="form-control" name="searchCondition" >
-								    	<option value="">정렬 옵션</option>
+								    	<option value="2">정렬 옵션</option>
 										<option value="0" ${search.searchCondition == "0" ? "selected" : "" }>신규</option>
 										<option value="1" ${search.searchCondition == "1" ? "selected" : ""}>인기</option>
 									</select>

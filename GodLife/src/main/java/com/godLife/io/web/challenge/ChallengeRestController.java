@@ -22,6 +22,7 @@ import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.challenge.ChallengeService;
 import com.godLife.io.service.domain.Challenge;
+import com.godLife.io.service.domain.JoinChallenger;
 import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.point.PointService;
@@ -184,5 +185,47 @@ public class ChallengeRestController {
 		
 		return challengeList;
 	}
+	
+	
+	@RequestMapping(value="getChallengePick",method=RequestMethod.GET)
+	public Map<String,Object> getChallengePick(HttpSession session,
+											   @ModelAttribute Challenge challenge){
+		
+		User user = (User)session.getAttribute("user");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("user", user);
+		map.put("challengeNo", challenge.getChallengeNo());
+		
+		int pickCount = challengeService.getChallengePick(map);
+		
+		System.out.println("pickCount : "+pickCount);
+		
+		if(pickCount != 0) {
+			map.put("result", "중복아님");
+		}
+		
+		System.out.println("result "+map.get("result"));
+		
+		return map;
+	}
+	
+	@RequestMapping(value="deleteChallengePick",method=RequestMethod.POST)
+	public Challenge deleteChallengePick(HttpSession session,
+									  @RequestBody Challenge challenge,
+									  JoinChallenger joinChallenger) {
+		
+		
+		User user = (User)session.getAttribute("user");
+		
+		joinChallenger.setEmail(user.getUserEmail());
+		joinChallenger.setChallengeNo(challenge.getChallengeNo());
+		joinChallenger.setStatus("1");
+		
+		challengeService.deleteChallengeJoin(joinChallenger);
+		
+		return challenge;
+	}
+	
 	
 }
