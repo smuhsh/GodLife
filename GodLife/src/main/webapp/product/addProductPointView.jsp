@@ -22,14 +22,40 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	   body {
-	   		margin: 100px;
-	   }
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}
 	
-       body > div.container{
-        	border: 3px solid #D6CDB7;
-            margin-top: 10px;
+		h1 {
+		 	padding-top : 50px;
+		
+		
+		}
+	
+ 		body {
+            padding-top : 50px;
+            background-color: #708090 ;
+		    font-weight: bold; 
+		    font-family: 'oneMobile';
         }
+        
+        body > div.container{
+        	border: 3px;
+            margin-top: 10px;
+            font-family: 'oneMobile';
+        }
+
+		textarea {
+		    width: 100%;
+		    height: 6.25em;
+		    border: none;
+		    resize: none;
+		    font-family: 'oneMobile';
+		    
+		  }           
+        
+        
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -37,23 +63,17 @@
 
 
 //=====기존Code 주석 처리 후  jQuery 변경 ======//
-function fncAddProduct(){
+function fncAddProductPoint(){
 	$("form").attr("method", "POST").attr("action", "/product/addProductPoint").submit();
 }
 
-function fncAddProduct(){
-
-	//document.detailForm.action='/product/addProduct';
-	//document.detailForm.submit();
-	
-	//파일 업로드를 위해 아래와 같이 씀///아직 미구현
-	//$("form").attr("method", "POST").attr("enctype", "multipart/form-data").attr("action", "/product/addProduct").submit();
-	$("form").attr("method", "POST").attr("action", "/product/addProductPoint").submit();
-
-	
-}
 
 
+   function fncGetProductPointList() {
+
+      $("form").attr("method", "GET").attr("action",
+            "/product/getProductPointList").submit();
+   }
 
 
 //============= "취소"  Event 처리 및  연결 =============
@@ -69,14 +89,23 @@ $(function() {
 	$(function(){
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-		 $( "button.btn.btn-primary" ).on("click" , function() {
+		 $( "button.btn.btn-primary.addP" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td.ct_btn01:contains('등록')" ).html() );
-				fncAddProduct();
+				fncAddProductPoint();
 		});
 	});	
 	
 ///////////////////나중에 밑에 부분 바꾸고 여기 등록과 취소 부분도 바꿔야 함//////////////////////////	
+	//============= 뒤로 돌아가기 Event  처리 =============	
+
+	   $(function() {
+			  $("button.btn.btn-primary.getList").on("click", function() {
+			     fncGetProductPointList();
+			   });
+			});    
+
+
 
 	</script>
 </head>
@@ -94,46 +123,45 @@ $(function() {
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<h1 class="bg-primary text-center">포인트 상품등록</h1>
+		<h1 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">포인트 상품등록</h1>
 		
 		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
-		  
-		  <div class="form-group">
-		    <label for="productName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="productName" name="productName" placeholder="상품명을 입력해주세요">
-		    </div>
-		  </div>
+		<form class="form-horizontal" encType="multipart/form-data" style="border-color: black;">
 
-		  <div class="form-group">
-		    <label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
-		    <div class="col-sm-4">
-		      <input type="number" class="form-control" id="productPrice" name="productPrice" placeholder="숫자만 입력 가능"> 
-		    </div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="productDetail" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="productDetail" name="productDetail" placeholder="상품 상세정보">
-		    </div>
-		  </div>
-		  
 		  <div class="form-group">
 		    <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
 		    <div class="col-sm-4">
-		    <input type="file" class="form-control" id="productImg" name="productImg" placeholder="상품이미지">
-		    		    
-		    <form name="productImg" action="requestupload1" method="post" enctype="multipart/form-data">
-		        <input type="file" name="productImg" />
-		        <input type="text" name="src" />
-		        <input type="submit" value="전송" />
-		    </form>
-
-
+		    	<img  productNo="${ product.productNo }" width="400" height="400" src="../images/uploadFiles/${product.productImg}" alt="..." 
+					onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
+					<input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
+			<hr/>
 		    </div>
 		  </div>
+ 
+         <div class="form-group">
+            <label for="productName" class="col-sm-offset-1 col-sm-3 control-label">상 품 명</label>
+            <div class="col-sm-4">
+               <input type="text" class="form-control" id="productName" name="productName" 
+                  value="${product.productName}">
+            </div>
+         </div>
+
+         <div class="form-group">
+            <label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
+            <div class="col-sm-4">
+               <input type="number" class="form-control" id="productPrice" name="productPrice"
+                  value="${product.productPrice}">
+            </div>
+         </div>
+		  
+         <div class="form-group">
+            <label for="productDetail" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
+            <div class="col-sm-4">
+               <textarea cols="50" rows="10" class="form-control" id="productDetail" name="productDetail" 
+                  value="${product.productDetail}">${product.productDetail}</textarea>
+            </div>
+         </div>
+		  
 
 		  <div class="form-group">
 		    <label for="status" class="col-sm-offset-1 col-sm-3 control-label"></label>
@@ -145,8 +173,9 @@ $(function() {
 		
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+		      <button type="button" class="btn btn-primary addP"  >등록 완료</button>
+			  <a class="btn btn-primary reset" href="#" role="button">리셋</a>
+			  <button type="button" class="btn btn-primary getList">리스트로 돌아가기</button>
 		    </div>
 		  </div>
 		</form>
@@ -163,5 +192,3 @@ $(function() {
 							
 					
 					
-					
-		

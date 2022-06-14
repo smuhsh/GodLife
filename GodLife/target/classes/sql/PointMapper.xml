@@ -53,22 +53,48 @@
 						FROM purchase
 						<where>
 						user_email=#{userEmail}
-						<if test="searchCondition != null">
-						<!--포인트 상품 내역 조회 -->
-							<if test="searchCondition ==0 and searchKeyword !='' ">
-								AND use_detail like '1'
+						
+						<if test="search.orderCondition != null">
+							
+							<if test="search.orderCondition ==0">
+								<if test=" search.searchCondition != null">
+									<if test=" search.searchCondition ==0">
+									</if>
+									<if test=" search.searchCondition ==1">
+									AND use_status = '1'
+									</if>
+									<if test=" search.searchCondition ==2">
+									AND use_status = '2'
+									</if>
+								</if>
 							</if>
 							<!--챌린지 관련 조회 -->
-							<if test="searchCondition ==1 and searchKeyword !='' ">
+							<if test="search.orderCondition ==1">
 								AND use_detail BETWEEN '2' AND '4'
+								<if test=" search.searchCondition != null">
+									<if test=" search.searchCondition ==0">
+									</if>
+									<if test=" search.searchCondition ==1">
+									AND use_status = '1'
+									</if>
+									<if test=" search.searchCondition ==2">
+									AND use_status = '2'
+									</if>
+								</if>
 							</if>
 							<!--이벤트 관련 조회 -->
-							<if test="searchCondition==2 and searchKeyword !='' ">
+							<if test="search.orderCondition ==1">
 								AND use_detail BETWEEN '5' AND '6'
-							</if>
-							<!--기부 조회 -->
-							<if test="searchCondition==3 and searchKeyword !='' ">
-								AND use_detail like '8'
+								<if test=" search.searchCondition != null">
+									<if test=" search.searchCondition ==0">
+									</if>
+									<if test=" search.searchCondition ==1">
+									AND use_status = '1'
+									</if>
+									<if test=" search.searchCondition ==2">
+									AND use_status = '2'
+									</if>
+								</if>
 							</if>
 						</if>
 						</where>
@@ -137,12 +163,58 @@
 		WHERE ROWNUM &lt; 4
 	</select>
 	
-	<select id="getTotalCount" parameterType="user" resultType="int">
+	<select id="getTotalCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
-		FROM( SELECT purchase_no
-		FROM purchase
-		where user_email=#{userEmail}
-		)countTable
+		FROM( SELECT *
+						FROM purchase
+						<where>
+						user_email=#{userEmail}
+						
+						<if test="search.orderCondition != null">
+							
+							<if test="search.orderCondition ==0">
+								<if test=" search.searchCondition != null">
+									<if test=" search.searchCondition ==0">
+									</if>
+									<if test=" search.searchCondition ==1">
+									AND use_status = '1'
+									</if>
+									<if test=" search.searchCondition ==2">
+									AND use_status = '2'
+									</if>
+								</if>
+							</if>
+							<!--챌린지 관련 조회 -->
+							<if test="search.orderCondition ==1">
+								AND use_detail BETWEEN '2' AND '4'
+								<if test=" search.searchCondition != null">
+									<if test=" search.searchCondition ==0">
+									</if>
+									<if test=" search.searchCondition ==1">
+									AND use_status = '1'
+									</if>
+									<if test=" search.searchCondition ==2">
+									AND use_status = '2'
+									</if>
+								</if>
+							</if>
+							<!--이벤트 관련 조회 -->
+							<if test="search.orderCondition ==1">
+								AND use_detail BETWEEN '5' AND '6'
+								<if test=" search.searchCondition != null">
+									<if test=" search.searchCondition ==0">
+									</if>
+									<if test=" search.searchCondition ==1">
+									AND use_status = '1'
+									</if>
+									<if test=" search.searchCondition ==2">
+									AND use_status = '2'
+									</if>
+								</if>
+							</if>
+						</if>
+						</where>
+						ORDER BY purchase_no DESC)countTable
 	</select>
 
 	<select id="getVoucherTotalCount" parameterType="user" resultType="int">

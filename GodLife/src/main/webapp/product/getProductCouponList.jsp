@@ -88,8 +88,7 @@ div.box {
 </style>
 
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
-<head>
-<meta charset="EUC-KR">
+
 <title>상품 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
@@ -117,6 +116,9 @@ div.box {
       });
    });
 
+   
+   
+   
    function showDiv(element) {
       var tag = document.getElementsByClassName("box");
 
@@ -127,36 +129,26 @@ div.box {
             tag[i].style.display="none";
       }
    }
-/////////////////////신규 포인트 상품 등록 Event  처리///////////////////////////
+/////////////////////신규 쿠폰 상품 등록 Event  처리///////////////////////////
 	 $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 $( "button.btn.btn-primary.addP" ).on("click" , function() {
 				self.location = "/product/addProductCouponView?productNo=${product.productNo}"
 			});
 	});    
-////////////////////////////////////////////////
-
 //============= productName 에 쿠폰 상품 상세 정보(관리자 모드)  Event  처리(Click) =============
 	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$(function() {
-		         
+	$(function() { 
 	     $( ".images" ).on("click" , function() {
 	    	 self.location ="/product/getProductCoupon?productNo="+$(this).attr("productNo");
 	     });
-	
 	});
-	     
 //============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
 	$(function(){
-
 		$( ".productName" ).on("click", function() {
-			
 			var productNo = $(this).data("value");
 //			var productNo = $(this).next.val();
-			
 
-			
-			
 			 $.ajax( 
 	                 {
 	                    url : "/product/json/getProductCoupon/"+productNo,
@@ -166,13 +158,11 @@ div.box {
 	                       "Accept" : "application/json",
 	                       "Content-Type" : "application/json"
 	                    },
-	                   
-	                    
+
 	                    success : function(JSONData , status) {
 	                    	
 	                       const displayDetail = 
 	                    	   `<div class="row">
-		                         	<div class="detail">상품 번호 :&nbsp \${JSONData.productNo} </div>
 		                         	<div class="detail">상품 명 :&nbsp \${JSONData.productName} </div>
 		                         	<div class="detail">상품 상세정보: <br/> \${JSONData.productDetail} </div>
 	                     		</div>`
@@ -180,20 +170,13 @@ div.box {
 	                       $( "#"+JSONData.productNo+"" ).append(displayDetail);
 	                       console.log(JSONData , status);
 	                 }
-	              });
-	           
+	              }); 
 	        });
 		//=========================================================//
 		 //==> prodNo LINK Event End User 에게 보일수 있도록 
 	    $( "div#productName" ).css("color" , "red");
 	    $("div#productName").css("font-size", "20px");
 	});
-
-	
-
-
-
-	 
 
 
 </script>
@@ -210,20 +193,31 @@ div.box {
 
          <!-- 상품 이미지 위쪽 /////////////////////////////////////-->
          <div class="row" style="height: 150px; width: 1400px;">
+         
+         
             <div class="col-md-6 text-right">
                <h1 class="text-primary font-weight-bold" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">쿠폰상품 전체목록</h1>
          	</div>
 
-         	 <div class="col-md-6 text-right"> 
+       	    <div class="col-md-6 text-right"> 
 				<br/>
             	<button type="button" class="btn btn-primary addP">신규 쿠폰 상품 등록</button> 
-	         </div>
+	        </div>
 
 	         
          </div>
          <div class="col-md-8 text-left"> 
          	* Radio박스를 클릭하면 상세 정보를 조회 할 수 있습니다.<br>
-         	* RadioBox를 클릭 후, 구매를 눌러주시면 구매가 가능 합니다.
+         	* RadioBox를 클릭 후, 구매를 눌러주시면 구매가 가능 합니다.<br>
+         	* 구현 예정 기능<br>
+         	1) serach<br>
+         	2) RestController 써서 Get으로 상세 정보가 뜨면 안없어짐.<br>
+         	   : 없어지는 버튼 하나 만들자<br>
+         	3) Ajax 글자 꾸미기 <br>
+         	4) Admin 일때, 유저 일때 보이는게 다르게 해야함 <br>
+         	   : 관리자 : 이미지 클릭으로 상세 정보 창으로 이동 => 수정, 삭제 가능 <br>
+         	   : 유저 : radioBox 체크로 상품 상세 정보 및, 상품 구매 가능
+         	   
          </div>
 		<!-- 상품 이미지 시작 /////////////////////////////////////-->
 		<div class="row">
@@ -252,11 +246,9 @@ div.box {
 		               <!--  <div>${ product.productDetail }</div>-->
 					</div>
             </div>
-         </c:forEach>
-         <br><br> 
-            <button type="button" class="btn btn-default">구매</button>
+         </c:forEach> 
 		</div>
-
+			<button type="button" class="btn btn-default">구매</button>
          <!--  table End /////////////////////////////////////-->
  			
          <div class="col-xs-6 col-md-12">
