@@ -36,7 +36,7 @@
 		SELECT
 		badge_no , badge_name , badge_img , act_count , grade , badge_detail , status 
 		FROM badges 
-		WHERE badge_no = #{value}
+		WHERE badge_no = #{value}z
 	 </select>
 
 <!-- /////////////////////////////배지 이미지 수정, 정보 수정 완료, 수정 확인////////////////////////////////// -->
