@@ -15,7 +15,9 @@
 		
         body {
             padding-top : 70px;
-            background-size: cover;
+            background-image: url("/resources/images/—Pngtree—climbing silhouette life challenge_1031961.jpg");
+       		background-size : cover;
+       		background-position: center;
         }
         
         

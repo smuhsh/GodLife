@@ -1,0 +1,595 @@
+@font-face {
+	font-family: 'S-CoreDream-4Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+* {
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'S-CoreDream-4Regular';
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+	color: #333333;
+	word-break: keep-all;
+}
+
+.event {
+	border: 1px solid #ddd;
+	background-color: #fff;
+	position: absolute;
+	top: 50px;
+	display: none; /*이거 hover 시 보이도록*/
+}
+
+/* reset css */
+a {
+	text-decoration: none;
+	color: black;
+}
+a:hover {
+	text-decoration: none;
+	
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+input {
+	font-family: 'S-CoreDream-4Regular';
+	letter-spacing: -0.04em;
+	border: none;
+	outline: none;
+}
+
+button {
+	border: none;
+	background-color: transparent;
+	outline: none;
+	cursor: pointer;
+}
+
+/* common css */
+.section {
+	width: 100%;
+	padding: 80px 0;
+}
+
+.title {
+	margin-bottom: 36px;
+	font-size: 28px;
+	font-weight: 500;
+	text-align: center;
+}
+
+.title-arrow {
+	width: 30px;
+	height: 30px;
+	background-image: url();
+	background-repeat: no-repeat;
+	background-size: 30px 30px;
+}
+
+.image-hover {
+	display: block;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: center center;
+	transition: background-size 0.3s ease-in-out;
+}
+
+.image-hover:hover {
+	background-size: 102%;
+}
+
+.product-slide {
+	width: 100%;
+}
+
+.product-slide-wrap {
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+.product-box {
+	width: 100%;
+	margin: auto;
+	overflow: hidden;
+}
+
+.product-button-direction {
+	width: 1100px;
+	position: relative;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.product-box, .recommend-items, .cheap-items, .md-items, .new-items,
+	.popular-items, .must-items, .offline-items, .recipe-items,
+	.review-items {
+	display: flex;
+}
+
+.recommend-items li, .cheap-items li, .md-items li, .new-items li,
+	.popular-items li, .must-items li, .offline-items li, .recipe-items li,
+	.review-items li {
+	width: 250px;
+	margin: 0 14px;
+}
+
+.product-name {
+	margin: 8px 0;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.discount-rate {
+	color: #fa6938;
+}
+
+.regular-price {
+	display: block;
+	font-size: 14px;
+	color: #999999;
+	text-decoration: line-through;
+}
+
+/* modal */
+.promotion-modal {
+	margin: 0 auto;
+	background-color: #064acb;
+}
+
+.promotion-link {
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+.promotion-link a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-size: 14px;
+	letter-spacing: -0.04em;
+}
+
+.promotion-arrow {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	background-image: url();
+	background-repeat: no-repeat;
+	background-size: 40px 40px;
+}
+
+.promotion-close {
+	width: 42px;
+	height: 42px;
+	background-image: url();
+	background-repeat: no-repeat;
+	background-size: 42px 42px;
+	position: absolute;
+	right: 0;
+}
+
+/* header */
+.header {
+	/*width: 100%;*/
+	padding-top: 8px;
+	margin: 10px 10px;
+	text-align: center;
+}
+
+.header_bar {
+    width: 100%;
+    margin: 0 auto;
+	/*display: flex;
+	justify-content: space-between;
+	text-align: center;*/
+}
+
+.member_items li{
+    position: relative;
+    z-index: 400;
+    float: left;
+}
+.menuDiv {
+	padding-top: 8px;
+	position: fixed;
+	width: 100%;
+	left: 0;
+	background-color: #fff;
+	left: 0;
+	z-index: 10;
+	
+}
+
+div.menuDiv.fix {
+	position: fixed;
+	top: 0;
+	background: #f2f2f2;
+}
+
+.carrot_image {
+	width: 10px;
+	height: 10px;
+}
+
+.carrot_image img {
+	width: 100%;
+	height: 100%;
+}
+
+.member_items {
+
+	/*display: flex;*/
+	font-size: 13px;
+	float: right;
+}
+
+.sign_up_item, .sign_in_item, .map_item, .dropdown, .dropdown-menu {
+	padding: 0 19px 0 0;
+	position: relative;
+	font-size: 16px;
+}
+
+.service_center_item {
+	display: flex;
+	padding-left: 0px;
+	position: relative;
+	width: 100px;
+	height: 25px;
+	font-size: 16px;
+}
+
+.service_center_icon {
+	width: 18px;
+	height: 18px;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.service_center_detail {
+	width: 100px;
+	padding: 8px;
+	background-color: #fff;
+	border: 1px solid #cccccc;
+	position: absolute;
+	top: 25px;
+	right: 7px;
+	z-index: 50;
+	display: none; /*hidden 제쿼리로 보이게바꾸기?*/
+}
+
+.service_center_detail:hover {
+	display: block;
+	border: 1px solid #ddd;
+	background-color: #fff;
+	position: absolute;
+	z-index: 50;
+	/* display: none; 이거 hover 시 보이도록 */
+}
+
+.service_center_detail>li {
+	margin-bottom: 8px;
+}
+
+.service_center_detail li:last-child {
+	margin-bottom: 0;
+}
+
+.service_center_detail>li:hover {
+	background-color: #eaf5ff;
+}
+
+.service_center_detail>li>a {
+	font-size: 13px;
+}
+
+.service_center_detail>li>a:hover {
+	font-weight: 500;
+	color: #064acb;
+	text-decoration: none;
+}
+
+.show {
+	visibility: hidden;
+}
+.logo{
+	position: absolute;
+    left: 50%;
+    bottom: 6px;
+    width: 200px;
+    height: 79px;
+    margin-left: -100px;
+}
+.logo_image {
+    position: sticky;
+    width: 1050px;
+    height: 40px;
+    margin: 0 auto;
+}
+/* .logo_image img {
+	width: 200px;
+	height: 110px;
+} */
+.logo_image img {
+    display: block;
+    width: 220px;
+    height: 120px;
+    margin: 0 auto;
+}
+
+.mobile-menu {
+	display: inline-block;
+}
+
+.navbar {
+	display: contents;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+	margin-left: 50px;
+	padding: 5px;
+}
+
+.navbar_close {
+	display: none;
+}
+
+.menu { /*--수정중--*/
+
+	margin-top: 8px;
+	display: -webkit-inline-box;
+	justify-content: space-between;
+	margin-left: -50px;
+
+}
+
+.menu li>a {
+	padding: 0 20px;
+	font-size: 16px;
+	display: block;
+	transition: all 0.3s;
+	text-decoration: none
+}
+.menu>li>a:hover {
+	color: #064acb;
+	/*border-bottom-color: #064acb;*/
+	text-decoration: none;
+	
+}
+
+.all_category a:hover {
+	border-bottom: none;
+}
+
+.menu_button {
+	width: 16px;
+	height: 14px;
+	margin-right: 8px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 16px 14px;
+}
+
+.all_category_item {
+	border: 1px solid #ddd;
+	background-color: #fff;
+	position: absolute;
+	top: 50px;
+	display: none; /*이거 hover 시 보이도록*/
+}
+
+.all_category_item:hover {
+	display: block;
+	border: 1px solid #ddd;
+	background-color: #fff;
+	position: absolute;
+	/*z-index: 50;*/
+	/* display: none; 이거 hover 시 보이도록 */
+}
+
+.all_category_item>li {
+	width: 210px;
+	padding: 10px 0;
+	font-size: 14px;
+}
+
+.all_category_item>li:hover {
+	background-color: #eaf5ff;
+}
+
+.all_category_item>li>a {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 25px;
+	font-size: 14px; padding-left : 50px;
+	cursor: pointer;
+	padding-left: 50px;
+}
+
+.all_category_item>li>a:hover {
+	font-weight: 500;
+	color: #064acb;
+}
+
+.sub_title:hover {
+	font-weight: 500;
+	color: #064acb;
+	border-bottom: 1px solid #064acb;
+}
+
+.sub_recommend {
+	width: 540px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	padding: 5px;
+}
+
+.event a:hover {
+	color: #064acb;
+	border-bottom-color: #064acb;
+	text-decoration: none;
+}
+
+.sub_recommend_image {
+	width: 110px;
+}
+
+.sub_recommend_image img {
+	width: 100%;
+}
+
+.habit {
+	background: url() no-repeat 50% 50%;
+	background-position: 15px 0px;
+	background-size: 25px 25px;
+}
+
+.habit:hover {
+	background: url() no-repeat 50% 50%;
+	background-position: 15px 0;
+	background-size: 25px 25px;
+}
+
+.study {
+	background: url() no-repeat 50% 50%;
+	background-position: 15px 0px;
+	background-size: 25px 25px;
+}
+
+.study:hover {
+	background: url() no-repeat 50% 50%;
+	background-position: 15px 0;
+	background-size: 25px 25px;
+}
+
+.hobby {
+	background: url() no-repeat 50% 50%;
+	background-position: 15px 0px;
+	background-size: 25px 25px;
+}
+
+.hobby:hover {
+	background: url() no-repeat 50% 50%;
+	background-position: 15px 0px;
+	background-size: 25px 25px;
+}
+
+.life {
+	background: url() no-repeat 50% 50%;
+	background-position: 15px 0px;
+	background-size: 25px 25px;
+}
+
+.life:hover {
+	background: url() no-repeat 50% 50%;
+	background-position: 15px 0px;
+	background-size: 25px 25px;
+}
+
+
+/* 검색 */
+.sub_menu {
+	width: 50%;
+	display: flex;
+	margin-right:15px;
+	justify-content: space-around;
+	align-items: center;
+	font-size: 18px;
+	/*margin-right: 20px;*/
+}
+
+.sub_menu {
+		width: 40%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	font-size: 18px;
+	margin-right: 20px;
+	margin-bottom: 5px;
+	margin-right: 20px;
+	float: right;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+
+.sub_menu input {
+	width: 240px;
+	height: 100%;
+	padding: 6px 10px 6px 14px;
+	border-radius: 50px;
+	background-color: #f5f5f5;
+	font-size: 14px;
+}
+
+.sub_menu input::placeholder {
+	font-size: 12px;
+}
+
+.search-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+
+.search-box input {
+	width: 235px;
+	height: 100%;
+	padding: 6px 60px 6px 14px;
+	border-radius: 50px;
+	background-color: #f5f5f5;
+	font-size: 14px;
+}
+
+.search-box input::placeholder {
+	font-size: 12px;
+}
+
+.button_search {
+	width: 30px;
+	height: 30px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 30px 30px;
+	/*position: absolute;*/
+	right: -10px;
+}
+
+.button-point {
+	width: 40px;
+	height: 40px;
+	background-image: url();
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 35px 35px;
+}
+
+.button-cart {
+	width: 40px;
+	height: 40px;
+	background-image: url();
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 35px 35px;
+}
+
+.button-coords:hover, .button-cart:hover {
+	color: #064acb;
+}

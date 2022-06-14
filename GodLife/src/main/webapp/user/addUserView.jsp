@@ -35,8 +35,8 @@
 			    	alert("이메일 형식이 아닙니다.");
 			     }
 			});
-			 
 		});	
+	
 	
 		//==>"이메일" 중복검사 Event 처리 및 연결(완료)
 		
@@ -247,9 +247,8 @@
 								</div>
 							</td>
 						</tr>
-					
-					
-					
+						
+
 					<tr class="categNo">
 						<th>관심사<span class="ico">*<span class="screen_out">필수항목</span></span></th>
 						<td>
@@ -276,6 +275,7 @@
 						</td>
 					</tr>
 				</table>
+				
 				
 				
 				<div id="formSubmit" class="form_footer">

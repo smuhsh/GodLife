@@ -119,6 +119,12 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 
+	@Override
+	public int getChallengePick(Map<String,Object> map) {
+		return challengeDao.getChallengePick(map);
+	}
+
+
 	
 
 }

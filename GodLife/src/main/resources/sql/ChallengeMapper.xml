@@ -122,7 +122,12 @@
 	 	FROM
 	 	friend_blacks
 	 	WHERE user_email = #{user.userEmail}
-	 	AND f_b_status = '2'
+	 	<if test="black == null">
+	 		AND f_b_status = '2'
+	 	</if>
+	 	<if test="black != null">
+	 		AND acc_status = '2'
+	 	</if>
 	 	
 	 </select>
 	 
@@ -133,7 +138,12 @@
 	 	FROM
 	 	friend_blacks
 	 	WHERE target_email = #{user.userEmail}
-	 	AND f_b_status = '2'
+	 	<if test="black == null">
+	 		AND f_b_status = '2'
+	 	</if>
+	 	<if test="black != null">
+	 		AND acc_status = '2'
+	 	</if>
 	 </select>
 	 
 	 
@@ -167,50 +177,26 @@
 						</where>
 						UNION
 						SELECT
-						        c.*,ct.categ_name
+						friend.*,ct.categ_name
 						FROM
 						(
-							SELECT
-							inv.*
-							FROM
-								(
-									SELECT
-									*
-									FROM
-									friend_blacks
-									WHERE user_email = #{user.userEmail}
-									OR target_email = #{user.userEmail}
-								)inv
-							WHERE acc_status = '2'
-						)outv, challenges c, categs ct
-						WHERE outv.target_email(+) = c.host_email
-						AND ct.categ_no = c.categ_no
-						AND acc_status = '2'
-						AND c.status = '0'
-						AND NOT c.host_email = #{user.userEmail}
-						UNION
-						SELECT
-						        c.*, ct.categ_name
-						FROM
-						(
-							SELECT
-							inv.*
-							FROM
-								(
-									SELECT
-									*
-									FROM
-									friend_blacks
-									WHERE user_email = #{user.userEmail}
-									OR target_email = #{user.userEmail}
-								)inv
-							WHERE acc_status = '2'
-						)outv, challenges c, categs ct
-						WHERE outv.user_email(+) = c.host_email
-						AND ct.categ_no = c.categ_no
-						AND acc_status = '2'
-						AND c.status = '0'
-						AND NOT c.host_email = #{user.userEmail}
+						    SELECT
+						    c.*
+						    FROM
+						     (
+						        SELECT
+						        *
+						        FROM
+						        challenges
+						        where open_range = '1'
+						    )c
+						    <where>
+							    <foreach item="value" collection="friend">
+									OR host_email = #{value}
+								</foreach>
+						    </where>
+						)friend, categs ct
+						WHERE ct.categ_no = friend.categ_no
 						)list
 						<where>
 							<if test="search.searchKeyword != null and search.searchKeyword != ''">
@@ -240,8 +226,12 @@
 	 <select id="getChallengeListLoginTotal" parameterType="java.util.Map"  resultType="int">
 	 		
 	 		
-	 					SELECT
-						COUNT(*)
+	 			SELECT
+				COUNT(*)
+				FROM
+					(
+						SELECT
+						list.*
 						FROM
 						(
 						SELECT
@@ -260,50 +250,26 @@
 						</where>
 						UNION
 						SELECT
-						        c.*,ct.categ_name
+						friend.*,ct.categ_name
 						FROM
 						(
-							SELECT
-							inv.*
-							FROM
-								(
-									SELECT
-									*
-									FROM
-									friend_blacks
-									WHERE user_email = #{user.userEmail}
-									OR target_email = #{user.userEmail}
-								)inv
-							WHERE acc_status = '2'
-						)outv, challenges c, categs ct
-						WHERE outv.target_email(+) = c.host_email
-						AND ct.categ_no = c.categ_no
-						AND acc_status = '2'
-						AND c.status = '0'
-						AND NOT c.host_email = #{user.userEmail}
-						UNION
-						SELECT
-						        c.*, ct.categ_name
-						FROM
-						(
-							SELECT
-							inv.*
-							FROM
-								(
-									SELECT
-									*
-									FROM
-									friend_blacks
-									WHERE user_email = #{user.userEmail}
-									OR target_email = #{user.userEmail}
-								)inv
-							WHERE acc_status = '2'
-						)outv, challenges c, categs ct
-						WHERE outv.user_email(+) = c.host_email
-						AND ct.categ_no = c.categ_no
-						AND acc_status = '2'
-						AND c.status = '0'
-						AND NOT c.host_email = #{user.userEmail}
+						    SELECT
+						    c.*
+						    FROM
+						     (
+						        SELECT
+						        *
+						        FROM
+						        challenges
+						        where open_range = '1'
+						    )c
+						    <where>
+							    <foreach item="value" collection="friend">
+									OR host_email = #{value}
+								</foreach>
+						    </where>
+						)friend, categs ct
+						WHERE ct.categ_no = friend.categ_no
 						)list
 						<where>
 							<if test="search.searchKeyword != null and search.searchKeyword != ''">
@@ -321,9 +287,10 @@
 								ORDER BY list.join_count DESC
 							</if>
 						</if>
-						<if test="search.searchCondition == null">
+						<if test="search.searchCondition == null or search.searchCondition == 2">
 							ORDER BY list.challenge_no
 						</if>
+					)search
 				
 				
 		</select>
@@ -506,6 +473,21 @@
 	 
 	 
 	 
+	 
+	 
+	 <!-- ////////// update //////////// -->
+	 <update id="updateChallengeJoinCount" parameterType="java.util.Map">
+	 
+	 	UPDATE challenges
+	 	SET
+	 	join_count = #{joinCount}
+	 	WHERE challenge_no = #{joinChallenger.challengeNo}
+	 
+	 </update>
+	 
+	 
+	 <!-- ////////// update //////////// -->
+	 
 	 <!-- ////////// delete //////////// -->
 	 <delete id="deleteChallenge" parameterType="int">
 	 
@@ -652,6 +634,7 @@
 		join_challenger
 		WHERE user_email = #{user.userEmail}
 		AND challenge_no = #{challengeNo}
+		AND status = '0'
  	</select>
  	
  	
@@ -677,6 +660,28 @@
  			
  	</select>
  	
+ 	
+ 	<select id="getJoinCount" parameterType="joinChallenger" resultType="int">
+ 	
+ 		SELECT
+ 		COUNT(*)
+ 		FROM
+ 		join_challenger
+ 		WHERE challenge_no = #{challengeNo}
+ 	
+ 	</select>
+ 	
+ 	<select id="getChallengePick" parameterType="java.util.Map" resultType="int">
+ 	
+ 		SELECT
+ 		COUNT(*)
+ 		FROM
+ 		join_challenger
+ 		WHERE challenge_no = #{challengeNo}
+ 		AND user_email = #{user.userEmail}
+ 		AND status = '1'
+ 	
+ 	</select>
  	
  	<!-- ////////// select //////////// -->
  	
