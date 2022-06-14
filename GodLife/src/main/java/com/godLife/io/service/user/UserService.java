@@ -143,6 +143,7 @@ public interface UserService {
     //신고 유저 목록조회(관리자) 
     
     //레드카드 발급, 제거 
+    public void updateRedCard(User user) throws Exception; 
     
     
 	
