@@ -46,7 +46,7 @@ public class PointServiceImpl implements PointService {
 	public Map<String,Object> getPointPurchaseList(Search search,User user) throws Exception {
 		System.out.println("getPointPurchaseList user : "+user);
 		
-		int totalCount = pointDao.getTotalCount(user);
+		int totalCount = pointDao.getTotalCount(search, user);
 		
 		System.out.println("getPointPurchaseList totalCount : "+totalCount);
 		Map<String, Object> map = pointDao.getPointPurchaseList(search, user);
