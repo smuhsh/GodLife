@@ -40,5 +40,7 @@ public interface ChallengeDao {
 	
 	public void deleteChallengeCertiImg(Map<String,Object> map);
 	
+	public int getChallengePick(Map<String,Object> map);
+	
 	
 }

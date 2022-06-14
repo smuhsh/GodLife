@@ -60,7 +60,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 				//전체 목록 조회 challengeListOpt = total;
 				System.out.println("로그인");
 				List<String> black = new ArrayList<String>();
-				
+				List<String> friend = new ArrayList<String>();
 				List<String> targetEmail = sqlSession.selectList("ChallengeMapper.getFbTarget",map);
 				List<String> userEmail = sqlSession.selectList("ChallengeMapper.getFbUser",map);
 				
@@ -75,9 +75,31 @@ public class ChallengeDaoImpl implements ChallengeDao {
 					}
 				}
 				
-				System.out.println("black : "+black);
+				System.out.println("black : "+black); // map 에 black 가 생김. 위는 null 이란 뜻.
 				
 				map.put("black", black);
+				
+				targetEmail = null;  // 만일을 대비해서 null로 초기화
+				userEmail = null;      
+				
+				targetEmail = sqlSession.selectList("ChallengeMapper.getFbTarget",map);  
+				userEmail = sqlSession.selectList("ChallengeMapper.getFbUser",map);      
+				
+				
+				if(targetEmail != null) {
+					for(int i=0; i<targetEmail.size(); i++) {
+						friend.add(targetEmail.get(i));
+					}
+				}
+				if(userEmail != null) {
+					for(int i=0; i<userEmail.size(); i++) {
+						friend.add(userEmail.get(i));
+					}
+				}
+				
+				System.out.println("friend : "+friend);
+				
+				map.put("friend", friend);
 				
 				List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeListLogin",map);
 				
@@ -213,6 +235,11 @@ public class ChallengeDaoImpl implements ChallengeDao {
 	public void addChallengeJoin(JoinChallenger joinChallenger) {
 		
 		sqlSession.insert("ChallengeMapper.insertJoinChallenger",joinChallenger);
+		int joinCount = sqlSession.selectOne("ChallengeMapper.getJoinCount",joinChallenger);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("joinCount", joinCount);
+		map.put("joinChallenger", joinChallenger);
+		sqlSession.update("ChallengeMapper.updateChallengeJoinCount",map);
 		
 	}
 
@@ -222,8 +249,13 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		int challengeJoinPoint = 0;
 		if(joinChallenger.getStatus().equals("0")) {
 		challengeJoinPoint = 
-				sqlSession.selectOne("ChallengeMapper.selectChallengeJoinPoint",joinChallenger);
+			sqlSession.selectOne("ChallengeMapper.selectChallengeJoinPoint",joinChallenger);
 			sqlSession.delete("ChallengeMapper.deleteChallengeJoin",joinChallenger);
+			int joinCount = sqlSession.selectOne("ChallengeMapper.getJoinCount",joinChallenger);
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("joinCount", joinCount);
+			map.put("joinChallenger", joinChallenger);
+			sqlSession.update("ChallengeMapper.updateChallengeJoinCount",map);
 		}else {
 			sqlSession.delete("ChallengeMapper.deleteChallengeJoin",joinChallenger);
 		}
@@ -388,6 +420,14 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		map.put("percent", percent);
 		
 		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);
+	}
+
+	@Override
+	public int getChallengePick(Map<String,Object> map) {
+		
+		int pickCount = sqlSession.selectOne("ChallengeMapper.getChallengePick",map);
+		
+		return pickCount;
 	}
 
 	

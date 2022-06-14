@@ -39,5 +39,7 @@ public interface ChallengeService {
 	public List<Review> getChallengeCommentList(int certiImgNo);
 	
 	public void deleteChallengeCertiImg(Map<String,Object> map);
+	
+	public int getChallengePick(Map<String,Object> map);
 
 }
