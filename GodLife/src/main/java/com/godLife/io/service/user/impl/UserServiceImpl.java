@@ -5,11 +5,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +54,41 @@ public class UserServiceImpl implements UserService{
 	
 	//================회원=======================================================
 	
+// id 중복체크
+	public int checkUserEmail(String userEmail) throws Exception {
+		int cnt = userDao.checkUserEmail(userEmail);
+		System.out.println("cnt: " + cnt);
+		return cnt;
+	}
+	
+	// id 중복체크
+	public int checkNick(String nick) throws Exception {
+		int cnt = userDao.checkNick(nick);
+		System.out.println("cnt: " + cnt);
+		return cnt;
+	}
+	
+	// 아이디찾기 
+	public String findUserEmail(HttpServletResponse response, String phone) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String userEmail = userDao.findUserEmail(phone);
+		
+		if (userEmail == null) {
+			out.println("<script>");
+			out.println("alert('가입된 이메일이 없습니다.');");
+			out.println("history.go(-1);");
+			out.println("</script>");
+			out.close();
+			return null;
+		} else {
+			return userEmail;
+		}
+	}
+	
+	
+	
+	
 	public void addUser(User user) throws Exception {
 		userDao.addUser(user);
 	}
@@ -83,13 +121,13 @@ public class UserServiceImpl implements UserService{
 		return map;
 	}
 	
-	public User findUserPhone(String phone) throws Exception {
-		return userDao.findUserPhone(phone);
-	}
-	
-	public User findUserEmail(String userEmail) throws Exception {
-		return userDao.findUserEmail(userEmail);
-	}
+//	public User findUserPhone(String phone) throws Exception {
+//		return userDao.findUserPhone(phone);
+//	}
+//	
+//	public User findUserEmail(String userEmail) throws Exception {
+//		return userDao.findUserEmail(userEmail);
+//	}
 	
 	//인증 문자 보내기 
 	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) throws Exception {
@@ -266,7 +304,7 @@ public class UserServiceImpl implements UserService{
 	public void updateUserCertiCouponCount(User user) throws Exception{
 		userDao.updateUserCertiCouponCount(user);
 	}
-	
+
 	
 	
 	

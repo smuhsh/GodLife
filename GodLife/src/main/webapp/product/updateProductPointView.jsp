@@ -25,9 +25,25 @@
    
    <!--  ///////////////////////// CSS ////////////////////////// -->
    <style>
-   body {
-      padding-top: 50px;
-   }
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}   
+   
+ 		body {
+            padding-top : 50px;
+            background-color: #708090 ;
+		    font-weight: bold; 
+		    font-family: 'oneMobile';
+        }
+        
+		textarea {
+		    width: 100%;
+		    height: 6.25em;
+		    border: none;
+		    resize: none;
+		    font-family: 'oneMobile';
+		  }  
    
    </style>
     
@@ -36,33 +52,32 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
       
-   function fncUpdateProduct() {
+   function fncUpdateProductPoint() {
 
       $("form").attr("method", "POST").attr("action",
             "/product/updateProductPoint").submit();
    }
-
-   function fncDeleteProduct() {
+   
+   function fncDeleteProductPoint() {
 
 	      $("form").attr("method", "POST").attr("action",
 	            "/product/deleteProductPoint").submit();
-	   }   
+	}   
    
 
    //==> 추가된부분 : "수정"  Event 연결
    $(function() {
       $("button.btn.btn-primary.update").on("click", function() {
-         fncUpdateProduct();
+         fncUpdateProductPoint();
       });
    });
 
    $(function() {
 	  $("button.btn.btn-primary.delete").on("click", function() {
-	     fncDeleteProduct();
+	     fncDeleteProductPoint();
 	   });
 	});   
-   
-   
+ 
    
    //==> 추가된부분 : "취소"  Event 연결 및 처리
    $(function() {
@@ -71,48 +86,16 @@
       });
    });
 
-	//============= 확인 Event  처리 =============	
+	
+	//============= 뒤로 돌아가기 Event  처리 =============	
 	 $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 $( "button.btn.btn-primary.back" ).on("click" , function() {
 			history.go(-1);
 			});
-	});
-   
-   
-   
-   
-   
-   
-   $(function (){
-      /*    ：startView: 2,
-       maxViewMode: 1,
-       minViewMode:1,
-            ，           ，0  ，1  ，2  ，
-                    ，
-                  。          。
-      */
-        //     startView: 4, minView: 4, format: 'yyyy', 
-      $('.form_date').datetimepicker({
-      format: 'yyyy', 
-      startView:4, 
-      minView:4,
-      language: 'zh-CN' ,
-      forceParse: false, 
-      autoclose:true,
-        pickerPosition: "bottom-left" 
-        });
-       //      
-        $('.form_date').datetimepicker({
-        language: 'zh-CN',
-        minView: 'month', 
-        format: 'yyyy-mm-dd',
-        autoclose: true,
-       startView: 2,
-        showMeridian: 1,
-        pickerPosition: "bottom-left"
-       });
-      });
+	});	
+	
+
 </script>
    
 </head>
@@ -134,7 +117,7 @@
       </div>
 
       <!-- form Start /////////////////////////////////////-->
-      <form class="form-horizontal">
+      <form class="form-horizontal" encType="multipart/form-data">
 
          <div class="form-group">
             <label for="productNo" class="col-sm-offset-1 col-sm-3 control-label"></label>
@@ -143,7 +126,18 @@
                   value="${product.productNo}">
             </div>
          </div>
+<!-- 파일 업로드 구현 필요 Start  -->
 
+		 <div class="form-group">
+            <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>            
+            <div class="col-sm-4">
+            <img  productNo="${ product.productNo }" width="400" height="400" src="../images/uploadFiles/${product.productImg}" alt="..." 
+					onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
+			    <input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
+            </div>
+         </div>
+
+<!-- 파일 업로드 구현 필요 End  -->
          <div class="form-group">
             <label for="productName" class="col-sm-offset-1 col-sm-3 control-label">상 품 명</label>
             <div class="col-sm-4">
@@ -155,7 +149,7 @@
          <div class="form-group">
             <label for="productPrice" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
             <div class="col-sm-4">
-               <input type="number" class="form-control" id="price" name="price"
+               <input type="number" class="form-control" id="productPrice" name="productPrice"
                   value="${product.productPrice}">
             </div>
          </div>
@@ -163,18 +157,12 @@
          <div class="form-group">
             <label for="productDetail" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
             <div class="col-sm-4">
-               <input type="text" class="form-control" id="prodDetail" name="prodDetail" 
-                  value="${product.productDetail}">
+               <textarea cols="50" rows="10" class="form-control" id="productDetail" name="productDetail" 
+                  value="${product.productDetail}">${product.productDetail}</textarea>
             </div>
          </div>
 
-         <div class="form-group">
-            <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
-            <div class="col-sm-4">
-               <input type="text" class="form-control" id="productImg"
-                  name="productImg" value="${product.productImg}">
-            </div>
-         </div>
+
 
 		 <div class="form-group">
             <label for="status" class="col-sm-offset-1 col-sm-3 control-label"></label>
@@ -189,8 +177,8 @@
             <div class="col-sm-offset-4  col-sm-4 text-center">
                <button type="button" class="btn btn-primary update">수 &nbsp;정</button>
                <button type="button" class="btn btn-primary delete">삭 &nbsp;제</button>
-               <button type="button" class="btn btn-primary back">이전페이지로 돌아가기</button>
                <a class="btn btn-primary btn" href="#" role="button">내용리셋</a>
+               <button type="button" class="btn btn-primary back">이전페이지로 돌아가기</button>          
             </div>
          </div>
       </form>

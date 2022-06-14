@@ -1,0 +1,24 @@
+@charset "UTF-8";
+@font-face {
+     font-family: 'S-CoreDream-4Regular';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+html {
+	font-family: 'S-CoreDream-4Regular';
+}
+body {
+	font-family: 'S-CoreDream-4Regular';
+}
+
+div, th, td, li, dt, dd, p {
+    word-break: break-all;
+}
+
+html {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+

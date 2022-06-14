@@ -46,6 +46,7 @@
 	                         <li><a href="#">쿠폰상품전체목록</a></li>
 	                         <li><a href="#">상품권상품전체목록</a></li>
 	                         <li><a href="#">포인트상품전체목록</a></li>
+	                         <li><a href="#">공지사항관리</a></li>
 	                         <li><a href="#">생성쿠폰목록조회</a></li>
 	                         <li><a href="#">쿠폰발급목록조회</a></li>
 	                      
@@ -81,6 +82,31 @@
 		                     </ul>
 		                </li>
 	                 </c:if>
+
+	              <!-- 배지관리 DrowDown  -->
+		              <li class="dropdown">
+		                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+		                         <span >배지관리</span>
+		                         <span class="caret"></span>
+		                     </a>
+		                     <ul class="dropdown-menu">
+		                         <li><a href="#">배지전체목록</a></li>
+		                         <li><a href="#">내배지전체목록</a></li>
+		                     </ul>
+		                </li>
+		                
+	              <!-- 상품관리 DrowDown  -->
+		              <li class="dropdown">
+		                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+		                         <span >상품관리</span>
+		                         <span class="caret"></span>
+		                     </a>
+		                     <ul class="dropdown-menu">
+	                         <li><a href="#">쿠폰상품전체목록</a></li>
+	                         <li><a href="#">상품권상품전체목록</a></li>
+	                         <li><a href="#">포인트상품전체목록</a></li>
+		                     </ul>
+		                </li>
 	                 
 	              <!-- 구매관리 DrowDown -->
 	              <li class="dropdown">
@@ -282,7 +308,12 @@
 		 		self.location = "/product/getProductPointList"
 			}); 
 		});
-	 	
+///////////
+	 	$(function() {
+		 	$("a:contains('배지전체목록')").on("click" , function() {
+		 		self.location = "/badge/getBadgeList"
+			}); 
+		});	 	
 ///////////////////////////////////////////////////////////////	 	 	 	
 		$(function() {
 		 	$("a:contains('쿠폰발급')").on("click" , function() {
