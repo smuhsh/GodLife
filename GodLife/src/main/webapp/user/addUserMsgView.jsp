@@ -1,217 +1,66 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<html lang="ko">
-	
+<html>
 <head>
-	<meta charset="EUC-KR">
-	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-       body > div.container{
-        	border: 3px solid #D6CDB7;
-            margin-top: 10px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
-	
-		//============= "°¡ÀÔ"  Event ¿¬°á =============
-		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "button.btn.btn-primary" ).on("click" , function() {
-				fncAddUser();
-			});
-		});	
-		
-		
-		//============= "Ãë¼Ò"  Event Ã³¸® ¹×  ¿¬°á =============
-		$(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
-				$("form")[0].reset();
-			});
-		});	
-	
-		
-		
-		
-		function fncAddUser() {
-			
-			var userEmail=$("input[name='userEmail']").val();
-			var pwd=$("input[name='pwd']").val();
-			var nick=$("input[name='nick']").val();
-			
-			
-			if(userEmail == null || userEmail.length <1){
-				alert("¾ÆÀÌµğ´Â ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
-			}
-			if(pwd == null || pwd.length <1){
-				alert("ÆĞ½º¿öµå´Â  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
-			}
-			if(nick == null || nick.length <1){
-				alert("´Ğ³×ÀÓÀº  ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-				return;
-			}
-				
-			$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
-		}
-	
-		
-		//ÈŞ´ëÆù ¹øÈ£ ÀÎÁõ
-		 $(function(){
-			 
-		var code2 = "";
-		$("#phoneChk").click(function(){
-			alert("ÀÎÁõ¹øÈ£ ¹ß¼ÛÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.\nÈŞ´ëÆù¿¡¼­ ÀÎÁõ¹øÈ£ È®ÀÎÀ» ÇØÁÖ½Ê½Ã¿À.");
-			var phone = $("#phone").val();
-			$.ajax({
-		        type:"GET",
-		        url:"/user/phoneCheck?phone=" + phone,
-		        cache : false,
-		        success:function(data){
-		        	if(data == "error"){
-		        		alert("ÈŞ´ëÆù ¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.")
-						$(".successPhoneChk").text("À¯È¿ÇÑ ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-						$(".successPhoneChk").css("color","red");
-						$("#phone").attr("autofocus",true);
-		        	}else{	        		
-		        		$("#phone2").attr("disabled",false);
-		        		$("#phoneChk2").css("display","inline-block");
-		        		$(".successPhoneChk").text("ÀÎÁõ¹øÈ£¸¦ ÀÔ·ÂÇÑ µÚ º»ÀÎÀÎÁõÀ» ´­·¯ÁÖ½Ê½Ã¿À.");
-		        		$(".successPhoneChk").css("color","green");
-		        		$("#phone").attr("readonly",true);
-		        		code2 = data;
-		        	}
-		        }
-		    });
-		});
-
-		//ÈŞ´ëÆù ÀÎÁõ¹øÈ£ ´ëÁ¶
-		$("#phoneChk2").click(function(){
-			if($("#phone2").val() == code2){
-				$(".successPhoneChk").text("ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
-				$(".successPhoneChk").css("color","green");
-				$("#phoneDoubleChk").val("true");
-				$("#phone2").attr("disabled",true);
-			}else{
-				$(".successPhoneChk").text("ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù. È®ÀÎÇØÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.");
-				$(".successPhoneChk").css("color","red");
-				$("#phoneDoubleChk").val("false");
-				$(this).attr("autofocus",true);
-			}
-		});
-   });	
-
-		
-		 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	</script>		
-    
+<meta charset="UTF-8">
+<title>ìª½ì§€ ë³´ë‚´ê¸°</title>
+<link rel="stylesheet" href="/css/addUserMsgView.css" />
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 </head>
-
 <body>
 
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<div class="navbar  navbar-default">
-        <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">GodLife</a>
-   		</div>
-   	</div>
-   	<!-- ToolBar End /////////////////////////////////////-->
+<!-- ìª½ì§€ viewer -->
+<form id="myMessageFormForm" name="myMessageFormForm">
 
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<h1 class="bg-primary text-center">È¸ ¿ø °¡ ÀÔ</h1>
+	  <input type="hidden" name="seq" id="seq" value="${seq}"> 
+	 <input type="hidden" name="id" id="id" value="${memId}">
 		
-		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal" form action="/sendMail/id" id="findForm" method="post">
-		
- 		<div class="form-group">
-		    <label for="userEmail" class="col-sm-offset-1 col-sm-3 control-label">¾ÆÀÌµğ</label>
-		    <div class="col-sm-4">
-		      <input type="userEmail" class="form-control" id="userEmail" name="userEmail" placeholder="¾ÆÀÌµğ">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="pwd" class="col-sm-offset-1 col-sm-3 control-label">ºñ¹Ğ¹øÈ£</label>
-		    <div class="col-sm-4">
-		      <input type="pwd" class="form-control" id="pwd" name="pwd" placeholder="ºñ¹Ğ¹øÈ£">
-		    </div>
-		  </div>
-		  
-		  
-		  <div class="form-group">
-		    <label for="nick" class="col-sm-offset-1 col-sm-3 control-label">´Ğ³×ÀÓ</label>
-		    <div class="col-sm-4">
-		      <input type="nick" class="form-control" id="nick" name="nick" placeholder="´Ğ³×ÀÓ">
-		    </div>
-		  </div>
-		  
-		    <div class="form-group">
-		    <label for="categNo" class="col-sm-offset-1 col-sm-3 control-label">°ü½É»ç</label>
-		    <div class="col-sm-4">
-		      <input type="checkbox" id="sports" name="categNo" value="1">
-					<label for="sports">¿îµ¿</label>
-					<input type="checkbox" id="eatingHabit" name="categNo" value="2">
-					<label for="eatingHabit">½Ä½À°ü</label>
-					<input type="checkbox" id="studying" name="categNo" value="3">
-					<label for="studying">°øºÎ</label>
-					<input type="checkbox" id="hobby" name="categNo" value="4">
-					<label for="hobby">Ãë¹Ì</label>
-					<input type="checkbox" id="life" name="categNo" value="5">
-					<label for="life">»ıÈ°</label>
-		    </div>
-		  </div>
-		  
-			  <tr class="mobileNo">
-		<th>
-			<label for="phone">ÈŞ´ëÆù ¹øÈ£</label>
-		</th>
-		<td>
-			<p>
-				<input id="phone" type="text" name="phone" title="ÀüÈ­¹øÈ£ ÀÔ·Â" required/>
-				<span id="phoneChk" class="doubleChk">ÀÎÁõ¹øÈ£ º¸³»±â</span><br/>
-				<input id="phone2" type="text" name="phone2" title="ÀÎÁõ¹øÈ£ ÀÔ·Â" disabled required/>
-				<span id="phoneChk2" class="doubleChk">º»ÀÎÀÎÁõ</span>
-				<span class="point successPhoneChk">ÈŞ´ëÆù ¹øÈ£ ÀÔ·ÂÈÄ ÀÎÁõ¹øÈ£ º¸³»±â¸¦ ÇØÁÖ½Ê½Ã¿À.</span>
-				<input type="hidden" id="phoneDoubleChk"/>
-			</p>
-			<p class="tip">
-				ÃÖÃÊ °¡ÀÔ ½Ã¿¡¸¸ »ç¿ëÇÏ°í ÀÖ½À´Ï´Ù. µû·Î ÀúÀåµÇÁö ¾Ê½À´Ï´Ù.(¹øÈ£¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä.)
-			</p>
-		</td>
-	</tr>
+	<div class="head_aticle">
+		<h2 class="tit" align="center">ìª½ì§€ ë³´ë‚´ê¸°</h2>
+	</div>
 	
-		  <div class="form-group">
-		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >°¡ÀÔ</button>
-			  <a class="btn btn-primary btn" href="#" role="button">Ãë¼Ò</a>
-		    </div>
-		  </div>
-		</form>
-		<!-- form Start /////////////////////////////////////-->
+	<table border="2" id="myMessageFormTable" class="myMessageFormTable" bordercolor="#ddd" cellspacing="0" cellpadding="5" align="center" frame="hsides" rules="rows"
+			>
+			
+		<tr>
+			<td align="left" colspan="3" class="title">ë°›ëŠ” ì‚¬ëŒ : 
+			<input type="text" id="message_subject" name="message_subject" placeholder="ë°›ëŠ”ì‚¬ëŒì˜ ì´ë©”ì¼ì„ ì…ë ¥í•˜ì„¸ìš”." style="width:450px; height:20px; background-color: #f2f2f2; border:0; outline:0;">
+			<div id="message_subject_div_check"></div></td>
+		</tr>
 		
- 	</div>
-	<!--  È­¸é±¸¼º div end /////////////////////////////////////-->
+		<tr>
+			<td align="left" colspan="3" class="title">ì œëª© : 
+			<input type="text" id="message_subject" name="message_subject" placeholder="ì œëª©ì„ ì…ë ¥í•˜ì„¸ìš”." style="width:450px; height:20px; background-color: #f2f2f2; border:0; outline:0;">
+			<div id="message_subject_div_check"></div></td>
+		</tr>
+		
+		
+		<tr>	
+			<td class="content" colspan="3" valign="top">
+				<div class="content_div" align="left">
+					<pre><textarea name="message_content_Span" id="message_content_Span" placeholder="ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”." style="width:450px; height:240px; 
+							border:0; resize:none; background-color: #f4f4f4;"></textarea></pre>
+				</div>
+				<div id="content_div_check"></div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="3" align="center" class="moveToListTd">
+				<!--  <button class="sendBtn" id="sendBtn" ><a href="/jaju/mypage/myMessageSend?pg=1">ë‹µì¥</a></button>  -->
+				<button class="sendBtn" id="sendBtn" >ë³´ë‚´ê¸°</button>
+				<button type="reset" id="resetBtn" >ë‹¤ì‹œì‘ì„±</button>
+				<!-- <span class="backBtn" id="backBtn"><a href="/jaju/mypage/myMessage?pg=1">&emsp;ìª½ì§€í•¨ ì´ë™&emsp;</a></span> -->
+			</td>
+		</tr>
 	
+	</table>
+</form>
+<!-- ì´ë¶€ë¶„ì€ jsì—ì„œ append ë‚˜ htmlë¡œ ë¶™ì—¬ë„£ê¸°í•˜ê¸° -->
+		
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js"></script>	
+<script src="/javascript/addUserMsgView.js"></script>
+
 </body>
-
 </html>

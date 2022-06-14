@@ -79,6 +79,7 @@ div.box {
       var useStatus = $("input[name='useStatus']").val();
       var useDetail = $("input[name='useDetail']").val();
 
+      
       alert(payOpt + " : payOpt   " + productNo + ": productNo   "
             + useStatus + ":useStatus  " + useDetail + ":useDetail");
       $("form").attr("method", "POST").attr("action",

@@ -25,11 +25,20 @@
    
    <!--  ///////////////////////// CSS ////////////////////////// -->
    <style>
-   body {
-      padding-top: 50px;
-     
-      
-   }
+ 		body {
+            padding-top : 50px;
+            background-color: #708090 ;
+		    font-weight: bold; 
+		    font-family:impact;
+        }
+        
+		textarea {
+		    width: 100%;
+		    height: 6.25em;
+		    border: none;
+		    resize: none;
+		    
+		  }  
    
    </style>
     
@@ -168,13 +177,11 @@
 		 <div class="form-group">
             <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>            
             <div class="col-sm-4">
+            <img  productNo="${ product.productNo }" width="400" height="400" src="../images/uploadFiles/${product.productImg}" alt="..." 
+					onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
 			    <input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
             </div>
          </div>
-
-         
-         
-         
 
 <!-- 파일 업로드 구현 필요 End  -->
          <div class="form-group">
@@ -196,8 +203,8 @@
          <div class="form-group">
             <label for="productDetail" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
             <div class="col-sm-4">
-               <input type="text" class="form-control" id="productDetail" name="productDetail" 
-                  value="${product.productDetail}">
+               <textarea cols="50" rows="10" class="form-control" id="productDetail" name="productDetail" 
+                  value="${product.productDetail}">${product.productDetail}</textarea>
             </div>
          </div>
 

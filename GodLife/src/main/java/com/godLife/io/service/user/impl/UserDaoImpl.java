@@ -38,6 +38,21 @@ public class UserDaoImpl implements UserDao{
 	
 	//================회원=======================================================
 	
+//아이디 찾기 
+	public String findUserEmail(String phone) throws Exception{
+		return sqlSession.selectOne("UserMapper.findUserEmail", phone);
+	}
+	
+// userEmail 중중복체크
+	public int checkUserEmail(String userEmail) throws Exception {
+		return sqlSession.selectOne("UserMapper.checkUserEmail", userEmail);
+	}
+	
+	// nick중복체크
+	public int checkNick(String nick){
+		return sqlSession.selectOne("UserMapper.checkNick", nick);
+	}	
+	
 	public void addUser(User user) throws Exception {
 		sqlSession.insert("UserMapper.addUser", user);
 	}
@@ -64,15 +79,15 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectList("UserMapper.getUserList", search);
 	}
 	
-	//핸드폰 번호로 아이디, 비번찾기 
-	public User findUserPhone(String phone) throws Exception {
-		return sqlSession.selectOne("UserMapper.findUserPhone", phone);
-	}
-	
-	//이메일로 비번찾기 
-	public User findUserEmail(String userEmail) throws Exception {
-		return sqlSession.selectOne("UserMapper.findUserEmail", userEmail);
-	}
+//	//핸드폰 번호로 아이디, 비번찾기 
+//	public User findUserPhone(String phone) throws Exception {
+//		return sqlSession.selectOne("UserMapper.findUserPhone", phone);
+//	}
+//	
+//	//이메일로 비번찾기 
+//	public User findUserEmail(String userEmail) throws Exception {
+//		return sqlSession.selectOne("UserMapper.findUserEmail", userEmail);
+//	}
 	
 	
 	//================친구, 블랙리스트=================================================

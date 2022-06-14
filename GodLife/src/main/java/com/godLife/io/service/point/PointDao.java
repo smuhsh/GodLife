@@ -24,5 +24,5 @@ public interface PointDao {
 	
 	public int getVoucherTotalCount(User user);
 	
-	public int getDonationTotalCount(User user);
+	public int getDonationTotalCount(Search search,User user);
 }

@@ -67,14 +67,25 @@ public class ProductController {
 	}
 
 	@RequestMapping( value="addProductCoupon", method=RequestMethod.POST )
-	public String addProductCoupon( @ModelAttribute("product") Product product ) throws Exception {
+	public String addProductCoupon( @ModelAttribute("product") Product product, 
+								@RequestParam ("imageUpload" )  MultipartFile file) throws Exception {
 		
 		System.out.println("/product/addProductCoupon : POST");
 		//Business Logic
+		
+		String fileName = file.getOriginalFilename();
+		//System.out.println("After : getOriginalFilename ");
+		
+		
+		//System.out.println("Byte : " + file.getBytes());
+		 fileName =  uploadFile(fileName, file.getBytes());   // 파일 이름 중복 제거 
+		//System.out.println("파일이름" +  fileName );
+		
+		product.setProductImg(fileName);
+		
 		productService.addProductCoupon(product);
-
-		return "forward:/product/getProductCouponList";
-
+		//Redirect로 안하고 Forward로 했을때는 Session때문인지 새로고침 할때마다 반복된 행동으로 계속 추가 됨
+		return "redirect:/product/getProductCouponList?productNo="+product.getProductNo();
 	}
 	
 	@RequestMapping( value="addProductVoucherView", method=RequestMethod.GET )
@@ -93,7 +104,7 @@ public class ProductController {
 		productService.addProductVoucher(product);
 
 		return "forward:/product/getProductVoucherList.jsp";
-
+		
 	}
 	
 	@RequestMapping( value="addProductPointView", method=RequestMethod.GET )
@@ -207,9 +218,7 @@ public class ProductController {
 		System.out.println("/product/updateProductCoupon : POST");
 		
 		//System.out.println("Before : getOriginalFilename ");
-		
 		String fileName = file.getOriginalFilename();
-		
 		//System.out.println("After : getOriginalFilename ");
 		
 		

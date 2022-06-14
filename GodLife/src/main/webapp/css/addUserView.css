@@ -1,0 +1,557 @@
+@charset "UTF-8";
+
+@font-face {
+     font-family: 'S-CoreDream-4Regular';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+
+.id_ok{
+		color:#064ACB;
+		display: none;
+		}
+		
+		.id_already{
+		color:#064ACB; 
+		display: none;
+		}
+		
+		.id_ok2{
+		color:#064ACB;
+		display: none;
+		}
+		.id_already2{
+		color:#064ACB; 
+		display: none;
+		}
+
+.member_join {
+    width: 640px;
+    margin: 0 auto;
+}
+
+.member_join th {
+    width: 159px;
+    padding: 20px 0 0 20px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #333;
+    line-height: 20px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.member_join td {
+    padding: 10px 0;
+    border-top: 0;
+    font-size: 14px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.member_join .field_head .tit {
+    padding-top: 64px;
+    font-weight: 900;
+    font-size: 30px;
+    color: #333;
+    line-height: 40px;
+    text-align: center;
+    letter-spacing: -.5px;
+}
+
+.member_join .field_head .sub {
+    padding: 23px 0 10px;
+    font-size: 12px;
+    color: #666;
+    line-height: 17px;
+    text-align: right;
+}
+
+.member_join .field_head .sub .ico {
+    padding-right: 2px;
+    color: #ee6a7b;
+}
+
+.member_join .code_num {
+    display: none;
+    position: relative;
+    padding-top: 10px;
+}
+
+.member_join .code_num input[type=text] {
+    margin: 0;
+}
+
+.type_form input[type=text]:disabled, .type_form input[type=password]:disabled {
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    color: #999;
+}
+
+.member_join .code_num .count_down {
+    position: absolute;
+    left: 216px;
+    top: 21px;
+    width: 100px;
+    font-size: 14px;
+    color: #b3130b;
+    line-height: 20px;
+    text-align: right;
+    letter-spacing: -.5px;
+}
+
+.member_join .tbl_comm {
+    width: 100%;
+    border-top: 2px solid #333;
+}
+
+.member_join .tbl_comm .fst th {
+    padding-top: 29px;
+}
+
+.member_join th .ico {
+    color: #ee6a7b;
+}
+
+.member_join input[type=text], .member_join input[type=password] {
+    width: 332px;
+}
+
+.type_form textarea, .type_form input[type=text], .type_form input[type=password] {
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    color: #333;
+    line-height: 20px;
+    border-radius: 3px;
+    background: #fff;
+    outline: none;
+    vertical-align: top;
+}
+
+.member_join .btn {
+    display: inline-block;
+    width: 120px;
+    margin-left: 5px;
+    vertical-align: top;
+}
+
+.member_join .field_address {
+    padding-bottom: 20px;
+}
+
+.member_join #selectAddress {
+    float: left;
+    padding-right: 10px;
+}
+
+.member_join #selectAddress, .member_join #selectAddressSub {
+    display: none;
+}
+
+.member_join #addressSearch.re_search {
+    width: 120px;
+}
+
+.member_join #addressSearch {
+    display: block;
+    overflow: hidden;
+    width: 332px;
+    height: 44px;
+    border: 1px solid #064acb;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.member_join #addressNo {
+    display: inline-block;
+    height: 100%;
+    margin-left: -14px;
+    padding-left: 24px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #064acb;
+    line-height: 40px;
+    background: url(/jaju/jajuImage/ico_search.svg) no-repeat 0 50%;
+    background-size: 25px 24px;
+    vertical-align: top;
+}
+
+.member_join #selectAddressSub {
+    overflow: hidden;
+    width: 332px;
+    padding-top: 10px;
+}
+
+.member_join #delivery {
+    float: left;
+    padding-top: 10px;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.member_join .categNo label {
+    display: inline-block;
+    padding: 10px 52px 10px 0;
+    vertical-align: top;
+}
+
+.member_join .reg_agree td {
+    padding-bottom: 19px;
+}
+
+.type_form input[type=radio] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+input[type=checkbox], input[type=radio] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.type_form input[type=radio]:checked+.ico {
+    border: 1px solid #064acb;
+    background-color: #064acb;
+}
+
+.type_form input[type=radio]+.ico {
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 100%;
+    vertical-align: -7px;
+}
+
+.type_form input[type=radio]:checked+.ico:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    border-radius: 100%;
+    background-color: #fff;
+}
+
+.type_form .btn.default {
+    border: 1px solid #064acb;
+    background-color: #fff;
+    color: #064acb;
+}
+
+.type_form .btn {
+    height: 44px;
+    border: 0;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    outline: none;
+}
+
+.type_form label {
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.reg_agree th, .reg_agree td {
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.screen_out {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}
+
+.reg_agree .bg_dim {
+    display: none;
+    position: fixed;
+    z-index: 9998;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: .5;
+}
+
+.reg_agree .layer {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 440px;
+    margin: 0 0 0 -220px;
+    border-radius: 12px;
+    background-color: #fff;
+    z-index: 9999;
+}
+
+.member_join .reg_agree .layer .box_tbl {
+    margin-top: 19px;
+    padding: 0 30px;
+    font-size: 14px;
+    color: #333;
+}
+
+.member_join .reg_agree .layer .txt_service {
+    margin-top: 20px;
+    padding: 0 30px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+}
+
+.member_join .reg_agree .in_layer {
+    padding-bottom: 30px;
+}
+
+.member_join .reg_agree .layer .btn_close {
+    position: absolute;
+    right: 24px;
+    top: 30px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    background: url(https://res.kurly.com/pc/ico/1908/ico_layer_close.png) no-repeat 0 0;
+}
+
+.member_join .reg_agree .layer .btn_ok {
+    display: block;
+    width: 100%;
+    height: 57px;
+    border: 0;
+    border-top: 1px solid #f7f7f7;
+    border-radius: 6px;
+    background-color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    color: #064acb;
+    line-height: 32px;
+    letter-spacing: 0;
+}
+
+.member_join .reg_agree .inner_layer {
+    position: relative;
+    width: 440px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+.reg_agree .layer .inner_layer {
+    border-radius: 12px;
+}
+
+.member_join .reg_agree .tit_layer {
+    padding: 25px 88px 8px 30px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 40px;
+    color: #333;
+    letter-spacing: -1px;
+}
+
+.member_join .reg_agree .tit_layer .sub {
+    color: #999;
+}
+
+.member_join .reg_agree .layer_agreement .inner_layer .box_tbl {
+    overflow-y: scroll;
+    height: 450px;
+    font-size: 14px;
+    color: #666;
+    line-height: 20px;
+}
+
+.member_join .reg_agree .layer_essential .tit1 {
+    width: auto;
+}
+
+.member_join .reg_agree .layer_essential .tit2 {
+    width: 81px;
+}
+
+.member_join .reg_agree .layer_essential .tit3 {
+    width: 101px;
+}
+
+.member_join .reg_agree .box_tbl th {
+    padding: 7px 8px 8px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+}
+
+.member_join .reg_agree .box_tbl td {
+    padding: 9px 4px;
+    border: 1px solid #ddd;
+    font-size: 11px;
+    line-height: 17px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.member_join .reg_agree .box_tbl .emph {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.member_join .reg_agree .layer .box_tbl {
+    margin-top: 19px;
+    padding: 0 30px;
+    font-size: 14px;
+    color: #333;
+}
+
+.member_join .reg_agree .box_tit {
+    padding-bottom: 20px;
+    font-size: 14px;
+}
+
+.type_form input[type=checkbox]:checked+.ico {
+    background: url(/jaju/jajuImage/ico_checkbox_checked.svg) no-repeat 50% 50%;
+    background-size: 24px 24px;
+}
+
+.type_form input[type=checkbox]+.ico {
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    border: 0;
+    background: url(https://res.kurly.com/pc/service/common/2006/ico_checkbox.svg) no-repeat 50% 50%;
+    background-size: 24px 24px;
+    vertical-align: -7px;
+}
+
+.member_join .check_view .sub {
+    color: #999;
+}
+
+.member_join .reg_agree .check {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    padding: 0 0 10px;
+}
+
+.member_join .reg_agree .label_all_check {
+    padding: 12px 0 4px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.member_join .reg_agree .check {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    padding: 0 0 10px;
+}
+
+.type_form input[type=checkbox] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+	
+.member_join .reg_agree .label_all_check .ico {
+    vertical-align: -6px;
+}
+
+.member_join .btn_link {
+    position: absolute;
+    right: 22px;
+    top: 0;
+    padding-top: 10px;
+    font-size: 14px;
+    color: #064acb;
+    line-height: 18px;
+    letter-spacing: 0;
+}
+
+.member_join .check .sub {
+    padding-left: 36px;
+    font-size: 12px;
+    color: #666;
+    line-height: 17px;
+}
+
+.member_join .btn_link:after {
+    content: '';
+    display: inline-block;
+    margin-top: 4px;
+    width: 6px;
+    height: 9px;
+    background: url(/jaju/jajuImage/ico_arrow_6x9.svg) no-repeat 50% 0;
+    background-size: 6px 9px;
+    vertical-align: top;
+}
+
+.member_join .check_view {
+    position: relative;
+}
+
+.member_join .check_view .check_agree {
+    padding: 8px 0;
+}
+
+.type_form label.label_block {
+    display: block;
+    padding: 15px 0 13px;
+}
+
+.type_form label {
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.member_join .form_footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+}
+
+.member_join .form_footer .btn_join {
+    width: 240px;
+    height: 56px;
+    font-size: 16px;
+}
+
+.type_form .btn.active {
+    border: 1px solid #064acb;
+    background-color: #064acb;
+    color: #fff;
+}
+
+.checkDiv {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+a {
+    background-color: transparent;
+    text-decoration: none;
+    color: inherit;
+}

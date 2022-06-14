@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}
+		
+        body {
+            padding-top : 70px;
+            background-size: cover;
+        }
+        
+        h3{
+        	overflow:hidden;
+        	text-overflow:ellipsis;
+        	white-space:nowrap;
+        	width: 130px;
+        	font-family: 'oneMobile';
+        }
+        
+        h5#joinCount{
+        	position:relative;
+        	bottom:27px;
+        	left:140px;
+        	font-family: 'oneMobile';
+        }
+       	
+       	p.text-primary{
+       		position:relative;
+       		font-family: 'oneMobile';
+       	}
+       	h5.info#categ{
+       		position:relative;
+       		bottom:37px;
+       	}
+       	.status{
+       		position:relative;
+       		bottom:40px;
+       		left:145px;
+       		font-family: 'oneMobile';
+       	}
+       	td{
+       		position:relative;
+       		font-family: 'oneMobile';
+       	}

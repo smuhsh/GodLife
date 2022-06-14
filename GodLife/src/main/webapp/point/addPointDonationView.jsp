@@ -69,6 +69,7 @@ table {
 		var point = $("input[name='point']").val();
 		var useStatus = $("input[name='useStatus']").val();
 		var useDetail = $("input[name='useDetail']").val();
+		var totalPoint = $("input[name='totalPoint']").val();
 
 		if (donationPlace == null || donationPlace.length < 1) {
 			alert("기부처는 반드시 입력하여야 합니다.");
@@ -76,6 +77,11 @@ table {
 		}
 		if (point == null || point.length < 1 || point < 1000) {
 			alert("기부금은 반드시 1000원 이상 입력해야 합니다.");
+			return;
+		}
+		alert("totalPoint" + totalPoint);
+		if (totalPoint < point ){
+			alert("소지한 포인트가 부족합니다");
 			return;
 		}
 
@@ -144,11 +150,10 @@ table {
 		<div class="form-group">
 			<label for="inputPassword3" class="col-sm-2 control-label">Point</label>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" name="point"
-					placeholder="기부금"> <input type="hidden" name="userEmail"
-					value="${user.userEmail}" /> <input type="hidden" name="nick"
-					value="${user.nick}" /> <input type="hidden" name="totalPoint"
-					value="${user.totalPoint}" /> <input type="hidden"
+				<input type="text" class="form-control" name="point" placeholder="기부금"> 
+				<input type="hidden" name="userEmail" value="${user.userEmail}" /> 
+				<input type="hidden" name="nick" value="${user.nick}" /> 
+				<input type="hidden" name="totalPoint" value="${user.totalPoint}" /> <input type="hidden"
 					name="useStatus" value="2" /> <input type="hidden"
 					name="useDetail" value="7" />
 			</div>

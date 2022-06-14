@@ -248,13 +248,13 @@
 	 	
 	 	$(function() {
 		 	$("a:contains('공지사항관리')").on("click" , function() {
-		 		self.location = "/notice/listNotice?menu=manage"
+		 		self.location = "/operator/getOperatorNoticeFaqs"
 			}); 
 		});
 	 	
 	 	$(function() {
 		 	$("a:contains('공지사항목록')").on("click" , function() {
-		 		self.location = "/notice/listNotice?menu=search"
+		 		self.location = "/operator/listOperatorNoticeFaqs"
 			}); 
 		});
 ///////////////////////////////////////////////////////////////	 	

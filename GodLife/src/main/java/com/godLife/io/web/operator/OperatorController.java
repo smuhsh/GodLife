@@ -1,5 +1,6 @@
 package com.godLife.io.web.operator;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -158,12 +159,23 @@ public class OperatorController {
 		return "redirect:/operator/addOperatorNoticeFaqs.jsp";
 	}
 	
+//	@RequestMapping(value="getOperatorNoticeFaqs", method=RequestMethod.GET)
+//	public String getOperatorNoticeFaqs( @RequestParam("eventNo") int eventNo , Model model ) throws Exception {
+//		
+//		System.out.println("/operator/getOperatorNoticeFaqs : GET");
+//		//Business Logic
+//		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(eventNo);
+//		// Connect Model and View 
+//		model.addAttribute("operatorNoticeFaqs", operatorNoticeFaqs);
+//		
+//		return "forward:/operator/getOperatorNoticeFaqs.jsp";
+//	}
 	@RequestMapping(value="getOperatorNoticeFaqs", method=RequestMethod.GET)
-	public String getOperatorNoticeFaqs( @RequestParam("eventNo") int eventNo , Model model ) throws Exception {
+	public String getOperatorNoticeFaqs( @RequestParam("noticeFaqNo") int noticeFaqNo , Model model ) throws Exception {
 		
 		System.out.println("/operator/getOperatorNoticeFaqs : GET");
 		//Business Logic
-		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(eventNo);
+		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(noticeFaqNo);
 		// Connect Model and View 
 		model.addAttribute("operatorNoticeFaqs", operatorNoticeFaqs);
 		
@@ -171,11 +183,11 @@ public class OperatorController {
 	}
 	
 	@RequestMapping(value="updateOperatorNoticeFaqs", method=RequestMethod.GET)
-	public String updateOperatorNoticeFaqs( @RequestParam("eventNo") int eventNo , Model model ) throws Exception{
+	public String updateOperatorNoticeFaqs( @RequestParam("noticeFaqNo") int noticeFaqNo , Model model ) throws Exception{
 		
 		System.out.println("/update/updateOperatorNoticeFaqs : GET");
 		//Business Logic
-		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(eventNo);
+		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(noticeFaqNo);
 		// Connect Model and View 
 		model.addAttribute("operatorNoticeFaqs", operatorNoticeFaqs);
 		return "forward:/operator/updateOperatorNoticeFaqs.jsp";
@@ -195,31 +207,65 @@ public class OperatorController {
 		return "redirect:/operator/getOperatorNoticeFaqs?EventNo="+operatorNoticeFaqs.getNoticeFaqNo();
 	}
 	
-	@RequestMapping("/listOperatorNoticeFaqs")
-	public String listOperatorNoticeFaqs(@ModelAttribute("search") Search search, Model model, @RequestParam(value="status", required=false) String status) throws Exception{
-		System.out.println("/listOperatorNoticeFaqs");
+//	@RequestMapping("/listOperatorNoticeFaqs")
+//	public String listOperatorNoticeFaqs(@ModelAttribute("search") Search search, Model model, @RequestParam(value="menu", required=false) String menu) throws Exception{
+//		System.out.println("/listOperatorNoticeFaqs");
+//		
+//		if(search.getCurrentPage() ==0 ){
+//			search.setCurrentPage(1);
+//		}
+//		search.setPageSize(pageSize);
+//		
+//		Map<String, Object> map = operatorService.getOperatorNoticeFaqsList(search);
+//		
+//		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+//		System.out.println(resultPage);
+//		
+//		model.addAttribute("list", map.get("list"));
+//		model.addAttribute("resultPage", resultPage);
+//		model.addAttribute("search", search);
+//		
+//		if(menu!=null && menu.equals("search")) {
+//			return "forward:/operator/listOperatorNoticeFaqs?menu=search";
+//		}
+//		else 
+//			return "forward:/operator/listOperatorNoticeFaqs.jsp";
+//		
+//	}
+	@RequestMapping( value="listOperatorNoticeFaqs" )
+	public String listOperatorNoticeFaqs( @ModelAttribute("search") Search search, User user, OperatorNoticeFaqs operatorNoticeFaqs , Model model , HttpServletRequest request) throws Exception{
+		
+		System.out.println("/operator/listOperatorNoticeFaqs : GET / POST");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
 		
-		Map<String, Object> map = operatorService.getOperatorNoticeFaqsList(search);
+		user = (User) request.getSession().getAttribute("user");
+		
+		
+		
+		// Business logic 수행
+		//Map<String , Object> map=operatorService.getOperatorNoticeFaqsList(search);
+		Map<String , Object> map=operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
+		List<Object> list = (List<Object>) map.get("list");
+		System.out.println("@@@@@@@@@list :"+list);
+		
+		// Model 과 View 연결
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		System.out.println("model :" + model);
 		
-		if(status!=null && status.equals("0")) {
-			return "forward:/operator/listOperatorNoticeFaqs.jsp?menu=0";
-		}
-		else 
-			return "forward:/operator/listOperatorNoticeFaqs.jsp";
-		
+		return "forward:/operator/listOperatorNoticeFaqs.jsp";
 	}
+	
+	
 	
 	//OperatorJoinEvent
 	@RequestMapping(value="addOperatorJoinEvent", method=RequestMethod.GET)

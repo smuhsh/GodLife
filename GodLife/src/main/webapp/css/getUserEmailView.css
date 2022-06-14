@@ -1,0 +1,193 @@
+@charset "UTF-8";
+
+@font-face {
+     font-family: 'S-CoreDream-4Regular';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+
+#content {
+    min-width: 1050px;
+    padding-bottom: 120px;
+    position: relative;
+}
+
+.id_ok{
+		color:#064ACB;
+		display: none;
+		}
+		
+		.id_already{
+		color:#064ACB; 
+		display: none;
+		}
+		
+		.id_ok2{
+		color:#064ACB;
+		display: none;
+		}
+		.id_already2{
+		color:#064ACB; 
+		display: none;
+		}
+
+
+.section_login * {
+    font-family: 'S-CoreDream-4Regular';
+    color: #333;
+}
+
+.section_login {
+    width: 340px;
+    margin: 0 auto;
+    padding-top: 90px;
+    letter-spacing: -.6px;
+}
+
+.section_login .tit_login {
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.section_login .find_view {
+    padding-top: 26px;
+    text-align: center;
+}
+
+.section_login .find_view .tit_label {
+    display: block;
+    padding: 11px 0 7px;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: left;
+}
+
+.section_login input[type=number], .section_login input[type=text], .section_login input[type=password] {
+    width: 100%;
+    height: 54px;
+    padding: 0 19px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    outline: none;
+}
+
+.section_login .find_view .btn_type1 {
+    margin-top: 30px;
+}
+
+.btn_type1 {
+    border: 1px solid #064acb;
+    background-color: #064acb;
+}
+
+.btn_type1, .btn_type2 {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 54px;
+    border-radius: 3px;
+    font-size: 0;
+    text-align: center;
+}
+
+.btn_type1 .txt_type {
+    color: #fff;
+}
+
+.btn_type1 .txt_type, .btn_type2 .txt_type {
+    display: inline-block;
+    height: 100%;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 45px;
+    color: #fff;
+    text-align: center;
+}
+
+.section_login .find_view .thumb {
+    width: 52px;
+    height: 60px;
+    margin: 10px 0 5px;
+}
+
+.section_login .find_view .desc {
+    padding-bottom: 14px;
+    font-weight: 700;
+    font-size: 20px;
+    color: #064acb;
+    line-height: 29px;
+}
+
+.section_login .find_view .info {
+    padding-bottom: 30px;
+    font-size: 12px;
+    color: #333;
+    line-height: 18px;
+}
+
+.checkDiv {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.write_form .code_num {
+    display: none;
+    position: relative;
+    padding-top: 10px;
+}
+
+.write_form .code_num input[type=text] {
+    margin: 0;
+    width: 332px;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    color: #333;
+    line-height: 20px;
+    border-radius: 3px;
+    background: #fff;
+    outline: none;
+    vertical-align: top;
+}
+
+.code_num .btn {
+    height: 44px;
+    border: 0;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    outline: none;
+}
+
+.code_num .btn {
+    display: inline-block;
+    width: 332px;
+    margin-top: 5px;
+    vertical-align: top;
+}
+
+.code_num .btn.default {
+    border: 1px solid #064acb;
+    background-color: #fff;
+    color: #064acb;
+}
+
+.write_form .code_num .count_down {
+    position: absolute;
+    left: 216px;
+    top: 21px;
+    width: 100px;
+    font-size: 14px;
+    color: #b3130b;
+    line-height: 20px;
+    text-align: right;
+    letter-spacing: -.5px;
+}

@@ -28,7 +28,8 @@ public interface OperatorDao {
 	//SELECT LIST
 	public List<OperatorEvents> getOperatorEventsList(Search search) throws Exception;
 	public List<OperatorJoinEvent> getOperatorJoinEventList(Search search) throws Exception;
-	public List<OperatorNoticeFaqs> getOperatorNoticeFaqsList(Search search) throws Exception;
+	//public List<OperatorNoticeFaqs> getOperatorNoticeFaqsList(Search search) throws Exception;
+	public Map<String,Object> getOperatorNoticeFaqsList(Search search, User user, OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
 	
 	//UPDATE
 	public void updateOperatorEvents(OperatorEvents operatorEvents) throws Exception;
