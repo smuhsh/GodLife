@@ -187,8 +187,12 @@ public class UserController {
 	public String updateUser( @RequestParam("userEmail") String userEmail , Model model ) throws Exception{
 
 		System.out.println("/user/updateUser : GET");
+		
 		//Business Logic
 		User user = userService.getUser(userEmail);
+		
+		System.out.println("유저값 제발나와... : "+user); // 유저값이 안나옴... 
+		
 		// Model 과 View 연결
 		model.addAttribute("user", user);
 		
@@ -196,10 +200,9 @@ public class UserController {
 	}
 	
 	
-	
-	@PostMapping( value="updateUser") 
+	@PostMapping( value="updateUser")  
 	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session,
-							  @RequestParam ("profileImg" )  MultipartFile file)throws Exception{
+							  @RequestParam ("fileInfo" )  MultipartFile file)throws Exception{
 		
 			System.out.println("/user/updateUser : POST");
 			
@@ -220,6 +223,8 @@ public class UserController {
 			
 			return "redirect:/user/getUser?userEmail="+user.getUserEmail(); // 수정된상태의 조회페이지로 이동 
 	}
+	
+	
 	
     //파일명 랜덤 생성 메서드
     private String uploadFile(String originalName, byte[] fileData) throws Exception{

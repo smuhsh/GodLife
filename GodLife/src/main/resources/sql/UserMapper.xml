@@ -67,7 +67,7 @@
     </select>
     
     
-     <!-- SQL : 타유저 상세조회-->
+     <!-- SQL : 타유저 상세조회
     <select    id="getUserTarget"   parameterType="string"   resultMap="userSelectMap">
       SELECT u.user_email, u.nick, u.intro, c.categ_name, ch.title, ce.certi_img, b.badge_name, b.badge_img
       FROM users u, categs c, challenges ch, join_challenger j, certi_imgs ce, badges b, my_badge m
@@ -78,7 +78,7 @@
       AND u.user_email = m.user_email(+)
       AND m.badge_no = b.badge_no(+)
        AND u.user_email = #{userEmail}
-    </select>
+    </select>-->
     
     <!-- SQL : 비밀번호 변경 -->
     <update   id="updatePwd"   parameterType="user" >
@@ -92,16 +92,17 @@
     
     <!-- SQL : 본인정보 수정 -->
     <update   id="updateUser"   parameterType="user" >
-         UPDATE users u
+         UPDATE users 
          <set>
-            u.nick = #{nick},
-            u.phone= #{phone},
-            u.categ_no= #{categNo},
-            u.intro = #{intro},
-            u.profile_img = #{profileImg}
+            nick  = #{nick},
+            phone = #{phone},
+            categ_no = #{categNo},
+            intro =  #{intro},
+            profile_img = #{profileImg}
          </set>
-         WHERE u.user_email = #{userEmail}
+         WHERE user_email = #{userEmail}
     </update>
+    
     
     
     <!-- SQL : 유저전체 목록조회(관리자) -->

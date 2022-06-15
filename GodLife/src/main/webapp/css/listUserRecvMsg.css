@@ -17,6 +17,7 @@
 .page_aticle {
     width: 1050px;
     margin: 0 auto;
+    padding-top: 65px;
 }
 div, th, td, li, dt, dd, p {
     word-break: break-all;

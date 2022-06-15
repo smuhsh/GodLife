@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}
+
+div.thumbnail{
+	
+	width:170px !important;
+	height:200px !important;
+	
+}
+
+body{
+	
+	font-family: 'oneMobile';
+}
+#header{
+	 
+	font-size:12px;
+	text-align:center;
+}

@@ -430,6 +430,24 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		return pickCount;
 	}
 
+	@Override
+	public void updateChallengeStatus(Map<String, Object> map) {
+		sqlSession.update("ChallengeMapper.updateChallengeStatus",map);
+	}
+
+	@Override
+	public JoinChallenger getChallengeJoiner(Map<String, Object> map) {
+		JoinChallenger joinChallenger = sqlSession.selectOne("ChallengeMapper.getChallengeJoiner",map);
+		return joinChallenger;
+	}
+
+	@Override
+	public List<JoinChallenger> getChallengeJoinerList(int challengeNo) {
+		List<JoinChallenger> list = 
+		sqlSession.selectList("ChallengeMapper.getChallengJoinerList",challengeNo);
+		return list;
+	}
+
 	
 	
 }
