@@ -24,7 +24,7 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
-	<link rel="stylesheet" href="/resources/css/thumbnails.css" type="text/css">
+	<link rel="stylesheet" href="/resources/css/thumbnail.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/title.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/search.css" type="text/css">
    	
@@ -124,6 +124,7 @@
 	 		</c:if>
 				
 	<div class="container">
+	<div class="img_item">
 	<jsp:include page="/layout/toolbar.jsp" />
 	<div class="row">
 			  <div class="col-xs-6 col-sm-1">
@@ -236,6 +237,7 @@
 	
 	</div>
 	<input type="hidden" id="currentPage" name="currentPage" value=""/>
+	</div>
 	<div class="container">
 		<jsp:include page="../common/pageNavigator_new.jsp"/>
 	</div>
