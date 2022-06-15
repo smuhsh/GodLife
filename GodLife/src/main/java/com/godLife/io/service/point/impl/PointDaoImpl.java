@@ -185,7 +185,8 @@ public class PointDaoImpl implements PointDao {
 		map.put("endRowNum",  search.getEndRowNum()+"" );
 		map.put("startRowNum",  search.getStartRowNum()+"" );
 		map.put("userEmail",userEmail);
-		
+		System.out.println("@@@@dao Search : "+search);
+		map.put("search", search);
 		List<Point> list = sqlSession.selectList("PointMapper.getPointPurchaseList", map);
 		map.put("list", list);
 		
@@ -233,9 +234,15 @@ public class PointDaoImpl implements PointDao {
 	}
 	
 	@Override
-	public int getTotalCount(User user) {
-		System.out.println("daoimpl getTotalCount User : "+user);
-		return sqlSession.selectOne("PointMapper.getTotalCount", user);
+	public int getTotalCount(Search search,User user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String userEmail=user.getUserEmail();
+		map.put("endRowNum",  search.getEndRowNum()+"" );
+		map.put("startRowNum",  search.getStartRowNum()+"" );
+		map.put("userEmail",userEmail);
+		System.out.println("@@@@dao Search : "+search);
+		map.put("search", search);
+		return sqlSession.selectOne("PointMapper.getTotalCount", map);
 	}
 	
 	@Override
