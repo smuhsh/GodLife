@@ -138,25 +138,21 @@ public class OperatorController {
 		
 	}
 	
-	//OperatorNoticeFaqs
-	@RequestMapping(value="addOperatorNoticeFaqs", method=RequestMethod.GET)
-	public String addOperatorNoticeFaqs() throws Exception {
-		
-		System.out.println("/operator/addOperatorNoticeFaqs : GET");
-		
-		return "redirect:/operator/addOperatorNoticeFaqs.jsp";
+	//OperatorNotice
+	@RequestMapping(value="addOperatorNotice", method=RequestMethod.GET)
+	public String addOperatorNotice() throws Exception {		
+		System.out.println("/operator/addOperatorNotice : GET");		
+		return "redirect:/operator/addOperatorNotice.jsp";
 	}
 	
 	//STATUS: 0,1(공지,FAQ) NOTICE_MUST: 0,1(DEFAULT, MUST) FAQ_TAG: 0~2(인증,결제,상금) 
-	@RequestMapping(value="addOperatorNoticeFaqs", method=RequestMethod.POST)
+	@RequestMapping(value="addOperatorNotice", method=RequestMethod.POST)
 	//public String listOperatorEvents(@ModelAttribute("search") Search search, Model model, @RequestParam(value="menu", required=false) String menu) throws Exception{	
-	public String addOperatorNoticeFaqs(@ModelAttribute("operator") OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
-		
-		System.out.println("/operator/addOperatorNoticeFaqs : POST");
+	public String addOperatorNotice(@ModelAttribute("operatorNotice") OperatorNoticeFaqs operatorNotice) throws Exception {		
+		System.out.println("/operator/addOperatorNotice : POST");
 		//Business Logic
-		operatorService.addOperatorNoticeFaqs(operatorNoticeFaqs);
-		
-		return "redirect:/operator/addOperatorNoticeFaqs.jsp";
+		operatorService.addOperatorNotice(operatorNotice);		
+		return "redirect:/operator/addOperatorNotice.jsp";
 	}
 	
 //	@RequestMapping(value="getOperatorNoticeFaqs", method=RequestMethod.GET)
@@ -170,41 +166,39 @@ public class OperatorController {
 //		
 //		return "forward:/operator/getOperatorNoticeFaqs.jsp";
 //	}
-	@RequestMapping(value="getOperatorNoticeFaqs", method=RequestMethod.GET)
-	public String getOperatorNoticeFaqs( @RequestParam("noticeFaqNo") int noticeFaqNo , Model model ) throws Exception {
-		
-		System.out.println("/operator/getOperatorNoticeFaqs : GET");
+	@RequestMapping(value="getOperatorNotice", method=RequestMethod.GET)
+	public String getOperatorNotice( @RequestParam("noticeFaqNo") int noticeFaqNo , Model model ) throws Exception {		
+		System.out.println("/operator/getOperatorNotice : GET");
 		//Business Logic
-		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(noticeFaqNo);
+		OperatorNoticeFaqs operatorNotice = operatorService.getOperatorNotice(noticeFaqNo);
 		// Connect Model and View 
-		model.addAttribute("operatorNoticeFaqs", operatorNoticeFaqs);
-		
-		return "forward:/operator/getOperatorNoticeFaqs.jsp";
+		model.addAttribute("operatorNotice", operatorNotice);		
+		return "forward:/operator/getOperatorNotice.jsp";
 	}
 	
-	@RequestMapping(value="updateOperatorNoticeFaqs", method=RequestMethod.GET)
-	public String updateOperatorNoticeFaqs( @RequestParam("noticeFaqNo") int noticeFaqNo , Model model ) throws Exception{
+	@RequestMapping(value="updateOperatorNotice", method=RequestMethod.GET)
+	public String updateOperatorNotice( @RequestParam("noticeFaqNo") int noticeFaqNo , Model model ) throws Exception{
 		
-		System.out.println("/update/updateOperatorNoticeFaqs : GET");
+		System.out.println("/update/updateOperatorNotice : GET");
 		//Business Logic
-		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(noticeFaqNo);
+		OperatorNoticeFaqs operatorNotice = operatorService.getOperatorNotice(noticeFaqNo);
 		// Connect Model and View 
-		model.addAttribute("operatorNoticeFaqs", operatorNoticeFaqs);
-		return "forward:/operator/updateOperatorNoticeFaqs.jsp";
+		model.addAttribute("operatorNotice", operatorNotice);
+		return "forward:/operator/updateOperatorNotice.jsp";
 	}
 	
-	@RequestMapping(value="updateOperatorNoticeFaqs", method=RequestMethod.POST)
-	public String updateOperatorNoticeFaqs( @ModelAttribute("operator") OperatorNoticeFaqs operatorNoticeFaqs , Model model , HttpSession session) throws Exception{
+	@RequestMapping(value="updateOperatorNotice", method=RequestMethod.POST)
+	public String updateOperatorNotice( @ModelAttribute("operator") OperatorNoticeFaqs operatorNotice , Model model , HttpSession session) throws Exception{
 		
-		System.out.println("/update/updateOperatorNoticeFaqs : POST");
+		System.out.println("/update/updateOperatorNotice : POST");
 		//Business Logic
-		operatorService.updateOperatorNoticeFaqs(operatorNoticeFaqs);
+		operatorService.updateOperatorNotice(operatorNotice);
 		
 		Integer sessionId=((OperatorNoticeFaqs)session.getAttribute("operator")).getNoticeFaqNo();
-		if(sessionId.equals(operatorNoticeFaqs.getNoticeFaqNo())){
-			session.setAttribute("operator", operatorNoticeFaqs);
+		if(sessionId.equals(operatorNotice.getNoticeFaqNo())){
+			session.setAttribute("operator", operatorNotice);
 		}
-		return "redirect:/operator/getOperatorNoticeFaqs?EventNo="+operatorNoticeFaqs.getNoticeFaqNo();
+		return "redirect:/operator/getOperatorNotice?NoticeFaqNo="+operatorNotice.getNoticeFaqNo();
 	}
 	
 //	@RequestMapping("/listOperatorNoticeFaqs")
@@ -232,23 +226,19 @@ public class OperatorController {
 //			return "forward:/operator/listOperatorNoticeFaqs.jsp";
 //		
 //	}
-	@RequestMapping( value="listOperatorNoticeFaqs" )
-	public String listOperatorNoticeFaqs( @ModelAttribute("search") Search search, User user, OperatorNoticeFaqs operatorNoticeFaqs , Model model , HttpServletRequest request) throws Exception{
+	@RequestMapping( value="listOperatorNotice" )
+	public String listOperatorNotice( @ModelAttribute("search") Search search, User user, OperatorNoticeFaqs operatorNotice , Model model , HttpServletRequest request) throws Exception{
 		
-		System.out.println("/operator/listOperatorNoticeFaqs : GET / POST");
+		System.out.println("/operator/listOperatorNotice : GET / POST");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(pageSize);
-		
+		search.setPageSize(pageSize);		
 		user = (User) request.getSession().getAttribute("user");
-		
-		
-		
 		// Business logic 수행
 		//Map<String , Object> map=operatorService.getOperatorNoticeFaqsList(search);
-		Map<String , Object> map=operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
+		Map<String , Object> map=operatorService.getOperatorNoticeList(search, user, operatorNotice);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
@@ -262,8 +252,95 @@ public class OperatorController {
 		model.addAttribute("search", search);
 		System.out.println("model :" + model);
 		
-		return "forward:/operator/listOperatorNoticeFaqs.jsp";
+		return "forward:/operator/listOperatorNotice.jsp";
 	}
+
+	//OperatorFaqs
+	@RequestMapping(value="addOperatorFaqs", method=RequestMethod.GET)
+	public String addOperatorFaqs() throws Exception {		
+		System.out.println("/operator/addOperatorFaqs : GET");		
+		return "redirect:/operator/addOperatorFaqs.jsp";
+	}
+	
+	@RequestMapping(value="addOperatorFaqs", method=RequestMethod.POST)
+	public String addOperatorFaqs(@ModelAttribute("operatorFaqs") OperatorNoticeFaqs operatorFaqs) throws Exception {		
+		System.out.println("/operator/addOperatorNotice : POST");
+		//Business Logic
+		operatorService.addOperatorFaqs(operatorFaqs);		
+		return "redirect:/operator/addOperatorFaqs.jsp";
+	}
+	
+	@RequestMapping(value="getOperatorFaqs", method=RequestMethod.GET)
+	//public String getOperatorFaqs( @RequestParam("noticeFaqNo") int noticeFaqNo , Model model ) throws Exception {		
+	public String getOperatorFaqs( @RequestParam("title") String title , Model model ) throws Exception {		
+		System.out.println("/operator/getOperatorFaqs : GET");
+		//Business Logic
+		//OperatorNoticeFaqs operatorFaqs = operatorService.getOperatorFaqs(noticeFaqNo);
+		OperatorNoticeFaqs operatorFaqs = operatorService.getOperatorFaqs(title);
+		// Connect Model and View 
+		model.addAttribute("operatorFaqs", operatorFaqs);		
+		return "forward:/operator/getOperatorFaqs.jsp";
+	}
+	
+	@RequestMapping(value="updateOperatorFaqs", method=RequestMethod.GET)
+	public String updateOperatorFaqs( @RequestParam("title") String title , Model model ) throws Exception{
+		
+		System.out.println("/update/updateOperatorFaqs : GET");
+		//Business Logic
+		OperatorNoticeFaqs operatorFaqs = operatorService.getOperatorFaqs(title);
+		// Connect Model and View 
+		model.addAttribute("operatorFaqs", operatorFaqs);
+		return "forward:/operator/updateOperatorFaqs.jsp";
+	}
+	
+	@RequestMapping(value="updateOperatorFaqs", method=RequestMethod.POST)
+	public String updateOperatorFaqs( @ModelAttribute("operator") OperatorNoticeFaqs operatorFaqs , Model model , HttpSession session) throws Exception{
+		
+		System.out.println("/update/updateOperatorFaqs : POST");
+		//Business Logic
+		operatorService.updateOperatorFaqs(operatorFaqs);
+		
+		Integer sessionId=((OperatorNoticeFaqs)session.getAttribute("operator")).getNoticeFaqNo();
+		if(sessionId.equals(operatorFaqs.getNoticeFaqNo())){
+			session.setAttribute("operator", operatorFaqs);
+		}
+		return "redirect:/operator/getOperatorFaqs?NoticeFaqNo="+operatorFaqs.getNoticeFaqNo();
+	}
+	
+	@RequestMapping( value="listOperatorFaqs" )
+	public String listOperatorFaqs( @ModelAttribute("search") Search search, User user, OperatorNoticeFaqs operatorFaqs , Model model , HttpServletRequest request) throws Exception{
+		
+		System.out.println("/operator/listOperatorFaqs : GET / POST");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);		
+		user = (User) request.getSession().getAttribute("user");
+		// Business logic 수행
+		Map<String , Object> map=operatorService.getOperatorFaqsList(search, user, operatorFaqs);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		List<Object> list = (List<Object>) map.get("list");
+		System.out.println("@@@@@@@@@list :"+list);
+		
+		// Model 과 View 연결
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		System.out.println("model :" + model);
+		
+		return "forward:/operator/listOperatorFaqs.jsp";
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

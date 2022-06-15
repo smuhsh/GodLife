@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="EUC-KR">
-	<title>공지사항 내용조회</title>
+	<title>자주하는질문 내용조회</title>
 
 	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 	
@@ -27,7 +27,7 @@
 		
 		 $(function() {
 			 $( "td.ct_btn01:contains('수정')" ).on("click" , function() {
-				self.location = "/operator/updateOperatorNoticeFaqs?noticeFaqNo=${NoticeFaqs.noticeFaqNo}"
+				self.location = "/operator/updateOperatorFaqs?noticeFaqNo=${NoticeFaqs.noticeFaqNo}"
 			});
 			
 			$( "td.ct_btn01:contains('목록')" ).on("click" , function() {
@@ -47,7 +47,7 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>공지사항</h3>
+	       <h3>자주하는질문</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -76,7 +76,7 @@
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">공지사항</td>
+					<td width="93%" class="ct_ttl01">자주하는질문</td>
 					<td width="20%" align="right">&nbsp;</td>
 				</tr>
 			</table>
@@ -94,7 +94,7 @@
 	<tr>
 		<td width="104" class="ct_write">번호</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${operatorNoticeFaqs.noticeFaqNo}</td>
+		<td class="ct_write01">${operatorFaqs.noticeFaqNo}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -102,7 +102,7 @@
 	<tr>
 		<td width="104" class="ct_write">제목</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${operatorNoticeFaqs.title}</td>
+		<td class="ct_write01">${operatorFaqs.title}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -110,7 +110,7 @@
 	<tr>
 		<td width="104" class="ct_write">내용</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${operatorNoticeFaqs.detail}</td>
+		<td class="ct_write01">${operatorFaqs.detail}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -118,12 +118,12 @@
 	<tr>
 		<td width="104" class="ct_write">이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><img src = "../images/uploadFiles/${operatorNoticeFaqs.img}"/></td>
+		<td class="ct_write01"><img src = "../images/uploadFiles/${operatorFaqs.img}"/></td>
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">등록일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${operatorNoticeFaqs.regDate}</td>
+		<td class="ct_write01">${operatorFaqs.regDate}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>

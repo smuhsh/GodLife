@@ -27,7 +27,8 @@ public interface OperatorDao {
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception;
 	//public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception;
 	public OperatorNoticeFaqs getOperatorNotice(int noticeFaqNo) throws Exception;
-	public OperatorNoticeFaqs getOperatorFaqs(int noticeFaqNo) throws Exception;
+	//public OperatorNoticeFaqs getOperatorFaqs(int noticeFaqNo) throws Exception;
+	public OperatorNoticeFaqs getOperatorFaqs(String title) throws Exception;
 	
 	//SELECT LIST
 	public List<OperatorEvents> getOperatorEventsList(Search search) throws Exception;
