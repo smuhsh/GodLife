@@ -22,18 +22,19 @@
 
 <link href="/css/animate.min.css" rel="stylesheet">
 <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="/resources/css/purchaseList.css" type="text/css">
 <!-- Bootstrap Dropdown Hover JS -->
 <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 
 <style>
 body {
-	padding-top: 70px;
-	margin: 0px;
-	background-size: 100%;
-	background-image: url("/images/uploadFiles/donation.jpg")
+	padding-top: 50px;
+	min-height: 885px;
+	background-image: url("/resources/images/uploadFiles/donation.jpg");
 }
-
+#top{
+padding-top: 30px;
+}
 p {
 	padding: 30px;
 	font-size: 17px;
@@ -103,13 +104,12 @@ table {
 
 <body bgcolor="#ffffff" text="#000000">
 
-	<form class="form-horizontal">
-		<div class="row">
-			<jsp:include page="/layout/toolbar.jsp" />
-		</div>
+
+		<jsp:include page="/layout/toolbar.jsp" />
+		<form class="form-horizontal">
 
 		<div class="form-group"></div>
-		<div class="form-group">
+		<div class="form-group" id="top">
 			<label for="inputEmail3" class="col-sm-2 control-label">Donation
 				place</label>
 			<div class="col-sm-3">
@@ -136,7 +136,7 @@ table {
 					<c:forEach var="point" items="${list }">
 						<c:set var="i" value="${i+1 }" />
 						<tr>
-							<td><img src="/images/uploadFiles/메달${i}.png" width=20px>${i}위</td>
+							<td><img src="/resources/images/uploadFiles/메달${i}.png" width=20px>${i}위</td>
 							<td>${point.nick}</td>
 							<td></td>
 							<td>${point.point}</td>

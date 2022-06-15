@@ -59,14 +59,36 @@
 
 
 body {
-   padding-top: 50px;
    background-color: #708090 ;
    font-weight: bold; 
    font-family: 'oneMobile';
 }
 
+
+
+#productName{
+width: 50px;
+height: 30px;
+}
+.cashbutton{
+width: 30px;
+height: 40px;
+}
+#cardpay{
+width: 50px;
+height: 30px;
+}
+#kakaopay{
+width: 50px;
+height: 30px;
+}
+
+.container{
+padding-top: 50px;
+}
+
 fieldset {
-   width: 400px;
+   width: 500px;
    text-align: center;
    backgrond-color: white;
    font-family: 'oneMobile';
@@ -76,17 +98,17 @@ div.box {
    width: 500px;
    height: 50px;
    box-align:center middle;
-   margin: 10px;
-   padding: 10px;
+   margin: 0;
+   padding: 5px;
    display: none;
-   background-color: #ffcc00;
+   background-color: #9edbff;
    font-family: 'oneMobile';
 }
 
 .detail {
    color : white ;
-   margin : 20px;
-   width: 380px;
+   margin : 0;
+   width: 250px;
    height: auto;
    padding-top: 1px;
    background-color: #070719 ;
@@ -95,6 +117,9 @@ div.box {
    font-family: 'oneMobile';
 }
 
+#test{
+width:2000px;
+}
 
 </style>
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -120,7 +145,7 @@ div.box {
             "/point/addPointPurchaseProduct").submit()
    }
    $(function() {
-      $(".btn.btn-default").on("click", function() {
+      $("#buycash").on("click", function() {
          fncAddPointPurchasePoint();
       });
    });
@@ -137,7 +162,7 @@ div.box {
    };
    
    $(function() {
-	      $(".kakao").on("click", function() {
+	      $("#buykakao").on("click", function() {
 	    	  fncKakaoPay();
 	      });
 	   });
@@ -172,7 +197,7 @@ div.box {
   }
   
   $(function() {
-      $(".payco").on("click", function() {
+      $("#buycard").on("click", function() {
     	  fncPayco();
       });
    });
@@ -239,9 +264,10 @@ div.box {
 	                    success : function(JSONData , status) {
 	                    	
 	                       const displayDetail = 
-	                    	   `<div class="row">
-		                         	<div class="detail">상품 명 :&nbsp \${JSONData.productName} </div>
-		                         	<div class="detail">상품 상세정보: <br/> \${JSONData.productDetail} </div>
+	                    	   `<div class="detail">
+		                         	<div id="first">상품 명 :&nbsp \${JSONData.productName} </div>
+		                         	<div id="second">상품 상세정보: <br/> \${JSONData.productDetail} </div>
+		                         	<div id="third">가격:&nbsp \${JSONData.productPrice} </div>
 	                     		</div>`
 	                       $("div.detail").remove();
 	                       $( "#"+JSONData.productNo+"" ).append(displayDetail);
@@ -259,9 +285,10 @@ div.box {
 </head>
 
 <body>
+<jsp:include page="/layout/toolbar.jsp" />
    <form class="form-horizontal">
       <!-- ToolBar Start /////////////////////////////////////-->
-      <jsp:include page="/layout/toolbar.jsp" />
+      
       <!-- ToolBar End /////////////////////////////////////-->
 
       <!--  화면구성 div Start /////////////////////////////////////-->
@@ -282,29 +309,17 @@ div.box {
 
 	         
          </div>
-         <div class="col-md-8 text-left"> 
-         	* Radio박스를 클릭하면 상세 정보를 조회 할 수 있습니다.<br>
-         	* RadioBox를 클릭 후, 구매를 눌러주시면 구매가 가능 합니다.<br>
-         	* 구현 예정 기능<br>
-         	1) serach<br>
-         	2) RestController 써서 Get으로 상세 정보가 뜨면 안없어짐.<br>
-         	   : 없어지는 버튼 하나 만들자<br>
-         	3) Ajax 글자 꾸미기 <br>
-         	4) Admin 일때, 유저 일때 보이는게 다르게 해야함 <br>
-         	   : 관리자 : 이미지 클릭으로 상세 정보 창으로 이동 => 수정, 삭제 가능 <br>
-         	   : 유저 : radioBox 체크로 상품 상세 정보 및, 상품 구매 가능
-         	   
-         </div>
+        
 		<!-- 상품 이미지 시작 /////////////////////////////////////-->
-		<div class="row">
+		<div class="row" id=test>
          <c:set var="i" value="0" />
          <c:forEach var="product" items="${list}">
             <c:set var="i" value="${ i+1 }" />            
-	            <div class="col-xs-6 col-md-3" style="height: auto; width: 472px;">
-	            <input type="radio" name="radio" class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인" value="${product.productNo}" checked />
+	            <div class="col-xs-6 col-md-3" style="height: auto; width: 300px;">
+	            <input type="radio" name="productNo" class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인" value="${product.productNo}"  />
 	            
-		            <div style="height: auto; width: auto; border: 1px solid black; margin:20px; background-color: black;">
-		               <img productNo="${ product.productNo }" width="400" height="400" class="images" src="../images/uploadFiles/${product.productImg }"
+		            <div>
+		               <img src="${ product.productNo }" width="250" height="250" class="images" src="../images/uploadFiles/${product.productImg }"
 		                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
 		                
 		              <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->
@@ -319,7 +334,7 @@ div.box {
             </div>
          </c:forEach>
 		</div>
-			<button type="button" class="btn btn-default">구매</button>
+			
 
          <!--  table End /////////////////////////////////////-->
 
@@ -327,34 +342,40 @@ div.box {
             <fieldset>
                <hr />
                결제방식 : 
-               <input type="radio" id="pay" name="payOpt" value="1" onclick="showDiv(this);">계좌이체 
-               <input type="radio" id="card" name="payOpt" value="2" onclick="showDiv(this);" /> 카드결제 
-               <input type="radio" id="kakao" name="payOpt" value="3" onclick="showDiv(this);" /> 카카오 페이
+               <input type="radio" id="pay" name="payOpt" value="1" onclick="showDiv(this);">계좌이체 &nbsp&nbsp&nbsp&nbsp
+               <input type="radio" id="card" name="payOpt" value="2" onclick="showDiv(this);" /> 카드결제&nbsp&nbsp<img src="/resources/images/uploadFiles/card.png" id="cardpay"> &nbsp&nbsp&nbsp&nbsp
+               <input type="radio" id="kakao" name="payOpt" value="3" onclick="showDiv(this);" /> 카카오페이&nbsp&nbsp<img src="/resources/images/uploadFiles/kakaopay.jpg" id="kakaopay"></button>
                &nbsp&nbsp
                
             </fieldset>
 
-            <hr>
+ 
 
             <div id="payBox" class="box" >
+            결제방식 : 계좌이체 &nbsp &nbsp<img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycash">
+            <br/>
+            <br/>
+            <br/>
                은행명 : 농협
-               <hr />
+      		<br/>
                계좌번호 : 901055-56-047-268
-               <hr />
+			<br/>
                받는사람 : 유병문
-               <hr />
-               <button type="button" class="btn btn-default">구매</button>
+			<br/>
+			<br/>
+
             </div>
             
             <div id="cardBox" class="box" >
-            카드결제
-            <button type="button" class="payco">구매</button>
-            <hr/>
+            결제방식 : 카드결제 &nbsp &nbsp <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycard">
+
+    		<br/>
             </div>
             <div id="kakaoBox" class="box" >
-            간편결제
-            <button type="button" class="kakao">구매</button>
-            <hr/>
+            결제방식 : 간편결제 &nbsp &nbsp <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buykakao">
+        
+ 
+  
             </div>
             <!-- label Tag 사용 / 미사용의 차이점 : 이름 3을 Click 해보면... -->
             <div class="form-group">
@@ -366,7 +387,7 @@ div.box {
                      type="hidden" name="useDetail" value="1" />
                </div>
             </div>
-            <hr />
+        
          </div>
 
          <!--  화면구성 div End /////////////////////////////////////-->

@@ -16,7 +16,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<script type="text/javascript" src="../javascript/calendar.js"></script>
+	<link rel="stylesheet" href="/resources/css/purchaseList.css" type="text/css">
+
 	<style>
 	  body {
             padding-top : 50px;
@@ -80,29 +81,26 @@
 </head>
 
 <body>
-<form class="form-inline" name="detailForm">	
-	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
+	<form class="form-inline" name="detailForm">	
+
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
 	       <h3>포인트 이용내역 목록</h3>
-	    
+	    </div>
 	   
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
-	    
+		    <div class="col-md-6 text-left">
+		    	<p class="text-primary">
+		    		전체  ${resultPage.totalCount } 건
+		    	</p>
 		    </div>
 		    <div class="col-md-6 text-right">
-		    </div>
-		    <div class="col-md-6 text-right">
-		    
-			    
-			
-						  <div class="input-group">
-						  <div class="form-group">
+				<div class="input-group">
+				<div class="form-group">
 						    
 						  </div>
 						

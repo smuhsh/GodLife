@@ -16,12 +16,20 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
+	<link rel="stylesheet" href="/resources/css/purchaseLists.css" type="text/css">
 	<style>
 	  body {
             padding-top : 70px;
         }
-        
+      #mesaageimg{
+      	width: 30px;
+      	height: 30px;
+      }
+      td{
+     	 width: 30px;
+      	height: 40px;
+      }
+   
     </style>
 	<script type="text/javascript">
 	
@@ -32,129 +40,84 @@ function fncGetList(currentPage) {
    
 	$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseVoucherList").submit();
 }
-$(function() {
-	 
-	$( ".ct_list_pop td:nth-child(1)" ).on("click" , function() {
-		self.location ="/purchase/getPurchase?tranNo="+$(this).children("input").val();
+
+$(function(){
+	$("button:contains('검색')").on("click",function(){
+		fncGetList(1);
 	});
-	
-	$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
-			self.location ="/user/getUser?userId="+$(this).children("input").val();
-	});
-	
-	$( ".ct_list_pop td:nth-child(5)" ).on("click" , function() {
-		var tranNo = $(this).children("input").val().trim();
+});
+
+$(function(){
+	$("a:contains('전송')").click(function(){
+		alert(productName+""+voucherUniqueNo+""+regDate);
+		var productName = $(this).data("param1");
+		var voucherUniqueNo = $(this).data("param2");
+		var regDate = $(this).data("param3");
 		$.ajax({
-			url : "/purchase/json/getPurchase/" + tranNo,
+	        url:"/pointRest/sendPointVoucher?productName="+productName+
+			"&voucherUniqueNo="+voucherUniqueNo+"&regDate="+regDate,
 			method : "GET",
 			dataType : "json",
 			headers : {
 				"Accept" : "application/json",
 				"Content-Type" : "application/json"
 			},
-			success : function(JSONData, status) {
+	        success:function(data){
+	        		
+	        	}
+	        	});
+	        });
+	    });	
 
-				//alert(status);
-				//alert("JSONData : \n"+JSONData.tranNo);
-
-				var displayValue = "<h3>" + 
-				"제품번호 : "+JSONData.purchaseProd.prodNo + "<br/>" +
-				"구매자 이름 : "+JSONData.purchaseProd.receiverName + "<br/>" +
-				"재고 : "+ JSONData.quantity + "<br/>" +
-				"구매자 연락처 : "+ JSONData.receiverPhone + "<br/>" +
-				"구매자 주소 : "+ JSONData.divyAddr + "<br/>" +
-				"구매 요청 사항: "+ JSONData.divyRequest + "<br/>" +
-				"배송희망일: "+ JSONData.divyDate + "<br/>" +
-				"주문일: "+ JSONData.orderDate + "<br/>" +
-				"상품이미지 : <img src=/images/uploadFiles/"+ JSONData.purchaseProd.fileName+ "/><br/>" 
-				"</h3>";
-
-				//alert(displayValue);
-				$("h3").remove();
-				$("#" + tranNo + "").html(displayValue);
-			}
-		});
-	});
-	
-	$(".ct_list_pop td:nth-child(11):contains('물건도착')" ).on("click",function() {
-		//alert( $(this).children("input").val() );
-		var tranNo =$(this).children("input").val().trim();
-		self.location="/purchase/updateTranCode?tranNo="+$(this).children("input").val()+"&tranCode=3";
-	});
-	
-
-	
-$( ".ct_list_pop td:nth-child(1)" ).css("color" , "#5F04B4");
-$( ".ct_list_pop td:nth-child(3)" ).css("color" , "#4C0B5F");
-$( ".ct_list_pop td:nth-child(5)" ).css("color" , "#610B5E");
-$( ".ct_list_pop td:contains('물건도착')" ).css("color" , "#B4045F");
-//$( ".ct_list_pop td:nth-child(9)" ).css("color" , "red");
-		
-$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
-
-});
 </script>
 </head>
 
 <body>
 	
-	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
+	<form class="form-inline" name="detailForm">
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>포인트 이용내역 목록</h3>
+	       <h3>상품권 구매목록</h3>
 	    </div>
-	    
-	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
+	    	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
-	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+		    		전체  ${resultPage.totalCount } 건
 		    	</p>
 		    </div>
-		    
 		    <div class="col-md-6 text-right">
-		    
-			    <form class="form-inline" name="detailForm">
-			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>포인트충전</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>챌린지</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>이벤트</option>
-						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>기부</option>					
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>전체</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>3000원권</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>5000원권</option>
+						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>10000원권</option>
+						<option value="4"  ${ ! empty search.searchCondition && search.searchCondition==4 ? "selected" : "" }>30000원권</option>
+						<option value="5"  ${ ! empty search.searchCondition && search.searchCondition==5 ? "selected" : "" }>100000원권</option>
 					</select>
-				  </div>
+					</div>
 				  
-				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
 				  
 				  <button type="button" class="btn btn-default">검색</button>
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
-				</form>
-	    	</div>
-	    	
-		</div>
+			</div>
+	    </div>
+	  
+	
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
 		
 <table class="table table-striped">
 	<tr>
-		<td colspan="11">전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage } 페이지</td>
-	</tr>
-	<tr>
 		<td>번호<br></td>
-		<td>상품명<br></td>
+		<td>상품권<br></td>
 		<td></td>
 		<td>고유번호</td>
 		<td></td>
@@ -163,10 +126,6 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		<td>메세지</td>
 		
 	</tr>
-	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
-	</tr>
-
 	<c:set var = "i" value = "0"/>
 	<c:forEach var ="point" items ="${list }">
 		<c:set var="i"  value = "${i+1 }"/>
@@ -178,7 +137,11 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		<td></td>
 		<td>${point.regDate}</td>
 		<td></td>
-		<td>전송</td>
+		<td><a href="#"
+		data-param1="${point.productName}"
+		data-param2="${point.voucherUniqueNo}"
+		data-param3="${point.regDate}"
+		><img src="/resources/images/uploadFiles/voucherMesaage.png" id="mesaageimg">전송</a></td>
 	</tr>
 	
 	</c:forEach>
@@ -198,9 +161,9 @@ $(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 </table>
 <!--  페이지 Navigator 끝 -->
 
-</form>
+
 
 </div>
-
+</form>
 </body>
 </html>
