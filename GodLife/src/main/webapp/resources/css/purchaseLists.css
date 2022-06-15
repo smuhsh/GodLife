@@ -12,9 +12,8 @@
         
         h3{
         	overflow:hidden;
-        	text-overflow:ellipsis;
         	white-space:nowrap;
-        	width: 130px;
+        	width: 300px;
         	font-family: 'oneMobile';
         }
         
@@ -42,4 +41,8 @@
        	td{
        		position:relative;
        		font-family: 'oneMobile';
+       	}
+       	
+       	a{
+       	font-family: 'oneMobile';
        	}

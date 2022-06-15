@@ -43,11 +43,11 @@ public class BadgeServiceImpl implements BadgeService{
 	}
 	
 	public Map<String , Object> getBadgeList(Search search) throws Exception {
-		List<Badge> list= badgeDao.getBadgeList(search);
+		 badgeDao.getBadgeList(search);
 		int totalCount = badgeDao.getTotalCount(search);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
+		Map<String, Object> map = badgeDao.getBadgeList(search);
+
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;

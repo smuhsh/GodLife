@@ -70,10 +70,8 @@
 							</if>
 							<!--챌린지 관련 조회 -->
 							<if test="search.orderCondition ==1">
-								AND use_detail BETWEEN '2' AND '4'
+								AND use_detail between '2' and '4'  
 								<if test=" search.searchCondition != null">
-									<if test=" search.searchCondition ==0">
-									</if>
 									<if test=" search.searchCondition ==1">
 									AND use_status = '1'
 									</if>
@@ -83,7 +81,7 @@
 								</if>
 							</if>
 							<!--이벤트 관련 조회 -->
-							<if test="search.orderCondition ==1">
+							<if test="search.orderCondition ==2">
 								AND use_detail BETWEEN '5' AND '6'
 								<if test=" search.searchCondition != null">
 									<if test=" search.searchCondition ==0">
@@ -117,6 +115,26 @@
 									AND p.product_no=pc.product_no
 									AND pc.user_email = #{userEmail}
 									AND pc.use_detail = '9'
+									<if test="search.searchCondition != null">
+										<if test="search.searchCondition == 0">
+										</if>
+										<if test="search.searchCondition == 1">
+										AND product_name like '3,000원 상품권'
+										</if>
+										<if test="search.searchCondition == 2">
+										AND product_name like '5,000원 상품권'
+										</if>
+										<if test="search.searchCondition == 3">
+										AND product_name like '10,000원 상품권'
+										</if>
+										<if test="search.searchCondition == 4">
+										AND product_name like '30,000원 상품권'
+										</if>
+										<if test="search.searchCondition == 5">
+										AND product_name like '100,000원 상품권'
+										</if>
+									
+									</if>
 									</where>
 									ORDER BY purchase_no ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
@@ -147,7 +165,7 @@
 										</if>
 									</if>
 									</where>
-									ORDER BY purchase_no ) inner_table
+									ORDER BY purchase_no DESC ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
@@ -217,16 +235,39 @@
 						ORDER BY purchase_no DESC)countTable
 	</select>
 
-	<select id="getVoucherTotalCount" parameterType="user" resultType="int">
+	<select id="getVoucherTotalCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
-		FROM(SELECT pc.purchase_no,u.user_email,p.product_no,p.product_name,pc.voucher_unique_no,pc.reg_date,pc.use_detail,u.phone
-			FROM
-			users u,products p,purchase pc
-			WHERE u.user_email = pc.user_email
-			AND p.product_no=pc.product_no
-			AND pc.user_email = #{userEmail}
-			AND pc.use_detail = '9'
-			)countTable
+		FROM(SELECT
+									pc.purchase_no,u.user_email,p.product_no,p.product_name,pc.voucher_unique_no,pc.reg_date,pc.use_detail,u.phone
+									FROM
+									users u,products p,purchase pc
+									<where>
+									u.user_email = pc.user_email
+									AND p.product_no=pc.product_no
+									AND pc.user_email = #{userEmail}
+									AND pc.use_detail = '9'
+									<if test="search.searchCondition != null">
+										<if test="search.searchCondition == 0">
+										</if>
+										<if test="search.searchCondition == 1">
+										AND product_name like '3,000원 상품권'
+										</if>
+										<if test="search.searchCondition == 2">
+										AND product_name like '5,000원 상품권'
+										</if>
+										<if test="search.searchCondition == 3">
+										AND product_name like '10,000원 상품권'
+										</if>
+										<if test="search.searchCondition == 4">
+										AND product_name like '30,000원 상품권'
+										</if>
+										<if test="search.searchCondition == 5">
+										AND product_name like '100,000원 상품권'
+										</if>
+									
+									</if>
+									</where>
+									ORDER BY purchase_no)countTable
 	</select>
 	
 	<select id="getDonationTotalCount" parameterType="map" resultType="int">
@@ -251,7 +292,7 @@
 										</if>
 									</if>
 									</where>
-									ORDER BY purchase_no )countTable
+									ORDER BY purchase_no DESC)countTable
 	</select>
 
 </mapper>

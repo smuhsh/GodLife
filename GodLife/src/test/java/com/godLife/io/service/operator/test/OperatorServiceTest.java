@@ -240,26 +240,26 @@ public class OperatorServiceTest {
 		 OperatorNoticeFaqs operatorNoticeFaqs = new OperatorNoticeFaqs();
 		 //operatorNoticeFaqs.setNoticeFaqNo(Integer.parseInt(("10003"))); //seq_notice_faqs_notice_faq_no.NEXTVAL
 		 operatorNoticeFaqs.setUserEmail("admin@io.com");
-		 operatorNoticeFaqs.setStatus("1");	//Notice:0	Faqs:1
+		 operatorNoticeFaqs.setStatus("0");	//Notice:0	Faqs:1
 		 operatorNoticeFaqs.setNoticeMust("0");	//default:0	Must:1 		
-		 operatorNoticeFaqs.setTitle("결제는 어떻게 하는거죠?");
-		 operatorNoticeFaqs.setDetail("계좌이체 하세요.");
+		 operatorNoticeFaqs.setTitle("공지사항 테스트 3");
+		 operatorNoticeFaqs.setDetail("공지사항 테스트 3");
 		 operatorNoticeFaqs.setImg("account.jpg");
-		 operatorNoticeFaqs.setFaqTag("1");//certification:0 payment:1 reward:2
+		 //operatorNoticeFaqs.setFaqTag("1");//certification:0 payment:1 reward:2
 		 
-		 operatorService.addOperatorNoticeFaqs(operatorNoticeFaqs);
+		 operatorService.addOperatorNotice(operatorNoticeFaqs);
 		 
 		 //==> console check
 		 System.out.println(operatorNoticeFaqs);
 		 
 		 //==> API check
 		 Assert.assertEquals("admin@io.com", operatorNoticeFaqs.getUserEmail());
-		 Assert.assertEquals("1", operatorNoticeFaqs.getStatus());
+		 Assert.assertEquals("0", operatorNoticeFaqs.getStatus());
 		 Assert.assertEquals("0", operatorNoticeFaqs.getNoticeMust());
-		 Assert.assertEquals("결제는 어떻게 하는거죠?", operatorNoticeFaqs.getTitle());
-		 Assert.assertEquals("계좌이체 하세요.", operatorNoticeFaqs.getDetail());
+		 Assert.assertEquals("공지사항 테스트 3", operatorNoticeFaqs.getTitle());
+		 Assert.assertEquals("공지사항 테스트 3", operatorNoticeFaqs.getDetail());
 		 Assert.assertEquals("account.jpg", operatorNoticeFaqs.getImg());
-		 Assert.assertEquals("1", operatorNoticeFaqs.getFaqTag());
+		 //Assert.assertEquals("1", operatorNoticeFaqs.getFaqTag());
 	 }
 	 
 	 //@Test
@@ -274,7 +274,7 @@ public class OperatorServiceTest {
 		 //operatorNoticeFaqs.setImg("account.jpg");
 		 operatorNoticeFaqs.setFaqTag("0");//certification:0 payment:1 reward:2
 		 
-		 operatorService.getOperatorNoticeFaqs(10002);
+		 operatorService.getOperatorNotice(10002);
 		 
 		 //==> console check
 		 System.out.println(operatorNoticeFaqs);
@@ -287,14 +287,14 @@ public class OperatorServiceTest {
 		 //Assert.assertEquals("account.jpg", operatorNoticeFaqs.getImg());
 		 Assert.assertEquals("0", operatorNoticeFaqs.getFaqTag());
 		 
-		 Assert.assertNotNull(operatorService.getOperatorNoticeFaqs(10002));
+		 Assert.assertNotNull(operatorService.getOperatorNotice(10002));
 		 
 	 }
 	 
 	 //@Test
 	 public void testUpdateOperatorNoticeFaqs() throws Exception{
 		 
-		 OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(10003);
+		 OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNotice(10003);
 		 Assert.assertNotNull(operatorNoticeFaqs);
 		 
 		 Assert.assertEquals("1", operatorNoticeFaqs.getStatus());	//Notice:0	Faqs:1
@@ -311,9 +311,9 @@ public class OperatorServiceTest {
 		 operatorNoticeFaqs.setImg("account.jpg");
 		 operatorNoticeFaqs.setFaqTag("1");
 		 
-		 operatorService.updateOperatorNoticeFaqs(operatorNoticeFaqs);
+		 operatorService.updateOperatorNotice(operatorNoticeFaqs);
 		 
-		 operatorNoticeFaqs = operatorService.getOperatorNoticeFaqs(10003);
+		 operatorNoticeFaqs = operatorService.getOperatorNotice(10003);
 		 Assert.assertNotNull(operatorNoticeFaqs);
 		 
 		 //==> console check
@@ -339,7 +339,7 @@ public class OperatorServiceTest {
 		 search.setCurrentPage(1);
 		 search.setPageSize(0);
 		 //Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search);
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
+		 Map<String,Object> map = operatorService.getOperatorNoticeList(search, user, operatorNoticeFaqs);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -356,7 +356,7 @@ public class OperatorServiceTest {
 		 search.setPageSize(0);
 		 search.setSearchCondition("0");
 		 search.setSearchKeyword("");
-		 map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
+		 map = operatorService.getOperatorNoticeList(search, user, operatorNoticeFaqs);
 		 
 		 list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -380,7 +380,7 @@ public class OperatorServiceTest {
 		 search.setPageSize(3);
 		 search.setSearchCondition("0");
 		 search.setSearchKeyword("10001");
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
+		 Map<String,Object> map = operatorService.getOperatorNoticeList(search, user, operatorNoticeFaqs);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -395,7 +395,7 @@ public class OperatorServiceTest {
 		 
 		 search.setSearchCondition("0");
 		 search.setSearchKeyword(""+System.currentTimeMillis());
-		 map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
+		 map = operatorService.getOperatorNoticeList(search, user, operatorNoticeFaqs);
 		 
 		 list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -418,7 +418,7 @@ public class OperatorServiceTest {
 		 search.setPageSize(3);
 		 search.setSearchCondition("1");
 		 search.setSearchKeyword("결제는 어떻게 하는거죠?");
-		 Map<String,Object> map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
+		 Map<String,Object> map = operatorService.getOperatorNoticeList(search, user, operatorNoticeFaqs);
 		 
 		 List<Object> list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
@@ -433,7 +433,7 @@ public class OperatorServiceTest {
 		 
 		 search.setSearchCondition("1");
 		 search.setSearchKeyword(""+System.currentTimeMillis());
-		 map = operatorService.getOperatorNoticeFaqsList(search, user, operatorNoticeFaqs);
+		 map = operatorService.getOperatorNoticeList(search, user, operatorNoticeFaqs);
 		 
 		 list = (List<Object>)map.get("list");
 		 Assert.assertEquals(0, list.size());
