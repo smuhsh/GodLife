@@ -53,9 +53,9 @@
   
 <style>
 @font-face {
-		    font-family: 'oneMobile';
-		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
-		}
+          font-family: 'oneMobile';
+          src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+      }
 
 
 body {
@@ -162,124 +162,124 @@ width:2000px;
    };
    
    $(function() {
-	      $("#buykakao").on("click", function() {
-	    	  fncKakaoPay();
-	      });
-	   });
+         $("#buykakao").on("click", function() {
+            fncKakaoPay();
+         });
+      });
    
   function fncKakaoPay(){
-	var productName = $('input[name="productName"]').val();
-	var productPrice = $('input[name="productPrice"]').val();
-	var userEmail = $('input[name="userEmail"]').val();
-	var nick = $('input[name="nick"]').val();
-	var phone = $('input[name="phone"]').val();
-	  
-	var IMP = window.IMP;
-	IMP.init('imp68438670');
-	IMP.request_pay({
-	    pg : 'kakaopay',
-	    pay_method : 'card', //생략 가능
-	    merchant_uid: 'merchant_'+new Date().getTime(), // 상점에서 관리하는 주문 번호
-	    name : productName,
-	    amount : productPrice,
-	    buyer_email : userEmail,
-	    buyer_name : nick,
-	    buyer_tel : phone
-	    
-	}, function(rsp) { // callback 로직
-		if(rsp.success){
-			   alert("완료-> imp_uid: "+rsp.imp_uid+" / merchant_uid(orderkey): "+rsp.merchant_uid);
-			   fncAddPointPurchasePoint();
-		   } else{
-			   alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg +")");
-		   }
-	});
+   var productName = $('input[name="productName"]').val();
+   var productPrice = $('input[name="productPrice"]').val();
+   var userEmail = $('input[name="userEmail"]').val();
+   var nick = $('input[name="nick"]').val();
+   var phone = $('input[name="phone"]').val();
+     
+   var IMP = window.IMP;
+   IMP.init('imp68438670');
+   IMP.request_pay({
+       pg : 'kakaopay',
+       pay_method : 'card', //생략 가능
+       merchant_uid: 'merchant_'+new Date().getTime(), // 상점에서 관리하는 주문 번호
+       name : productName,
+       amount : productPrice,
+       buyer_email : userEmail,
+       buyer_name : nick,
+       buyer_tel : phone
+       
+   }, function(rsp) { // callback 로직
+      if(rsp.success){
+            alert("완료-> imp_uid: "+rsp.imp_uid+" / merchant_uid(orderkey): "+rsp.merchant_uid);
+            fncAddPointPurchasePoint();
+         } else{
+            alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg +")");
+         }
+   });
   }
   
   $(function() {
       $("#buycard").on("click", function() {
-    	  fncPayco();
+         fncPayco();
       });
    });
   
   function fncPayco(){
-		var productName = $('input[name="productName"]').val();
-		var productPrice = $('input[name="productPrice"]').val();
-		var userEmail = $('input[name="userEmail"]').val();
-		var nick = $('input[name="nick"]').val();
-		var phone = $('input[name="phone"]').val();
-		  
-		var IMP = window.IMP;
-		IMP.init('imp68438670');
-		IMP.request_pay({
-		    pg : 'payco',
-		    pay_method : 'card', //생략 가능
-		    merchant_uid: 'merchant_'+new Date().getTime(), // 상점에서 관리하는 주문 번호
-		    name : productName,
-		    amount : productPrice,
-		    buyer_email : userEmail,
-		    buyer_name : nick,
-		    buyer_tel : phone
-		    
-		}, function(rsp) { // callback 로직
-			if(rsp.success){
-				   alert("완료-> imp_uid: "+rsp.imp_uid+" / merchant_uid(orderkey): "+rsp.merchant_uid);
-				   fncAddPointPurchasePoint();
-			   } else{
-				   alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg +")");
-			   }
-		});
-	  }
+      var productName = $('input[name="productName"]').val();
+      var productPrice = $('input[name="productPrice"]').val();
+      var userEmail = $('input[name="userEmail"]').val();
+      var nick = $('input[name="nick"]').val();
+      var phone = $('input[name="phone"]').val();
+        
+      var IMP = window.IMP;
+      IMP.init('imp68438670');
+      IMP.request_pay({
+          pg : 'payco',
+          pay_method : 'card', //생략 가능
+          merchant_uid: 'merchant_'+new Date().getTime(), // 상점에서 관리하는 주문 번호
+          name : productName,
+          amount : productPrice,
+          buyer_email : userEmail,
+          buyer_name : nick,
+          buyer_tel : phone
+          
+      }, function(rsp) { // callback 로직
+         if(rsp.success){
+               alert("완료-> imp_uid: "+rsp.imp_uid+" / merchant_uid(orderkey): "+rsp.merchant_uid);
+               fncAddPointPurchasePoint();
+            } else{
+               alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg +")");
+            }
+      });
+     }
 
 /////////////////////신규 쿠폰 상품 등록 Event  처리///////////////////////////
-	 $(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		 $( "button.btn.btn-primary.addP" ).on("click" , function() {
-				self.location = "/product/addProductPointView?productNo=${product.productNo}"
-			});
-	});    
+    $(function() {
+      //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+       $( "button.btn.btn-primary.addP" ).on("click" , function() {
+            self.location = "/product/addProductPointView?productNo=${product.productNo}"
+         });
+   });    
 //============= productName 에 쿠폰 상품 상세 정보(관리자 모드)  Event  처리(Click) =============
-	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$(function() { 
-	     $( ".images" ).on("click" , function() {
-	    	 self.location ="/product/getProductPoint?productNo="+$(this).attr("productNo");
-	     });
-	});
+    //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+   $(function() { 
+        $( ".images" ).on("click" , function() {
+           self.location ="/product/getProductPoint?productNo="+$(this).attr("productNo");
+        });
+   });
 //============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
-	$(function(){
-		$( ".productName" ).on("click", function() {
-			var productNo = $(this).data("value");
-//			var productNo = $(this).next.val();
+   $(function(){
+      $( ".productName" ).on("click", function() {
+         var productNo = $(this).data("value");
+//         var productNo = $(this).next.val();
 
-			 $.ajax( 
-	                 {
-	                    url : "/product/json/getProductPoint/"+productNo,
-	                    method : "GET",
-	                    dataType : "json",
-	                    headers : {
-	                       "Accept" : "application/json",
-	                       "Content-Type" : "application/json"
-	                    },
+          $.ajax( 
+                    {
+                       url : "/product/json/getProductPoint/"+productNo,
+                       method : "GET",
+                       dataType : "json",
+                       headers : {
+                          "Accept" : "application/json",
+                          "Content-Type" : "application/json"
+                       },
 
-	                    success : function(JSONData , status) {
-	                    	
-	                       const displayDetail = 
-	                    	   `<div class="detail">
-		                         	<div id="first">상품 명 :&nbsp \${JSONData.productName} </div>
-		                         	<div id="second">상품 상세정보: <br/> \${JSONData.productDetail} </div>
-		                         	<div id="third">가격:&nbsp \${JSONData.productPrice} </div>
-	                     		</div>`
-	                       $("div.detail").remove();
-	                       $( "#"+JSONData.productNo+"" ).append(displayDetail);
-	                       console.log(JSONData , status);
-	                 }
-	              }); 
-	        });
-		//=========================================================//
-		 //==> prodNo LINK Event End User 에게 보일수 있도록 
-	    $( "div#productName" ).css("color" , "red");
-	    $("div#productName").css("font-size", "20px");
-	});
+                       success : function(JSONData , status) {
+                          
+                          const displayDetail = 
+                             `<div class="detail">
+                                  <div id="first">상품 명 :&nbsp \${JSONData.productName} </div>
+                                  <div id="second">상품 상세정보: <br/> \${JSONData.productDetail} </div>
+                                  <div id="third">가격:&nbsp \${JSONData.productPrice} </div>
+                              </div>`
+                          $("div.detail").remove();
+                          $( "#"+JSONData.productNo+"" ).append(displayDetail);
+                          console.log(JSONData , status);
+                    }
+                 }); 
+           });
+      //=========================================================//
+       //==> prodNo LINK Event End User 에게 보일수 있도록 
+       $( "div#productName" ).css("color" , "red");
+       $("div#productName").css("font-size", "20px");
+   });
 
 </script>
 </head>
@@ -300,41 +300,41 @@ width:2000px;
          
             <div class="col-md-6 text-right">
                <h1 class="text-primary font-weight-bold" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">포인트 상품 전체목록</h1>
-         	</div>
+            </div>
 
-       	    <div class="col-md-6 text-right"> 
-				<br/>
-            	<button type="button" class="btn btn-primary addP">신규 포인트 상품 등록</button> 
-	        </div>
+              <div class="col-md-6 text-right"> 
+            <br/>
+               <button type="button" class="btn btn-primary addP">신규 포인트 상품 등록</button> 
+           </div>
 
-	         
+            
          </div>
         
-		<!-- 상품 이미지 시작 /////////////////////////////////////-->
-		<div class="row" id=test>
+      <!-- 상품 이미지 시작 /////////////////////////////////////-->
+      <div class="row" id=test>
          <c:set var="i" value="0" />
          <c:forEach var="product" items="${list}">
             <c:set var="i" value="${ i+1 }" />            
-	            <div class="col-xs-6 col-md-3" style="height: auto; width: 300px;">
-	            <input type="radio" name="productNo" class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인" value="${product.productNo}"  />
-	            
-		            <div>
-		               <img src="${ product.productNo }" width="250" height="250" class="images" src="../images/uploadFiles/${product.productImg }"
-		                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
-		                
-		              <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->
-		               <div></div>
-		               
-		               <i id= "${product.productNo}" style="font-size:20px; "></i>
-		               <input type="hidden" value="${product.productNo}">
-		              <!-- <div>${ product.productPrice }원</div> -->
-		               <!-- 상세내용은 상세정보 창에서만 보이게 하자  -->
-		               <!--  <div>${ product.productDetail }</div>-->
-					</div>
+               <div class="col-xs-6 col-md-3" style="height: auto; width: 300px;">
+               <input type="radio" name="productNo" class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인" value="${product.productNo}"  />
+               
+                  <div>
+                     <img src="${ product.productNo }" width="250" height="250" class="images" src="../images/uploadFiles/${product.productImg }"
+                        onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
+                      
+                    <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->
+                     <div></div>
+                     
+                     <i id= "${product.productNo}" style="font-size:20px; "></i>
+                     <input type="hidden" value="${product.productNo}">
+                    <!-- <div>${ product.productPrice }원</div> -->
+                     <!-- 상세내용은 상세정보 창에서만 보이게 하자  -->
+                     <!--  <div>${ product.productDetail }</div>-->
+               </div>
             </div>
          </c:forEach>
-		</div>
-			
+      </div>
+         
 
          <!--  table End /////////////////////////////////////-->
 
@@ -357,19 +357,19 @@ width:2000px;
             <br/>
             <br/>
                은행명 : 농협
-      		<br/>
+            <br/>
                계좌번호 : 901055-56-047-268
-			<br/>
+         <br/>
                받는사람 : 유병문
-			<br/>
-			<br/>
+         <br/>
+         <br/>
 
             </div>
             
             <div id="cardBox" class="box" >
             결제방식 : 카드결제 &nbsp &nbsp <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycard">
 
-    		<br/>
+          <br/>
             </div>
             <div id="kakaoBox" class="box" >
             결제방식 : 간편결제 &nbsp &nbsp <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buykakao">
