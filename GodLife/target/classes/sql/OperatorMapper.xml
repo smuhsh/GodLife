@@ -278,11 +278,11 @@
 	 </select>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getOperatorNoticeFaqs"	parameterType="int" resultMap="operatorNoticeFaqsSelectMap">
+	 <select 	id="getOperatorNotice"	parameterType="int" resultMap="operatorNoticeFaqsSelectMap">
 		SELECT
 		notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag
 		FROM notice_faqs 
-		WHERE notice_faq_no = #{noticeFaqNo} AND status='0'
+		WHERE notice_faq_no = #{noticeFaqNo} AND status='1'
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
