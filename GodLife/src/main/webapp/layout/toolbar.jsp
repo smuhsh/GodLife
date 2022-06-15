@@ -58,7 +58,7 @@ background-color:  #EDFFFD;
                <button type="button" class="service_center_icon"></button>
                
                <c:if test="${user.userEmail != null}">
-               <li class="sign_in_item"><a href="링크">챌린지 생성</a></li>
+               <li class="sign_in_item"><a href="/challenge/addChallengeTos.jsp">챌린지 생성</a></li>
             </c:if>
                
                

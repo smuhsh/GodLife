@@ -24,9 +24,8 @@
 	
 
 <style>
-	  body {
-            padding-top : 70px;
-            background-size: cover;
+	  .container{
+        padding-top : 70px;
         }
 	  p{
 	       		font-size : 14px;
