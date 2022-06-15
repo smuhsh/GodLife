@@ -56,7 +56,8 @@
     <!-- SQL : 본인정보 상세조회, 로그인 -->
     <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
       SELECT
-      u.user_email, u.pwd, u.nick, u.profile_img, u.phone, u.intro, u.redcard_count, u.reg_date, ca.categ_name, u.total_point
+      u.user_email, u.pwd, u.nick, u.profile_img, u.phone, u.intro, u.redcard_count, u.reg_date, ca.categ_name, u.total_point, u.red_coupon_count, u.account_status,
+      u.total_point, u.role, u.categ_no
        FROM users u, categs ca,( SELECT count(*) report_count 
                             FROM users u,reports r 
                             WHERE u.user_email=r.target_email
@@ -171,31 +172,28 @@
     
     
      <!-- SQL : 레드카드 발급, 제거 -->
-    <update   id="updateRedCard"   parameterType="report" >
+    <update   id="updateRedCard"   parameterType="user" >
          UPDATE users u
-         <set>
-         recard_count = #{redcardCount}
-         </set>
-         WHERE u.user_email = {userEmail}
-    </update>
+ 		 SET
+         redcard_count = #{redcardCount}
+         <where>
+            user_email=#{userEmail}
+         </where>
+   </update>
     
     
-    
-    
-    
-    
-    
-    <!-- 병문 오빠 추가 -->
+<!-- 레드카드 쿠폰 사용 -->
     <update id="updateUserRedCoupon" parameterType="user" >
        UPDATE USERS
        SET red_coupon_count = #{redCouponCount}
           <where>
-            user_email=#{userEmail}
+            user_email=#{userEmail} 
+            AND redcard_count > 0 
+            AND red_coupon_count > 0
          </where>
      </update>
      
-     
-      <!-- 병문 오빠 추가 -->
+
      <update id="updateUserCertiCoupon" parameterType="user" >
        UPDATE USERS
        SET certi_coupon_count = #{certiCouponCount}
@@ -205,7 +203,7 @@
      </update>
      
      
-     <!-- 병문 오빠 추가 -->
+
      <update id="updateUserTotalPoint" parameterType="user" >
        UPDATE USERS
        SET total_point = #{totalPoint}

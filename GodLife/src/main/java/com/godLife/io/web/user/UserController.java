@@ -110,8 +110,6 @@ public class UserController {
 		}
 		
 		// 관리자일때 
-		
-		
 		if( user.getPwd().equals(dbUser.getPwd())){
 			session.setAttribute("user", dbUser);
 		}
@@ -199,9 +197,9 @@ public class UserController {
 	
 	
 	
-	@PostMapping( value="updateUser") // 프로필이미지 수정 미완료, text area 값 데이터값 안나옴 
+	@PostMapping( value="updateUser") 
 	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session,
-							  @RequestParam ("fileInfo" )  MultipartFile file)throws Exception{
+							  @RequestParam ("profileImg" )  MultipartFile file)throws Exception{
 		
 			System.out.println("/user/updateUser : POST");
 			
@@ -222,8 +220,6 @@ public class UserController {
 			
 			return "redirect:/user/getUser?userEmail="+user.getUserEmail(); // 수정된상태의 조회페이지로 이동 
 	}
-	
-	
 	
     //파일명 랜덤 생성 메서드
     private String uploadFile(String originalName, byte[] fileData) throws Exception{
@@ -733,6 +729,28 @@ public class UserController {
 	
 	
 	////////////////////////////////신고 관리/////////////////////////////////////////////////////////
+	
+	//레드카드 소멸쿠폰 사용 
+	@GetMapping("updateUserRedCouponCount")
+	public String updateUserRedCouponCount(HttpSession session) throws Exception{
+		
+		System.out.println("updateUserRedCouponCount : GET");
+		
+		User user = (User)session.getAttribute("user");
+		System.out.println("유저 : "+user);
+		
+		int redCoupon = user.getRedCouponCount() - 1;
+		
+        System.out.println("redCoupon : " + redCoupon);
+        
+        user.setRedCardCount(redCoupon);
+        userService.updateUserRedCouponCount(user);
+        
+        return "forward:/user/getUser.jsp"; // 쿠폰쓰고 다시 본인 상세조회로 포워드?리다이렉트?? 
+	}
+	
+	
+	
 	
 	
 	//신고유저 목록조회 

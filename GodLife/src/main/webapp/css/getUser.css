@@ -26,7 +26,7 @@
 .getUser td {
     padding: 10px 0;
     border-top: 0;
-    font-size: 14px;
+    font-size: 18px;
     vertical-align: top;
     text-align: left;
 }
@@ -117,111 +117,6 @@
     width: 120px;
     margin-left: 5px;
     vertical-align: top;
-}
-
-.getUser .field_address {
-    padding-bottom: 20px;
-}
-
-.getUser #selectAddress {
-    float: left;
-    padding-right: 10px;
-}
-
-.getUser #selectAddress, .getUser #selectAddressSub {
-    display: none;
-}
-
-.getUser #addressSearch.re_search {
-    width: 120px;
-}
-
-.getUser #addressSearch {
-    display: block;
-    overflow: hidden;
-    width: 332px;
-    height: 44px;
-    border: 1px solid #064acb;
-    border-radius: 3px;
-    text-align: center;
-}
-
-.getUser #addressNo {
-    display: inline-block;
-    height: 100%;
-    margin-left: -14px;
-    padding-left: 24px;
-    font-weight: 700;
-    font-size: 14px;
-    color: #064acb;
-    line-height: 40px;
-    background: url(/jaju/jajuImage/ico_search.svg) no-repeat 0 50%;
-    background-size: 25px 24px;
-    vertical-align: top;
-}
-
-.getUser #selectAddressSub {
-    overflow: hidden;
-    width: 332px;
-    padding-top: 10px;
-}
-
-.getUser #delivery {
-    float: left;
-    padding-top: 10px;
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 18px;
-}
-
-.getUser .select_gender label {
-    display: inline-block;
-    padding: 10px 52px 10px 0;
-    vertical-align: top;
-}
-
-.getUser .reg_agree td {
-    padding-bottom: 19px;
-}
-
-.type_form input[type=radio] {
-    position: absolute;
-    z-index: -1;
-    opacity: 0;
-}
-
-input[type=checkbox], input[type=radio] {
-    box-sizing: border-box;
-    padding: 0;
-}
-
-.type_form input[type=radio]:checked+.ico {
-    border: 1px solid #064acb;
-    background-color: #064acb;
-}
-
-.type_form input[type=radio]+.ico {
-    display: inline-block;
-    position: relative;
-    width: 24px;
-    height: 24px;
-    margin-right: 12px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    border-radius: 100%;
-    vertical-align: -7px;
-}
-
-.type_form input[type=radio]:checked+.ico:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 10px;
-    height: 10px;
-    margin: -5px 0 0 -5px;
-    border-radius: 100%;
-    background-color: #fff;
 }
 
 .type_form .btn.default {
@@ -491,6 +386,13 @@ input[type=checkbox], input[type=radio] {
     vertical-align: top;
 }
 
+.getUser .check_view {
+    position: relative;
+}
+
+.getUser .check_view .check_agree {
+    padding: 8px 0;
+}
 
 .type_form label.label_block {
     display: block;
@@ -520,7 +422,10 @@ input[type=checkbox], input[type=radio] {
     color: #fff;
 }
 
-
+.checkDiv {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
 a {
     background-color: transparent;
     text-decoration: none;

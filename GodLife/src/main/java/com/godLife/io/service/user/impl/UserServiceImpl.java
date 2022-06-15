@@ -304,6 +304,10 @@ public class UserServiceImpl implements UserService{
 	public void updateUserCertiCouponCount(User user) throws Exception{
 		userDao.updateUserCertiCouponCount(user);
 	}
+	
+	public void updateRedCard(User user) throws Exception{
+		userDao.updateRedCard(user);
+	}
 
 	
 	
