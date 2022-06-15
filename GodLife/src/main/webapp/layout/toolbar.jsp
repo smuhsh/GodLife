@@ -41,12 +41,10 @@
 	                         <li><a href="#">친구목록조회</a></li>
 	                          <li><a href="#">블랙리스트목록조회</a></li>
 	                          <li><a href="#">친구요청목록조회</a></li>
-	                         <li><a href="#">공지사항목록</a></li>
 	                         <li><a href="#">회원정보조회</a></li>
 	                         <li><a href="#">쿠폰상품전체목록</a></li>
 	                         <li><a href="#">상품권상품전체목록</a></li>
 	                         <li><a href="#">포인트상품전체목록</a></li>
-	                         <li><a href="#">공지사항관리</a></li>
 	                         <li><a href="#">생성쿠폰목록조회</a></li>
 	                         <li><a href="#">쿠폰발급목록조회</a></li>
 	                      
@@ -134,6 +132,17 @@
 	                         <li><a href="#">기부내역</a></li>
 	                         <li><a href="#">포인트이용내역</a></li>
 	         				 <li><a href="#">상품권구매내역</a></li>
+	                     </ul>
+	                 </li>
+	                 
+	              <li class="dropdown">
+	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+	                         <span >고객센터</span>
+	                         <span class="caret"></span>
+	                     </a>
+	                     <ul class="dropdown-menu">
+	                         <li><a href="#">공지사항</a></li>
+	                         <li><a href="#">자주하는 질문</a></li>
 	                     </ul>
 	                 </li>
 	                 
@@ -284,8 +293,31 @@
 			}); 
 		});
 	 	
+///////////////////////////////////////////////////////////////	 	
 	 	$(function() {
-		 	$("a:contains('공지사항목록')").on("click" , function() {
+		 	$("a:contains('공지사항')").on("click" , function() {
+		 		self.location = "/operator/listOperatorNoticeFaqs"
+			}); 
+		});
+	 	
+	 	$(function() {
+		 	$("a:contains('자주하는 질문')").on("click" , function() {
+		 		self.location = "/operator/listOperatorNoticeFaqs"
+			}); 
+		});
+///////////////////////////////////////////////////////////////	 	
+	 	$(function() {
+		 	$("a:contains('신규회원')").on("click" , function() {
+		 		self.location = "/operator/listOperatorNoticeFaqs"
+			}); 
+		});
+	 	$(function() {
+		 	$("a:contains('매일출석')").on("click" , function() {
+		 		self.location = "/operator/listOperatorNoticeFaqs"
+			}); 
+		});
+	 	$(function() {
+		 	$("a:contains('룰렛 이벤트')").on("click" , function() {
 		 		self.location = "/operator/listOperatorNoticeFaqs"
 			}); 
 		});

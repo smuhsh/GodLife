@@ -274,7 +274,15 @@
 		SELECT
 		notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag
 		FROM notice_faqs 
-		WHERE notice_faq_no = #{noticeFaqNo}
+		WHERE notice_faq_no = #{noticeFaqNo} AND status='0'
+	 </select>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getOperatorNoticeFaqs"	parameterType="int" resultMap="operatorNoticeFaqsSelectMap">
+		SELECT
+		notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag
+		FROM notice_faqs 
+		WHERE notice_faq_no = #{noticeFaqNo} AND status='0'
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
@@ -314,6 +322,7 @@
 													</if>
 												</where>
 											</if>-->
+											WHERE status='0'
 											ORDER BY notice_faq_no DESC<!--  ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} --> 
