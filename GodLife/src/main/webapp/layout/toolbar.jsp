@@ -81,14 +81,14 @@
 					</ul>
 				</li>
 
-				<li class="new-product-category">
-					<a	href="링크" style="text-decoration:none;">이벤트</a></li>
+					<li class="new-product-category">
+					<a	href="/operator/listOperatorEvent" style="text-decoration:none;">이벤트</a></li>
 					
 					<li class="new-product-category">
-					<a	href="링크" style="text-decoration:none;">공지사항</a></li>
+					<a	href="/operator/listOperatorNotice" style="text-decoration:none;">공지사항</a></li>
 					
 					<li class="new-product-category">
-					<a	href="링크" style="text-decoration:none;">FAQ</a></li>
+					<a	href="/operator/listOperatorFaqs" style="text-decoration:none;">FAQ</a></li>
 					
 			</ul>
 
