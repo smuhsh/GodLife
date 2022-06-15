@@ -17,9 +17,13 @@
 <!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
+   	
+<!-- 왼쪽 레이아웃 삽입-->
+<jsp:include page="/user/mypageMain.jsp" />
 
 <!-- CSS-->
 <link rel="stylesheet" href="/css/getUser.css" />
+
 
 <style>
 
@@ -50,6 +54,7 @@
 	display: none;
 	font-size : 14px;
 	}
+	
 	.doubleChk{
 	color:#064ACB;
 	font-size : 14px;
@@ -186,17 +191,17 @@ float : center;
 	        }
 	    });
 	});
-
 		
 	</script>
 	
-
 <title>개인정보 수정</title>
 </head>
 <body>
 	<div class="page_aticle">
 		<div class="type_form getUser">
-			<form id="form" name="frmMember" encType="multipart/form-data" >
+			<form id="form" name="frmMember"  encType="multipart/form-data" >
+			
+			<input type="hidden" name="userEmail" value="${user.userEmail }"/>
 				<div class="field_head">
 					<h3 class="tit">개인정보 수정</h3>
 				</div>
@@ -207,14 +212,14 @@ float : center;
 						<th>프로필이미지</th>
 						<td>
 						<div class="profileImg">
-								<input type="file" class="form-control" id="fileInfo" multiple="multiple"  name="profileImg"> </div>
+								<input type="file" class="form-control"  id="quantity" multiple="multiple"  name="fileInfo"  value= "${user.profileImg}" > </div>
 						</td>
 					</tr>
 					
 					<tr>
 						<th>닉네임</th>
 						<td>
-						      <input type="text" class="form-control" id="nick" name="nick" oninput = "checkNick()">
+						      <input type="text" class="form-control" id="nick" name="nick" oninput = "checkNick()" value = "${user.nick}" >
 						   <span id="helpBlock" class="id_ok2">사용 가능한 닉네임입니다.</span>
 						  <span id="helpBlock" class="id_already2">이미 등록된 닉네임입니다.</span>
 						  </td>
@@ -223,8 +228,7 @@ float : center;
 						<tr class="field_phone">
 						<th>휴대폰</th>
 						<td>
-							<div class="phone_num">
-								<input id="phone" type="text" name="phone" title="전화번호 입력" placeholder="예) 01011111111" required/>
+								<input id="phone" type="text" name="phone" title="전화번호 입력" value = "${user.phone}" placeholder="예) 01011111111" required/>
 									<span id="phoneChk" class="doubleChk">인증번호 보내기</span><br/>
 									<input id="phone2" type="text" name="phone2" title="인증번호 입력" disabled required/>
 									<span id="phoneChk2" class="doubleChk">본인인증</span>
@@ -232,7 +236,6 @@ float : center;
 									<span class="point successPhoneChk" style ="font-size : 14px"><br>※ 휴대폰 번호 입력 후 인증번호 보내기를 해주십시오.</span>
 									
 									<input type="hidden" id="phoneDoubleChk"/>
-								</div>
 							</td>
 						</tr>
 						
@@ -241,7 +244,7 @@ float : center;
 						<th>관심사</th>
 						<td>
 						<label class="checked">
-								<input type="radio" name="categNo" value="1" checked="checked">
+								<input type="radio" name="categNo" value="1" checked="checked" >
 								<span class="ico"></span>운동
 							</label>
 							<label class="">
@@ -266,10 +269,8 @@ float : center;
 					<tr class="intro">
 						<th>자기소개</th>
 						<td>
-						<div class="intro">
-								<textarea id = "intro" name="intro" cols="30" rows="10" ></textarea>
-								<div id="test_cnt" style ="font-size : 14px">(0 / 300)</div>
-							</div>
+								<textarea id = "intro" name="intro" cols="30" rows="10" placeholder="${user.intro}"></textarea>
+								<div id="test_cnt" style ="font-size : 13px">(0 / 300)</div>
 						</td>
 					</tr>
 					</table>

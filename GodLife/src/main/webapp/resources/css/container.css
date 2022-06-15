@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+.container{
+	height: 100vh;
+    width: 100vw;
+}
+
+.img_item {
+		width: 100%;
+    	height: 100%;
+    	margin: 0 auto;
+    
+    	background-image: url("/resources/images/—Pngtree—climbing silhouette life challenge_1031961.jpg");
+    	background-repeat: no-repeat;
+    	background-position: center center;
+    	backgorund-size: 100% 100%;
+}

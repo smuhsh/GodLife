@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
@@ -60,11 +62,12 @@ public class PointController {
 	public String addPointPurchaseProdcut(Map<String, Object> map, @ModelAttribute("point") Point point, HttpSession session) throws Exception {
 
 		System.out.println("/point/addPointPurchaseProduct : POST");
-		System.out.println("###########point "+point);
+		System.out.println("#### 받은 point "+point);
 		int productNo=point.getProductNo();
 		Product product = productService.getProductPoint(productNo);
 		point.setPoint(product.getProductPrice());
 		point.setCash(product.getProductPrice());
+		System.out.println("#### getPorudct 후 point "+point);
 		User user = (User)session.getAttribute("user");
 		
 
@@ -135,12 +138,13 @@ public class PointController {
 		model.addAttribute("search", search);
 		System.out.println("model :" + model);
 
+
 		return "forward:/point/listPointPurchase.jsp";
 	}
 
 	@RequestMapping(value = "getPointPurchaseVoucherList")
 	public String getPointPurchaseVoucherList(@ModelAttribute("search") Search search, Model model,
-			HttpServletRequest request) throws Exception {
+			HttpSession session) throws Exception {
 
 		System.out.println("/point/getPointPurchaseVoucherList : GET / POST");
 
@@ -148,9 +152,9 @@ public class PointController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-
-		User user = (User) request.getSession().getAttribute("user");
-		String userEmail = "tndkdml@gmail.com";// user.getUserEmail();
+		System.out.println("@@@@Search "+search);
+		User user = (User) session.getAttribute("user");
+		String userEmail = user.getUserEmail();
 		System.out.println("session userEmail : " + userEmail);
 
 		Map<String, Object> map = pointService.getPointPurchaseVoucherList(search, user);
@@ -201,4 +205,17 @@ public class PointController {
 
 		return "forward:/point/listPointPurchaseDonation.jsp";
 	}
+	
+	//coolSms api 사용
+		@GetMapping(value = "sendPointVoucher") // 테스트완료 
+		@ResponseBody
+		public Map<String, Object> sendPointVoucher( @ModelAttribute("point") Point point,HttpSession session,Map<String, Object> map) throws Exception { // 휴대폰 문자보내기
+			
+			User user = (User)session.getAttribute("user");
+			map.put("user", user);
+			map.put("point", point);
+			pointService.sendPointVoucher(map);
+			
+			return map;
+		}
 }

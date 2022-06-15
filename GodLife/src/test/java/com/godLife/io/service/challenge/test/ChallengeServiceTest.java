@@ -1,9 +1,11 @@
 package com.godLife.io.service.challenge.test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -109,7 +111,7 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void getChallengeList() { //전체 목록 조회
 		Search search = new Search();
 		
@@ -163,7 +165,7 @@ public class ChallengeServiceTest {
 	
 	//@Test
 	public void getChallenge() throws Exception{
-		int challengeNo = 10017; // hostEmail : chilee4650@naver.com
+		int challengeNo = 10063; // hostEmail : chilee4650@naver.com
 		
 		//회원조회
 		User user = new User();
@@ -208,10 +210,11 @@ public class ChallengeServiceTest {
 			System.out.println("참여 안함.");
 		}
 		
+	
 		
 	}
 	
-	@Test
+	//@Test
 	public void deleteChallenge() {
 		//10007 ~ 10011
 		
@@ -289,17 +292,40 @@ public class ChallengeServiceTest {
 	public void getChallengeJoinCertiImgList() {
 		//내가 참여중인 챌린지 인증이미지 목록조회 겸 같이 참여중인 회원의 인증이미지 목록조회
 		//검색 기능이 없음.
-		int challengeNo = 10017;
+		int challengeNo = 10066;
 		String email = "user01@io.com";// 내 이메일 넣으면 그게 내가 참여한 챌린지의 인증이미지.
 		//getChallengeJoinCertiImg()
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("challengeNo", challengeNo);
 		map.put("email",email);
 		
+		Challenge challenge = challengeService.getChallenge(map);
+		
 		List<CertiImg> certiImgs = challengeService.getChallengeJoinCertiImgList(map);
 		
 		System.out.println("내가 참여중인(참여중인 회원) 챌린지 인증이미지 목록 ");
-		for(CertiImg certiImg : certiImgs) {
+		
+		
+		
+		////////////////////// temp 인증이미지 ////////////////////////////
+		Vector<CertiImg> certiImgss = new Vector(challenge.getTotalCertiCount());
+		
+		System.out.println(challenge.getTotalCertiCount());
+		System.out.println(certiImgss.capacity());
+		System.out.println(certiImgs.size());
+		
+		for(int i=0; i<certiImgss.capacity(); i++) { //인증이미지 + 빈껍데기 생성
+			if(i>=certiImgs.size()) { // 껍데기 생성. 임의이 파일이름만 있으면 된다.
+				CertiImg certiImg = new CertiImg();
+				certiImg.setCertiImg("temp.jpg"+i);
+				certiImgss.add(certiImg);
+			}else {
+				certiImgss.add(certiImgs.get(i));
+			}
+		}
+		
+		
+		for(CertiImg certiImg : certiImgss) {
 			System.out.println(certiImg);
 		}
 		

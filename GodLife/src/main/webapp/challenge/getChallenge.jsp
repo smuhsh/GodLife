@@ -23,7 +23,7 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
-	<link rel="stylesheet" href="/resources/css/getChallenge.css" type="text/css">
+	<link rel="stylesheet" href="/resources/css/getChallenges.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/title.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/search.css" type="text/css">
 
@@ -99,7 +99,13 @@
 		
 		
 		
-		
+		$(function(){
+			$("button#myCertiImgList").on("click",function(){
+				window.
+				open("/challenge/listChallengeMyCertiImg?challengeNo=${challenge.challengeNo}&totalCertiCount=${challenge.totalCertiCount}"
+						,"인증이미지 목록","left=300,top=200,width=1000,height=400");
+			});
+		});
 		
 	</script>
 <title>Insert title here</title>
@@ -110,6 +116,8 @@
 		<input type="hidden" name="challengeNo" value="${challenge.challengeNo }" >
 		<input type="hidden" name="joinPoint" value="${challenge.joinPoint }" >
 		<input type="hidden" name="hostEmail" value="${challenge.hostEmail }" >
+		<input type="hidden" name="totalCertiCount" value="${challenge.totalCertiCount }" >
+		<input type="hidden" name="certiDate" value="${challenge.certiDate }" >
 	<div class="container">
 	<jsp:include page="/layout/toolbar.jsp" />
 			  <div class="col-xs-6 col-sm-1">
@@ -156,31 +164,55 @@
 			        		<p id="rule">챌린지 규칙</p>
 			        		<textarea readonly>${challenge.challengeRule }</textarea>
 			        	</div>
+			        	&nbsp;
 			        </div>
-			        <div id="centerButton">
-			        		<button type="button" id="back" class="btn btn-default abc">뒤로가기</button>
+			        	<c:if test="${challenge.challengeStatus == 1}">
+			        	  <center>
+			        		<div>
+			        			<button type="button" id="myCertiImgList" class="btn btn-default abc">내 인증 이미지 목록 조회</button>
+			        		</div>
+			        			&nbsp;
+			        		<div>
+			        			<button type="button" id="joinUserList" class="btn btn-default abc">참여 회원 목록 조회</button>
+			        		</div>
+			              </center>
+			              &nbsp;
+			        	</c:if>
+			        <div id="center">
+				        	<c:if test="${challenge.challengeStatus == 0}">
+				        		<button type="button" id="back" class="btn btn-default abc">뒤로가기</button>
+				        	</c:if>
+				        	<c:if test="${challenge.challengeStatus != 0}">
+				        		<div id="procceding">
+				        			<button type="button" id="back" class="btn btn-default abc">뒤로가기</button>
+				        		</div>
+				        	</c:if>
 				        		<c:forEach var="i" begin="1" step="1" end="20">
 				        		&nbsp;
 				        		</c:forEach>
 				        	<c:if test="${challenge.challengeJoinFlag == 0 }">
 				        		<button type="button" id="join" class="btn btn-default abc">참여하기</button>
 				        	</c:if>
+				        <c:if test="${challenge.challengeStatus == 0}">	
 				        	<c:if test="${challenge.challengeJoinFlag == 1 }">
 				        		<button type="button" id="exit" class="btn btn-default abc">나가기</button>
 				        	</c:if>
+				        </c:if>
 			        </div>
 			        
 			        <div id="rightButton">
 			        	<c:if test="${challenge.challengeJoinFlag == 0 }">
 			        		<button type="button" id="pick" class="btn btn-default abc">찜하기</button>
 			        	</c:if>
-			        	<button type="button" class="btn btn-default abc">공유하기</button>
-			        	<a id="kakao-link-btn" href="javascript:;">
-						  <img
-						    src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-						    alt="카카오톡 공유 보내기 버튼" style="width:40px; height:40px; bottom:40px;"
-						  />
-						</a>
+			        	<c:if test="${challenge.challengeStatus == 0}">
+				        	<button type="button" class="btn btn-default abc">공유하기</button>
+				        	<a id="kakao-link-btn" href="javascript:;">
+							  <img
+							    src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+							    alt="카카오톡 공유 보내기 버튼" style="width:40px; height:40px; bottom:40px;"
+							  />
+							</a>
+			        	</c:if>
 			        </div>
 			      </div>
 			    </div>
