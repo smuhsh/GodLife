@@ -11,6 +11,22 @@
 <title>받은 쪽지함</title>
 <link rel="stylesheet" href="/css/listUserRecvMsg.css" />
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+	<!-- 상단바삽입 -->
+	<jsp:include page="/layout/toolbar.jsp" />
+	
+	<!-- 왼쪽 레이아웃 삽입-->
+		<jsp:include page="/user/mypageMain.jsp" />
+		
+		<style>
+
+ 		body {
+            padding-top : 50px;
+        }
+       
+</style>
+
+
 </head>
 <body>
 
@@ -70,6 +86,5 @@
 </div><!-- myMessageWrap -->
 		
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js"></script>	
-<script src="/jaju/js/myMessage.js"></script>
 </body>
 </html>

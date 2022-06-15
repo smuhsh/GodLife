@@ -6,7 +6,7 @@ public class JoinChallenger {
 	private int challengeNo;
 	private double challengePercent;
 	private int challengeReward;
-	private String ChallengeRewardFlag;
+	private String challengeRewardFlag;
 	private String joinNick;
 	private String status;
 	public int getJoinChallengeNo() {
@@ -25,7 +25,7 @@ public class JoinChallenger {
 		return challengeReward;
 	}
 	public String getChallengeRewardFlag() {
-		return ChallengeRewardFlag;
+		return challengeRewardFlag;
 	}
 	public void setJoinChallengeNo(int joinChallengeNo) {
 		this.joinChallengeNo = joinChallengeNo;
@@ -43,7 +43,7 @@ public class JoinChallenger {
 		this.challengeReward = challengeReward;
 	}
 	public void setChallengeRewardFlag(String challengeRewardFlag) {
-		ChallengeRewardFlag = challengeRewardFlag;
+		this.challengeRewardFlag = challengeRewardFlag;
 	}
 	public String getJoinNick() {
 		return joinNick;
@@ -62,7 +62,7 @@ public class JoinChallenger {
 	public String toString() {
 		return "JoinChallenger [joinChallengeNo=" + joinChallengeNo + ", email=" + email + ", challengeNo="
 				+ challengeNo + ", challengePercent=" + challengePercent + ", challengeReward=" + challengeReward
-				+ ", ChallengeRewardFlag=" + ChallengeRewardFlag + ", joinNick=" + joinNick + ", status=" + status
+				+ ", challengeRewardFlag=" + challengeRewardFlag + ", joinNick=" + joinNick + ", status=" + status
 				+ "]";
 	}
 	

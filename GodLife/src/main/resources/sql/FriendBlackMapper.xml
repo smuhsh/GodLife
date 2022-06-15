@@ -29,7 +29,8 @@
 	  					inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	select u.user_email, u.nick, u.profile_img 
 											from users u, friend_blacks f 
-											where u.user_email = f.target_email 
+											WHERE
+											 u.user_email = f.target_email 
 											and f.f_b_status = '1'
 											and f.acc_status = '2'
 											and f.user_email = #{userEmail}

@@ -14,22 +14,26 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-<!-- ToolBar Start /////////////////////////////////////-->
+	<!-- 상단바삽입 -->
 	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-
+	
+	<!-- 왼쪽 레이아웃 삽입-->
+		<jsp:include page="/user/mypageMain.jsp" />
+	
 <!-- CSS-->
 <link rel="stylesheet" href="/css/getUser.css" />
 
 <style>
 
-		body {
-            padding-top : 50px;
+body {
+           padding-top : 50px;
+           padding-right: :5px;
+       }
+       
+.body {
+        background-color:  #EDFFFD;
         }
- </style>
-
-<style>
-
+        
 img
 {
 border : 5px solid white;
@@ -37,6 +41,7 @@ width : 200px;
 height : 200px;
 float : center;
 }
+
 </style>
 
 <!--  자바스크립트 -->
@@ -46,9 +51,10 @@ float : center;
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $("#writeBtn" ).on("click" , function() {
-				 $("form").attr("method" , "GET").attr("action" , "/user/updateUser").submit();
+				 self.location = "/user/updateUser?userEmail=${user.userEmail}"
 				});
 		});
+		
 		
 		//============= 쿠폰사용 Event  처리 =============	
 		
@@ -59,7 +65,6 @@ float : center;
 				 $("form").attr("method" , "GET").attr("action" , "/user/updateUserRedCouponCount").submit();
 				});
 		});
-		
 		
 	</script>
 
@@ -78,8 +83,7 @@ float : center;
 				<tr class="profileImg">
 						<th>프로필이미지</th>
 						<td>
-						<div class="profileImg">
-								<img src="/images/uploadFiles/${user.profileImg} " onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" > </div>
+								<img src="/images/uploadFiles/${user.profileImg} " onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" > 
 						</td>
 					</tr>
 				
@@ -98,51 +102,43 @@ float : center;
 						</td>
 					</tr>
 					
+					
 					<tr class="phone">
 						<th>휴대폰 번호</th>
 						<td>
-							<div class="phone">
 								<input type="text" value="" pattern="[0-9]*" name="phone" id="phone" maxlength="13" placeholder="${user.phone}" class="inp" readonly/>
-							</div>
 						</td>
 					</tr>
 					
 					<tr class="categNo">
 						<th>관심사</th>
 						<td>
-						<div class="categNo">
 								<input type="text" value=""  name="categNo" id="categNo" placeholder="${user.categName}"  readonly/>
-							</div>
 						</td>
 					</tr>
 					
 					<tr class="intro">
 						<th>자기소개</th>
 						<td>
-						<div class="intro">
 							<textarea id = "intro" name="intro" cols="30" rows="10" placeholder="${user.intro}"  readonly/></textarea>
-							</div>
 						</td>
 					</tr>
 					
 					<tr class="reportCount">
 						<th>신고 보유 개수</th>
 						<td>
-						<div class="intro">
 								<input type="text" value=""  name="reportCount" id="reportCount" placeholder="${user.reportCount}"  readonly/>
-							</div>
 						</td>
 					</tr>
 					
 					<tr class="redCardCount">
 						<th>레드카드 개수</th>
 						<td>
-						<div class="redCardCount">
 								<input type="text" value=""  name="redCardCount" id="redCardCount" placeholder="${user.redCardCount}" readonly/>
 								<button style="WIDTH: 60pt; HEIGHT: 30pt" type="button" class="btn active btn_join" id="writeBtn1">쿠폰 사용</button>
-							</div>
 						</td>
 					</tr>
+					
 					
 					</table>
 					

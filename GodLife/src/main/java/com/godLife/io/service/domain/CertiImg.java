@@ -13,6 +13,7 @@ public class CertiImg {
 	private int dislike;
 	private int categNo;
 	private String status;
+	private String certiDate;
 	public int getCertiImgNo() {
 		return certiImgNo;
 	}
@@ -74,12 +75,21 @@ public class CertiImg {
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
+	public String getCertiDate() {
+		return certiDate;
+	}
+	public void setCertiDate(String certiDate) {
+		this.certiDate = certiDate;
+	}
 	@Override
 	public String toString() {
 		return "CertiImg [certiImgNo=" + certiImgNo + ", challengeNo=" + challengeNo + ", certiImg=" + certiImg
 				+ ", email=" + email + ", nick=" + nick + ", certiImgRegDate=" + certiImgRegDate + ", like=" + like
-				+ ", dislike=" + dislike + ", categNo=" + categNo + ", status=" + status + "]";
+				+ ", dislike=" + dislike + ", categNo=" + categNo + ", status=" + status + ", certiDate=" + certiDate
+				+ "]";
 	}
+
+
 	
 	
 	
