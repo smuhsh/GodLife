@@ -12,6 +12,28 @@
 <link rel="stylesheet" href="/css/toolbar.css" />
 
 <style type="text/css">
+
+</style>
+
+<style>
+.menuDiv{
+
+}
+/*
+.header{
+background-color:  #EDFFFD;
+backgrouund-size :  100%;
+border: #EDFFFD;
+/*.menuDiv : #EDFFFD;*/
+/*border-color:  #EDFFFD;*/
+margin : 0;
+}
+*/
+
+.logo_image{
+background-color:  #EDFFFD;
+}
+
 </style>
 
 </head>
@@ -35,6 +57,11 @@
 					<a class="service_center" href="/user/getUser?userEmail=${sessionScope.user.userEmail}"> 마이페이지</a>
 					<button type="button" class="service_center_icon"></button>
 					
+					<c:if test="${user.userEmail != null}">
+					<li class="sign_in_item"><a href="링크">챌린지 생성</a></li>
+				</c:if>
+					
+					
 					<ul class="service_center_detail">
 						<li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">개인정보 조회</a></li>
 						<li><a href="링크">포인트 구매</a></li>
@@ -50,6 +77,7 @@
 					<c:if test="${user.userEmail != null}">
 					<li class="sign_in_item"><a href="/user/logout">로그아웃</a></li>
 				</c:if>
+				
 
 			</ul>
 		</div>
@@ -68,9 +96,9 @@
 			<ul class="menu">
 				<!-- == main -->
 				<li class="all_category header_a_li">
-					<!-- == MAIN01 == ��泥댁뭅��怨�由� --> <a href="#" class="button">
+					 <a href="#" class="button">
 						<button type="button" class="menu_button"></button> 챌린지 관심사
-				</a> <!-- ��泥댁뭅��怨�由� hover�� ������. -->
+				</a> 
 					<ul class="all_category_item" id="all_category_item">
 
 						<li><a class="1">운동</a></li>
@@ -90,6 +118,33 @@
 					<li class="new-product-category">
 					<a	href="링크" style="text-decoration:none;">FAQ</a></li>
 					
+					
+					
+				<!-- == 관리자 -->
+				<c:if test="${user.role == '2'}">
+				<li class="all_category header_a_li">
+					 <a href="#" class="button">
+						<button type="button" class="menu_button"></button> 관리자
+				</a> 
+					<ul class="all_category_item" id="all_category_item">
+
+						<li><a href="링크">회원 전체목록</a></li>
+				     	<li><a href="링크">신고관리</a></li>
+						<li><a class="링크">챌린지관리</a></li>
+						<li><a class="링크">인증이미지 게시글관리</a></li>
+						<li><a class="링크"> 개설한 챌린지관리</a></li>
+						<li><a class="링크">포인트 상품관리</a></li>
+						<li><a class="링크">상품권 관리</a></li>
+						<li><a class="링크">쿠폰 관리</a></li>
+						<li><a class="링크">배지 관리</a></li>
+						<li><a class="링크">이벤트 관리</a></li>
+						<li><a class="링크">이벤트참여자 관리</a></li>
+						<li><a class="링크">일대일문의 관리</a></li>
+						<li><a class="링크">공지사항 관리</a></li>
+						<li><a class="링크">FAQ 관리</a></li>
+					</ul>
+				</li>
+						</c:if>
 			</ul>
 
 		</div>
@@ -97,8 +152,17 @@
 
 
 
+
+
+
+
 	<script type="text/javascript"
 		src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+		
+		
+		
+		
+		
 		
 	<script type="text/javascript">
 	
@@ -126,7 +190,7 @@
 	
 		$('#all_category_item>li').click(function(){
 			//alert
-			location.href = '/challenge/listChallenge?searchCondtion=' + $(this).children('a').attr('class');
+			location.href = '/challenge/listChallenge?challengeListOpt=total&searchCondition=2&orderCondition=' + $(this).children('a').attr('class');
 		});
 		
 });	
@@ -149,6 +213,24 @@
 	      });
 		
 		
+		//=============  판매상품등록 Event  처리 =============	
+		$(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 	$("a:contains('판매상품등록')").on("click" , function() {
+				//$(self.location).attr("href","/user/logout");
+				self.location = "/product/addProductView.jsp"
+			}); 
+		 });
+		
+		
+		//=============  판매상품관리 Event  처리 =============	
+		$(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 	$("a:contains('판매상품관리')").on("click" , function() {
+				//$(self.location).attr("href","/user/logout");
+				self.location = "/product/listProduct?menu=manage"
+			}); 
+		 });
 		
 	</script>
 </body>
