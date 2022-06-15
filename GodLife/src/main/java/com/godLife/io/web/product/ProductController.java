@@ -53,8 +53,8 @@ public class ProductController {
 	//@Value("#{commonProperties['pageSize'] ?: 2}")
 	int pageSize;
 	
-	  @Resource(name="uploadPath")
-	    String uploadPath;
+	@Resource(name="uploadPath")
+	String uploadPath;
 	
 	
 ////////////////////////////////////////////////////////	
