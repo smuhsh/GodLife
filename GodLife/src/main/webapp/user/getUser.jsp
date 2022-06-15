@@ -5,9 +5,31 @@
 <head>
 <meta charset="UTF-8">
 
+<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolbar.jsp" />
+   	<!-- ToolBar End /////////////////////////////////////-->
+
 <!-- CSS-->
 <link rel="stylesheet" href="/css/getUser.css" />
+
 <style>
+
+		body {
+            padding-top : 50px;
+        }
+ </style>
+
+<style>
+
 img
 {
 border : 5px solid white;
@@ -15,20 +37,29 @@ width : 200px;
 height : 200px;
 float : center;
 }
-
-
 </style>
 
 <!--  자바스크립트 -->
 <script type="text/javascript">
 		
-		//============= 회원정보수정 Event  처리 =============	
+		//============= 수정하기 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button" ).on("click" , function() {
-					self.location = "/user/updateUser?userEmail=${user.userEmail}"
+			 $("#writeBtn" ).on("click" , function() {
+				 $("form").attr("method" , "GET").attr("action" , "/user/updateUser").submit();
 				});
 		});
+		
+		//============= 쿠폰사용 Event  처리 =============	
+		
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $("#writeBtn1" ).on("click" , function() {
+				alert("쿠폰사용이 완료되었습니다.")
+				 $("form").attr("method" , "GET").attr("action" , "/user/updateUserRedCouponCount").submit();
+				});
+		});
+		
 		
 	</script>
 
@@ -48,14 +79,14 @@ float : center;
 						<th>프로필이미지</th>
 						<td>
 						<div class="profileImg">
-								<img src="/images/uploadFiles/${user.profileImg } " onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" > </div>
+								<img src="/images/uploadFiles/${user.profileImg} " onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" > </div>
 						</td>
 					</tr>
 				
 					<tr class="userEmail">
 						<th>이메일</th>
 						<td>
-							<input type="text" name="userEmail" id="userEmail" maxlength="16" required="" fld_esssential="" option="regId" label="아이디" placeholder="${user.userEmail}" readonly/>
+							<input type="text" name="userEmail" id="userEmail" required="" fld_esssential="" option="regId" label="아이디" placeholder="${user.userEmail}" readonly/>
 						</td>
 					</tr>
 					<tr>
@@ -70,7 +101,7 @@ float : center;
 					<tr class="phone">
 						<th>휴대폰 번호</th>
 						<td>
-							<div class="phone"">
+							<div class="phone">
 								<input type="text" value="" pattern="[0-9]*" name="phone" id="phone" maxlength="13" placeholder="${user.phone}" class="inp" readonly/>
 							</div>
 						</td>
@@ -86,10 +117,10 @@ float : center;
 					</tr>
 					
 					<tr class="intro">
-						<th>한줄 소개</th>
+						<th>자기소개</th>
 						<td>
 						<div class="intro">
-								<input type="text" value=""  name="intro" id="intro" placeholder="${user.intro}"  readonly/>
+							<textarea id = "intro" name="intro" cols="30" rows="10" placeholder="${user.intro}"  readonly/></textarea>
 							</div>
 						</td>
 					</tr>
@@ -100,8 +131,6 @@ float : center;
 						<div class="intro">
 								<input type="text" value=""  name="reportCount" id="reportCount" placeholder="${user.reportCount}"  readonly/>
 							</div>
-							<button type="button" class="btn btn-info">Info</button>
-							
 						</td>
 					</tr>
 					
@@ -110,30 +139,22 @@ float : center;
 						<td>
 						<div class="redCardCount">
 								<input type="text" value=""  name="redCardCount" id="redCardCount" placeholder="${user.redCardCount}" readonly/>
+								<button style="WIDTH: 60pt; HEIGHT: 30pt" type="button" class="btn active btn_join" id="writeBtn1">쿠폰 사용</button>
 							</div>
 						</td>
 					</tr>
 					
 					</table>
 					
-					
-					
-					
-					
-					
-					
-					
 	
 				<div id="formSubmit" class="form_footer">
-					<button type="button" class="btn active btn_join" id="writeBtn">수정하기</button>
+					<div id="checkDiv" class="checkDiv"></div>
+					<button type="button" class="btn active btn_join" id="writeBtn">수정하러가기</button>
 				</div>
-				
 			</form>
 		</div>
 		
 		
-<iframe id="ifrmRnCheck" name="ifrmRnCheck" style="display:none;"></iframe>
-<iframe id="ifrmHpauth" name="ifrmHpauth" style="display:none;"></iframe>
 	</div>
 </body>
 </html>

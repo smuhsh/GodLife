@@ -259,12 +259,18 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	public void updateUserRedCouponCount(User user) throws Exception{
+		System.out.println(user);
 		sqlSession.update("userMapper.updateUserRedCouponCount",user );
 	}
 
 	
 	public void updateUserCertiCouponCount(User user) throws Exception{
 		sqlSession.update("userMapper.updateUserCertiCouponCount",user);
+	}
+	
+	public void updateRedCard(User user)  throws Exception{
+		System.out.println(user);
+		sqlSession.update("userMapper.updateRedCard",user);
 	}
 	
 	

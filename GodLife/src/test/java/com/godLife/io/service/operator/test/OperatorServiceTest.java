@@ -329,7 +329,7 @@ public class OperatorServiceTest {
 		 
 	 }
 	 
-	 @Test	
+	 //@Test	
 	 public void testGetOperatorNoticeFaqsListAll() throws Exception{
 		 
 		 Search search = new Search();

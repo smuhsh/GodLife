@@ -1,320 +1,305 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html>
-<html>
 
+<html>
 <head>
-	<meta charset="EUC-KR">
+<title>ê³µì§€ì‚¬í•­</title>
+
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<title>°øÁö»çÇ× ÀÛ¼º</title>
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<link rel="stylesheet" href="/css/admin.css" type="text/css">
-	
-	<!-- CDN(Content Delivery Network) È£½ºÆ® »ç¿ë -->
-	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<style>
+	  body {
+            padding-top : 70px;
+        }
+        
+    </style>
 	<script type="text/javascript">
-		
-	//=====±âÁ¸ Code ÁÖ¼® Ã³¸® ÈÄ jQuery º¯°æ=====//
-	function fncAddProduct(){
-		//Form À¯È¿¼º °ËÁõ
-	 	//var name = document.detailForm.prodName.value;
-		//var detail = document.detailForm.prodDetail.value;
-		//var manuDate = document.detailForm.manuDate.value;
-		//var price = document.detailForm.price.value;
 	
-		var name = $("input[name='prodName']").val();
-		var detail = $("input[name='prodDetail']").val();
-		var manuDate = $("input[name='manuDate']").val();
-		var price = $("input[name='price']").val();
+		function fncAddOperatorNoticeFaqs() {
+			
+			var userEmail = $("input[name='userEmail']").val();
+			var status = $("input[name='status']").val();
+			var noticeMust = $("input[name='noticeMust']").val();
+			var title = $("input[name='title']").val();
+			var detail = $("input[name='detail']").val();
+			var img = $("input[name='img']").val();
+			var faqTag = $("input[name='faqTag']").val();
+			var regDate = $("input[name='regDate']").val();
+			
+			if(userEmail == null || userEmail.length<1){
+				alert("ì‘ì„±ìëŠ” ë°˜ë“œì‹œ ì…ë ¥í•˜ì—¬ì•¼ í•©ë‹ˆë‹¤.");
+				return;
+			}
+			if(status == null || detail.length<1){
+				alert("ìƒíƒœëŠ” ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.");
+				return;
+			}
+			if(title == null || title.length<1){
+				alert("ì œëª©ì€ ë°˜ë“œì‹œ ì…ë ¥í•˜ì—¬ì•¼ í•©ë‹ˆë‹¤.");
+				return;
+			}
+			if(detail == null || detail.length<1){
+				alert("ë‚´ìš©ì€ ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.");
+				return;
+			}
 		
-		if(name == null || name.length<1){
-			alert("»óÇ°¸íÀº ¹İµå½Ã ÀÔ·ÂÇÏ¿©¾ß ÇÕ´Ï´Ù.");
-			return;
+			$("form").attr("method", "POST").attr("action", "/operator/addOperatorNoticeFaqs").submit();
+			
 		}
-		if(detail == null || detail.length<1){
-			alert("»óÇ°»ó¼¼Á¤º¸´Â ¹İµå½Ã ÀÔ·ÂÇÏ¿©¾ß ÇÕ´Ï´Ù.");
-			return;
-		}
-		if(manuDate == null || manuDate.length<1){
-			alert("Á¦Á¶ÀÏÀÚ´Â ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-			return;
-		}
-		if(price == null || price.length<1){
-			alert("°¡°İÀº ¹İµå½Ã ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.");
-			return;
-		}
-	
-		/*============= jQuery º¯°æ ÁÖ¼®Ã³¸® =============
-		document.detailForm.action='/product/addProduct';
-		document.detailForm.submit(); 
-		======================================*/
-		$("form").attr("method", "POST").attr("action", "/product/addProduct").submit();
 		
-	}
-	
-	/*============= jQuery º¯°æ ÁÖ¼®Ã³¸® =============
-	function resetData(){
-		document.detailForm.reset();
-	}========================================	*/
-	$(function(){
-		//==>"µî·Ï" Event Ã³¸® ¹× ¿¬°á
-		//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1.$(tagName) : 2.(#id) : 3.$(.className)
-		//==>1°ú 3 ¹æ¹ıÀÇ Á¶ÇÕ : $("tagName.className:filterÇÔ¼ö") »ç¿ëÇÔ.
-		$("td.ct_btn01:contains('µî·Ï')").on("click", function(){
-			//Debug..
-			alert($("td.ct_btn01:contains('µî·Ï')").html());
-			fncAddProduct();
+		$(function() {
+			$("td.ct_btn01:contains('ë“±ë¡')").on("click", function(){
+				alert($("td.ct_btn01:contains('ë“±ë¡')").html());
+				fncAddOperatorNoticeFaqs();
+			});
+			$("td.ct_btn01:contains('ì·¨ì†Œ')").on("click", function(){
+				//Debug..
+				alert($("td.ct_btn01:contains('ì·¨ì†Œ')").html());
+				$("form")[0].reset();
+			});
 		});
-		
-		//==>"Ãë¼Ò" Event Ã³¸® ¹× ¿¬°á
-		//==>DOM Object GET 3°¡Áö ¹æ¹ı ==> 1.$(tagName) : 2.(#id) : 3.$(.className)
-		//==>1°ú 3 ¹æ¹ıÀÇ Á¶ÇÕ : $("tagName.className:filterÇÔ¼ö") »ç¿ëÇÔ.
-		$("td.ct_btn01:contains('Ãë¼Ò')").on("click", function(){
-			//Debug..
-			alert($("td.ct_btn01:contains('Ãë¼Ò')").html());
-			$("form")[0].reset();
-		});
-	});
-	
-	</script>		
-	
+	</script>
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
+	
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolbar.jsp" />
+   	<!-- ToolBar End /////////////////////////////////////-->
+	
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
+	<div class="container">
+		<div class="page-header text-info">
+	       <h3>ê³µì§€ì‚¬í•­</h3>
+	    </div>
+	    
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
+	    <div class="row">
+	    
+		    <div class="col-md-6 text-left">
+		    	<p class="text-primary">
+		    		ì „ì²´  ${resultPage.totalCount } ê±´ìˆ˜, í˜„ì¬ ${resultPage.currentPage}  í˜ì´ì§€
+		    	</p>
+		    </div>
+		    
+		    <div class="col-md-6 text-right">
+		    
+			    <form class="form-inline" name="detailForm">
+			    
+				  <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ì œëª©</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>ë²ˆí˜¸</option>
+					</select>
+				  </div>
+				  
+				  <div class="form-group">
+				    <label class="sr-only" for="searchKeyword">ê²€ìƒ‰ì–´</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="ê²€ìƒ‰ì–´"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				  </div>
+				  
+				  <button type="button" class="btn btn-default">ê²€ìƒ‰</button>
+				  
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  
+				</form>
+	    	</div>
+	    	
+		</div>
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 
-<!-- ////////////////// jQuery Event Ã³¸®·Î º¯°æµÊ ///////////////////////// 
-<form name="detailForm"  method="post" >
-////////////////////////////////////////////////////////////////////////////////////////////////// -->
-<form name="detailForm">
-
+		
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">
 			<img src="/images/ct_ttl_img01.gif" width="15" height="37"/>
 		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
+		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">È¸¿ø°¡ÀÔ</td>
+					<td width="93%" class="ct_ttl01">ê³µì§€ì‚¬í•­ ë“±ë¡</td>
 					<td width="20%" align="right">&nbsp;</td>
 				</tr>
 			</table>
 		</td>
 		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
+			<img src="/images/ct_ttl_img03.gif"	width="12" height="37"/>
 		</td>
 	</tr>
 </table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:13px;">
-	
+<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 13px;">
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 	<tr>
 		<td width="104" class="ct_write">
-			¾ÆÀÌµğ <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			ì‘ì„±ì <imgsrc="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						<input 	type="text" name="userId" class="ct_input_bg" 
-										style="width:100px; height:19px"  maxLength="20" >
-					</td>
-					<td>
-						<table border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<td width="4" height="21">
-									<img src="/images/ct_btng01.gif" width="4" height="21"/>
-								</td>
-								<td align="center" background="/images/ct_btng02.gif" class="ct_btn" style="padding-top:3px;">
-									<!-- ////////////////// jQuery Event Ã³¸®·Î º¯°æµÊ ///////////////////////// 
-									<a href="javascript:fncCheckDuplication();" id="btnCmfID">IDÁßº¹È®ÀÎ</a>
-									 ////////////////////////////////////////////////////////////////////////////////////////////////// -->
-									 IDÁßº¹È®ÀÎ
-								</td>
-								<td width="4" height="21">
-									<img src="/images/ct_btng03.gif" width="4" height="21"/>
-								</td>
-							</tr>
-						</table>
+						<input type="text" name="userEmail" class="ct_input_g" 
+									style="width: 100px; height: 19px" maxLength="20">
 					</td>
 				</tr>
 			</table>
 		</td>
 	</tr>
-	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 	<tr>
 		<td width="104" class="ct_write">
-			ºñ¹Ğ¹øÈ£ <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			ìƒíƒœ <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="password" name="password" class="ct_input_g" 
-							style="width:100px; height:19px"  maxLength="10" minLength="6"  />
+			<input type="text" name="status" class="ct_input_g" 
+						style="width: 100px; height: 19px" maxLength="10" minLength="6"/>
 		</td>
 	</tr>
-	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 	<tr>
 		<td width="104" class="ct_write">
-			ºñ¹Ğ¹øÈ£ È®ÀÎ <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			í•„ìˆ˜ì‚¬í•­ <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="password" name="password2" class="ct_input_g" 
-							style="width:100px; height:19px"  maxLength="10" minLength="6"  />
+			<input type="text" name="noticeMust" readonly="readonly" class="ct_input_g"  
+						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
 		</td>
 	</tr>
-	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 	<tr>
 		<td width="104" class="ct_write">
-			ÀÌ¸§ <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			ì œëª© <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="userName" class="ct_input_g" 
-							style="width:100px; height:19px"  maxLength="50" />
+			<input type="text" name="title" 	class="ct_input_g" 
+						style="width: 100px; height: 19px" maxLength="10"/>
 		</td>
 	</tr>
-	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 	<tr>
-		<td width="104" class="ct_write">ÁÖ¹Î¹øÈ£</td>
+		<td width="104" class="ct_write">ë‚´ìš©</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="ssn" class="ct_input_g" style="width:100px; height:19px" 
-							onChange="javascript:checkSsn();"  maxLength="13" />
-			-Á¦¿Ü, 13ÀÚ¸® ÀÔ·Â
+			<input type="text" name="detail" class="ct_input_g" 
+							style="width: 200px; height: 19px" maxLength="13"/>
 		</td>
 	</tr>
-
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 	<tr>
-		<td width="104" class="ct_write">ÁÖ¼Ò</td>
+		<td width="104" class="ct_write">ì´ë¯¸ì§€</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input		type="text" name="addr" class="ct_input_g" 
-						 	style="width:370px; height:19px"  maxLength="100"/>
+			<input type="text" name="img" class="ct_input_g" 
+							style="width: 200px; height: 19px" maxLength="13"/>
 		</td>
 	</tr>
-	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 	<tr>
-		<td width="104" class="ct_write">ÈŞ´ëÀüÈ­¹øÈ£</td>
+		<td width="104" class="ct_write">íƒœê·¸</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<select 	name="phone1" class="ct_input_g" style="width:50px; height:25px"
-							onChange="document.detailForm.phone2.focus();">
-				<option value="010" >010</option>
-				<option value="011" >011</option>
-				<option value="016" >016</option>
-				<option value="018" >018</option>
-				<option value="019" >019</option>
-			</select>
-			<input 	type="text" name="phone2" class="ct_input_g" 
-							style="width:100px; height:19px"  maxLength="9" />
-			- 
-			<input 	type="text" name="phone3" class="ct_input_g" 
-							style="width:100px; height:19px"  maxLength="9" />
-			<input type="hidden" name="phone" class="ct_input_g"  />
+			<input type="text" name="faqTag" class="ct_input_g" 
+							style="width: 200px; height: 19px" maxLength="13"/>
 		</td>
 	</tr>
-
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 	<tr>
-		<td width="104" class="ct_write">ÀÌ¸ŞÀÏ </td>
+		<td width="104" class="ct_write">
+			ì‘ì„±ì¼ <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td height="26">
-						<!-- ////////////////// jQuery Event Ã³¸®·Î º¯°æµÊ ///////////////////////// 
-						<input 	type="text" name="email" class="ct_input_g" 
-										style="width:100px; height:19px" onChange="check_email(this.form);" />
-						 ////////////////////////////////////////////////////////////////////////////////////////////////// -->
- 						<input 	type="text" name="email" class="ct_input_g" 
-										style="width:100px; height:19px" />										
-					</td>
-				</tr>
-			</table>
+			<input type="text" name="regDate" readonly="readonly" class="ct_input_g"  
+						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
+				&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" 
+										onclick="show_calendar('document.detailForm.regDate', document.detailForm.regDate.value)"/>
 		</td>
 	</tr>
-
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 </table>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
+	<tr>
+		<td width="53%"></td>
+		<td align="right">
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="17" height="23">
+					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+				</td>
+				<td background="/images/ct_btnbg02.gif" class="ct_btn01"  style="padding-top: 3px;">
+					 ë“±ë¡
+				</td>
+				<td width="14" height="23">
+					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
+				</td>
+				<td width="30"></td>
+				<td width="17" height="23">
+					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+				</td>
+				<td background="/images/ct_btnbg02.gif" class="ct_btn01"	 style="padding-top: 3px;">
+					 ì·¨ì†Œ
+				</td>
+				<td width="14" height="23">
+					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>	
+
+	
+<!--  í˜ì´ì§€ Navigator ì‹œì‘ -->
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
-		<td width="53%">	</td>
-
-		<td align="right">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!-- ////////////////// jQuery Event Ã³¸®·Î º¯°æµÊ ///////////////////////// 
-						<a href="javascript:fncAddUser();">°¡ÀÔ</a>
-						 ////////////////////////////////////////////////////////////////////////////////////////////////// -->
-						°¡ÀÔ
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-					<td width="30"></td>					
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!-- ////////////////// jQuery Event Ã³¸®·Î º¯°æµÊ ///////////////////////// 
-						<a href="javascript:resetData();">Ãë¼Ò</a>
-						 ////////////////////////////////////////////////////////////////////////////////////////////////// -->
-						Ãë¼Ò
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-				</tr>
-			</table>
-		</td>
+		<td align="center">
+		   <input type="hidden" id="currentPage" name="currentPage" value=""/>
+	
+			<jsp:include page="../common/pageNavigator_new.jsp"/>	
+			
+    	</td>
 	</tr>
 </table>
+<!--  í˜ì´ì§€ Navigator ë -->
 
 </form>
 
-</body>
+</div>
 
+</body>
 </html>

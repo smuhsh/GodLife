@@ -8,6 +8,10 @@
             padding-top : 70px;
             background-size: cover;
             font-family: 'oneMobile';
+	 		background-image: url("/resources/images/—Pngtree—climbing silhouette life challenge_1031961.jpg");
+       		background-size : cover;
+       		background-position: center;
+       		overflow-x:hidden;
         }
 
 		
@@ -19,6 +23,7 @@
 			width:900px;
         	position:relative;
         	right:3px;
+        	background-color: rgba( 255, 255, 255, 0.5 );
 		}
 		
 		img{
@@ -112,4 +117,7 @@
         div#rigthButton{
         	flex-direction: row-reverse;
         }
+        
+        
+       
         

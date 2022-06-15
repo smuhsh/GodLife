@@ -1,18 +1,11 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
-
-<!--  ///////////////////////// JSTL  ////////////////////////// -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<html lang="ko">
-	
+<html>
 <head>
-	<meta charset="EUC-KR">
-	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+<meta charset="UTF-8">
+
+<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -21,69 +14,98 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-		body {
-            padding-top : 50px;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
+<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolbar.jsp" />
+   	<!-- ToolBar End /////////////////////////////////////-->
+
+<!-- CSS-->
+<link rel="stylesheet" href="/css/getUser.css" />
+
+<style>
+
+	body {
+           padding-top : 50px;
+       }
+       
+       
+       .id_ok{
+	color:#064ACB;
+	display: none;
+	font-size : 14px;
+	}
 	
-		//============= "¼öÁ¤"  Event ¿¬°á =============
-		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "button.btn.btn-primary" ).on("click" , function() {
-				fncUpdateUser();
-			});
-		});	
+	.id_already{
+	color:#064ACB; 
+	display: none;
+	font-size : 14px;
+	}
+	
+	.id_ok2{
+	color:#064ACB;
+	display: none;
+	font-size : 14px;
+	}
+	.id_already2{
+	color:#064ACB; 
+	display: none;
+	font-size : 14px;
+	}
+	.doubleChk{
+	color:#064ACB;
+	font-size : 14px;
+	
+	}
+	
+ </style>
+
+<style>
+
+img
+{
+border : 5px solid white;
+width : 200px;
+height : 200px;
+float : center;
+}
+
+</style>
+
+<!--  ìë°”ìŠ¤í¬ë¦½íŠ¸ -->
+<script type="text/javascript">
+
 		
+		   //==>"ë‹‰ë„¤ì„" ì¤‘ë³µê²€ì‚¬ Event ì²˜ë¦¬ ë° ì—°ê²°(ì™„ë£Œ)
+		   
+		   function checkNick(){
+			        var nick = $('#nick').val(); //ë‹‰ë„¤ì„ê°’ì´ "userNickname"ì¸ ì…ë ¥ë€ì˜ ê°’ì„ ì €ì¥
+			        
+			        $.ajax({
+			            url: '/user/json/checkNick', //Controllerì—ì„œ ìš”ì²­ ë°›ì„ ì£¼ì†Œ
+			            method : 'post', //POST ë°©ì‹ìœ¼ë¡œ ì „ë‹¬
+			            dataType : "json",
+			            data:{nick:nick},
+			            
+			            success:function(cnt){ //ì»¨íŠ¸ë¡¤ëŸ¬ì—ì„œ ë„˜ì–´ì˜¨ cntê°’ì„ ë°›ëŠ”ë‹¤ 
+			            	
+			                if(cnt == 0){ //cntê°€ 1ì´ ì•„ë‹ˆë©´(=0ì¼ ê²½ìš°) -> ì‚¬ìš© ê°€ëŠ¥í•œ ë‹‰ë„¤ì„
+			                    $('.id_ok2').css("display","inline-block"); 
+			                    $('.id_already2').css("display", "none");
+			                } else { // cntê°€ 1ì¼ ê²½ìš° -> ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ë‹‰ë„¤ì„
+			                    $('.id_already2').css("display","inline-block");
+			                    $('.id_ok2').css("display", "none");
+			                    alert("ë‹‰ë„¤ì„ì„ ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”");
+			                }
+			            },
+			        });
+			      };
+			      
 		
-		//============= "Ãë¼Ò"  Event Ã³¸® ¹×  ¿¬°á =============
-		$(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
-				$("form")[0].reset();
-			});
-		});	
-		
-		//=============¾ÆÀÌµğ" À¯È¿¼ºCheck  Event Ã³¸® =============
-		 $(function() {
-			 
-			 $("input[name='userEmail']").on("change" , function() {
-					
-				 var userEmail=$("input[name='userEmail']").val();
-			    
-				 if(userEmail != "" && (userEmail.indexOf('@') < 1 || userEmail.indexOf('.') == -1) ){
-			    	alert("ÀÌ¸ŞÀÏ Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù.");
-			     }
-			});
-			 
-		});	
-		
-		///////////////////////////////////////////////////////////////////////
-		function fncUpdateUser() {
-		
-						
-			$("form").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
-		}
-		
-		
-		
-		//ÈŞ´ëÆù ¹øÈ£ ÀÎÁõ
+		//íœ´ëŒ€í° ë²ˆí˜¸ ì¸ì¦
 		 $(function(){
 			 
 		var code2 = "";
 		$("#phoneChk").click(function(){
-			alert("ÀÎÁõ¹øÈ£ ¹ß¼ÛÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.\nÈŞ´ëÆù¿¡¼­ ÀÎÁõ¹øÈ£ È®ÀÎÀ» ÇØÁÖ½Ê½Ã¿À.");
+			alert("ì¸ì¦ë²ˆí˜¸ ë°œì†¡ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.\níœ´ëŒ€í°ì—ì„œ ì¸ì¦ë²ˆí˜¸ í™•ì¸ì„ í•´ì£¼ì‹­ì‹œì˜¤.");
 			var phone = $("#phone").val();
 			$.ajax({
 		        type:"GET",
@@ -91,145 +113,176 @@
 		        cache : false,
 		        success:function(data){
 		        	if(data == "error"){
-		        		alert("ÈŞ´ëÆù ¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.")
-						$(".successPhoneChk").text("À¯È¿ÇÑ ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+		        		alert("íœ´ëŒ€í° ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.")
+						$(".successPhoneChk").text("ìœ íš¨í•œ ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 						$(".successPhoneChk").css("color","red");
 						$("#phone").attr("autofocus",true);
 		        	}else{	        		
 		        		$("#phone2").attr("disabled",false);
 		        		$("#phoneChk2").css("display","inline-block");
-		        		$(".successPhoneChk").text("ÀÎÁõ¹øÈ£¸¦ ÀÔ·ÂÇÑ µÚ º»ÀÎÀÎÁõÀ» ´­·¯ÁÖ½Ê½Ã¿À.");
-		        		$(".successPhoneChk").css("color","green");
+		        		$(".successPhoneChk").text("ì¸ì¦ë²ˆí˜¸ë¥¼ ì…ë ¥í•œ ë’¤ ë³¸ì¸ì¸ì¦ì„ ëˆŒëŸ¬ì£¼ì‹­ì‹œì˜¤.");
+		        		$(".successPhoneChk").css("color","blue");
 		        		$("#phone").attr("readonly",true);
 		        		code2 = data;
 		        	}
 		        }
 		    });
 		});
-
-		//ÈŞ´ëÆù ÀÎÁõ¹øÈ£ ´ëÁ¶
+	
+		//íœ´ëŒ€í° ì¸ì¦ë²ˆí˜¸ ëŒ€ì¡°
 		$("#phoneChk2").click(function(){
 			if($("#phone2").val() == code2){
-				$(".successPhoneChk").text("ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
+				$(".successPhoneChk").text("ì¸ì¦ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.");
 				$(".successPhoneChk").css("color","green");
 				$("#phoneDoubleChk").val("true");
 				$("#phone2").attr("disabled",true);
 			}else{
-				$(".successPhoneChk").text("ÀÎÁõ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù. È®ÀÎÇØÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.");
+				$(".successPhoneChk").text("ì¸ì¦ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. í™•ì¸í•´ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.");
 				$(".successPhoneChk").css("color","red");
 				$("#phoneDoubleChk").val("false");
 				$(this).attr("autofocus",true);
 			}
 		});
+		
    });	
 		
-	
+			//============= "ìˆ˜ì •í•˜ëŸ¬ê°€ê¸°"  Event ì—°ê²° =============
+		 $(function() {
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "#writeBtn" ).on("click" , function() {
+				fncUpdateUser();
+			});
+		});	
+		
+		function fncUpdateUser() {
+			
+			var name=$("input[name='nick']").val();
+			
+			if(name == null || name.length <1){
+				alert("ë‹‰ë„¤ì„ì€  ë°˜ë“œì‹œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.");
+				return;
+			}
+			
+			if ($("#phone").val() == "" || $("#phone").val().length != 11 || isNaN($("#phone").val())) {
+				alert("íœ´ëŒ€í°ë²ˆí˜¸ë¥¼ ì •í™•íˆ ì…ë ¥í•´ ì£¼ì„¸ìš”");
+				return;
+			}
+			
+			$("form").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
+			alert("ìˆ˜ì •ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤")
+		}
+		
+		
+		
+		//============= "ìê¸°ì†Œê°œ ê¸€ììˆ˜ ê²€ì‚¬" =============
+			
+		$(document).ready(function() {
+	    $('#intro').on('keyup', function() {
+	        $('#test_cnt').html("("+$(this).val().length+" / 300)");
+	 
+	        if($(this).val().length > 300) {
+	            $(this).val($(this).val().substring(0, 300));
+	            $('#test_cnt').html("(300 / 300)");
+	        }
+	    });
+	});
+
+		
 	</script>
 	
+
+<title>ê°œì¸ì •ë³´ ìˆ˜ì •</title>
 </head>
-
 <body>
-
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
+	<div class="page_aticle">
+		<div class="type_form getUser">
+			<form id="form" name="frmMember" encType="multipart/form-data" >
+				<div class="field_head">
+					<h3 class="tit">ê°œì¸ì •ë³´ ìˆ˜ì •</h3>
+				</div>
+				
+				<table class="tbl_comm">
+				
+				<tr class="profileImg">
+						<th>í”„ë¡œí•„ì´ë¯¸ì§€</th>
+						<td>
+						<div class="profileImg">
+								<input type="file" class="form-control" id="fileInfo" multiple="multiple"  name="profileImg"> </div>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>ë‹‰ë„¤ì„</th>
+						<td>
+						      <input type="text" class="form-control" id="nick" name="nick" oninput = "checkNick()">
+						   <span id="helpBlock" class="id_ok2">ì‚¬ìš© ê°€ëŠ¥í•œ ë‹‰ë„¤ì„ì…ë‹ˆë‹¤.</span>
+						  <span id="helpBlock" class="id_already2">ì´ë¯¸ ë“±ë¡ëœ ë‹‰ë„¤ì„ì…ë‹ˆë‹¤.</span>
+						  </td>
+					</tr>
+					
+						<tr class="field_phone">
+						<th>íœ´ëŒ€í°</th>
+						<td>
+							<div class="phone_num">
+								<input id="phone" type="text" name="phone" title="ì „í™”ë²ˆí˜¸ ì…ë ¥" placeholder="ì˜ˆ) 01011111111" required/>
+									<span id="phoneChk" class="doubleChk">ì¸ì¦ë²ˆí˜¸ ë³´ë‚´ê¸°</span><br/>
+									<input id="phone2" type="text" name="phone2" title="ì¸ì¦ë²ˆí˜¸ ì…ë ¥" disabled required/>
+									<span id="phoneChk2" class="doubleChk">ë³¸ì¸ì¸ì¦</span>
+								
+									<span class="point successPhoneChk" style ="font-size : 14px"><br>â€» íœ´ëŒ€í° ë²ˆí˜¸ ì…ë ¥ í›„ ì¸ì¦ë²ˆí˜¸ ë³´ë‚´ê¸°ë¥¼ í•´ì£¼ì‹­ì‹œì˜¤.</span>
+									
+									<input type="hidden" id="phoneDoubleChk"/>
+								</div>
+							</td>
+						</tr>
+						
+					
+					<tr class="categNo">
+						<th>ê´€ì‹¬ì‚¬</th>
+						<td>
+						<label class="checked">
+								<input type="radio" name="categNo" value="1" checked="checked">
+								<span class="ico"></span>ìš´ë™
+							</label>
+							<label class="">
+								<input type="radio" name="categNo" value="2">
+								<span class="ico"></span>ì‹ìŠµê´€
+							</label>
+							<label class="">
+								<input type="radio" name="categNo" value="3">
+								<span class="ico"></span>ê³µë¶€
+							</label>
+							<label class="">
+								<input type="radio" name="categNo" value="4">
+								<span class="ico"></span>ì·¨ë¯¸
+							</label>
+							<label class="">
+								<input type="radio" name="categNo" value="5">
+								<span class="ico"></span>ìƒí™œ
+							</label>
+						</td>
+					</tr>
+					
+					<tr class="intro">
+						<th>ìê¸°ì†Œê°œ</th>
+						<td>
+						<div class="intro">
+								<textarea id = "intro" name="intro" cols="30" rows="10" ></textarea>
+								<div id="test_cnt" style ="font-size : 14px">(0 / 300)</div>
+							</div>
+						</td>
+					</tr>
+					</table>
+					
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<div class="page-header text-center">
-	       <h3 class=" text-info">È¸¿øÁ¤º¸¼öÁ¤</h3>
-	       <h5 class="text-muted">³» Á¤º¸¸¦ <strong class="text-danger">ÃÖ½ÅÁ¤º¸·Î °ü¸®</strong>ÇØ ÁÖ¼¼¿ä.</h5>
-	    </div>
-	    
-	    <!-- form Start /////////////////////////////////////-->
-		<form name="detailForm"  class="form-horizontal" encType="multipart/form-data" >
+				<div id="formSubmit" class="form_footer">
+					<div id="checkDiv" class="checkDiv"></div>
+					<button type="button" class="btn active btn_join" id="writeBtn">ìˆ˜ì • í•˜ëŸ¬ê°€ê¸°</button>
+				</div>
+			</form>
+		</div>
 		
-		  <div class="form-group">
-		    <label for="userEmail" class="col-sm-offset-1 col-sm-3 control-label">¾Æ ÀÌ µğ</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userEmail" name="userEmail" value="${user.userEmail }" placeholder="Áßº¹È®ÀÎÇÏ¼¼¿ä"  readonly>
-		       <span id="helpBlock" class="help-block">
-		      	<strong class="text-danger">¾ÆÀÌµğ´Â ¼öÁ¤ºÒ°¡</strong>
-		      </span>
-		    </div>
-		  </div>
-		  
-		  
-		  <div class="form-group">
-		    <label for="nick" class="col-sm-offset-1 col-sm-3 control-label">´Ğ³×ÀÓ</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="nick" name="nick" value="${user.nick}" placeholder="º¯°æ´Ğ³×ÀÓ">
-		    </div>
-		  </div>
-		  
-		    <div class="form-group">
-		    <label for="intro" class="col-sm-offset-1 col-sm-3 control-label">ÀÚ±â¼Ò°³</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="intro" name="intro" value="${user.intro}" placeholder="ÀÚ±â¼Ò°³¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä">
-		    </div>
-		  </div>
-		  
-		  	<div class="form-group">
-	   		 <label for="profileImg" class="col-sm-offset-1 col-sm-3 control-label"> ÇÁ·ÎÇÊ ÀÌ¹ÌÁö </label>
-		 	   <div class="col-sm-4">
-		      <input type="file" class="form-control" id="fileInfo" multiple="multiple"  name="fileInfo">
-	    		</div>
-	    	
-		     </div> 
-		  
-			
-		  
-		   <tr class="mobileNo">
-		<th>
-			<label for="phone">ÈŞ´ëÆù ¹øÈ£ º¯°æ</label>
-		</th>
-		<td>
-			<p>
-				<input id="phone" type="text" name="phone" title="ÀüÈ­¹øÈ£ ÀÔ·Â" required/>
-				<span id="phoneChk" class="doubleChk">ÀÎÁõ¹øÈ£ º¸³»±â</span><br/>
-				<input id="phone2" type="text" name="phone2" title="ÀÎÁõ¹øÈ£ ÀÔ·Â" disabled required/>
-				<span id="phoneChk2" class="doubleChk">º»ÀÎÀÎÁõ</span>
-				<span class="point successPhoneChk">ÈŞ´ëÆù ¹øÈ£ ÀÔ·ÂÈÄ ÀÎÁõ¹øÈ£ º¸³»±â¸¦ ÇØÁÖ½Ê½Ã¿À.</span>
-				<input type="hidden" id="phoneDoubleChk"/>
-			</p>
-			<p class="tip">
-				º¯°æÇÒ ÈŞ´ëÆù¹øÈ£¿¡ ÀÎÁõ¹øÈ£¸¦ º¸³» º»ÀÎÀÎÁõÀ» ¿Ï·áÇØÁÖ¼¼¿ä. 
-			</p>
-		</td>
-	</tr>
-	
-	
-	
-	 <div class="form-group">
-		    <label for="categNo" class="col-sm-offset-1 col-sm-3 control-label" >°ü½É»ç</label>
-		    <div class="col-sm-4">
-		      <input type="checkbox" id="sports" name="categNo" value="1">
-					<label for="sports">¿îµ¿</label>
-					<input type="checkbox" id="eatingHabit" name="categNo" value="2">
-					<label for="eatingHabit">½Ä½À°ü</label>
-					<input type="checkbox" id="studying" name="categNo" value="3">
-					<label for="studying">°øºÎ</label>
-					<input type="checkbox" id="hobby" name="categNo" value="4">
-					<label for="hobby">Ãë¹Ì</label>
-					<input type="checkbox" id="life" name="categNo" value="5">
-					<label for="life">»ıÈ°</label>
-		    </div>
-		  </div>
-	
-
-		  <div class="form-group">
-		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >¼ö &nbsp;Á¤</button>
-			  <a class="btn btn-primary btn" href="#" role="button">Ãë &nbsp;¼Ò</a>
-		    </div>
-		  </div>
-		</form>
-		<!-- form Start /////////////////////////////////////-->
-	    
- 	</div>
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
- 	
+		
+	</div>
 </body>
-
 </html>
