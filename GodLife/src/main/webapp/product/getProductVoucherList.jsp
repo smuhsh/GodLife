@@ -207,12 +207,13 @@ div.box {
       <!-- ToolBar End /////////////////////////////////////-->
 
       <!--  화면구성 div Start /////////////////////////////////////-->
+      <br><br>
       <div class="container">
 
          <!-- 상품 이미지 위쪽 /////////////////////////////////////-->
          <div class="row" style="height: 150px; width: 1400px;">
             <div class="col-md-6 text-right">
-               <h1 class="text-primary font-weight-bold" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">상품권 상품 전체목록</h1>
+               <h2 class="text-primary font-weight-bold" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">상품권 상품 전체목록</h2>
          	</div>
 
          	 <div class="col-md-6 text-right"> 

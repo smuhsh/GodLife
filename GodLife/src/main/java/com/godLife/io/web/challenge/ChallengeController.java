@@ -1,8 +1,12 @@
 package com.godLife.io.web.challenge;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +29,7 @@ import com.godLife.io.common.ChallengeUtil;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.challenge.ChallengeService;
+import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
 import com.godLife.io.service.domain.Point;
@@ -470,6 +476,7 @@ public class ChallengeController {
 		
 		User user = (User)session.getAttribute("user");
 		
+		
 		joinChallenger.setEmail(user.getUserEmail());
 		joinChallenger.setChallengeNo(challenge.getChallengeNo());
 		joinChallenger.setStatus("1");
@@ -488,4 +495,137 @@ public class ChallengeController {
 	}
 	
 	
+	@RequestMapping("listChallengeMyCertiImg")
+	public String listchallengeMycertiImg(@ModelAttribute Challenge challenge,
+										  HttpSession session,
+										  Model model,
+										  Map<String,Object> map) {
+		
+		User user = (User)session.getAttribute("user");
+		map.put("challengeNo", challenge.getChallengeNo());
+		map.put("user", user);
+		challenge = challengeService.getChallenge(map);
+		
+		System.out.println("userEmail : "+map.get("user"));
+		
+		JoinChallenger joinChallenger = challengeService.getChallengeJoiner(map);
+
+		map.put("email", user.getUserEmail());
+		List<CertiImg> certiImgList = challengeService.getChallengeJoinCertiImgList(map);
+		
+		
+		Vector<CertiImg> certiImgs = new Vector(challenge.getTotalCertiCount());
+		
+		System.out.println("certiImgs capacity "+certiImgs.capacity());
+		System.out.println("certiImgList size "+certiImgList.size());
+		
+		System.out.println("Challenge CertiDate :"+challenge.getCertiDate());
+		
+		for(int i=0; i<certiImgs.capacity(); i++) { 
+			if(i>=certiImgList.size()) { 
+				CertiImg certiImg = new CertiImg();
+				certiImg.setCertiImg("temp.jpg");
+				certiImg.setCertiDate(challenge.getCertiDate().get(i));
+				certiImgs.add(certiImg);
+			}else {
+				certiImgList.get(i).setCertiDate((String)challenge.getCertiDate().get(i));
+				certiImgs.add(certiImgList.get(i));//이미지 밀림 방지로 regDate랑 인증 날짜랑 비교해야됨.
+				//두번째 쿠폰 이미지인가? 그럼 바로 넣는다. 그래도 아니라면 대체이미지인 temp.jpg...
+			}
+		}
+		
+		System.out.println("certiImgs "+certiImgs);
+		
+		model.addAttribute("certiImgs",certiImgs);
+		model.addAttribute("joinChallenger",joinChallenger);
+		
+		return "forward:/challenge/listChallengeJoinCertiImg.jsp";
+	}
+	
+	
+	
+	@RequestMapping(value="addChallengeCertiImg",method=RequestMethod.GET)
+	public String addChallengeCertiImg(@ModelAttribute Challenge challenge,
+									   Model model) {
+		
+		model.addAttribute("challenge",challenge);
+		return "forward:/challenge/addChallengeCertiImg.jsp";	
+	}
+	
+	@RequestMapping(value="addChallengeCertiImg",method=RequestMethod.POST)
+	public String addChallengeCertiImg(CertiImg certiImg,
+									   @ModelAttribute Challenge challenge,
+									   MultipartHttpServletRequest mtfRequest,
+									   HttpSession session) throws IllegalStateException, IOException {
+		
+		User user = (User)session.getAttribute("user");
+		
+		String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
+		
+		MultipartFile mf = mtfRequest.getFile("certiImg");
+		
+		String originFileName = mf.getOriginalFilename();
+		
+		certiImg.setChallengeNo(challenge.getChallengeNo());
+		certiImg.setEmail(user.getUserEmail());
+		certiImg.setCertiImg(System.currentTimeMillis()+originFileName);
+		
+		mf.transferTo(new File(path+certiImg.getCertiImg()));
+		
+		return "/challenge/listChallengeMyCertiImg?challengeNo="+challenge.getChallengeNo();
+	}
+	
+	
+	
+	
+	
+	///////////Scheduled////////////////////
+	
+	@Scheduled(cron = "0 0 0 * * *")
+	public void updateChallengeStart() throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int date = cal.get(Calendar.DATE);
+		
+		String monthString = ""+month;
+		
+		
+		if(monthString.length() != 2) {
+			monthString = 0+monthString;
+		}
+		
+		String nowDate = year+"-"+monthString+"-"+date;
+		
+		map.put("nowDate", nowDate);
+		map.put("status", "1");
+		
+		challengeService.updateChallengeStatus(map);
+				
+	}
+	
+	@Scheduled(cron = "0 0 23 * * *")
+	public void updateChallengeEnd() throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int date = cal.get(Calendar.DATE);
+		
+		String monthString = ""+month;
+		
+		
+		if(monthString.length() != 2) {
+			monthString = 0+monthString;
+		}
+		
+		String nowDate = year+"-"+monthString+"-"+date;
+		
+		map.put("nowDate", nowDate);
+		map.put("status", "2");
+			
+		challengeService.updateChallengeStatus(map);
+	}
 }

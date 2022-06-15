@@ -230,6 +230,7 @@ public class UserServiceImpl implements UserService{
 		return map;
 	}
 	
+	
 	public Map<String , Object > getSendMsgList(Search search, String sendEmail) throws Exception {
 		int totalCount = userDao.getTotalCount(search);
 

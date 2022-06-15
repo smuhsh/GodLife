@@ -22,9 +22,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	
+	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   
+      <link href="../css/kfonts2.css" rel="stylesheet">
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
@@ -33,13 +36,39 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  
+  <!-- 상단바삽입 -->
+	<jsp:include page="/layout/toolbar.jsp" />
+	
+	<!-- 왼쪽 레이아웃 삽입-->
+		<jsp:include page="/user/mypageMain.jsp" />
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	  body {
-            padding-top : 50px;
-        }
+	 
+        h2{
+                font-size: 2.3rem;
+            }
+            
+            #head_aticle{
+            padding-top : 80px;
+            }
+            
+            #container{
+            padding-left: 250px;
+            }
+            
+            #caption{
+            font-size: 15px;
+            }
+            
+            h3{
+            font-size: 15px;
+            }
+            
     </style>
+    
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
@@ -47,7 +76,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listFriendRequest").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listFriendRequest?").submit();
 		}
 		
 		//============= "검색"  Event  처리 =============	
@@ -58,43 +87,25 @@
 			});
 		 });
 		
-		
-		//============= userEmail 에 회원정보보기  Event  처리(Click) =============	
-		 $(function() {
-		
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(2)" ).on("click" , function() {
-				 self.location ="/user/getUser?userEmail="+$(this).text().trim();
-			});
-						
-			//==> userEmail LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(2)" ).css("color" , "green");
-			
-		});	
-		
-
 	</script>
 	
 </head>
 
 <body>
 	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+
+	<div class="container" id="container" >
 	
-		<div class="page-header text-info">
-	       <h3>친구 요청 목록조회</h3>
+		<div class="head_aticle" align="center" id = "head_aticle">
+	      <h2 class="tit" style="color: #333;">친구요청 관리</h2>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-	    <div class="row">
+	    <div class="row" >
 	    
 		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
+		    	<p class="text-secondary" >
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
 		    </div>
@@ -116,17 +127,20 @@
 				  
 				  <button type="button" class="btn btn-default">검색</button>
 				  
+				  
+				  
+				  
+				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 				</form>
-	    	</div>
+	    
 	    	
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
 		
-      <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped" >
       
         <thead>

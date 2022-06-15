@@ -125,6 +125,24 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 
+	@Override
+	public void updateChallengeStatus(Map<String, Object> map) {
+		challengeDao.updateChallengeStatus(map);
+	}
+
+
+	@Override
+	public JoinChallenger getChallengeJoiner(Map<String, Object> map) {
+		return challengeDao.getChallengeJoiner(map);
+	}
+
+
+	@Override
+	public List<JoinChallenger> getChallengeJoinerList(int challengeNo) {
+		return challengeDao.getChallengeJoinerList(challengeNo);
+	}
+
+
 	
 
 }

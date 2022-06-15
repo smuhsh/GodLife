@@ -82,14 +82,17 @@
     letter-spacing: -.5px;
 }
 
+
 .getUser .tbl_comm {
     width: 100%;
-    border-top: 2px solid #333;
+   border-top: 2px solid #333;
 }
+
 
 .getUser .tbl_comm .fst th {
     padding-top: 29px;
 }
+
 
 .getUser th .ico {
     color: #ee6a7b;
