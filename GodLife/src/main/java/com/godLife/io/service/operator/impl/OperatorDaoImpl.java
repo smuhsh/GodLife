@@ -51,9 +51,17 @@ public class OperatorDaoImpl implements OperatorDao{
 		sqlSession.insert("OperatorMapper.addOperatorReward", operatorReward);
 	}
 	
-	public void addOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+//	public void addOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+//		//sqlSession.insert("OperatorNoticeFaqsMapper.addOperatorNoticeFaqs",operatorNoticeFaqs);
+//		sqlSession.insert("OperatorMapper.addOperatorNoticeFaqs", operatorNoticeFaqs);
+//	}
+	public void addOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception {
 		//sqlSession.insert("OperatorNoticeFaqsMapper.addOperatorNoticeFaqs",operatorNoticeFaqs);
-		sqlSession.insert("OperatorMapper.addOperatorNoticeFaqs", operatorNoticeFaqs);
+		sqlSession.insert("OperatorMapper.addOperatorNotice", operatorNotice);
+	}
+	public void addOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception {
+		//sqlSession.insert("OperatorNoticeFaqsMapper.addOperatorNoticeFaqs",operatorNoticeFaqs);
+		sqlSession.insert("OperatorMapper.addOperatorFaqs", operatorFaqs);
 	}
 	
 	///Method get
@@ -74,9 +82,18 @@ public class OperatorDaoImpl implements OperatorDao{
 		return sqlSession.selectOne("OperatorMapper.getOperatorReward",rewardNo);
 	}
 	
-	public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception {
-		//return sqlSession.selectOne("OperatorNoticeFaqsMapper.getOperatorNoticeFaqs",noticeFaqNo);
-		return sqlSession.selectOne("OperatorMapper.getOperatorNoticeFaqs",noticeFaqNo);
+//	public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception {
+//		//return sqlSession.selectOne("OperatorNoticeFaqsMapper.getOperatorNoticeFaqs",noticeFaqNo);
+//		return sqlSession.selectOne("OperatorMapper.getOperatorNoticeFaqs",noticeFaqNo);
+//	}
+	public OperatorNoticeFaqs getOperatorNotice(int noticeFaqNo) throws Exception {
+		return sqlSession.selectOne("OperatorMapper.getOperatorNotice",noticeFaqNo);
+	}
+//	public OperatorNoticeFaqs getOperatorFaqs(int noticeFaqNo) throws Exception {
+//		return sqlSession.selectOne("OperatorMapper.getOperatorFaqs",noticeFaqNo);
+//	}
+	public OperatorNoticeFaqs getOperatorFaqs(String title) throws Exception {
+		return sqlSession.selectOne("OperatorMapper.getOperatorFaqs",title);
 	}
 	
 	///Method List
@@ -95,25 +112,59 @@ public class OperatorDaoImpl implements OperatorDao{
 //		//return sqlSession.selectList("OperatorNoticeFaqsMapper.getOperatorNoticeFaqsList",search);
 //		return sqlSession.selectList("OperatorMapper.getOperatorNoticeFaqsList",search);
 //	}
-	public Map<String, Object> getOperatorNoticeFaqsList(Search search, User user, OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+	
+//	public Map<String, Object> getOperatorNoticeFaqsList(Search search, User user, OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		String userEmail=user.getUserEmail();
+//		String title = operatorNoticeFaqs.getTitle();
+//		Date regDate = operatorNoticeFaqs.getRegDate();
+//		
+//		map.put("userEmail",userEmail);
+//		map.put("title",title);
+//		map.put("regDate",regDate);
+//		
+//		List<OperatorNoticeFaqs> list = sqlSession.selectList("OperatorMapper.getOperatorNoticeFaqsList", map);
+//		System.out.println("@@@@@@@@@@dao list : "+list);
+//		map.put("list", list);
+//		
+//		return map;				
+//	}	
+	public Map<String, Object> getOperatorNoticeList(Search search, User user, OperatorNoticeFaqs operatorNotice) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		String userEmail=user.getUserEmail();
-		String title = operatorNoticeFaqs.getTitle();
-		Date regDate = operatorNoticeFaqs.getRegDate();
+		String title = operatorNotice.getTitle();
+		Date regDate = operatorNotice.getRegDate();
 		
 		map.put("userEmail",userEmail);
 		map.put("title",title);
 		map.put("regDate",regDate);
 		
-		List<OperatorNoticeFaqs> list = sqlSession.selectList("OperatorMapper.getOperatorNoticeFaqsList", map);
+		List<OperatorNoticeFaqs> list = sqlSession.selectList("OperatorMapper.getOperatorNoticeList", map);
 		System.out.println("@@@@@@@@@@dao list : "+list);
 		map.put("list", list);
 		
-		return map;
-		
-		
+		return map;				
 	}	
+	public Map<String, Object> getOperatorFaqsList(Search search, User user, OperatorNoticeFaqs operatorFaqs) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String userEmail=user.getUserEmail();
+		String title = operatorFaqs.getTitle();
+		Date regDate = operatorFaqs.getRegDate();
+		
+		map.put("userEmail",userEmail);
+		map.put("title",title);
+		map.put("regDate",regDate);
+		
+		List<OperatorNoticeFaqs> list = sqlSession.selectList("OperatorMapper.getOperatorFaqsList", map);
+		System.out.println("@@@@@@@@@@dao list : "+list);
+		map.put("list", list);
+		
+		return map;				
+	}	
+	
 	///Method Update
 	public void updateOperatorEvents(OperatorEvents operatorEvents) throws Exception {
 		//sqlSession.update("OperatorEventsMapper.updateOperatorEvents",operatorEvents);
@@ -154,9 +205,17 @@ public class OperatorDaoImpl implements OperatorDao{
 		sqlSession.update("OperatorMapper.updateOperatorRoullReward", operatorRoullReward);
 	}
 
-	public void updateOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+//	public void updateOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+//		//sqlSession.update("OperatorNoticeFaqsMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
+//		sqlSession.update("OperatorMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
+//	}
+	public void updateOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception {
 		//sqlSession.update("OperatorNoticeFaqsMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
-		sqlSession.update("OperatorMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
+		sqlSession.update("OperatorMapper.updateOperatorNotice",operatorNotice);
+	}
+	public void updateOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception {
+		//sqlSession.update("OperatorNoticeFaqsMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
+		sqlSession.update("OperatorMapper.updateOperatorFaqs",operatorFaqs);
 	}
 
 	//Method delete
@@ -165,9 +224,17 @@ public class OperatorDaoImpl implements OperatorDao{
 		sqlSession.delete("OperatorMapper.deleteOperatorEvents",operatorEvents);		
 	}
 	
-	public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+//	public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+//		//sqlSession.delete("OperatorNoticeFaqsMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
+//		sqlSession.delete("OperatorMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
+//	}
+	public void deleteOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception {
 		//sqlSession.delete("OperatorNoticeFaqsMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
-		sqlSession.delete("OperatorMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
+		sqlSession.delete("OperatorMapper.deleteOperatorNotice",operatorNotice);								
+	}
+	public void deleteOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception {
+		//sqlSession.delete("OperatorNoticeFaqsMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
+		sqlSession.delete("OperatorMapper.deleteOperatorFaqs",operatorFaqs);								
 	}
 	
 	//Page Row(totalCount)  return
@@ -191,9 +258,15 @@ public class OperatorDaoImpl implements OperatorDao{
 		return sqlSession.selectOne("OperatorMapper.getOperatorRewardTotalCount");
 	}
 
-	public int getOperatorNoticeFaqsTotalCount(Search search) throws Exception {
-		//return sqlSession.selectOne("OperatorNoticeFaqsMapper.getOperatorNoticeFaqsTotalCount");
-		return sqlSession.selectOne("OperatorMapper.getOperatorNoticeFaqsTotalCount");
+//	public int getOperatorNoticeFaqsTotalCount(Search search) throws Exception {
+//		//return sqlSession.selectOne("OperatorNoticeFaqsMapper.getOperatorNoticeFaqsTotalCount");
+//		return sqlSession.selectOne("OperatorMapper.getOperatorNoticeFaqsTotalCount");
+//	}
+	public int getOperatorNoticeTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("OperatorMapper.getOperatorNoticeTotalCount");
+	}
+	public int getOperatorFaqsTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("OperatorMapper.getOperatorFaqsTotalCount");
 	}
 
 

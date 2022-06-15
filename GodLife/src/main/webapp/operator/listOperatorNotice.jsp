@@ -24,22 +24,23 @@
     </style>
 	<script type="text/javascript">
 	
+	
 		function fncGetList(currentPage) {
 			
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/operator/listOperatorNoticeFaqs").submit();	
+			$("form").attr("method" , "POST").attr("action" , "/operator/listOperatorNotice").submit();	
 		}
 		
 		$(function() {
 			 
 			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
-					self.location ="/operator/getOperatorNoticeFaqs?noticeFaqNo="+$(this).data("value");
+					self.location ="/operator/getOperatorNotice?noticeFaqNo="+$(this).data("value");
 			});
 			
 			var noticeFaqNo = $(this).text().trim();
 			$.ajax( 
 					{
-						url : "/operator/json/getOperatorNoticeFaqs/"+noticeFaqNo ,
+						url : "/operator/json/getOperatorNotice/"+noticeFaqNo ,
 						method : "GET" ,
 						dataType : "json" ,
 						headers : {
@@ -75,6 +76,7 @@
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
+	
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -121,22 +123,34 @@
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 
 <!-- 새글쓰기 누를 때 -->
-<form action="/operator/addOperatorNoticeFaqs" method="post">
+  <form action="/operator/addOperatorNotice" method="GET">
 
 	<!-- 새글의 계층 정보 -->
 	<button type="submit" class="btn btn-secondary mb-3">글쓰기</button>
 </form>		
+
+
+
 		
 <table class="table table-striped">
 	<tr>
 		<td colspan="11">전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage } 페이지</td>
 	</tr>
 	<tr>
-		<th scope="col" class="text-center">번호</th>
+		<td>번호<br></td>
+		<td></td>
+		<td>제목</td>
+		<td></td>
+		<td>작성자</td>
+		<td>작성일</td>
+		<td></td>
+	
+	
+<!--  		<th scope="col" class="text-center">번호</th>
 		<th scope="col" class="text-center">제목</th>
 		<th scope="col" class="text-center">작성자</th>
 		<th scope="col" class="text-center">작성일</th>
-
+-->
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
@@ -148,12 +162,14 @@
 		<tr class="ct_list_pop">
 		<td align="center">${ i }</td>
 		<td></td>
-			  <td align="left" data-value="${ NoticeFaqs.noticeFaqNo }" title="Click : 상품정보 확인">${ NoticeFaqs.title }</td>
+			  <td align="left" data-value="${ NoticeFaqs.noticeFaqNo }" title="Click :내용보기">${ NoticeFaqs.title }</td>
+			  <td align="left">
+			  <input type="hidden" value="${NoticeFaqs.noticeFaqNo}"></td>
+
 			  <td align="left">${ NoticeFaqs.userEmail }</td>
 			  <td align="left">${ NoticeFaqs.regDate }</td>
 			  <td align="left">
-			  	
-			  	<input type="hidden" value="${NoticeFaqs.noticeFaqNo}">
+			  <input type="hidden" value="${NoticeFaqs.noticeFaqNo}">
 			  </td>
 	</tr>	
 	</c:forEach>

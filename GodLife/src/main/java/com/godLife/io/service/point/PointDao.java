@@ -22,7 +22,7 @@ public interface PointDao {
 	
 	public int getTotalCount(Search search,User user);
 	
-	public int getVoucherTotalCount(User user);
+	public int getVoucherTotalCount(Search search,User user);
 	
 	public int getDonationTotalCount(Search search,User user);
 }
