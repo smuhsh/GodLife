@@ -22,6 +22,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	
+	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
@@ -35,20 +36,39 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  
+  <!-- 상단바삽입 -->
+	<jsp:include page="/layout/toolbar.jsp" />
+	
+	<!-- 왼쪽 레이아웃 삽입-->
+		<jsp:include page="/user/mypageMain.jsp" />
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	  body {
-            padding-top : 50px;
-        }
-        
-        h3{
-                font-size: 2.0rem;
+	 
+        h2{
+                font-size: 2.3rem;
+            }
+            
+            #head_aticle{
+            padding-top : 80px;
+            }
+            
+            #container{
+            padding-left: 250px;
+            }
+            
+            #caption{
+            font-size: 15px;
+            }
+            
+            h3{
+            font-size: 15px;
             }
             
     </style>
     
-    <link rel="stylesheet" href="/css/listFriendBlack.css" />
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
@@ -56,7 +76,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listFriend").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listFriend?userEmail=${user.userEmail}").submit();
 		}
 		
 		//============= "검색"  Event  처리 =============	
@@ -68,19 +88,6 @@
 		 });
 		
 		
-		//============= userEmail 에 회원정보보기  Event  처리(Click) =============	
-		 $(function() {
-		
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "td:nth-child(3)" ).on("click" , function() {
-				 self.location ="/user/getUserTarget?nick="+$(this).text().trim();
-			});
-						
-			//==> userEmail LINK Event End User 에게 보일수 있도록 
-			$( "td:nth-child(3)" ).css("color" , "green");
-			
-		});	
-		
 
 	</script>
 	
@@ -90,15 +97,14 @@
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	
+	<div class="container" id="container" >
 	
-	<div class="container" >
-	
-		<div class="head_aticle" align="center">
+		<div class="head_aticle" align="center" id = "head_aticle">
 	      <h2 class="tit" style="color: #333;">나의 친구 목록조회</h2>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-	    <div class="row">
+	    <div class="row" >
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-secondary" >
@@ -127,7 +133,7 @@
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 				</form>
-	    	</div>
+	    
 	    	
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -136,24 +142,28 @@
       <!--  table Start /////////////////////////////////////-->
       		<br></br>
       		
-		<c:forEach var="user" items="${list}">
-		<div class="col-sm-3 col-md-3 " >
+      		
+      		 <c:set var="i" value="0" />
+	   <c:forEach var="user" items="${list}">
+		<c:set var="i" value="${ i+1 }" />
+		<div class="col-sm-3 col-md-3 "  id= "md3">
       <div class="thumbnail"  style="height: 300px;"   >
        <img class="img-responsive" src="/images/uploadFiles/${user.profileImg }"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;" > 
      
           <div class="caption"  id = "caption">
             <h3> ${ user.userEmail } </h3>
             <p>닉네임  :${user.nick}</p>
-
             
+            <input type="hidden" value="${user.userEmail}">
             </div>
+            
       </div>
     </div> 
-
-
+    
 	</c:forEach>	
 
 </div>
+	</div>
 		
 		
 		
