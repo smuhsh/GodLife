@@ -20,5 +20,6 @@ public interface PointService {
 	
 	public Map<String,Object> getPointPurchaseDonationRank(Point point) throws Exception;
 	
+	public void sendPointVoucher(Map<String, Object> map) throws Exception;
 }
 

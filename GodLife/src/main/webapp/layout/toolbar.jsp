@@ -9,7 +9,7 @@
 <title>GodLife</title>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
-<link rel="stylesheet" href="/css/toolbar.css" />
+<link rel="stylesheet" href="/css/toolbar.css"  />
 
 <style type="text/css">
 </style>
@@ -40,7 +40,7 @@
 						<li><a href="링크">포인트 구매</a></li>
 						<li><a href="링크">상품권 구매</a></li>
 						<li><a href="링크">쿠폰 구매</a></li>
-						<li><a href="링크">기부하기</a></li>
+						<li><a href="/point/addPointDonationView">기부하기</a></li>
 						
 						</ul>
 						</li>
