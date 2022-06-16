@@ -61,10 +61,6 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("UserMapper.getUser", userEmail);
 	}
 	
-	public List<User> getUserTarget(String nick) throws Exception {
-		return sqlSession.selectOne("UserMapper.getUserTarget", nick);
-	}
-	
 	public void updatePwd(User user) throws Exception {
 		sqlSession.update("UserMapper.updatePwd", user);
 	}
@@ -153,9 +149,20 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.update("FriendBlackMapper.updateAccStatus", friendBlack);
 	}
 	
+	public void deleteFriendRequest(FriendBlack friendBlack) throws Exception {
+		sqlSession.delete("FriendBlackMapper.deleteFriendRequest", friendBlack);
+	}
+	
 	public void deleteFriend(FriendBlack friendBlack) throws Exception {
 		sqlSession.delete("FriendBlackMapper.deleteFriend", friendBlack);
 	}
+	
+	// 친구신청 중복검사
+	public int isAlreadyAppliedFriend(Map<String, String> map) {
+		return sqlSession.selectOne("FriendBlackMapper.isAlreadyAppliedFriend", map);
+	}
+	
+	
 	
 	
 	//================쪽지================================================
@@ -275,13 +282,16 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	
+	
+	//==========================================================================================================
+	
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. 
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 		}
 	
 	
-	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. 
+	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. (받은쪽지 목록조회) 
 	public int getUserRecvMsgTotalCount(Search search, String recvEmail) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>(); 
@@ -292,6 +302,39 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("MsgMapper.getUserRecvMsgTotalCount", map);
 		
 		}
+	
+	
+	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. (친구목록조회)
+	public int getUserFriendListTotalCount(Search search, String userEmail) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		
+		map.put("search", search);
+		map.put("userEmail", userEmail);
+		
+		return sqlSession.selectOne("FriendBlackMapper.getUserFriendListTotalCount", map);
+		}
+	
+   // 게시판 Page 처리를 위한 전체 Row(totalCount)  return. (친구요청 목록조회)
+	public int getUserFriendRequestListTotalCount(Search search, String targetEmail) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		map.put("search", search);
+		map.put("targetEmail", targetEmail);
+		return sqlSession.selectOne("FriendBlackMapper.getUserFriendRequestListTotalCount", map);
+		}
+	
+ // 게시판 Page 처리를 위한 전체 Row(totalCount)  return. (블랙리스트 목록조회)
+	public int getUserBlackListTotalCount(Search search, String userEmail) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		map.put("search", search);
+		map.put("userEmail", userEmail);
+		return sqlSession.selectOne("FriendBlackMapper.getUserBlackListTotalCount", map);
+		}
+
+	
+	
 	
 	
 	

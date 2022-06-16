@@ -1,29 +1,37 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
+<!DOCTYPE html>
 <html>
 <head>
 <title>공지사항</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
+<meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<!--   jQuery , Bootstrap CDN  -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+
 	<style>
 	  body {
             padding-top : 70px;
         }
         
     </style>
+    
 	<script type="text/javascript">
-	
 	
 		function fncGetList(currentPage) {
 			
@@ -32,6 +40,11 @@
 		}
 		
 		$(function() {
+
+			$( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+				fncGetList(1);
+			});
+
 			 
 			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
 					self.location ="/operator/getOperatorNotice?noticeFaqNo="+$(this).data("value");
@@ -100,57 +113,35 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
+				    <!--  
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>번호</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>번호</option>-->
+						<option value="0" ${search.orderCondition == 0 ? "selected" : "" }>제목</option>
+						<option value="1" ${search.orderCondition == 1 ? "selected" : ""}>번호</option>
+
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
-				  
-				  <button type="button" class="btn btn-default">검색</button>
-				  
-				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
-				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
-				  
+			    	<input type="text" class="form-control" id="searchKeyword" name="searchKeyword" placeholder="검색어">
+				  </div>			  
+				  <button class="btn btn-default" id="search">검색</button>				  
 				</form>
 	    	</div>
 	    	
 		</div>
-		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
-
-<!-- 새글쓰기 누를 때 -->
-  <form action="/operator/addOperatorNotice" method="GET">
-
-	<!-- 새글의 계층 정보 -->
-	<button type="submit" class="btn btn-secondary mb-3">글쓰기</button>
-</form>		
-
-
-
 		
 <table class="table table-striped">
 	<tr>
-		<td colspan="11">전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage } 페이지</td>
-	</tr>
-	<tr>
+		<br></br>
 		<td>번호<br></td>
 		<td></td>
 		<td>제목</td>
 		<td></td>
 		<td>작성자</td>
 		<td>작성일</td>
-		<td></td>
-	
-	
-<!--  		<th scope="col" class="text-center">번호</th>
-		<th scope="col" class="text-center">제목</th>
-		<th scope="col" class="text-center">작성자</th>
-		<th scope="col" class="text-center">작성일</th>
--->
+		<td></td>	
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
@@ -175,6 +166,8 @@
 	</c:forEach>
 </table>	
 
+
+
 	
 <!--  페이지 Navigator 시작 -->
 
@@ -190,7 +183,15 @@
 </table>
 <!--  페이지 Navigator 끝 -->
 
-</form>
+
+<!-- 새글쓰기 누를 때 -->
+<form action="/operator/addOperatorNotice" method="GET">
+<input type="submit" class="btn btn-primary " value="글쓰기"/>
+
+<!-- 새글의 계층 정보 -->
+<!--  <button type="submit" class="btn btn-secondary mb-3">글쓰기</button>-->
+</form>		
+
 
 </div>
 

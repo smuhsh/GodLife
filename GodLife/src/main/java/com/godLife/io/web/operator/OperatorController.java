@@ -264,7 +264,7 @@ public class OperatorController {
 	
 	@RequestMapping(value="addOperatorFaqs", method=RequestMethod.POST)
 	public String addOperatorFaqs(@ModelAttribute("operatorFaqs") OperatorNoticeFaqs operatorFaqs) throws Exception {		
-		System.out.println("/operator/addOperatorNotice : POST");
+		System.out.println("/operator/addOperatorFaqs : POST");
 		//Business Logic
 		operatorService.addOperatorFaqs(operatorFaqs);		
 		return "redirect:/operator/addOperatorFaqs.jsp";

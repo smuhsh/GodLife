@@ -22,9 +22,6 @@ public interface UserDao {
 	// 본인정보 상세조회, 로그인 
 	public User getUser(String userEmail) throws Exception ;
 	
-	// 타유저 상세조회 
-	public List<User> getUserTarget(String nick) throws Exception ;
-	
 	// 비밀번호 변경 
 	public void updatePwd(User user) throws Exception ;
 	
@@ -46,7 +43,6 @@ public interface UserDao {
 	
 	
 	// 유저상세조회
-	
 	
 	// id 중복체크
 	public int checkUserEmail(String userEmail) throws Exception;
@@ -76,10 +72,18 @@ public interface UserDao {
 	// 친구요청 수락 >  acc_status 변경  
 	public void updateAccStatus(FriendBlack friendBlack) throws Exception ;
 	
-	// 친구요청 거절, 삭제 >  친구블랙리스트 테이블에서 삭제 
+	// 친구요청 거절
+	public void deleteFriendRequest(FriendBlack friendBlack) throws Exception ;
+	
+	//친구 삭제 
 	public void deleteFriend(FriendBlack friendBlack) throws Exception ;
 	
-	// 친구 중복 방지 
+	//블랙리스트 삭제
+	
+	
+	// 친구신청 중복검사
+     public int isAlreadyAppliedFriend(Map<String, String> map);
+	
 	
 	
 	
@@ -160,16 +164,22 @@ public interface UserDao {
     // 병문오빠 추가 
     public void updateUserCertiCouponCount(User user) throws Exception;
     
-    
+ //========================================================================================   
     
 	// 게시판 Page 처리를 위한 전체Row(totalCount) return, usermapper 
 	public int getTotalCount(Search search) throws Exception ;
 	
-	
 	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 받은 쪽지 목록조회 
 	public int getUserRecvMsgTotalCount(Search search, String recvEmail) throws Exception ;
 	
-
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 나의 친구 목록조회
+	public int getUserFriendListTotalCount(Search search, String userEmail) throws Exception ;
+	
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 나의 친구 요청 목록조회
+	public int getUserFriendRequestListTotalCount(Search search, String targetEmail) throws Exception ;
+	
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 나의 블랙리스트 목록조회
+	public int getUserBlackListTotalCount(Search search, String userEmail) throws Exception ;
 
 
 }

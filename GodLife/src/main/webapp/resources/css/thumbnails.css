@@ -14,11 +14,11 @@
 		
 		
         body {
-            padding-top : 70px;
-            background-color: #EDFFFD;
         }
         
-        
+        .container{
+        padding-top : 200px;
+        }
         
         img{
         	width : 230px;
