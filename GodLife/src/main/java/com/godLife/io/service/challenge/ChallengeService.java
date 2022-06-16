@@ -47,5 +47,7 @@ public interface ChallengeService {
 	public JoinChallenger getChallengeJoiner(Map<String,Object> map);
 	
 	public List<JoinChallenger> getChallengeJoinerList(int challengeNo);
+	
+	public Map<String, Object> getChallengeListFriend(Map<String,Object> map);
 
 }
