@@ -218,6 +218,7 @@
 	   and user_email = #{userEmail} 
 	 </delete>
 	 
+	 
 	<!-- 친구 중복신청 방지  -->
 	<select  id="isAlreadyAppliedFriend"  parameterType="map"	 resultType="int">
 	  	SELECT count(*) 

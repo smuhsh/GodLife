@@ -117,7 +117,7 @@ public class UserController {
 		System.out.println("세션 만들어짐...");
 		System.out.println(session.getAttribute("user"));
 		
-		return "redirect:/index.jsp"; // 메인페이지로 이동 
+		return "/"; // 메인페이지로 이동 
 	}
 	
 	
@@ -437,10 +437,10 @@ public class UserController {
 	}
 
 	
-	// 유저상세조회 에서 친구등록 레스트로 가야될듯.???... 
 	@RequestMapping( value="addFriend")
-	public String addFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack, HttpSession session)
-							throws Exception {
+	public String addFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack, 
+							 @RequestParam("userEmail") String userEmail, 
+							 @RequestParam("targetEmail") String targetEmail, HttpSession session, Model model) throws Exception {
 							
 		System.out.println("나의 친구등록이 되라... ");
 		
@@ -455,14 +455,19 @@ public class UserController {
 		//Business Logic
 		userService.addFriend(friendBlack);
 		
-		//int isAlready = userService.isAlreadyAppliedFriend(userEmail, targetEmail);
+		//친구 중복방지
+		int isAlready = userService.isAlreadyAppliedFriend(userEmail,targetEmail);
 		
+		if(isAlready > 0) {
+			//이미 친구라면 
+			model.addAttribute("msg", "이미 친구로 등록된 상태입니다."); 
+		}
 		
 		return "redirect:/user/getUserTarget?userEmail="+friendBlack.getTargetEmail(); 
 
 	}
 	
-	//블랙리스트 등록 레스트로 가야할듯.
+	
 	@RequestMapping( value="addBlack", method=RequestMethod.POST )
 	public String addBlack( @ModelAttribute("friendBlack") FriendBlack friendBlack, HttpSession session ) throws Exception {
 
@@ -475,7 +480,6 @@ public class UserController {
 		//Business Logic
 		userService.addBlack(friendBlack);
 		return "redirect:/user/getUserTarget?userEmail="+friendBlack.getTargetEmail(); 
-	
 	}
 	
 	
