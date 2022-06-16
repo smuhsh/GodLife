@@ -87,9 +87,56 @@
 </style>
 
 	<script type="text/javascript">
-	
-	
-	
+
+	//==============신규 배지 등록 Event  처리=========================
+	 $(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 $( "button.btn.btn-primary.addB" ).on("click" , function() {
+				self.location = "/badge/addBadgeView?badgeNo=${badge.badgeNo}"
+			});
+	});    	
+
+	//============= images 에 배지 상세 정보(관리자 모드/수정 삭제로 들어가기)  Event  처리(Click) =============
+	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	$(function() { 
+	     $( ".images" ).on("click" , function() {
+	    	 self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
+	     });
+	});
+	 
+	//============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
+	$(function(){
+		$( ".badgeDetail" ).on("click", function() {
+			var productNo = $(this).data("value");
+
+			 $.ajax( 
+	                 {
+	                    url : "/badge/json/getBadge/"+productNo,
+	                    method : "GET",
+	                    dataType : "json",
+	                    headers : {
+	                       "Accept" : "application/json",
+	                       "Content-Type" : "application/json"
+	                    },
+
+	                    success : function(JSONData , status) {
+	                    	
+	                       const displayDetail = 
+	                    	   `<div class="row">
+		                         	<div class="detail">상품 명 :&nbsp \${JSONData.BadgeName} </div>
+		                         	<div class="detail">상품 상세정보: <br/> \${JSONData.BadgeDetail} </div>
+	                     		</div>`
+	                       $("div.detail").remove();
+	                       $( "#"+JSONData.productNo+"" ).append(displayDetail);
+	                       console.log(JSONData , status);
+	                 }
+	              }); 
+	        });
+		//=========================================================//
+		 //==> prodNo LINK Event End User 에게 보일수 있도록 
+	    $( "div#productName" ).css("color" , "red");
+	    $("div#productName").css("font-size", "20px");
+	});	
 	
 	
 	</script>
@@ -102,13 +149,22 @@
       <!-- ToolBar Start /////////////////////////////////////-->
       <jsp:include page="/layout/toolbar.jsp" />
       <!-- ToolBar End /////////////////////////////////////-->
-
+	  
       <!--  화면구성 div Start /////////////////////////////////////-->
       <div class="container" >
 		<br>
-		<div class="row">
-		  <div class="col-md-12">보유배지 전체 목록</div>			
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="row" style="font-size:30px;">
+		  <div class="col-md-12" align="center">보유배지 전체 목록</div>			
 		</div>
+		<br>
+			<div class="col-md-12 text-right">
+				<button type="button" class="btn btn-primary addB">신규 배지 등록</button> 
+			</div>
 		<br>
 		<br>
 		<!-- 활동 배지 Collapse로 설명 구현 Start -->
@@ -123,19 +179,33 @@
 		<!-- 활동 배지 Collapse로 설명 구현 End -->
 		<br>
 		<br>
-		<br>
-		<div class="row">
+		<div class="row" status="0">
 			<c:set var="i" value="0"/>
-			  <c:forEach var="badge" items="${list}">
-            	<c:set var="i" value="${ i+1 }" />       
-				  <div class="col-md-3"  >
-				  	<img badgeNo="${ badge.badgeNo }"  width="150" height="150" class="images" src="../images/uploadFiles/${badge.badgeImg }"
+			  <c:forEach var="badge" items="${list1}">
+            	<c:set var="i" value="${ i+1 }" />      
+            	 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 Start -->
+				  <div class="col-md-3" style="height: auto; width: auto;" align="center">
+				  	<img badgeNo="${ badge.badgeNo }"  width="125" height="125"  class="images" 
+				  		  src="../images/uploadFiles/${badge.badgeImg }"
 		                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
-		               <i id= "${badge.badgeNo}" style="font-size:20px;" ></i>
+		               <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start -->   
+		               <i class="badgeDetail" id="${badge.badgeNo}" style="font-size:10px;" 
+		               		data-value="${ badge.badgeNo }" 
+		               		title="Click : 배지정보 확인" 
+		               		value="${badge.badgeNo}" >
+		               		상세정보 보기 클릭
+		               </i>
+		               <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
 		               <input type="hidden" value="${badge.badgeNo}" >
 				  </div>
+				 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 End -->
 			  </c:forEach>
 		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 		<br>
 		<br>
 		<!-- 관심사 배지 Collapse로 설명 구현 Start -->
@@ -150,28 +220,17 @@
 		<!-- 활동 배지 Collapse로 설명 구현 End -->
 		<br>
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>		
-		<div class="row">
-		  <div class="col-md-2">배지6</div>
-		  <div class="col-md-2">배지7</div>
-		  <div class="col-md-2">배지8</div>
-		  <div class="col-md-2">배지9</div>
-		  <div class="col-md-2">배지10</div>
+		<div class="row" status="0">
+			<c:set var="i" value="0"/>
+			  <c:forEach var="badge" items="${list2}">
+            	<c:set var="i" value="${ i+1 }" />       
+				  <div class="col-md-3" style="height: auto; width: auto;" >
+				  	<img badgeNo="${ badge.badgeNo }"  width="125" height="125" class="images" src="../images/uploadFiles/${badge.badgeImg }"
+		                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+		               <i id= "${badge.badgeNo}" style="font-size:20px;" ></i>
+		               <input type="hidden" value="${badge.badgeNo}" >
+				  </div>
+			  </c:forEach>
 		</div>
 		<br>
 		<br>
@@ -180,12 +239,7 @@
 		<br>
 		<br>
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>			
+
          <!--  화면구성 div End /////////////////////////////////////-->
 
 		<!--  table End /////////////////////////////////////-->	

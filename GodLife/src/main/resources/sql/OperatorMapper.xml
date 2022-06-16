@@ -45,6 +45,7 @@
 		<result property="regDate" 				column="reg_date" 			jdbcType="DATE" />
 		<result property="faqTag" 				column="faq_tag" 			jdbcType="VARCHAR" />
 	</resultMap>
+	
 
 	<!-- ///////////////////////// Events ///////////////////////// -->
 	
@@ -260,9 +261,10 @@
 	</update>
 
 	<!-- ///////////////////////// NoticeFaqs ///////////////////////// -->
+	<!-- ///////////////////////// Notice ///////////////////////// -->
 	
 	<!-- SQL : INSERT -->
-	<insert 	id="addOperatorNoticeFaqs"		parameterType="operatorNoticeFaqs" >
+	<insert 	id="addOperatorNotice"		parameterType="operatorNoticeFaqs" >
 	 	INSERT
 		INTO notice_faqs( notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag) 
 		VALUES	 (	seq_notice_faqs_notice_faq_no.NEXTVAL, #{userEmail:VARCHAR} , #{status:VARCHAR} , #{noticeMust:VARCHAR} , 
@@ -270,15 +272,15 @@
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getOperatorNoticeFaqs"	parameterType="int" resultMap="operatorNoticeFaqsSelectMap">
+	 <select 	id="getOperatorNotice"	parameterType="int" resultMap="operatorNoticeFaqsSelectMap">
 		SELECT
 		notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag
 		FROM notice_faqs 
-		WHERE notice_faq_no = #{noticeFaqNo}
+		WHERE notice_faq_no = #{noticeFaqNo} 
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
-	 <update	id="updateOperatorNoticeFaqs"	parameterType="operatorNoticeFaqs" >
+	 <update	id="updateOperatorNotice"	parameterType="operatorNoticeFaqs" >
 	   	UPDATE notice_faqs
 	   	<set>
 	   		status 				= 	#{status} ,
@@ -292,13 +294,13 @@
 	 </update>
 
 	 <!-- SQL : DELETE -->
-	 <delete	id="deleteOperatorNoticeFaqs"	parameterType="operatorEvents" >
+	 <delete	id="deleteOperatorNotice"	parameterType="operatorNoticeFaqs" >
 	   	DELETE notice_faqs
 		WHERE notice_faq_no = #{noticeFaqNo}
 	 </delete>
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getOperatorNoticeFaqsList"  parameterType="search"	resultMap="operatorNoticeFaqsSelectMap">
+	<select  id="getOperatorNoticeList"  parameterType="search"	resultMap="operatorNoticeFaqsSelectMap">
 	  	<!-- SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		( -->	SELECT notice_faq_no , user_email, status, notice_must, title , detail,  reg_date, faq_tag
@@ -314,16 +316,96 @@
 													</if>
 												</where>
 											</if>-->
+											WHERE status = '0'
 											ORDER BY notice_faq_no DESC<!--  ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} --> 
 	 </select>
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getOperatorNoticeFaqsTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getOperatorNoticeTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT notice_faq_no , title , detail
 						FROM notice_faqs
+						WHERE status = '0'
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			notice_faq_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			title = #{searchKeyword}
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>	
+	<!-- ///////////////////////// Faqs ///////////////////////// -->
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addOperatorFaqs"		parameterType="operatorNoticeFaqs" >
+	 	INSERT
+		INTO notice_faqs( notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag) 
+		VALUES	 (	seq_notice_faqs_notice_faq_no.NEXTVAL, #{userEmail:VARCHAR} , #{status:VARCHAR} , #{noticeMust:VARCHAR} , 
+							#{title:VARCHAR} , #{detail:VARCHAR} , #{img:VARCHAR}, SYSDATE , #{faqTag:VARCHAR})
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getOperatorFaqs"	parameterType="int" resultMap="operatorNoticeFaqsSelectMap">
+		SELECT
+		notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag
+		FROM notice_faqs 
+		WHERE notice_faq_no = #{noticeFaqNo} 
+	 </select>
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateOperatorFaqs"	parameterType="operatorNoticeFaqs" >
+	   	UPDATE notice_faqs
+	   	<set>
+	   		status 				= 	#{status} ,
+	   		notice_must 		= 	#{noticeMust} ,
+	   		title		 		= 	#{title} ,
+			detail 				= 	#{detail} ,
+			img 				= 	#{img} ,
+			faq_tag 			= 	#{faqTag}
+	   	</set>
+		WHERE notice_faq_no = #{noticeFaqNo}
+	 </update>
+
+	 <!-- SQL : DELETE -->
+	 <delete	id="deleteOperatorFaqs"	parameterType="operatorNoticeFaqs" >
+	   	DELETE notice_faqs
+		WHERE notice_faq_no = #{noticeFaqNo}
+	 </delete>
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getOperatorFaqsList"  parameterType="search"	resultMap="operatorNoticeFaqsSelectMap">
+	  	<!-- SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		( -->	SELECT notice_faq_no , user_email, status, notice_must, title , detail,  reg_date, faq_tag
+											FROM notice_faqs
+											
+											<!--  <if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				notice_faq_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				title = #{searchKeyword}
+													</if>
+												</where>
+											</if>-->
+											WHERE status = '1'
+											ORDER BY notice_faq_no DESC<!--  ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} --> 
+	 </select>
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getOperatorFaqsTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT notice_faq_no , title , detail
+						FROM notice_faqs
+						WHERE status = '1'
 						<if test="searchCondition != null">
 							<where>
 								<if test="searchCondition == 0 and searchKeyword !='' ">

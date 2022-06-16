@@ -53,6 +53,7 @@ background-color:  #EDFFFD;
                <a class="service_center" href="/user/getUser?userEmail=${sessionScope.user.userEmail}"> 마이페이지</a>
                <button type="button" class="service_center_icon"></button>
                
+
                <ul class="service_center_detail">
                   <li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">개인정보 조회</a></li>
                   <li><a href="링크">포인트 구매</a></li>
@@ -65,13 +66,10 @@ background-color:  #EDFFFD;
                     
                   </c:if>
                
-               
-               
-               
+         
                <c:if test="${user.userEmail != null}">
                <li class="sign_in_item"><a href="링크">챌린지 생성</a></li>
             </c:if>
-               
                
                
                <c:if test="${user.userEmail != null}">
@@ -211,7 +209,6 @@ background-color:  #EDFFFD;
                  }
            });         
          });
-      
       
    </script>
 </body>

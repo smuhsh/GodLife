@@ -44,13 +44,15 @@ public class OperatorRestController {
 		System.out.println(this.getClass());
 	}
 	
-	@RequestMapping( value="json/getOperator/{noticeFaqNo}", method=RequestMethod.GET )
-	public OperatorNoticeFaqs getOperatorNoticeFaqs( @PathVariable int noticeFaqNo ) throws Exception{
+	@RequestMapping( value="json/getOperatorFaqs/{title}", method=RequestMethod.GET )
+	//public OperatorNoticeFaqs getOperatorFaqs( @PathVariable int noticeFaqNo ) throws Exception{
+	public OperatorNoticeFaqs getOperatorFaqs( @PathVariable String title ) throws Exception{
 		
-		System.out.println("/operator/json/getOperatorNoticeFaqs : GET");
+		System.out.println("/operator/json/getOperatorFaqs : GET");
 		
 		//Business Logic
-		return operatorService.getOperatorNoticeFaqs(noticeFaqNo);
+		//return operatorService.getOperatorFaqs(noticeFaqNo);
+		return operatorService.getOperatorFaqs(title);
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.godLife.io.service.badge.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.badge.BadgeDao;
 import com.godLife.io.service.domain.Badge;
+import com.godLife.io.service.domain.Point;
 
 
 
@@ -39,8 +42,20 @@ public class BadgeDaoImpl implements BadgeDao{
 		return sqlSession.selectOne("BadgeMapper.getBadge", badgeNo);
 	}
 	
-	public List<Badge> getBadgeList(Search search) throws Exception {
-		return sqlSession.selectList("BadgeMapper.getBadgeList", search);
+	public Map<String, Object> getBadgeList(Search search) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("endRowNum",  search.getEndRowNum()+"" );
+		map.put("startRowNum",  search.getStartRowNum()+"" );
+		System.out.println("@@@@dao Search : "+search);
+		map.put("search", search);
+		List<Point> list1 = sqlSession.selectList("BadgeMapper.getBadgeABList", search);
+		System.out.println("@@@daoImpl list1 : "+list1);
+		map.put("list1", list1);
+		List<Point> list2 = sqlSession.selectList("BadgeMapper.getBadgeIBList", search);
+		System.out.println("@@@daoImpl list2 : "+list2);
+		map.put("list2", list2);
+		return map;
 	}
 	
 	public void updateBadge(Badge badge) throws Exception {

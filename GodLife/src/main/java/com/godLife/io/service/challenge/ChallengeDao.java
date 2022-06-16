@@ -42,5 +42,13 @@ public interface ChallengeDao {
 	
 	public int getChallengePick(Map<String,Object> map);
 	
+	public void updateChallengeStatus(Map<String,Object> map);
+	
+	public JoinChallenger getChallengeJoiner(Map<String,Object> map);
+	
+	public List<JoinChallenger> getChallengeJoinerList(int challengeNo);
+	
+	
+	
 	
 }
