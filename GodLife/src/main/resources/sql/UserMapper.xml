@@ -23,8 +23,8 @@
       <result property="totalPoint"          column="total_point"          jdbcType="INTEGER" />
       <!-- 아래추가-->
       <result property="categName"       column="categ_name"          jdbcType="VARCHAR" />
-      <result property="redCouponCount"       column="red_coupon_count "          jdbcType="INTEGER" />
-      <result property="certiCouponCount"       column="certi_coupon_count  "          jdbcType="INTEGER" />
+      <result property="redCouponCount"       column="red_coupon_count"          jdbcType="INTEGER" />
+      <result property="certiCouponCount"       column="certi_coupon_count"          jdbcType="INTEGER" />
       <!-- 아래추가-->
       <result property="challengeTitle"         column="title"            jdbcType="VARCHAR" />
       <result property="certiImg"               column="certi_img"         jdbcType="VARCHAR" />
@@ -56,7 +56,7 @@
     <!-- SQL : 본인정보 상세조회, 로그인 -->
     <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
       SELECT
-      u.user_email, u.pwd, u.nick, u.profile_img, u.phone, u.intro, u.redcard_count, u.reg_date, ca.categ_name, u.total_point, u.red_coupon_count, u.account_status,
+      u.user_email, u.pwd, u.nick, u.profile_img, u.phone, u.intro, u.redcard_count, u.reg_date, ca.categ_name, u.total_point, u.red_coupon_count,u.certi_coupon_count, u.account_status,
       u.total_point, u.role, u.categ_no
        FROM users u, categs ca,( SELECT count(*) report_count 
                             FROM users u,reports r 
@@ -185,21 +185,20 @@
     
 <!-- 레드카드 쿠폰 사용 -->
     <update id="updateUserRedCoupon" parameterType="user" >
-       UPDATE USERS
-       SET red_coupon_count = #{redCouponCount}
+       UPDATE users
+       SET 
+       red_coupon_count = #{redCouponCount}
           <where>
-            user_email=#{userEmail} 
-            AND redcard_count > 0 
-            AND red_coupon_count > 0
+           user_email=#{userEmail} 
          </where>
      </update>
      
 
      <update id="updateUserCertiCoupon" parameterType="user" >
-       UPDATE USERS
+       UPDATE users
        SET certi_coupon_count = #{certiCouponCount}
           <where>
-            user_email=#{userEmail}
+            user_email=#{userEmail} 
          </where>
      </update>
      
@@ -209,7 +208,7 @@
        UPDATE USERS
        SET total_point = #{totalPoint}
           <where>
-            user_email=#{userEmail}
+             user_email=#{userEmail}
          </where>
      </update>
     

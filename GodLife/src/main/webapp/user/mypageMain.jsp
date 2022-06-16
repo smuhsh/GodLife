@@ -15,9 +15,9 @@
 		<ul>
 			<li id="managerMainChart" style="text-align: left;"><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}" class="link_lnb">개인정보 조회 및 수정</a></li>
 			<li id="managerMainCalender" style="text-align: left;"><a href="링크" class="link_lnb">포인트 구매내역</a></li>
-			<li id="managerMainCalender" style="text-align: left;"><a href="링크" class="link_lnb">포인트 이용내역</a></li>
-			<li id="managerMainCalender" style="text-align: left;"><a href="링크" class="link_lnb">상품권 구매내역</a></li>
-			<li id="managerMainCalender" style="text-align: left;"><a href="링크" class="link_lnb">기부 내역</a></li>
+			<li id="managerMainCalender" style="text-align: left;"><a href="/point/getPointPurchaseList" class="link_lnb">포인트 이용내역</a></li>
+			<li id="managerMainCalender" style="text-align: left;"><a href="/point/getPointPurchaseVoucherList" class="link_lnb">상품권 구매내역</a></li>
+			<li id="managerMainCalender" style="text-align: left;"><a href="/point/getPointPurchaseDonationList" class="link_lnb">기부 내역</a></li>
 			<li id="managerMainCalender" style="text-align: left;"><a href="링크" class="link_lnb">쿠폰함</a></li>
 			<li id="managerMainCalender" style="text-align: left;"><a href="링크" class="link_lnb">보유 배지</a></li>
 			<li id="managerMainCalender" style="text-align: left;"><a href="/user/listFriend?userEmail=${sessionScope.user.userEmail}" class="link_lnb">친구 관리</a></li>
@@ -55,5 +55,6 @@
 	</li>
 </ul>
 </div>
+<jsp:include page="/layout/toolbar.jsp" />
 </body>
 </html>
