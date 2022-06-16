@@ -38,7 +38,6 @@ public class OperatorRestController {
 	@Autowired
 	@Qualifier("operatorServiceImpl")
 	private OperatorService operatorService;
-	//setter Method 구현 않음
 		
 	public OperatorRestController(){
 		System.out.println(this.getClass());
@@ -50,9 +49,12 @@ public class OperatorRestController {
 		
 		System.out.println("/operator/json/getOperatorFaqs : GET");
 		
+		OperatorNoticeFaqs operatorFaqs = operatorService.getOperatorFaqs(title);
+		
 		//Business Logic
 		//return operatorService.getOperatorFaqs(noticeFaqNo);
-		return operatorService.getOperatorFaqs(title);
+		//return operatorService.getOperatorFaqs(title);
+		return operatorFaqs;
 	}
 
 }

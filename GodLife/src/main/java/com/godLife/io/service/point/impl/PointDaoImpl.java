@@ -80,32 +80,28 @@ public class PointDaoImpl implements PointDao {
 			if (useDetail.equals("8")) {
 
 				if (productNo == 10000) {
-
+					System.out.println("point daoimpl @@user Strat setcoupon  :" + user);
 					int redCoupon = user.getRedCouponCount() + 1;
 					System.out.println("redCoupon : " + redCoupon);
-					user.setRedCardCount(redCoupon);
-					
-					
+					user.setRedCouponCount(redCoupon);
+					System.out.println("point daoimpl @@user setcoupon OK :" + user);
 					userService.updateUserRedCouponCount(user);
 
 				} else if (productNo == 10001) {
-
+					System.out.println("point daoimpl @@user Strat setcoupon  :" + user);
 					int certiCoupon = user.getCertiCouponCount() + 1;
 					System.out.println("certiCoupon : " + certiCoupon);
 					user.setCertiCouponCount(certiCoupon);
+					System.out.println("point daoimpl @@user setcoupon OK :" + user);
 					userService.updateUserCertiCouponCount(user);
 				}
-
-				System.out.println("point : "+ point);
-				sqlSession.insert("PointMapper.addPointPurchase", point);
-
 			} else if (useDetail.equals("9")) {
 				if (productNo >= 10002 || productNo <= 10006) {
 					Random rnd = new Random();
 					String voucherUniqueNo = new String();
 					StringBuffer buf = new StringBuffer();
 
-					for (int i = 0; i < 20; i++) {
+					for (int i = 0; i < 10; i++) {
 
 						// rnd.nextBoolean() 는 랜덤으로 true, false 를 리턴. true일 시 랜덤 한 소문자를, false 일 시 랜덤 한
 						// 숫자를 StringBuffer 에 append 한다.
@@ -122,7 +118,7 @@ public class PointDaoImpl implements PointDao {
 							voucherUniqueNo = buf.toString();
 							point.setVoucherUniqueNo(voucherUniqueNo);
 						}
-						break;
+					
 					}
 				}
 			}

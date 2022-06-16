@@ -158,7 +158,7 @@ background-color:  #EDFFFD;
       
 <!--/////////////////////////// 고정된 탑바 ////////////////////////////////////////////// -->
       
-		<div id="menu-bar">
+      <div id="menu-bar">
          <ul class="menu">
             <!-- == main -->
             <li class="all_category header_a_li">
@@ -212,7 +212,7 @@ background-color:  #EDFFFD;
             </li>
                   </c:if>
          </ul>
-		</div>
+      </div>
       </div>
    </div>
 

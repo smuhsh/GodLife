@@ -59,7 +59,6 @@
 	
 	body {
 	   padding-top: 50px;
-	   background-color: #708090 ;
 	   font-weight: bold; 
 	   font-family: 'oneMobile';
 	}
@@ -77,10 +76,49 @@
 	   width: 380px;
 	   height: auto;
 	   padding-top: 1px;
-	   background-color: #070719 ;
 	   font-weight: bold; 
 	   font-family:impact;
 	   font-family: 'oneMobile';
+	}
+
+	.backdefault{
+	width: 180px;
+	height: 180px;
+	background-image: url("/images/uploadFiles/DefaultBackGround.PNG");
+	align-items:center;
+	display: flex;
+	 justify-content:center;
+	}
+	.backbronze{
+	width: 180px;
+	height: 180px;
+	background-image: url("/images/uploadFiles/badgeBronze.jpg");
+	align-items:center;
+	display: flex;
+	 justify-content:center;
+	}
+	.backsilver{
+	width: 180px;
+	height: 180px;
+	background-image: url("/images/uploadFiles/badgeSilver.jpg");
+	align-items:center;
+	display: flex;
+	 justify-content:center;
+	}
+	.backgold{
+	width: 180px;
+	height: 180px;
+	background-image: url("/images/uploadFiles/badgeGold.jpg");
+	align-items:center;
+	display: flex;
+	 justify-content:center;
+	}
+	
+	.images{
+	width: 147px;
+    height: 145px; 
+    border-radius: 70%;
+    overflow: hidden;
 	}
 	
 
@@ -103,6 +141,17 @@
 	    	 self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
 	     });
 	});
+
+	//============= 배지 이미지 클릭 시 상세 정보 페이지로 이동(관리자 모드)  Event  처리(Click) =============
+	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	$(function() { 
+	     $( ".images" ).on("click" , function() {
+	    	 self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
+	     });
+	});	 
+	 
+	 
+	 
 	 
 	//============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
 	$(function(){
@@ -134,8 +183,8 @@
 	        });
 		//=========================================================//
 		 //==> prodNo LINK Event End User 에게 보일수 있도록 
-	    $( "div#productName" ).css("color" , "red");
-	    $("div#productName").css("font-size", "20px");
+	    $( "div#badgeName" ).css("color" , "red");
+	    $("div#badgeName").css("font-size", "20px");
 	});	
 	
 	
@@ -184,18 +233,47 @@
 			  <c:forEach var="badge" items="${list1}">
             	<c:set var="i" value="${ i+1 }" />      
             	 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 Start -->
-				  <div class="col-md-3" style="height: auto; width: auto;" align="center">
-				  	<img badgeNo="${ badge.badgeNo }"  width="125" height="125"  class="images" 
-				  		  src="../images/uploadFiles/${badge.badgeImg }"
-		                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
-		               <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start -->   
+            	 <div class="col-md-3" style="height: auto; width: auto;" align="center">
+            	 <!-- Grade가 0일때 Default 배경이미지  -->
+	            	<c:if test="${badge.grade=='0'}">
+						  <div class="backdefault">
+						  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+						  		  src="../images/uploadFiles/${badge.badgeImg }"
+				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+				         </div>
+			         </c:if>
+			    <!-- Grade가 1일때 동색 배경이미지  -->
+	            	<c:if test="${badge.grade=='1'}">
+					  <div class="backbronze">
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  		  src="../images/uploadFiles/${badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			         </div>
+		        <!-- Grade가 2일때 은색 배경이미지  -->
+			         </c:if>
+			         <c:if test="${badge.grade=='2'}">
+					  <div class="backsilver">
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  		  src="../images/uploadFiles/${badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			         </div>
+			         </c:if>
+		         <!-- Grade가 3일때 금색 배경이미지  -->
+			         <c:if test="${badge.grade=='3'}">
+					  <div class="backgold">
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  		  src="../images/uploadFiles/${badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			         </div>
+			         </c:if>
+		         <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start //Ajax나오게 하려면 data-value가 필요 -->   
 		               <i class="badgeDetail" id="${badge.badgeNo}" style="font-size:10px;" 
 		               		data-value="${ badge.badgeNo }" 
 		               		title="Click : 배지정보 확인" 
 		               		value="${badge.badgeNo}" >
 		               		상세정보 보기 클릭
 		               </i>
-		               <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
+		          <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
 		               <input type="hidden" value="${badge.badgeNo}" >
 				  </div>
 				 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 End -->

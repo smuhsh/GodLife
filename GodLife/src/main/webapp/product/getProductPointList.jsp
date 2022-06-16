@@ -59,7 +59,6 @@
 
 
 body {
-   background-color: #708090 ;
    font-weight: bold; 
    font-family: 'oneMobile';
 }
@@ -88,7 +87,7 @@ padding-top: 50px;
 }
 
 fieldset {
-   width: 500px;
+   width: 560px;
    text-align: center;
    backgrond-color: white;
    font-family: 'oneMobile';
@@ -96,7 +95,7 @@ fieldset {
 
 div.box {
    width: 500px;
-   height: 50px;
+   height: 220px;
    box-align:center middle;
    margin: 0;
    padding: 5px;
@@ -104,21 +103,26 @@ div.box {
    background-color: #9edbff;
    font-family: 'oneMobile';
 }
-
+h4{
+font-weight: bold;
+font-family: 'oneMobile';
+}
 .detail {
    color : white ;
    margin : 0;
-   width: 250px;
+   width: 550px;
    height: auto;
    padding-top: 1px;
    background-color: #070719 ;
    font-weight: bold; 
    font-family:impact;
    font-family: 'oneMobile';
+   text-align: center;
+   font-size: 22px;
 }
 
-#test{
-width:2000px;
+#openmodal{
+color:blue;
 }
 
 </style>
@@ -132,23 +136,25 @@ width:2000px;
 
 
 /////////////////구매 유효성 검사////////////
+$(function() {
+      $("#buycash").on("click", function() {
+    	  alert("계좌이체 하셨습니다.");
+         fncAddPointPurchasePoint();
+      });
+   });
    function fncAddPointPurchasePoint() {
       var productNo = $('input[name="productNo"]:checked').val();
       var payOpt = $('input[name="payOpt"]:checked').val();
       var useStatus = $("input[name='useStatus']").val();
       var useDetail = $("input[name='useDetail']").val();
-
+	  var point = $("input[name='point']").val();
       
       alert(payOpt + " : payOpt   " + productNo + ": productNo   "
-            + useStatus + ":useStatus  " + useDetail + ":useDetail");
+            + useStatus + ":useStatus  " + useDetail + ":useDetail  "+point+":point" );
       $("form").attr("method", "POST").attr("action",
             "/point/addPointPurchaseProduct").submit()
    }
-   $(function() {
-      $("#buycash").on("click", function() {
-         fncAddPointPurchasePoint();
-      });
-   });
+   
 
    function showDiv(element) {
       var tag = document.getElementsByClassName("box");
@@ -169,7 +175,7 @@ width:2000px;
    
   function fncKakaoPay(){
    var productName = $('input[name="productName"]').val();
-   var productPrice = $('input[name="productPrice"]').val();
+   var productPrice = $('input[name="point"]').val();
    var userEmail = $('input[name="userEmail"]').val();
    var nick = $('input[name="nick"]').val();
    var phone = $('input[name="phone"]').val();
@@ -204,7 +210,7 @@ width:2000px;
   
   function fncPayco(){
       var productName = $('input[name="productName"]').val();
-      var productPrice = $('input[name="productPrice"]').val();
+      var productPrice = $('input[name="point"]').val();
       var userEmail = $('input[name="userEmail"]').val();
       var nick = $('input[name="nick"]').val();
       var phone = $('input[name="phone"]').val();
@@ -235,15 +241,15 @@ width:2000px;
     $(function() {
       //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
        $( "button.btn.btn-primary.addP" ).on("click" , function() {
-            self.location = "/product/addProductPointView?productNo=${product.productNo}"
+            self.location = "/product/addProductPointView"
          });
    });    
 //============= productName 에 쿠폰 상품 상세 정보(관리자 모드)  Event  처리(Click) =============
     //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
    $(function() { 
-        $( ".images" ).on("click" , function() {
-           self.location ="/product/getProductPoint?productNo="+$(this).attr("productNo");
-        });
+	   $( ".images" ).on("click" , function() {
+	    	 self.location ="/product/getProductVoucher?productNo="+$(this).attr("productNo");
+	     });
    });
 //============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
    $(function(){
@@ -264,21 +270,30 @@ width:2000px;
                        success : function(JSONData , status) {
                           
                           const displayDetail = 
-                             `<div class="detail">
+                             `
+                             <div class="detail">
+                          <br>
+   
                                   <div id="first">상품 명 :&nbsp \${JSONData.productName} </div>
+                                  <br>
+             					  
+                                  <div id="third">가격:&nbsp \${JSONData.productPrice}원 </div>
+                                  <br>
+                                  
                                   <div id="second">상품 상세정보: <br/> \${JSONData.productDetail} </div>
-                                  <div id="third">가격:&nbsp \${JSONData.productPrice} </div>
+                                  <br>
+                                  <input type="hidden" name="productName" value="\${JSONData.productName}" />
+                                  <input type="hidden" name="point" value="\${JSONData.productPrice}" />
+                                  
                               </div>`
                           $("div.detail").remove();
-                          $( "#"+JSONData.productNo+"" ).append(displayDetail);
+                          $( "#ajax" ).append(displayDetail);
                           console.log(JSONData , status);
                     }
                  }); 
            });
       //=========================================================//
        //==> prodNo LINK Event End User 에게 보일수 있도록 
-       $( "div#productName" ).css("color" , "red");
-       $("div#productName").css("font-size", "20px");
    });
 
 </script>
@@ -311,22 +326,21 @@ width:2000px;
          </div>
         
       <!-- 상품 이미지 시작 /////////////////////////////////////-->
-      <div class="row" id=test>
+      <div class="row">
          <c:set var="i" value="0" />
          <c:forEach var="product" items="${list}">
             <c:set var="i" value="${ i+1 }" />            
-               <div class="col-xs-6 col-md-3" style="height: auto; width: 300px;">
+               <div class="col-md-3">
                <input type="radio" name="productNo" class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인" value="${product.productNo}"  />
                
                   <div>
-                     <img src="${ product.productNo }" width="250" height="250" class="images" src="../images/uploadFiles/${product.productImg }"
+                  		
+                     <img src="/resources/images/uploadFiles/${product.productImg}" width="250" height="250" class="images" productNo="${ product.productNo }"
                         onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
                       
                     <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->
                      <div></div>
-                     
-                     <i id= "${product.productNo}" style="font-size:20px; "></i>
-                     <input type="hidden" value="${product.productNo}">
+  
                     <!-- <div>${ product.productPrice }원</div> -->
                      <!-- 상세내용은 상세정보 창에서만 보이게 하자  -->
                      <!--  <div>${ product.productDetail }</div>-->
@@ -337,46 +351,67 @@ width:2000px;
          
 
          <!--  table End /////////////////////////////////////-->
-
-         <div class="col-xs-6 col-md-12">
+	<div class="row">
+         <div class="col-md-6">
             <fieldset>
                <hr />
-               결제방식 : 
+               <h4>결제방식 :&nbsp
                <input type="radio" id="pay" name="payOpt" value="1" onclick="showDiv(this);">계좌이체 &nbsp&nbsp&nbsp&nbsp
                <input type="radio" id="card" name="payOpt" value="2" onclick="showDiv(this);" /> 카드결제&nbsp&nbsp<img src="/resources/images/uploadFiles/card.png" id="cardpay"> &nbsp&nbsp&nbsp&nbsp
                <input type="radio" id="kakao" name="payOpt" value="3" onclick="showDiv(this);" /> 카카오페이&nbsp&nbsp<img src="/resources/images/uploadFiles/kakaopay.jpg" id="kakaopay"></button>
-               &nbsp&nbsp
-               
+            </h4>
+              
             </fieldset>
-
- 
-
+             <br>
             <div id="payBox" class="box" >
             결제방식 : 계좌이체 &nbsp &nbsp<img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycash">
             <br/>
             <br/>
-            <br/>
+      
                은행명 : 농협
+            <br/>
             <br/>
                계좌번호 : 901055-56-047-268
          <br/>
+         <br/>
                받는사람 : 유병문
          <br/>
-         <br/>
+        
 
             </div>
             
             <div id="cardBox" class="box" >
             결제방식 : 카드결제 &nbsp &nbsp <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycard">
-
+			<br/>
+            결제 및 계좌 안내 시 상호명은 GodLife로 표기되니 참고 부탁드립니다.<br><br>
+            
+            이용약관 및 개인정보 제3자 제공사항에 대해 확인하였으며 결제에 동의합니다.<br><br>
+            
+            개인정보 수집/이용 등의 <button type="button" data-toggle="modal" data-target=".mymodal" id="openmodal">보기</button><br>
+            개인정보 제3자 제공 동의 <button type="button" data-toggle="modal" data-target=".mymodal1" id="openmodal">보기</button><br>
+            결제대행 서비스 이용약관 (주)아임포트
           <br/>
             </div>
             <div id="kakaoBox" class="box" >
             결제방식 : 간편결제 &nbsp &nbsp <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buykakao">
-        
- 
-  
-            </div>
+            <br/>
+            결제 및 계좌 안내 시 상호명은 GodLife로 표기되니 참고 부탁드립니다.<br><br>
+            
+            이용약관 및 개인정보 제3자 제공사항에 대해 확인하였으며 결제에 동의합니다.<br><br>
+            
+            개인정보 수집/이용 등의 <button type="button" data-toggle="modal" data-target=".mymodal" id="openmodal">보기</button><br>
+            개인정보 제3자 제공 동의 <button type="button" data-toggle="modal" data-target=".mymodal1" id="openmodal">보기</button><br>
+            결제대행 서비스 이용약관 (주)아임포트
+          <br/>
+        </div>
+	</div>
+	<div class="col-md-6">
+	<hr/>
+	<h4>상품 정보</h4> 
+  		<div id="ajax"></div>
+ 		</div>
+
+      </div>
             <!-- label Tag 사용 / 미사용의 차이점 : 이름 3을 Click 해보면... -->
             <div class="form-group">
                <div class="col-sm-offset-2 col-sm-10">
@@ -389,12 +424,49 @@ width:2000px;
             </div>
         
          </div>
+          
 
          <!--  화면구성 div End /////////////////////////////////////-->
 
+<div class="modal fade mymodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		개인정보 처리방침<br><br>
+		1.개인정보 수집 이용 보유 파기<br>
+		GodLife는 다음과 같이 개인정보를 수집∙이용하고 있습니다. 개인정보가 필요한 시점에 최소한의 정보만을 수집하며, 고지한 범위 내에서만 사용합니다. 또한 사전 동의 없이 고지한 범위를 초과하여 이용하거나 외부에 공개하지 않습니다.
+		<br><br>
+		1.1개인정보 수집 방법
+		<ol>
+		<li>특정 상품 주문 시 직접 입력 또는 취소∙환불 처리 시점에 유선으로 수집</li>
+		<li>마케팅 및 분석, 프로모션 진행 시 희망자에 한해 직접 입력 또는 제공 항목 선택 제출</li>
+		<li>TV 서비스 이용, 선물하기 서비스 이용 등 특정 기능 이용 시점에 직접 입력</li></ol>
+		
+		2. 개인정보 제3자 제공<br>
+		주문과 결제가 이루어진 경우, 상담 및 배송 등 원활한 거래 이행을 위하여 관련된 정보를 필요한 범위 내에서 판매자(제3자)에게 전달합니다. 주문 시에만 판매자(제3자)에게 개인정보가 제공되며 주문 시 안내해드립니다. 판매자(제3자)에게 개인정보 제공을 거부하실 수 있으나, 이 경우 서비스 이용이 제한될 수 있습니다.
+		<br>
+		</div>
+	</div>
+</div>
+<div class="modal fade mymodal1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div><p>GodLife는 거래 당사자간 원활한 의사소통 및 상담 등 거래이행을 위해 최소한의 범위내에서 개인정보를 입점업체 판매자 및 배송 업체에 아래와 같이 제공합니다.<br>"개인정보 제3자 제공 동의"를 체크하시면 아래와 같은 내용에 동의한 것으로 간주합니다.</p>
+		<ul>
+		<li>개인정보를 제공 받는자 : (주)아임포트</li>
+		<li>제공되는 개인정보 항목
+			<ul>
+			<li>구매자 정보: 성명, ID, 휴대전화 번호, 메일주소, 상품 구매정보</li>
+			<li>수령자 정보: 성명, 휴대전화 번호, 배송지 주소</li>
+			</ul>
+		</li>
+		<li>개인정보를 제공받는 자의 이용 목적 : 판매자와 구매자 간 원활한 거래의 진행, 고객 상담 및 불만처리</li>
+		<li>개인정보를 제공받는 자의 개인정보 보유 및 이용 기간 : 개인정보 수집 및 이용 목적 달성 시까지 보관합니다.</li>
+		<li>동의 거부 시 불이익 : 동의를 거부할 수 있으며 개인정보 제공에 동의하지 않으시는 경우 거래가 제한됩니다.</li></ul></div>
+		</div>
+	</div>
+</div>
 
 
-      </div>
    </form>
 </body>
 </html>
