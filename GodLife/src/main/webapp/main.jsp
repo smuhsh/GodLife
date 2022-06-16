@@ -32,6 +32,7 @@
 	body {
            padding-top : 50px;
        }
+       
    	</style>
    	
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -47,7 +48,7 @@
 
 	<!--  아래의 내용은 http://getbootstrap.com/getting-started/  참조 -->	
    	<!-- Container start -->	
-	<div class="container">
+	<div class="container" id = "side">
 	      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 	        <ol class="carousel-indicators">
 	          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -80,6 +81,7 @@
 	          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 	          <span class="sr-only">Next</span>
 	        </a>
+	     </div>
 	     </div>
 
 </body>
