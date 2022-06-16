@@ -14,11 +14,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- 상단바삽입 -->
-	<jsp:include page="/layout/toolbar.jsp" />
 	
-	<!-- 왼쪽 레이아웃 삽입-->
-		<jsp:include page="/user/mypageMain.jsp" />
 	
 <!-- CSS-->
 <link rel="stylesheet" href="/css/getUser.css" />
@@ -29,10 +25,6 @@ body {
            padding-top : 50px;
            padding-right: :5px;
        }
-       
-.body {
-        background-color:  #EDFFFD;
-        }
         
 img
 {
@@ -43,6 +35,11 @@ float : center;
 }
 
 </style>
+
+<!-- 상단바삽입 -->
+	<jsp:include page="/layout/toolbar.jsp" />
+	<!-- 왼쪽 레이아웃 삽입-->
+	<jsp:include page="/user/mypageMain.jsp" />
 
 <!--  자바스크립트 -->
 <script type="text/javascript">
@@ -57,7 +54,6 @@ float : center;
 		
 		
 		//============= 쿠폰사용 Event  처리 =============	
-		
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $("#writeBtn1" ).on("click" , function() {
@@ -65,6 +61,7 @@ float : center;
 				 $("form").attr("method" , "GET").attr("action" , "/user/updateUserRedCouponCount").submit();
 				});
 		});
+		
 		
 	</script>
 
@@ -79,6 +76,7 @@ float : center;
 				</div>
 				
 				<table class="tbl_comm">
+				
 				
 				<tr class="profileImg">
 						<th>프로필이미지</th>
@@ -142,6 +140,8 @@ float : center;
 					
 					</table>
 					
+	
+	
 	
 				<div id="formSubmit" class="form_footer">
 					<div id="checkDiv" class="checkDiv"></div>

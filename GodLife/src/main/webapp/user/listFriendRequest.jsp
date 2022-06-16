@@ -49,6 +49,7 @@
 	 
         h2{
                 font-size: 2.3rem;
+                padding-right: 100px;
             }
             
             #head_aticle{
@@ -101,6 +102,7 @@
 	      <h2 class="tit" style="color: #333;">친구요청 관리</h2>
 	    </div>
 	    
+	    <br></br>
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row" >
 	    
@@ -113,19 +115,21 @@
 		    <div class="col-md-6 text-right">
 			    <form class="form-inline" name="detailForm">
 			    
+			    <!-- 
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>닉네임</option>
 					</select>
 				  </div>
 				  
+				
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
+				  </div> 
 				  
-				  <button type="button" class="btn btn-default">검색</button>
+				  <button type="button" class="btn btn-default">검색</button>-->
 				  
 				  
 				  
@@ -140,7 +144,7 @@
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
-		
+		<br></br>
       <table class="table table-hover table-striped" >
       
         <thead>
@@ -155,18 +159,18 @@
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="friendBlack" items="${list}">
+		  <c:forEach var="user" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${friendBlack.userEmail} 
-			  <td align="left">${friendBlack.nick}</td>
-			   <td align="left"><a href="/user/updateAccStatus?userEmail=${friendBlack.userEmail}">수락    & </a>
-			   <a href="/user/deleteFriend?userEmail=${friendBlack.userEmail}">거절</a>
+			  <td align="left" > <a  href="/user/getUserTarget?userEmail=${user.userEmail}">${user.userEmail} </a></td>
+			  <td align="left">${user.nick}</td>
+			   <td align="left"><a href="/user/updateAccStatus?userEmail=${user.userEmail}">수락    & </a>
+			   <a href="/user/deleteFriendRequest?userEmail=${user.userEmail}">거절</a>
 			   </td>
 			   
 			  <td align="left">
-			  	<input type="hidden" value="${friendBlack.userEmail}">
+			  	<input type="hidden" value="${user.userEmail}">
 			  	<input type="hidden" value="${friendBlack.targetEmail}">
 			  </td>
 			</tr>

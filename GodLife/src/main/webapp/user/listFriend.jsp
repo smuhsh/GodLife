@@ -22,7 +22,6 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	
-	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
@@ -40,15 +39,16 @@
   
   <!-- 상단바삽입 -->
 	<jsp:include page="/layout/toolbar.jsp" />
-	
 	<!-- 왼쪽 레이아웃 삽입-->
-		<jsp:include page="/user/mypageMain.jsp" />
+	<jsp:include page="/user/mypageMain.jsp" />
+	
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	 
         h2{
                 font-size: 2.3rem;
+                padding-right: 100px;
             }
             
             #head_aticle{
@@ -66,6 +66,17 @@
             h3{
             font-size: 15px;
             }
+            
+           #writeBtn1{
+           border: 1px solid #064acb;
+	      background-color: #064acb;
+	      color: #fff;
+	      WIDTH: 60pt;
+	      HEIGHT: 30pt;
+	      margin-left: 380px;
+           }
+           
+            
             
     </style>
     
@@ -87,8 +98,15 @@
 			});
 		 });
 		
+		//============= "친구 삭제 버튼"  Event  처리 =============	
+	   $(function() {
+			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "#writeBtn1" ).on("click" , function() {
+				self.location ="/user/deleteFriend?userEmail=${user.userEmail}"
+			});
+		 });
 		
-
+		 
 	</script>
 	
 </head>
@@ -104,7 +122,7 @@
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-	    <div class="row" >
+	    <div class="row" id="myFollowForm" >
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-secondary" >
@@ -113,7 +131,7 @@
 		    </div>
 		    
 		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
+			    <form class="form-inline" name="detailForm" >
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
@@ -136,8 +154,8 @@
 	    
 	    	
 		</div>
-		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
+		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
       <!--  table Start /////////////////////////////////////-->
       		<br></br>
@@ -146,34 +164,37 @@
       		 <c:set var="i" value="0" />
 	   <c:forEach var="user" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
+		
 		<div class="col-sm-3 col-md-3 "  id= "md3">
-      <div class="thumbnail"  style="height: 300px;"   >
+      
+      <div class="thumbnail"  style="height: 300px;">
        <img class="img-responsive" src="/images/uploadFiles/${user.profileImg }"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;" > 
      
-          <div class="caption"  id = "caption">
-            <h3> ${ user.userEmail } </h3>
-            <p>닉네임  :${user.nick}</p>
+         <div class="caption"  id = "rego">
+           <h3>닉네임  :${user.nick}</h3>
+          <a  href="/user/getUserTarget?userEmail=${user.userEmail}"> ${user.userEmail}</a>
             
-            <input type="hidden" value="${user.userEmail}">
+            <input type="hidden" value="${user.userEmail}" >
             </div>
             
       </div>
-    </div> 
+    </div>
     
 	</c:forEach>	
 
 </div>
+
 	</div>
+	
+	<!--  <button type="button" class="btn active btn_join" id="writeBtn1">선택삭제</button>-->
 		
 		
-		
-		
-		
- 	
  	
  	<!-- PageNavigation Start... -->
 	<jsp:include page="../common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation End... -->
+	
+	
 	
 </body>
 

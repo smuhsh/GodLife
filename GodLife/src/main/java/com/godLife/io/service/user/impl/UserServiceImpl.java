@@ -86,19 +86,12 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
-	
-	
-	
 	public void addUser(User user) throws Exception {
 		userDao.addUser(user);
 	}
 	
 	public User getUser(String userEmail) throws Exception {
 		return userDao.getUser(userEmail);
-	}
-	
-	public List<User> getUserTarget(String nick) throws Exception {
-		return userDao.getUserTarget(nick);
 	}
 	
 	public void updatePwd(User user) throws Exception {
@@ -154,9 +147,9 @@ public class UserServiceImpl implements UserService{
 	
 	//================친구, 블랙리스트=================================================
 	
-	
+	//친구 요청목록조회
 	public Map<String , Object > getFriendList(Search search, String userEmail) throws Exception {
-		int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getUserFriendListTotalCount(search, userEmail);
 		
 		Map<String, Object> map = userDao.getFriendList(search, userEmail);
 		map.put("totalCount", new Integer(totalCount));
@@ -165,7 +158,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public Map<String , Object > getBlackList(Search search, String userEmail) throws Exception {
-		int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getUserBlackListTotalCount(search, userEmail);
 		
 		Map<String, Object> map = userDao.getBlackList(search, userEmail);
 		map.put("totalCount", new Integer(totalCount));
@@ -175,7 +168,7 @@ public class UserServiceImpl implements UserService{
 	
 	
 	public Map<String , Object > getFriendRequestList(Search search, String targetEmail) throws Exception {
-		int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getUserFriendRequestListTotalCount(search, targetEmail);
 		
 		Map<String, Object> map = userDao.getFriendRequestList(search, targetEmail);
 		map.put("totalCount", new Integer(totalCount));
@@ -197,9 +190,33 @@ public class UserServiceImpl implements UserService{
 		userDao.updateAccStatus(friendBlack);
 	}
 	
+	public void deleteFriendRequest(FriendBlack friendBlack) throws Exception {
+		userDao.deleteFriendRequest(friendBlack);
+	}
+	
 	public void deleteFriend(FriendBlack friendBlack) throws Exception {
 		userDao.deleteFriend(friendBlack);
 	}
+	
+	
+	// 친구신청 중복검사
+	public int isAlreadyAppliedFriend(String userEmail, String targetEmail) {
+		Map<String, String> map = new HashMap<>();
+		map.put("userEmail", userEmail);
+		map.put("targetEmail", targetEmail);
+		int isAlready = userDao.isAlreadyAppliedFriend(map);
+		
+		// 친구신청이 안되어있다면 반대로 확인
+		if(isAlready < 1) {
+			Map<String, String> mapReverse = new HashMap<>();
+			mapReverse.put("userEmail", userEmail);
+			mapReverse.put("targetEmail", targetEmail);
+			isAlready = userDao.isAlreadyAppliedFriend(mapReverse);
+		}
+		// 결과값 전달
+		return isAlready;
+	}
+
 	
 	
 	//================쪽지================================================
