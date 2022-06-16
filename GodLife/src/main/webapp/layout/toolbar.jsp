@@ -64,9 +64,10 @@ background-color:  #EDFFFD;
                
                <ul class="service_center_detail">
                   <li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">개인정보 조회</a></li>
-                  <li><a href="링크">포인트 구매</a></li>
-                  <li><a href="링크">상품권 구매</a></li>
-                  <li><a href="링크">쿠폰 구매</a></li>
+				  <li><a href="링크">포인트 구매</a></li>
+				  <li><a href="링크">상품권 구매</a></li>
+				  <li><a href="링크">쿠폰 구매</a></li>
+				  <li><a href="링크"></a></li>	
                   <li><a href="링크">기부하기</a></li>
                   
                   </ul>
@@ -133,10 +134,12 @@ background-color:  #EDFFFD;
                   <li><a class="링크">챌린지관리</a></li>
                   <li><a class="링크">인증이미지 게시글관리</a></li>
                   <li><a class="링크"> 개설한 챌린지관리</a></li>
-                  <li><a class="링크">포인트 상품관리</a></li>
-                  <li><a class="링크">상품권 관리</a></li>
-                  <li><a class="링크">쿠폰 관리</a></li>
-                  <li><a class="링크">배지 관리</a></li>
+                  <!-- 호 부분 링크 -->
+				  <li><a href="/product/getProductPointList">포인트 관리</a></li>
+				  <li><a href="/product/getProductVoucherList">상품권 관리</a></li>
+				  <li><a href="/product/getProductCouponList">쿠폰 관리</a></li>
+				  <li><a href="/badge/getBadgeList">배지 관리</a></li>
+				  <!-- 호 부분 링크 -->
                   <li><a class="링크">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
                   <li><a class="링크">일대일문의 관리</a></li>
