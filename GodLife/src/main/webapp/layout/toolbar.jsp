@@ -9,13 +9,61 @@
 <title>GodLife</title>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
-<link rel="stylesheet" href="/css/toolbar.css" />
-
-<style type="text/css">
-</style>
+<link rel="stylesheet" href="/resources/css/toolbar2.css" />
+   <script type="text/javascript">
+   
+      $(document).ready(function() {
+         
+         //전체 카테코리 호버 이벤트
+         $(".menu>.all_category").mouseover(function() {
+            $(this).children(".all_category_item").stop().slideDown();
+         });
+         
+         $(".menu>.all_category").mouseleave(function() {
+            $(this).children(".all_category_item").stop().slideUp();
+         });
+         
+      
+      //마이페이지 호버이벤트
+      $(".member_items .service_center_item").mouseover(function() {
+         $(this).children(".service_center_detail").stop().slideDown();
+      });
+      
+      $(".member_items .service_center_item").mouseleave(function() {
+         $(this).children(".service_center_detail").stop().slideUp();
+      });
+      
+   
+      $('#all_category_item>li').click(function(){
+         //alert
+         location.href = '/challenge/listChallenge?challengeListOpt=total&searchCondition=2&orderCondition=' + $(this).children('a').attr('class');
+      });
+      
+});   
+      
+   // //header 고정 이벤트
+   //  $(function(){
+   //      var top_pos= $('.menuDiv').offset().top;
+   //      win = window;
+   //      $(win).on('scroll',
+   //         function(){
+   //           var pos = $(this).scrollTop();
+   //           
+   //           if(pos >= top_pos){
+   //              $('.menuDiv').addClass('fix');
+   //           } 
+   //            else{
+   //              $('.menuDiv').removeClass('fix');
+   //            }
+   //      });         
+   //    });
+   // 
+      
+   </script>
 
 <style>
 .menuDiv{
+
 }
 /*
 .header{
@@ -27,15 +75,18 @@ border: #EDFFFD;
 margin : 0;
 }
 */
+
 .logo_image{
 background-color:  #EDFFFD;
 }
+
 </style>
 
 </head>
 <body>
 
    <!-- header -->
+  <div class="menuDiv"> 
    <div class="header">
 
       <div align="center" class="header_bar">
@@ -53,7 +104,11 @@ background-color:  #EDFFFD;
                <a class="service_center" href="/user/getUser?userEmail=${sessionScope.user.userEmail}"> 마이페이지</a>
                <button type="button" class="service_center_icon"></button>
                
-
+               <c:if test="${user.userEmail != null}">
+               <li class="sign_in_item"><a href="/challenge/addChallengeTos.jsp">챌린지 생성</a></li>
+            </c:if>
+               
+               
                <ul class="service_center_detail">
                   <li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">개인정보 조회</a></li>
                   <li><a href="링크">포인트 구매</a></li>
@@ -66,12 +121,6 @@ background-color:  #EDFFFD;
                     
                   </c:if>
                
-         
-               <c:if test="${user.userEmail != null}">
-               <li class="sign_in_item"><a href="링크">챌린지 생성</a></li>
-            </c:if>
-               
-               
                <c:if test="${user.userEmail != null}">
                <li class="sign_in_item"><a href="/user/logout">로그아웃</a></li>
             </c:if>
@@ -83,14 +132,14 @@ background-color:  #EDFFFD;
       <div class="logo_image">
       <h1 class="logo">
       <a href="/"> 
-            <img src="/images/uploadFiles/로고.png" />
+            <img src="/images/uploadFiles/GodLife 임시로고.png" />
             </a>
       </h1>
       </div>
       
-
-      <div class="menuDiv">
-
+<!--/////////////////////////// 고정된 탑바 ////////////////////////////////////////////// -->
+      
+		<div id="menu-bar">
          <ul class="menu">
             <!-- == main -->
             <li class="all_category header_a_li">
@@ -144,72 +193,12 @@ background-color:  #EDFFFD;
             </li>
                   </c:if>
          </ul>
-
+		</div>
       </div>
    </div>
 
 
 
-
-
-
-
-   <script type="text/javascript"
-      src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
-      
-      
-      
-      
-      
-      
-   <script type="text/javascript">
    
-      $(document).ready(function() {
-         
-         //전체 카테코리 호버 이벤트
-         $(".menu>.all_category").mouseover(function() {
-            $(this).children(".all_category_item").stop().slideDown();
-         });
-         
-         $(".menu>.all_category").mouseleave(function() {
-            $(this).children(".all_category_item").stop().slideUp();
-         });
-         
-      
-      //마이페이지 호버이벤트
-      $(".member_items .service_center_item").mouseover(function() {
-         $(this).children(".service_center_detail").stop().slideDown();
-      });
-      
-      $(".member_items .service_center_item").mouseleave(function() {
-         $(this).children(".service_center_detail").stop().slideUp();
-      });
-      
-   
-      $('#all_category_item>li').click(function(){
-         //alert
-         location.href = '/challenge/listChallenge?challengeListOpt=total&searchCondition=2&orderCondition=' + $(this).children('a').attr('class');
-      });
-      
-});   
-      
-      //header 고정 이벤트
-       $(function(){
-           var top_pos= $('.menuDiv').offset().top;
-           win = window;
-           $(win).on('scroll',
-              function(){
-                var pos = $(this).scrollTop();
-                
-                if(pos >= top_pos){
-                   $('.menuDiv').addClass('fix');
-                } 
-                 else{
-                   $('.menuDiv').removeClass('fix');
-                 }
-           });         
-         });
-      
-   </script>
 </body>
 </html>

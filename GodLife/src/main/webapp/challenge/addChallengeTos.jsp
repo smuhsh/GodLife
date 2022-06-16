@@ -24,10 +24,12 @@
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 	<style>
          body {
-            padding-top : 70px;
+            
             background-size: cover;
         }
-        
+        .container{
+        padding-top : 70px;
+        }
         p {
         	font-size:14px;
         }
