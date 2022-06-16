@@ -63,10 +63,7 @@ public class PointController {
 
 		System.out.println("/point/addPointPurchaseProduct : POST");
 		System.out.println("#### 받은 point "+point);
-		int productNo=point.getProductNo();
-		Product product = productService.getProductPoint(productNo);
-		point.setPoint(product.getProductPrice());
-		point.setCash(product.getProductPrice());
+		point.setCash(point.getPoint());
 		System.out.println("#### getPorudct 후 point "+point);
 		User user = (User)session.getAttribute("user");
 		

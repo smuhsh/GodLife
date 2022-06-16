@@ -23,12 +23,18 @@
 	
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 	<style>
+		@font-face {
+		    font-family: 'oneMobile';
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+		}
+		
          body {
             
             background-size: cover;
         }
         .container{
-        padding-top : 70px;
+        padding-top : 200px;
+        font-family: 'oneMobile';
         }
         p {
         	font-size:14px;

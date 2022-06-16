@@ -41,20 +41,34 @@
 <!--  ///////////////////////// CSS ////////////////////////// -->
 <style>
 @font-face {
-		    font-family: 'oneMobile';
-		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
-		}
+          font-family: 'oneMobile';
+          src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
+      }
 
 
 body {
-   padding-top: 50px;
-   background-color: #708090 ;
    font-weight: bold; 
    font-family: 'oneMobile';
 }
 
+#productName{
+width: 50px;
+height: 30px;
+}
+.cashbutton{
+width: 100px;
+height: 60px;
+}
+.images{
+width:250px;
+height: 250px;
+}
+.container{
+padding-top: 50px;
+}
+
 fieldset {
-   width: 400px;
+   width: 560px;
    text-align: center;
    backgrond-color: white;
    font-family: 'oneMobile';
@@ -62,28 +76,35 @@ fieldset {
 
 div.box {
    width: 500px;
-   height: 50px;
+   height: 220px;
    box-align:center middle;
-   margin: 10px;
-   padding: 10px;
+   margin: 0;
+   padding: 5px;
    display: none;
-   background-color: #ffcc00;
+   background-color: #9edbff;
    font-family: 'oneMobile';
 }
-
+h4{
+font-weight: bold;
+font-family: 'oneMobile';
+}
 .detail {
    color : white ;
-   margin : 20px;
-   width: 380px;
+   margin : 0;
+   width: 550px;
    height: auto;
    padding-top: 1px;
    background-color: #070719 ;
    font-weight: bold; 
    font-family:impact;
    font-family: 'oneMobile';
+   text-align: center;
+   font-size: 22px;
 }
 
-
+#openmodal{
+color:blue;
+}
 
 </style>
 
@@ -101,24 +122,20 @@ div.box {
 /////////////////구매 유효성 검사////////////
    function fncAddPointPurchasePoint() {
       var productNo = $('input[name="productNo"]:checked').val();
-      var payOpt = $('input[name="payOpt"]:checked').val();
       var useStatus = $("input[name='useStatus']").val();
       var useDetail = $("input[name='useDetail']").val();
 
-      alert(payOpt + " : payOpt   " + productNo + ": productNo   "
+      alert( productNo + ": productNo   "
             + useStatus + ":useStatus  " + useDetail + ":useDetail");
       $("form").attr("method", "POST").attr("action",
             "/point/addPointPurchaseProduct").submit()
    }
    $(function() {
-      $(".btn.btn-default").on("click", function() {
+      $("#buycash").on("click", function() {
          fncAddPointPurchasePoint();
       });
    });
 
-   
-   
-   
    function showDiv(element) {
       var tag = document.getElementsByClassName("box");
 
@@ -141,11 +158,12 @@ div.box {
 //============= productName 에 쿠폰 상품 상세 정보(관리자 모드)  Event  처리(Click) =============
 	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	$(function() {
-		         
+		    var role=$("input[name='role']").val();
+		    if(role=='adin'){
 	     $( ".images" ).on("click" , function() {
 	    	 self.location ="/product/getProductVoucher?productNo="+$(this).attr("productNo");
 	     });
-	
+		    }
 	});
 	     
 //============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
@@ -155,10 +173,7 @@ div.box {
 			
 			var productNo = $(this).data("value");
 //			var productNo = $(this).next.val();
-			
-
-			
-			
+		
 			 $.ajax( 
 	                 {
 	                    url : "/product/json/getProductVoucher/"+productNo,
@@ -173,30 +188,32 @@ div.box {
 	                    success : function(JSONData , status) {
 	                    	
 	                       const displayDetail = 
-	                    	   `<div class="row">
-		                         	<div class="detail">상품 명 :&nbsp \${JSONData.productName} </div>
-		                         	<div class="detail">상품 상세정보: <br/> \${JSONData.productDetail} </div>
-	                     		</div>`
-	                       $("div.detail").remove();
-	                       $( "#"+JSONData.productNo+"" ).append(displayDetail);
-	                       console.log(JSONData , status);
+	                    	    `<div class="detail">
+                          <br>
+   
+                                  <div id="first">상품 명 :&nbsp \${JSONData.productName} </div>
+                                  <br>
+             					  
+                                  <div id="third">가격:&nbsp \${JSONData.productPrice}원 </div>
+                                  <br>
+                                  
+                                  <div id="second">상품 상세정보: <br/> \${JSONData.productDetail} </div>
+                                  <br>
+                                  <input type="hidden" name="productName" value="\${JSONData.productName}" />
+                                  <input type="hidden" name="point" value="\${JSONData.productPrice}" />
+                                  
+                              </div>`
+	                        $("div.detail").remove();
+                          $( "#ajax" ).append(displayDetail);
+                          console.log(JSONData , status);
 	                 }
 	              });
 	           
 	        });
 		//=========================================================//
 		 //==> prodNo LINK Event End User 에게 보일수 있도록 
-	    $( "div#productName" ).css("color" , "red");
-	    $("div#productName").css("font-size", "20px");
+
 	});
-
-	
-
-
-
-	 
-
-
 </script>
 </head>
 
@@ -218,70 +235,75 @@ div.box {
 
          	 <div class="col-md-6 text-right"> 
 				<br/>
-            	<button type="button" class="btn btn-primary addP">신규 상품권 상품 등록</button> 
+				<c:if test="${user.role=='admin'}"><button type="button" class="btn btn-primary addP">신규 상품권 상품 등록</button> </c:if>
+            	
 	         </div>
-
-	         
-         </div>
-         <div class="col-md-8 text-left"> 
-         	* Radio박스를 클릭하면 상세 정보를 조회 할 수 있습니다.<br>
-         	* RadioBox를 클릭 후, 구매를 눌러주시면 구매가 가능 합니다.<br>
-         	* 구현 예정 기능<br>
-         	1) serach<br>
-         	2) RestController 써서 Get으로 상세 정보가 뜨면 안없어짐.<br>
-         	   : 없어지는 버튼 하나 만들자<br>
-         	3) Ajax 글자 꾸미기 <br>
-         	4) Admin 일때, 유저 일때 보이는게 다르게 해야함 <br>
-         	   : 관리자 : 이미지 클릭으로 상세 정보 창으로 이동 => 수정, 삭제 가능 <br>
-         	   : 유저 : radioBox 체크로 상품 상세 정보 및, 상품 구매 가능
-         	   
          </div>
 		<!-- 상품 이미지 시작 /////////////////////////////////////-->
 		<div class="row">
          <c:set var="i" value="0" />
          <c:forEach var="product" items="${list}">
-            <c:set var="i" value="${ i+1 }" />
-
-	            
-	        	               
-	            <div class="col-xs-6 col-md-3" style="height: auto; width: 472px;">
-	            
-	            
-	            <input type="radio" name="radio" class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인" value="${product.productNo}" checked />
-	            
-		            <div style="height: auto; width: auto; border: 1px solid black; margin:20px; background-color: black;">
-		               <img productNo="${ product.productNo }" width="400" height="400" class="images" src="../images/uploadFiles/${product.productImg }"
-		                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
-		                
-		              <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->
-		               <div></div>
-		               
-		               <i id= "${product.productNo}" style="font-size:20px; "></i>
-		               <input type="hidden" value="${product.productNo}">
-		              <!-- <div>${ product.productPrice }원</div> -->
-		               <!-- 상세내용은 상세정보 창에서만 보이게 하자  -->
-		               <!--  <div>${ product.productDetail }</div>-->
-					</div>
+            <c:set var="i" value="${ i+1 }" />            
+               <div class="col-md-3">
+               <input type="radio" name="productNo" class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인" value="${product.productNo}"  />
+               
+                  <div>
+                  		
+                     <img  src="../images/uploadFiles/${product.productImg}"  class="images" productNo="${ product.productNo }"
+                        onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
+                      
+                    <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->
+                     <div></div>
+  
+                    <!-- <div>${ product.productPrice }원</div> -->
+                     <!-- 상세내용은 상세정보 창에서만 보이게 하자  -->
+                     <!--  <div>${ product.productDetail }</div>-->
+               </div>
             </div>
          </c:forEach>
-		</div>
-            <button type="button" class="btn btn-default">구매</button>
+      </div>
          <!--  table End /////////////////////////////////////-->
  			
-         <div class="col-xs-6 col-md-12">
-           
-            </div>
+         <div class="row">
+         <div class="col-md-6">
+            <fieldset>
+               <hr />
+               <h4>
+               <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycash">
+               &nbsp&nbsp&nbsp
+               <input type="radio" id="pay" name="payOpt" value="1" onclick="showDiv(this);">&nbsp 상품권 설명
+            </h4>
+              
+            </fieldset>
+             <br>
+            <div id="payBox" class="box" >
+           <br>
+		상품권 구매 유의사항<br>
+		<br>
+		<ol>
+		<li>상품권은 보유 포인트로 구매가능 합니다. 보유 포인트가 구매 할 상품권 가격보다 적으면 구매가 이루어 지지 않습니다.</li>
+		<li>구매한 상품권은 마이페이지 - 상품권 구매내역 에서 확인하실 수 있습니다.</li>
+		<li>상품권 구매내역에서 메세지전송 버튼을 통해 입력하신 연락처로 상품권정보:상품권명,가격,고유번호,구매날짜 문자가 발송 됩니다.
+		</ol>
+            </div>  
+	</div>
+	<div class="col-md-6">
+	<hr/>
+	<h4>상품 정보</h4> 
+  		<div id="ajax"></div>
+ 		</div>
             <!-- label Tag 사용 / 미사용의 차이점 : 이름 3을 Click 해보면... -->
             <div class="form-group">
                <div class="col-sm-offset-2 col-sm-10">
                   <input type="hidden" name="userEmail" value="${user.userEmail}" />
+                  <input type="hidden" name="role" value="${user.role}" />
                   <input type="hidden" name="useStatus" value="2" /> <input
-                     type="hidden" name="useDetail" value="2" />
+                     type="hidden" name="useDetail" value="9" />
                </div>
             </div>
 
          </div>
-
+</div>
          <!--  화면구성 div End /////////////////////////////////////-->
   		 </form>
 </body>

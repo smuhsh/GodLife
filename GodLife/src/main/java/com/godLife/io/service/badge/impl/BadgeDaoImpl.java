@@ -61,6 +61,8 @@ public class BadgeDaoImpl implements BadgeDao{
 	public void updateBadge(Badge badge) throws Exception {
 		sqlSession.update("BadgeMapper.updateBadge", badge);
 	}
+
+
 	
 	public void deleteBadge(Badge badgeNo) throws Exception {
 		sqlSession.delete("BadgeMapper.deleteBadge", badgeNo);
