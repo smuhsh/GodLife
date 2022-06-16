@@ -49,6 +49,7 @@
 	 
         h2{
                 font-size: 2.3rem;
+                padding-right: 100px;
             }
             
             #head_aticle{
@@ -158,18 +159,18 @@
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="friendBlack" items="${list}">
+		  <c:forEach var="user" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${friendBlack.userEmail} 
-			  <td align="left">${friendBlack.nick}</td>
-			   <td align="left"><a href="/user/updateAccStatus?userEmail=${friendBlack.userEmail}">수락    & </a>
-			   <a href="/user/deleteFriend?userEmail=${friendBlack.userEmail}">거절</a>
+			  <td align="left" > <a  href="/user/getUserTarget?userEmail=${user.userEmail}">${user.userEmail} </a></td>
+			  <td align="left">${user.nick}</td>
+			   <td align="left"><a href="/user/updateAccStatus?userEmail=${user.userEmail}">수락    & </a>
+			   <a href="/user/deleteFriendRequest?userEmail=${user.userEmail}">거절</a>
 			   </td>
 			   
 			  <td align="left">
-			  	<input type="hidden" value="${friendBlack.userEmail}">
+			  	<input type="hidden" value="${user.userEmail}">
 			  	<input type="hidden" value="${friendBlack.targetEmail}">
 			  </td>
 			</tr>
