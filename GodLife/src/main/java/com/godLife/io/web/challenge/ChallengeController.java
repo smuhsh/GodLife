@@ -243,11 +243,17 @@ public class ChallengeController {
 		
 		map.put("user", user);
 		map.put("search", search);
+		System.out.println("search : "+search);
 		map.put("challengeListOpt", challengeListOpt);
 		
 		System.out.println("challengeListOpt "+challengeListOpt);
 		
-		map = challengeService.getChallengeList(map);
+		if(challengeListOpt.equals("friend")) {
+			map = challengeService.getChallengeListFriend(map);
+		}else {
+			map = challengeService.getChallengeList(map);
+		}
+		
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		

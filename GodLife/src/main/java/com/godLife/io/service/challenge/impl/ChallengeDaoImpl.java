@@ -448,6 +448,39 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		return list;
 	}
 
+	@Override
+	public Map<String, Object> getChallengeListFriend(Map<String, Object> map) {
+		
+		System.out.println("search dao : "+map.get("search"));
+		
+		map.put("black", "black");
+		
+		List<String> targetEmail = sqlSession.selectList("ChallengeMapper.getFbTarget",map);  
+		List<String> userEmail = sqlSession.selectList("ChallengeMapper.getFbUser",map);      
+		List<String> friend = new ArrayList<String>();
+		
+		if(targetEmail != null) {
+			for(int i=0; i<targetEmail.size(); i++) {
+				friend.add(targetEmail.get(i));
+			}
+		}
+		if(userEmail != null) {
+			for(int i=0; i<userEmail.size(); i++) {
+				friend.add(userEmail.get(i));
+			}
+		}
+		
+		System.out.println("friend : "+friend);
+		
+		map.put("friend", friend);
+		
+		List<Challenge> list = sqlSession.selectList("ChallengeMapper.getChallengeListFriend",map);
+		int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeListFriendTotal",map);
+		map.put("totalCount", totalCount);
+		map.put("list", list);
+		return map;
+	}
+
 	
 	
 }

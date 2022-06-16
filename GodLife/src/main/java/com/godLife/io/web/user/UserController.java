@@ -118,7 +118,7 @@ public class UserController {
 		System.out.println(session.getAttribute("user"));
 		
 		return "/"; // 메인페이지로 이동 
-	}
+
 	
 	
 	@GetMapping( value="logout") // 테스트완료  
@@ -128,7 +128,7 @@ public class UserController {
 		
 		session.invalidate();
 		
-		return "redirect:/index.jsp"; // 메인페이지로 이동 
+		return "redirect:/"; // 메인페이지로 이동 
 	}
 	
 

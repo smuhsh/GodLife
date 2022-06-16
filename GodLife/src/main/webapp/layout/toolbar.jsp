@@ -59,6 +59,25 @@
    //    });
    // 
       
+      //=============  판매상품등록 Event  처리 =============   
+      $(function() {
+         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+          $("a:contains('판매상품등록')").on("click" , function() {
+            //$(self.location).attr("href","/user/logout");
+            self.location = "/product/addProductView.jsp"
+         }); 
+       });
+      
+      
+      //=============  판매상품관리 Event  처리 =============   
+      $(function() {
+         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+          $("a:contains('판매상품관리')").on("click" , function() {
+            //$(self.location).attr("href","/user/logout");
+            self.location = "/product/listProduct?menu=manage"
+         }); 
+       });
+      
    </script>
 
 <style>
@@ -139,7 +158,7 @@ background-color:  #EDFFFD;
       
 <!--/////////////////////////// 고정된 탑바 ////////////////////////////////////////////// -->
       
-		<div id="menu-bar">
+      <div id="menu-bar">
          <ul class="menu">
             <!-- == main -->
             <li class="all_category header_a_li">
@@ -193,7 +212,7 @@ background-color:  #EDFFFD;
             </li>
                   </c:if>
          </ul>
-		</div>
+      </div>
       </div>
    </div>
 
