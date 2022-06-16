@@ -25,9 +25,6 @@ public interface UserService {
 	// 본인정보확인, 로그인 *
 	public User getUser(String userEmail) throws Exception;
 	
-	// 타유저 상세조회 
-	public List<User> getUserTarget(String nick) throws Exception ;
-	
 	// 비밀번호 수정 
 	public void updatePwd(User user) throws Exception;
 	
@@ -79,8 +76,17 @@ public interface UserService {
 	//친구 요청수락 *
 	public void updateAccStatus(FriendBlack friendBlack) throws Exception;
 	
-	//친구 요청 거절   
-	public void deleteFriend(FriendBlack friendBlack) throws Exception;
+	// 친구요청 거절 
+	public void deleteFriendRequest(FriendBlack friendBlack) throws Exception ;
+	
+	//친구 삭제 
+	public void deleteFriend(FriendBlack friendBlack) throws Exception ;
+	
+	// 친구신청 중복검사
+	public int isAlreadyAppliedFriend(String userEmail, String targetEmail);
+	
+	
+	
 	
 	
 	//================쪽지 ======================================

@@ -1,15 +1,11 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<html lang="ko">
-	
+<html>
 <head>
-	<meta charset="EUC-KR">
-	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+<meta charset="UTF-8">
+
+<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -18,125 +14,127 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
- 		body {
-            padding-top : 50px;
-        }
-     </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
-		
-		//============= È¸¿øÁ¤º¸¼öÁ¤ Event  Ã³¸® =============	
-		 $(function() {
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button" ).on("click" , function() {
-					self.location = "/user/updateUser?userEmail=${user.userEmail}"
-				});
-		});
-		
-	</script>
 	
-</head>
+<!-- CSS-->
+<link rel="stylesheet" href="/css/getUser.css" />
 
-<body>
+<style>
 
-	<!-- ToolBar Start /////////////////////////////////////-->
+body {
+           padding-top : 50px;
+           padding-right: :5px;
+       }
+        
+img
+{
+border : 5px solid white;
+width : 200px;
+height : 200px;
+float : center;
+}
+
+#writeBtn{
+width : 140px;
+height : 40px;
+}
+
+#writeBtn1{
+width : 140px;
+height : 40px;
+}
+
+</style>
+
+<!-- ìƒë‹¨ë°”ì‚½ì… -->
 	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
-	<div class="container">
-	
-		<div class="page-header">
-	       <h3 class=" text-info">À¯Àú»ó¼¼Á¶È¸</h3>
-	       <h5 class="text-muted">³» Á¤º¸¸¦ <strong class="text-danger">ÃÖ½ÅÁ¤º¸·Î °ü¸®</strong>ÇØ ÁÖ¼¼¿ä.</h5>
-	    </div>
-	
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>¾Æ ÀÌ µğ</strong></div>
-			<div class="col-xs-8 col-md-4">${user.userEmail}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>´Ğ³×ÀÓ</strong></div>
-			<div class="col-xs-8 col-md-4">${user.nick}</div>
-		</div>
-		
-		<hr/>
+	<!-- ì™¼ìª½ ë ˆì´ì•„ì›ƒ ì‚½ì…-->
+	<jsp:include page="/user/mypageMain.jsp" />
 
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>°ü½É»ç</strong></div>
-			<div class="col-xs-8 col-md-4">${user.categName}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>ÇÁ·ÎÇÊÀÌ¹ÌÁö</strong></div>
-			<div class="col-xs-8 col-md-4">${user.profileImg}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>¼Ò°³±Û</strong></div>
-			<div class="col-xs-8 col-md-4">${user.intro}</div>
-		</div>
-		
-		<hr/>
-		
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>Âü¿© Ã§¸°Áö Á¦¸ñ</strong></div>
-			<div class="col-xs-8 col-md-4">${user.challengeTitle}</div>
-		</div>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>Âü¿© Ã§¸°Áö ÀÌ¹ÌÁö</strong></div>
-			<div class="col-xs-8 col-md-4">${user.certiImg}</div>
-		</div>
-		
-			<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>º¸À¯ ¹èÁö</strong></div>
-			<div class="col-xs-8 col-md-4">${user.badgeName}</div>
-		</div>
-		
-			<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>º¸À¯ ¹èÁö ÀÌ¹ÌÁö</strong></div>
-			<div class="col-xs-8 col-md-4">${user.badgeImg}</div>
-		</div>
-		
-		
-		
-		
-		
-		<hr/>
-		
-	
-		
-		<div class="row">
-	  		<div class="col-md-12 text-center ">
-	  			<button type="button" class="btn btn-primary">È¸¿øÁ¤º¸¼öÁ¤</button>
-	  		</div>
-		</div>
-		
-		<br/>
-		
- 	</div>
- 	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+<!--  ìë°”ìŠ¤í¬ë¦½íŠ¸ -->
+<script type="text/javascript">
+$(function() {
+	//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	$( "#writeBtn" ).on("click" , function() {
+		alert("ì¹œêµ¬ ë“±ë¡ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.")
+		$("form").attr("method" , "POST").attr("action" , "/user/addFriend?targetEmail=${user.userEmail}").submit();
+	});
+});	
 
+$(function() {
+	//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	$( "#writeBtn1" ).on("click" , function() {
+		alert("ë¸”ë™ë¦¬ìŠ¤íŠ¸ ë“±ë¡ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.")
+		$("form").attr("method" , "POST").attr("action" , "/user/addBlack?targetEmail=${user.userEmail}").submit();
+	});
+});	
+
+	</script>
+
+<title>ìœ ì € ìƒì„¸ì •ë³´ ì¡°íšŒ</title>
+</head>
+<body>
+	<div class="page_aticle">
+		<div class="type_form getUser">
+			<form id="form" name="frmMember">
+				<div class="field_head">
+					<h3 class="tit">ìœ ì € ìƒì„¸ì •ë³´ ì¡°íšŒ</h3>
+				</div>
+				
+				<table class="tbl_comm">
+				
+				
+				<tr class="profileImg">
+						<th>í”„ë¡œí•„ì´ë¯¸ì§€</th>
+						<td>
+								<img src="/images/uploadFiles/${user.profileImg} " onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" > 
+						</td>
+					</tr>
+				
+					<tr class="userEmail">
+						<th>ì´ë©”ì¼</th>
+						<td>
+							<input type="text" name="userEmail" id="userEmail" required="" fld_esssential="" option="regId" label="ì•„ì´ë””" placeholder="${user.userEmail}" readonly/>
+						</td>
+					</tr>
+					<tr>
+					
+					<tr class="nick">
+						<th>ë‹‰ë„¤ì„</th>
+						<td>
+							<input type="text" name="nick" id="nick" value="" required="" fld_esssential="" label="ë‹‰ë„¤ì„" placeholder="${user.nick}" readonly/>
+						</td>
+					</tr>
+					
+					
+					<tr class="categNo">
+						<th>ê´€ì‹¬ì‚¬</th>
+						<td>
+								<input type="text" value=""  name="categNo" id="categNo" placeholder="${user.categName}"  readonly/>
+						</td>
+					</tr>
+					
+					<tr class="intro">
+						<th>ìê¸°ì†Œê°œ</th>
+						<td>
+							<textarea id = "intro" name="intro" cols="30" rows="10" placeholder="${user.intro}"  readonly/></textarea>
+						</td>
+					</tr>
+					
+					<!-- ì±Œë¦°ì§€ë‘ ë°°ì§€ ê´€ë ¨ ë„£ì–´ì•¼í•¨ -->
+					
+					</table>
+	
+	
+				<div id="formSubmit" class="form_footer">
+					<div id="checkDiv" class="checkDiv"></div>
+					<button type="button" class="btn active btn_join" id="writeBtn">ì¹œêµ¬ ë“±ë¡</button>
+					<button type="button" class="btn active btn_join" id="writeBtn1">ë¸”ë™ë¦¬ìŠ¤íŠ¸ ë“±ë¡</button>
+				</div>
+			</form>
+		</div>
+		
+		
+	</div>
 </body>
-
 </html>

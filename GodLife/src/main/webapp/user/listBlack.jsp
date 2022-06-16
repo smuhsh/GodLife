@@ -49,6 +49,7 @@
 	 
         h2{
                 font-size: 2.3rem;
+                padding-right: 100px;
             }
             
             #head_aticle{
@@ -151,8 +152,8 @@
        <img class="img-responsive" src="/images/uploadFiles/${user.profileImg }"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;" > 
      
           <div class="caption"  id = "caption">
-            <h3> ${ user.userEmail } </h3>
-            <p>닉네임  :${user.nick}</p>
+              <h3>닉네임  :${user.nick}</h3>
+         	 <a  href="/user/getUserTarget?userEmail=${user.userEmail}"> ${user.userEmail}</a>
             
             <input type="hidden" value="${user.userEmail}">
             </div>
