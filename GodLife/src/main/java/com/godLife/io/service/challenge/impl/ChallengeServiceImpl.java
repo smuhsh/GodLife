@@ -143,6 +143,12 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 
+	@Override
+	public Map<String, Object> getChallengeListFriend(Map<String, Object> map) {
+		return challengeDao.getChallengeListFriend(map);
+	}
+
+
 	
 
 }

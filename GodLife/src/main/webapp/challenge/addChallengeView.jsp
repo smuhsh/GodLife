@@ -25,7 +25,7 @@
 
 <style>
 	  .container{
-        padding-top : 70px;
+      	 padding-top : 200px;
         }
 	  p{
 	       		font-size : 14px;

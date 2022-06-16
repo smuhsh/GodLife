@@ -117,7 +117,7 @@ public class UserController {
 		System.out.println("세션 만들어짐...");
 		System.out.println(session.getAttribute("user"));
 		
-		return "redirect:/index.jsp"; // 메인페이지로 이동 
+		return "redirect:/"; // 메인페이지로 이동 
 	}
 	
 	
@@ -128,7 +128,7 @@ public class UserController {
 		
 		session.invalidate();
 		
-		return "redirect:/index.jsp"; // 메인페이지로 이동 
+		return "redirect:/"; // 메인페이지로 이동 
 	}
 	
 
