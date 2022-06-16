@@ -66,7 +66,7 @@ $("#phoneChk2").click(function(){
 });	
 
 
-//============= "아이디 찾기"  Event 연결 =============
+//============= "비밀번호 찾기"  Event 연결 =============
 $(function() {
 	//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	
@@ -74,6 +74,7 @@ $(function() {
 	
   var phone=$("input[name='phone']").val();
   var phone2=$("input[name='phone2']").val();
+  var id=$("input[name='userEmail']").val();
   
   if(phone == null || phone.length < 8){
 	  alert("핸드폰 번호를 다시 확인해주세요.");
@@ -85,10 +86,17 @@ $(function() {
 		return;
   }
 	
+  if(id == null || id.length <1){
+		alert("이메일은 반드시 입력하셔야 합니다.");
+		return;
+	}
   
+  if ($("#phone").val() == "" || $("#phone").val().length != 11 || isNaN($("#phone").val())) {
+		alert("휴대폰번호를 정확히 입력해 주세요");
+		return;
+	}
   
-		
-		$("form").attr("method" , "POST").attr("action" , "/user/findUserEmail").submit();
+		$("form").attr("method" , "POST").attr("action" , "/user/findUserPwd").submit();
 	});
 });	
 	

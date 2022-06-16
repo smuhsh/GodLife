@@ -117,7 +117,7 @@ public class UserController {
 		System.out.println("세션 만들어짐...");
 		System.out.println(session.getAttribute("user"));
 		
-		return "redirect:/index.jsp"; // 메인페이지로 이동 
+		return "redirect:/"; // 메인페이지로 이동 
 	}
 	
 	
@@ -128,7 +128,7 @@ public class UserController {
 		
 		session.invalidate();
 		
-		return "redirect:/index.jsp"; // 메인페이지로 이동 
+		return "redirect:/"; // 메인페이지로 이동 
 	}
 	
 
@@ -168,14 +168,14 @@ public class UserController {
 		return "forward:/user/getUser.jsp"; // 본인정보 조회 페이지로 이동 
 	}
 	
-	@GetMapping( value="getUserTarget") // 타유저정보조회, 쿼리 여러개값나와서.안돌아감... 
-	public String getUserTarget( @RequestParam("nick") String nick , Model model) 
+	@GetMapping( value="getUserTarget") // 타유저정보조회, 배지랑 챌린지관련 부분 안됨  
+	public String getUserTarget( @RequestParam("userEmail") String userEmail, Model model) 
 						   throws Exception {
 					
 		System.out.println("타유저 상세조회 시작");
-		//Business Logic
-		List<User> user = userService.getUserTarget(nick);
 		
+		//Business Logic
+		User user = userService.getUser(userEmail);
 		// Model 과 View 연결
 		model.addAttribute("user", user);
 		
@@ -191,14 +191,13 @@ public class UserController {
 		//Business Logic
 		User user = userService.getUser(userEmail);
 		
-		System.out.println("유저값 제발나와... : "+user); // 유저값이 안나옴... 
+		System.out.println("유저값 제발나와... : "+user); // 왜 레드카드 쿠폰개수 못가져오는거니... 
 		
 		// Model 과 View 연결
 		model.addAttribute("user", user);
 		
 		return "forward:/user/updateUser.jsp"; // 본인정보 수정을 하기위한 조회페이지로 이동 
 	}
-	
 	
 	@PostMapping( value="updateUser")  
 	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session,
@@ -225,7 +224,6 @@ public class UserController {
 	}
 	
 	
-	
     //파일명 랜덤 생성 메서드
     private String uploadFile(String originalName, byte[] fileData) throws Exception{
     
@@ -242,6 +240,7 @@ public class UserController {
         return savedName;
     }
 	
+    
 	
 	@RequestMapping( value="listUser" )  // 테스트완료, 시간되면 매퍼에서 서치검색어 like로 바꾸기 
 	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
@@ -283,13 +282,6 @@ public class UserController {
 		
 		return "forward:/user/getUserEmail.jsp";
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 //	@GetMapping("findUserPwd")
@@ -344,8 +336,6 @@ public class UserController {
 	}
 	
 	
-	//타유저 상세조회 . 인젝션해야되는데... 개어려워... 
-	
 	
 	///////////////////////////////마이페이지/////////////////////////////////////////////////////////
 	
@@ -356,12 +346,15 @@ public class UserController {
 	////////////////////////////////친구, 블랙리스트 관리/////////////////////////////////////////////////////////
 	
 	// 친구 목록조회
-	@RequestMapping( value = "listFriend") // 테스트완료 (썸네일 이미지 출력과, 닉네임 클릭 시 회원상세정보로 이동하는거 만들면될듯..) ,, 어자피 타유저상세조회라서.. 그땐 닉으로할까.. 
+	@RequestMapping( value = "listFriend") // 테스트완료
 	public String listFriend (@ModelAttribute("search") Search search, 
-							  @RequestParam("userEmail")String userEmail, 
-							   Model model, HttpServletRequest request)throws Exception{
+							   Model model, HttpServletRequest request, HttpSession session)throws Exception{
 		
 		System.out.println("listFriend : GET / POST");
+		
+		User user = (User)session.getAttribute("user"); // 타켓이메일 없애고 세션 박아버림
+		String userEmail = user.getUserEmail();
+		
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -380,16 +373,17 @@ public class UserController {
 		model.addAttribute("search", search);
 				
 		return "forward:/user/listFriend.jsp"; // 친구 목록조회 리스트로 이동 				
-								
 	}
 	
 	// 블랙리스트 목록조회
-	@RequestMapping( value = "listBlack") // 테스트 완료, 카운트 수 이상함 
+	@RequestMapping( value = "listBlack") // 테스트 완료, 
 	public String listBlack (@ModelAttribute("search") Search search, 
-							   @RequestParam("userEmail")String userEmail, 
-							   Model model, HttpServletRequest request)throws Exception{
+							   Model model, HttpServletRequest request, HttpSession session)throws Exception{
 		
 		System.out.println("listFriend : GET / POST");
+		
+		User user = (User)session.getAttribute("user"); // 타켓이메일 없애고 세션 박아버림
+		String userEmail = user.getUserEmail();
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -411,6 +405,7 @@ public class UserController {
 								
 	}
 	
+	
 	// 친구요청 목록조회 
 	@RequestMapping( value = "listFriendRequest") // 테스트완료, 카운트값, 서치값만 확인 
 	public String listFriendRequest (@ModelAttribute("search") Search search,  
@@ -420,6 +415,7 @@ public class UserController {
 		
 		User user = (User)session.getAttribute("user");
 		String targetEmail = user.getUserEmail();
+		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
@@ -442,30 +438,44 @@ public class UserController {
 
 	
 	// 유저상세조회 에서 친구등록 레스트로 가야될듯.???... 
-	@PostMapping( value="addFriend")
-	public String addFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack ) throws Exception {
-
+	@RequestMapping( value="addFriend")
+	public String addFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack, HttpSession session)
+							throws Exception {
+							
 		System.out.println("나의 친구등록이 되라... ");
+		
+		User user = (User)session.getAttribute("user");
+		
+		friendBlack.setUserEmail(user.getUserEmail());
+		//String userEmail = user.getUserEmail();
+		
+		System.out.println("유저 :"+user);
 		
 		// 이미 친구관계일때는 등록 x 중복안되게?... 어떻게할수없을까.... boolean? 
 		//Business Logic
 		userService.addFriend(friendBlack);
 		
-		return "aaa"; // 친구 팝업창으로 이동?.. 어디로이동... 그대로 유저상세조회? 
+		//int isAlready = userService.isAlreadyAppliedFriend(userEmail, targetEmail);
+		
+		
+		return "redirect:/user/getUserTarget?userEmail="+friendBlack.getTargetEmail(); 
+
 	}
-	
 	
 	//블랙리스트 등록 레스트로 가야할듯.
 	@RequestMapping( value="addBlack", method=RequestMethod.POST )
-	public String addBlack( @ModelAttribute("friendBlack") FriendBlack friendBlack ) throws Exception {
+	public String addBlack( @ModelAttribute("friendBlack") FriendBlack friendBlack, HttpSession session ) throws Exception {
 
 		System.out.println("나의 블랙리스트등록이 되라... ");
+		
+		User user = (User)session.getAttribute("user"); // 세션으로 등록한 회원 이메일 박아버리기
+		friendBlack.setUserEmail(user.getUserEmail());
 		
 		// 이미 블랙리스트 등록했을때는...  등록 x 중복안되게?... 어떻게할수없을까.... 
 		//Business Logic
 		userService.addBlack(friendBlack);
-		
-		return "aaa"; //  팝업창으로 이동?..  
+		return "redirect:/user/getUserTarget?userEmail="+friendBlack.getTargetEmail(); 
+	
 	}
 	
 	
@@ -483,28 +493,39 @@ public class UserController {
 		 return "forward:/user/listFriendRequest";
 	}
 	
+	
 	//친구 요청 거절 (친구요청 목록조회에서)  // 테스트완료 
-	@RequestMapping( value="deleteFriend")
-	public String deleteFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
+	@RequestMapping( value="deleteFriendRequest")
+	public String deleteFriendRequest( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
 								@RequestParam("userEmail") String userEmail,
 								Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("친구 거절 시작 ");
 		//Business Logic
-		userService.deleteFriend(friendBlack);
+		userService.deleteFriendRequest(friendBlack);
 		//따로 뭐 더 안해줘도되는건가.. 
 		
 		 return "forward:/user/listFriendRequest"; // 수정된상태의 조회페이지로 이동 
 	}
 	
-	
 	//친구 삭제 (친구 목록에서, 이것도 세션처리??)
+	@RequestMapping( value="deleteFriend") // 라디오박스로 전체삭제되고 타겟이메일에 있는 것만 삭제됨 
+	public String deleteFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
+								@RequestParam("userEmail") String userEmail,
+								Model model , HttpServletRequest request) throws Exception{
+		
+		System.out.println("친구를 삭제하시오 ");
+		//Business Logic
+		userService.deleteFriend(friendBlack);
+		//따로 뭐 더 안해줘도되는건가.. 
+		
+		return "forward:/user/listFriend.jsp"; // 수정된상태의 조회페이지로 이동 
+	}
+	
 	
 	//블랙리스트 삭제 (블랙리스트 목록, 이것도 세션처리?? ) 
 	
 	//친구등록 중복방지, 블랙리스트 등록 중복방지.... 어떻게할까.... 
-	
-	
 	
 	////////////////////////////////쪽지관리/////////////////////////////////////////////////////////
 	

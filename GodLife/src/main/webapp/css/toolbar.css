@@ -203,9 +203,10 @@ button {
     z-index: 400;
     float: left;
 }
-.menuDiv {
-	padding-top: 8px;
-	position: fixed;
+
+.menuDiv { /*fixed하면 레이아웃에 문제샘김*/
+	padding-top: 18px;
+	/*position: fixed;*/
 	width: 100%;
 	left: 0;
 	background-color: #fff;
