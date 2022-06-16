@@ -20,7 +20,6 @@ public class FriendBlack {
 	public FriendBlack() {
 	}
 	
-	
 	public int getFriendBlackNo() {
 		return friendBlackNo;
 	}

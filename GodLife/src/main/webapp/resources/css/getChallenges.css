@@ -5,11 +5,12 @@
 		}
 
         body {
-            padding-top : 70px;
-            background-size: cover;
             font-family: 'oneMobile';
-	 		background-color: #EDFFFD;
        		overflow-x:hidden;
+        }
+        
+        .container{
+        padding-top : 200px;
         }
 		
 		h2.page-header{

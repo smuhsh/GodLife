@@ -114,8 +114,6 @@ $(function() {
 					
 					
 					
-					
-					
 					<button type="button" class="btn_type1" id="find_pwdBtn"><span class="txt_type">아이디 찾기</span></button>
 				
 			</div>

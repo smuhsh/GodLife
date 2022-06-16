@@ -27,7 +27,7 @@
 	  	FROM (	
 	  					SELECT 
 	  					inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	select u.user_email, u.nick, u.profile_img 
+	  					FROM		(	select u.user_email, u.nick, u.profile_img
 											from users u, friend_blacks f 
 											WHERE
 											 u.user_email = f.target_email 
@@ -98,35 +98,89 @@
 	 
 	 
 	
-	<!-- SQL : SELECT ROW Count // 친구목록조회  -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	<!-- SQL : SELECT ROW Count // 나의 친구목록조회 토탈카운트  -->	 
+	 <select  id="getUserFriendListTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	select u.nick, u.profile_img 
+	  	FROM(	select u.user_email, u.nick, u.profile_img 
 											from users u, friend_blacks f 
-											where u.user_email = f.target_email 
-											and f.f_b_status = '1'
-											and f.acc_status = '2')
-						<if test="searchCondition != null">
-							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			u.nick = #{searchKeyword}
-								</if>
-							</where>
-						</if> ) countTable						
+											WHERE
+											 u.user_email = f.target_email 
+											AND f.f_b_status = '1'
+											AND f.acc_status = '2'
+											AND f.user_email = #{userEmail}
+											UNION
+											SELECT u.user_email, u.nick, u.profile_img 
+											FROM users u, friend_blacks f 
+											WHERE u.user_email = f.user_email 
+											AND f.f_b_status = '1'
+											AND f.acc_status = '2'
+											AND f.target_email = #{userEmail}
+											<where>
+											<if test="searchCondition == 0 and searchKeyword !='' ">
+											AND u.nick = #{searchKeyword}
+											</if>
+											</where>
+						) countTable						
 	 </select>
+	 
+	 
+	 	<!-- SQL : SELECT ROW Count // 친구요청목록 토탈카운트 -->
+	 	<select  id="getUserFriendRequestListTotalCount"  parameterType="map"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT 
+	  					                   u.user_email, u.nick, u.profile_img, f.acc_status
+											FROM users u, friend_blacks f 
+											<where>
+											u.user_email = f.user_email 
+											and f.f_b_status = '1' 
+											and f.acc_status = '1'
+											and f.target_email = #{targetEmail}
+										</where>	
+											ORDER BY f.friend_black_no
+						) countTable						
+	 </select>	 
+	 
+	 
+	 <!-- SQL : SELECT ROW Count // 나의 블랙리스트 목록 토탈카운트 -->
+	 <select  id="getUserBlackListTotalCount"  parameterType="map"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT 
+	  					                   u.user_email, u.nick, u.profile_img
+											FROM users u, friend_blacks f 
+											<where>
+											u.user_email = f.target_email 
+											AND f.f_b_status = '2' 
+											AND f.user_email = #{userEmail} 
+											<if test="searchCondition == 0 and searchKeyword !='' ">
+											AND u.nick = #{searchKeyword}
+											</if>
+											</where>
+											ORDER BY f.friend_black_no
+						) countTable						
+	 </select>
+	 
+	 	
+	 	
+	 	
+
+
+
+
+
+
 
 
 	  <!-- 친구 등록  //// 친구랑 블랙리스트 등록 합칠수있을꺼같은데... -->
 	<insert 	id="addFriend"		parameterType="friendBlack" >
 	 	INSERT
-		INTO FRIEND_BLACKS
+		INTO FRIEND_BLACKS(friend_black_no, user_email, target_email, f_b_status, acc_status)
 		VALUES	 (seq_friend_black_no.NEXTVAL, #{userEmail : VARCHAR}, #{targetEmail : VARCHAR}, '1', '1')
 	 </insert>
 	 
 	 
 	 
 	 <!-- 블랙리스트 등록 -->
-	<insert 	id="addBlack"		parameterType="friendBlack" >
+	<insert 	id="addBlack">
 	 	INSERT
 		INTO FRIEND_BLACKS
 		VALUES	 (seq_friend_black_no.NEXTVAL, #{userEmail : VARCHAR}, #{targetEmail : VARCHAR}, '2', null)
@@ -143,15 +197,36 @@
 	 </update>
 	 
 	 <!-- 친구 요청 거절  -->
-	 <delete id="deleteFriend">
+	 <delete id="deleteFriendRequest">
 	   delete from friend_blacks 
 	   WHERE f_b_status = '1' and acc_status = '1'  
 	   and user_email = #{userEmail} 
 	 </delete>
 	 
-	  <!-- 친구 삭제  -->
+	   <!-- 친구 삭제 -->
+	 <delete id="deleteFriend">
+	   delete from friend_blacks 
+	   WHERE f_b_status = '1' and acc_status = '2'  
+	   and user_email= #{userEmail}
+	 </delete>
+	  
 	  <!-- 블랙리스트 삭제  -->
+	  
+	  <delete id="deleteBlack">
+	   delete from friend_blacks 
+	   WHERE f_b_status = '2' 
+	   and user_email = #{userEmail} 
+	 </delete>
 	 
-	 	
+	<!-- 친구 중복신청 방지  -->
+	<select  id="isAlreadyAppliedFriend"  parameterType="map"	 resultType="int">
+	  	SELECT count(*) 
+	  	FROM friend_blacks 
+		WHERE user_email = #{userEmail}
+		AND
+		target_email = #{targetEmail}
+		AND f_b_status ='1' and acc_status = '2'
+	 </select>
+	 
 	 
 </mapper>

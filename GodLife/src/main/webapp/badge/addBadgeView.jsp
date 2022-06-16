@@ -30,7 +30,7 @@
 	
  		body {
             padding-top : 50px;
-            background-color: #708090 ;
+
 		    font-weight: bold; 
 		    font-family: 'oneMobile';
         }
@@ -155,7 +155,7 @@
 
 		    <label for="badgeImg" class="col-sm-offset-2 col-sm-2 control-label">배지이미지</label>
 		    <div class="col-sm-2">
-		    	<img  badgeNo="${ badge.badgeNo }" width="300" height="300" src="../images/uploadFiles/${badge.badgeImg}" alt="..." 
+		    	<img  badgeNo="${ badge.badgeNo }" width="360" height="340" src="../images/uploadFiles/${badge.badgeImg}" alt="..." 
 					onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
 					<input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
 		    </div>
@@ -163,31 +163,51 @@
 <!-- 배지 이미지 입력 End -->
 
 <!-- 배지 등급 이미지 입력 Start -->
-			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			
+		<!-- 배지배경 Collapse로 설명 구현 Start -->
+		<div class="row">
+			<div style="width:1000px; padding-left: 160px;">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn btn-primary" type="button" data-toggle="collapse" 
+					data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1"
+					>
+			  배지 배경 설명
+			</button>
+			<div class="collapse" id="collapseExample1" style="padding-left: 60px;">
+			  <div class="well" >
+			    * 배지 이미지 배경 색의 변화는 3가지가 있습니다.<br>
+			    [대표 배지 이미지는 변화가 없습니다]<br>
+			    * 추후, 배지 등급 추가 계획
+			    * 가입완료 배지는 등급이 없습니다
+			  </div>
+			</div>
+		</div>
+		</div>	
+		<!-- 배지배경 Collapse로 설명 구현 End -->
 
+		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 20; width: 180px; ">
+		    	Bronze Badge<br>
+		    	활동 횟수량 : 1 ~ 10
+		    	<img src="../images/uploadFiles/BronzeBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
+		    </div>
 
-			    <label for="badgeImg1" class="col-sm-offset-2 col-sm-1 control-label" style="margin-left: 50px;">배지 동 등급 이미지</label>
-			    <div class="col-sm-2">
-			    	<img  badgeNo="${ badge.badgeNo }" width="150" height="150" src="../images/uploadFiles/${badge.badgeImg}" alt="..." 
-						onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
-						<input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
-			    </div>
- 
+		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 30; width: 180px;">
+		    	Silver Badge<br>
+		    	활동 횟수량 : 11 ~ 20
+		    	<img src="../images/uploadFiles/SilverBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
+		    </div>
+			    
+		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 30; width: 180px;">
+		    	Gold Badge<br>
+		    	활동 횟수량 : 21 ~ 
+		    	<img src="../images/uploadFiles/GoldBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
+		    </div>
 
-			  	<label for="badgeImg2" class="col-sm-offset-2 col-sm-1 control-label" style="margin-left: 50px;">배지 은 등급 이미지</label>
-			    <div class="col-sm-2">
-			    	<img  badgeNo="${ badge.badgeNo }" width="150" height="150" src="../images/uploadFiles/${badge.badgeImg}" alt="..." 
-						onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
-						<input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
-			    </div>
-
-
-			  	<label for="badgeImg3" class="col-sm-offset-2 col-sm-1 control-label" style="margin-left: 50px;">배지 금 등급 이미지</label>
-			    <div class="col-sm-2">
-			    	<img  badgeNo="${ badge.badgeNo }" width="150" height="150" src="../images/uploadFiles/${badge.badgeImg}" alt="..." 
-						onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
-						<input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
-			    </div>
+		
 <!-- 배지 등급 이미지 입력 End -->			    
 
 
@@ -196,9 +216,9 @@
 
 		  </div>
 
-			<br>
+			<br><br><br>
 		  
-<!-- 버튼 모음 -->
+<!-- 버튼 모음 Start -->
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary addB"  >등록 완료</button>
@@ -206,8 +226,10 @@
 			  <button type="button" class="btn btn-primary getList">리스트로 돌아가기</button>
 		    </div>
 		  </div>
+<!-- 버튼 모음 end -->		  
+		  
 		</form>
-		<!-- form Start /////////////////////////////////////-->
+		<!-- form End /////////////////////////////////////-->
 		
  	</div>
 	<!--  화면구성 div end /////////////////////////////////////-->

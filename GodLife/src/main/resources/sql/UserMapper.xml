@@ -53,7 +53,7 @@
          WHERE user_email = #{userEmail}
     </update>
     
-    <!-- SQL : 본인정보 상세조회, 로그인 -->
+    <!-- SQL : 본인정보, 타유저 상세조회, 로그인 -->
     <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
       SELECT
       u.user_email, u.pwd, u.nick, u.profile_img, u.phone, u.intro, u.redcard_count, u.reg_date, ca.categ_name, u.total_point, u.red_coupon_count,u.certi_coupon_count, u.account_status,
@@ -67,18 +67,12 @@
     </select>
     
     
-     <!-- SQL : 타유저 상세조회
+   <!-- SQL : 타유저 상세조회, 로그인 -->
     <select    id="getUserTarget"   parameterType="string"   resultMap="userSelectMap">
-      SELECT u.user_email, u.nick, u.intro, c.categ_name, ch.title, ce.certi_img, b.badge_name, b.badge_img
-      FROM users u, categs c, challenges ch, join_challenger j, certi_imgs ce, badges b, my_badge m
-      WHERE u.categ_no = c.categ_no 
-      AND u.user_email = j.user_email(+)
-      AND j.user_email = ce.user_email(+)
-      AND j.challenge_no = ch.challenge_no(+)
-      AND u.user_email = m.user_email(+)
-      AND m.badge_no = b.badge_no(+)
-       AND u.user_email = #{userEmail}
-    </select>-->
+      SELECT *
+      FROM users
+      WHERE u.user_email = #{userEmail}
+    </select>
     
     <!-- SQL : 비밀번호 변경 -->
     <update   id="updatePwd"   parameterType="user" >

@@ -48,6 +48,8 @@ public interface ChallengeDao {
 	
 	public List<JoinChallenger> getChallengeJoinerList(int challengeNo);
 	
+	public Map<String, Object> getChallengeListFriend(Map<String,Object> map);
+	
 	
 	
 	

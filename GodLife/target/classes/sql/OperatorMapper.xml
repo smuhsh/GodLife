@@ -282,13 +282,13 @@
 	 <!-- SQL : UPDATE -->
 	 <update	id="updateOperatorNotice"	parameterType="operatorNoticeFaqs" >
 	   	UPDATE notice_faqs
-	   	<set>
+	   	<set>	   		
+	   		user_email			= 	#{userEmail} ,
 	   		status 				= 	#{status} ,
 	   		notice_must 		= 	#{noticeMust} ,
 	   		title		 		= 	#{title} ,
 			detail 				= 	#{detail} ,
-			img 				= 	#{img} ,
-			faq_tag 			= 	#{faqTag}
+			img 				= 	#{img}
 	   	</set>
 		WHERE notice_faq_no = #{noticeFaqNo}
 	 </update>
@@ -306,7 +306,7 @@
 	  					FROM		( -->	SELECT notice_faq_no , user_email, status, notice_must, title , detail,  reg_date, faq_tag
 											FROM notice_faqs
 											
-											<!--  <if test="searchCondition != null">
+											<if test="searchCondition != null">
 												<where>
 													<if test="searchCondition == 0 and searchKeyword !='' ">
 										 				notice_faq_no = #{searchKeyword}
@@ -315,7 +315,7 @@
 										 				title = #{searchKeyword}
 													</if>
 												</where>
-											</if>-->
+											</if>
 											WHERE status = '0'
 											ORDER BY notice_faq_no DESC<!--  ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
@@ -354,7 +354,7 @@
 		SELECT
 		notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag
 		FROM notice_faqs 
-		WHERE notice_faq_no = #{noticeFaqNo} 
+		WHERE title = #{title} 
 	 </select>
 	 
 	 <!-- SQL : UPDATE -->
