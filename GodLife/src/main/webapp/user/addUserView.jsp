@@ -191,7 +191,7 @@
 </head>
 <body>
 	<div class="page_aticle">
-		<div class="type_form member_join ">
+		<div class="type_form member_join" id="user">
 			<form id="form" name="frmMember">
 				<div class="field_head">
 					<h3 class="tit">회원가입</h3>
