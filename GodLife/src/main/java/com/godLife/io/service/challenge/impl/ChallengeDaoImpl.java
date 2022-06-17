@@ -444,7 +444,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 	@Override
 	public List<JoinChallenger> getChallengeJoinerList(int challengeNo) {
 		List<JoinChallenger> list = 
-		sqlSession.selectList("ChallengeMapper.getChallengJoinerList",challengeNo);
+		sqlSession.selectList("ChallengeMapper.getChallengeJoinerList",challengeNo);
 		return list;
 	}
 

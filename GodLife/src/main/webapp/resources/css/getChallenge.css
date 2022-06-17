@@ -119,5 +119,12 @@
         	position:relative;
         	left : 100px;
         }
-       
-        
+       #left-detail{
+       		position:relative;
+       		bottom:140px;
+       }
+       #ending{
+       		
+       		font-size:16px;
+       		text-align:center;
+       }

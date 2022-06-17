@@ -67,13 +67,42 @@ input[type='file']{
 </style>
 
 <script type="text/javascript">
-
+	
+	$(function(){
+		$("button#upload").on("click",function(){
+			
+			 if($("input[name='certiImgFile']").val() == ""){
+				 alert("인증이미지 를 선택해 주세요.");
+				 return;
+			 }else{
+				 
+				 var fileval = $("input[name='certiImgFile']").val();
+				 
+				 var ext = fileval.split('.').pop().toLowerCase();
+			 
+				 if($.inArray(ext, ['jpg','jpeg','gif','png']) == -1) {
+			          alert("jpg, jpeg, gif, png 파일만 업로드할 수 있습니다.");
+			          return;
+			     }
+				 
+			 }
+			
+			 alert("인증 이미지가 업로드 되었습니다.");
+			 
+			$("form[name='fileUpload']").attr("action","/challenge/addChallengeCertiImg").
+			submit();
+		});
+	});
+	
 </script>
 
 
 </head>
 <body>
-	<div class="container">
+	<form name="fileUpload" method="POST" enctype="multipart/form-data">
+	
+	<input type="hidden" name="challengeNo" value="${challenge.challengeNo }">
+		<div class="container">
 		<div class="page-header">
   			<p id="header">인증 이미지 업로드</p>
 		</div>
@@ -87,7 +116,7 @@ input[type='file']{
 		   		 </div>
 		   		   <center>
 		   		   	<div class="buttons">
-		       			<button type="button" class="btn btn-default">이미지 업로드</button>
+		       			<button type="button" id="upload" class="btn btn-default">이미지 업로드</button>
 		   		   	</div>
 		   		   		<br/>
 		   		   	<div class="buttons">
@@ -98,5 +127,6 @@ input[type='file']{
 		    </div>
 		  </div>
 	</div>
+	</form>
 </body>	
 </html>

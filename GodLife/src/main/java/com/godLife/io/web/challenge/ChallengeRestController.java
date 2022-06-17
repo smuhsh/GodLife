@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.challenge.ChallengeService;
+import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
 import com.godLife.io.service.domain.Point;
@@ -227,5 +228,15 @@ public class ChallengeRestController {
 		return challenge;
 	}
 	
+	@RequestMapping(value="deleteChallengeCertiImg",method=RequestMethod.POST)
+	public CertiImg deleteChallengeCertiImg(@RequestBody CertiImg certiImg) {
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("certiImgNo", certiImg.getCertiImgNo());
+		
+		challengeService.deleteChallengeCertiImg(map);
+		return certiImg;
+	}
 	
 }

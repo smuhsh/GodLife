@@ -77,6 +77,8 @@
 							  "챌린지를 등록 하시겠습니까?")){
 				
 				if(${user.totalPoint} >= joinPoint){
+					
+					alert("챌린지가 등록 되었습니다.");
 					$("form[name='addChallengeForm']").attr("method","POST")
 					.attr("action","/challenge/addChallenge").submit();
 				}else{
