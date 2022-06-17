@@ -147,7 +147,6 @@
 						fncAddUser();
 					});
 				});	
-					
 				
 				function fncAddUser() {
 					
@@ -226,7 +225,7 @@
 					<tr>
 						<th>닉네임<span class="ico">*<span class="screen_out">필수항목</span></span></th>
 						<td>
-						      <input type="text" class="form-control" id="nick" name="nick" placeholder="닉네임" oninput = "checkNick()">
+						      <input type="text" class="form-control" id="nick" name="nick" placeholder="닉네임"  maxlength = "12" oninput = "checkNick()">
 						   <span id="helpBlock" class="id_ok2">사용 가능한 닉네임입니다.</span>
 						  <span id="helpBlock" class="id_already2">이미 등록된 닉네임입니다.</span>
 						  </td>

@@ -59,24 +59,6 @@
    //    });
    // 
       
-      //=============  판매상품등록 Event  처리 =============   
-      $(function() {
-         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-          $("a:contains('판매상품등록')").on("click" , function() {
-            //$(self.location).attr("href","/user/logout");
-            self.location = "/product/addProductView.jsp"
-         }); 
-       });
-      
-      
-      //=============  판매상품관리 Event  처리 =============   
-      $(function() {
-         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-          $("a:contains('판매상품관리')").on("click" , function() {
-            //$(self.location).attr("href","/user/logout");
-            self.location = "/product/listProduct?menu=manage"
-         }); 
-       });
       
    </script>
 
@@ -120,14 +102,8 @@ background-color:  #EDFFFD;
             <c:if test="${user.userEmail != null}">
             
                 <li class="service_center_item">
-               <a class="service_center" href="/user/getUser?userEmail=${sessionScope.user.userEmail}"> 마이페이지</a>
+               <a class="service_center"> 마이페이지</a>
                <button type="button" class="service_center_icon"></button>
-               
-               <c:if test="${user.userEmail != null}">
-               <li class="sign_in_item"><a href="/challenge/addChallengeTos.jsp">챌린지 생성</a></li>
-            </c:if>
-               
-               
                <ul class="service_center_detail">
                   <li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">개인정보 조회</a></li>
                   <li><a href="링크">포인트 구매</a></li>
@@ -140,6 +116,12 @@ background-color:  #EDFFFD;
                     
                   </c:if>
                
+               
+               <c:if test="${user.userEmail != null}">
+               <li class="sign_in_item"><a href="/challenge/addChallengeTos.jsp">챌린지 생성</a></li>
+            </c:if>
+               
+               
                <c:if test="${user.userEmail != null}">
                <li class="sign_in_item"><a href="/user/logout">로그아웃</a></li>
             </c:if>
@@ -151,7 +133,7 @@ background-color:  #EDFFFD;
       <div class="logo_image">
       <h1 class="logo">
       <a href="/"> 
-            <img src="/images/uploadFiles/GodLife 임시로고.png" />
+            <img src="/images/uploadFiles/로고.png" />
             </a>
       </h1>
       </div>

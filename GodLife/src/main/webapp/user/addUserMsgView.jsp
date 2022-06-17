@@ -4,63 +4,187 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolbar.jsp" />
+   	<!-- ToolBar End /////////////////////////////////////-->
+   	
+<!-- 왼쪽 레이아웃 삽입-->
+<jsp:include page="/user/mypageMain.jsp" />
+
+<!-- CSS-->
+<link rel="stylesheet" href="/css/getUser.css" />
+
+
+<style>
+
+	body {
+           padding-top : 50px;
+       }
+       
+      #getUser{
+       padding-top : 130px;
+       }
+       
+       
+       .id_ok{
+	color:#064ACB;
+	display: none;
+	font-size : 14px;
+	}
+	
+	.id_already{
+	color:#064ACB; 
+	display: none;
+	font-size : 14px;
+	}
+	
+	.id_ok2{
+	color:#064ACB;
+	display: none;
+	font-size : 14px;
+	}
+	.id_already2{
+	color:#064ACB; 
+	display: none;
+	font-size : 14px;
+	}
+	
+	.doubleChk{
+	color:#064ACB;
+	font-size : 14px;
+	
+	}
+	
+ </style>
+
+<style>
+
+img
+{
+border : 5px solid white;
+width : 200px;
+height : 200px;
+float : center;
+}
+
+</style>
+
+<!--  자바스크립트 -->
+<script type="text/javascript">
+
+		
+		   //==>"받는사람 이메일" 있는지 없는지 검사 
+		   
+		   
+		   
+		   
+		
+			//============= "쪽지보내기"  Event 연결 =============
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "#writeBtn" ).on("click" , function() {
+				fncAddUserMsg();
+			});
+		});	
+		   
+		
+		function fncAddUserMsg() {
+			
+			var recvEmail=$("input[name='recvEmail']").val();
+			var name=$("input[name='title']").val();
+			
+			
+			if(recvEmail == null || recvEmail.length <1){
+				alert("이메일은  반드시 입력하셔야 합니다.");
+				return;
+			}
+			
+			if(name == null || name.length <1){
+				alert("제목은  반드시 입력하셔야 합니다.");
+				return;
+			}
+			
+			$("form").attr("method" , "POST").attr("action" , "/user/addUserMsg").submit();
+			alert("전송이 완료되었습니다")
+		}
+		
+		
+		
+		//============= "내용 글자수 검사" =============
+			
+			
+		$(document).ready(function() {
+	    $('#detail').on('keyup', function() {
+	        $('#test_cnt').html("("+$(this).val().length+" / 500)");
+	 
+	        if($(this).val().length > 500) {
+	            $(this).val($(this).val().substring(0, 500));
+	            $('#test_cnt').html("(500 / 500)");
+	        }
+	    });
+	});
+		
+		
+	</script>
+	
 <title>쪽지 보내기</title>
-<link rel="stylesheet" href="/css/addUserMsgView.css" />
-<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 </head>
 <body>
-
-<!-- 쪽지 viewer -->
-<form id="myMessageFormForm" name="myMessageFormForm">
-
-	  <input type="hidden" name="seq" id="seq" value="${seq}"> 
-	 <input type="hidden" name="id" id="id" value="${memId}">
-		
-	<div class="head_aticle">
-		<h2 class="tit" align="center">쪽지 보내기</h2>
-	</div>
-	
-	<table border="2" id="myMessageFormTable" class="myMessageFormTable" bordercolor="#ddd" cellspacing="0" cellpadding="5" align="center" frame="hsides" rules="rows"
-			>
+	<div class="page_aticle">
+		<div class="type_form getUser" id="getUser">
+			<form id="form" name="frmMember" >
 			
-		<tr>
-			<td align="left" colspan="3" class="title">받는 사람 : 
-			<input type="text" id="message_subject" name="message_subject" placeholder="받는사람의 이메일을 입력하세요." style="width:450px; height:20px; background-color: #f2f2f2; border:0; outline:0;">
-			<div id="message_subject_div_check"></div></td>
-		</tr>
-		
-		<tr>
-			<td align="left" colspan="3" class="title">제목 : 
-			<input type="text" id="message_subject" name="message_subject" placeholder="제목을 입력하세요." style="width:450px; height:20px; background-color: #f2f2f2; border:0; outline:0;">
-			<div id="message_subject_div_check"></div></td>
-		</tr>
-		
-		
-		<tr>	
-			<td class="content" colspan="3" valign="top">
-				<div class="content_div" align="left">
-					<pre><textarea name="message_content_Span" id="message_content_Span" placeholder="내용을 입력하세요." style="width:450px; height:240px; 
-							border:0; resize:none; background-color: #f4f4f4;"></textarea></pre>
+			<input type="hidden" name="sendEmail" value="${msg.sendEmail}"/>
+			
+				<div class="field_head">
+					<h3 class="tit">쪽지 보내기</h3>
 				</div>
-				<div id="content_div_check"></div>
-			</td>
-		</tr>
-		
-		<tr>
-			<td colspan="3" align="center" class="moveToListTd">
-				<!--  <button class="sendBtn" id="sendBtn" ><a href="/jaju/mypage/myMessageSend?pg=1">답장</a></button>  -->
-				<button class="sendBtn" id="sendBtn" >보내기</button>
-				<button type="reset" id="resetBtn" >다시작성</button>
-				<!-- <span class="backBtn" id="backBtn"><a href="/jaju/mypage/myMessage?pg=1">&emsp;쪽지함 이동&emsp;</a></span> -->
-			</td>
-		</tr>
+				
+				<table class="tbl_comm">
+				
+				<tr>
+						<th>이메일</th>
+						<td>
+						      <input type="text" class="form-control" id="recvEmail" name="recvEmail" oninput = "checkNick()"  >
+						  </td>
+					</tr>
+				
+					<tr>
+						<th>제목</th>
+						<td>
+						      <input type="text" class="form-control" id="title" name="title" oninput = "checkNick()"  >
+						  </td>
+					</tr>
+					
+					<tr class="detail">
+						<th>내용</th>
+						<td>
+								<textarea id = "detail" name="detail" cols="30" rows="10" ></textarea>
+								<div id="test_cnt" style ="font-size : 13px">(0 / 500)</div>
+						</td>
+					</tr>
+					
+					</table>
+					
 	
-	</table>
-</form>
-<!-- 이부분은 js에서 append 나 html로 붙여넣기하기 -->
+				<div id="formSubmit" class="form_footer">
+					<div id="checkDiv" class="checkDiv"></div>
+					<button type="button" class="btn active btn_join" id="writeBtn">전송</button>
+				</div>
+			</form>
+		</div>
 		
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js"></script>	
-<script src="/javascript/addUserMsgView.js"></script>
-
+		
+	</div>
 </body>
 </html>

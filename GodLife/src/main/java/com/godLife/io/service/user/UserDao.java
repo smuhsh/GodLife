@@ -34,6 +34,11 @@ public interface UserDao {
 	//아이디 찾기 
 	public String findUserEmail(String phone) throws Exception;
 	
+	//비밀번호 찾기 
+	public int findUserPwd(Map<String, String> map) throws Exception;
+	
+	
+	
 	
 //	// 핸드폰번호로 아이디, 비번찾기  
 //	public User findUserPhone(String phone) throws Exception;
