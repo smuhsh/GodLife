@@ -200,7 +200,7 @@
 		<br>
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 Start-->
 			<div class="row">
-				<img src="/images/uploadFiles/크립토펑크.PNG" style="width:1000px;" alt="..." class="img-thumbnail"><br>
+				<img src="/images/크립토펑크.png" style="width:1000px;" alt="..." class="img-thumbnail"><br>
 				CrytoPunk(크립토 펑크) 배지를 수집하세요.
 			</div>
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 End -->	
