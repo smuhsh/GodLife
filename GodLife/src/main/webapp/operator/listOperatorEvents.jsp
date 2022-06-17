@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>공지사항</title>
+<title>이벤트</title>
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -36,7 +36,7 @@
 		function fncGetList(currentPage) {
 			
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/operator/listOperatorNotice").submit();	
+			$("form").attr("method" , "POST").attr("action" , "/operator/listOperatorEvents").submit();	
 		}
 		
 		$(function() {
@@ -47,39 +47,8 @@
 
 			 
 			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
-					self.location ="/operator/getOperatorNotice?noticeFaqNo="+$(this).data("value");
+					self.location ="/operator/getOperatorEvents?eventNo="+$(this).data("value");
 			});
-			
-			var noticeFaqNo = $(this).text().trim();
-			$.ajax( 
-					{
-						url : "/operator/json/getOperatorNotice/"+noticeFaqNo ,
-						method : "GET" ,
-						dataType : "json" ,
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(JSONData , status) {
-		
-							//Debug...
-							//alert(status);
-							//Debug...
-							//alert("JSONData : \n"+JSONData);
-							
-							var displayValue = "<h3>"
-														+"번  호 : "+JSONData.noticeFaqNo+"<br/>"
-														+"제  목 : "+JSONData.title+"<br/>"
-														+"작성자 : "+JSONData.userEmail+"<br/>"
-														+"작성일 : "+JSONData.regDate+"<br/>"
-														+"</h3>";
-							//Debug...									
-							//alert(displayValue);
-							$("h3").remove();
-							$( "#"+noticeFaqNo+"" ).html(displayValue);
-						}
-				});
-		
 		
 		});
 	</script>
@@ -89,7 +58,7 @@
 <jsp:include page="/layout/toolbar.jsp" />	
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>공지사항</h3>
+	       <h3>이벤트</h3>
 	    </div>
 	    <div class="row">	    
 		    <div class="col-md-6 text-left">
@@ -130,7 +99,8 @@
 		<td></td>
 		<td>제목</td>
 		<td></td>
-		<td>작성자</td>
+		<td>내용</td>
+		<td>썸네일</td>
 		<td>작성일</td>
 		<td></td>	
 	</tr>
@@ -139,19 +109,20 @@
 	</tr>
 
 	<c:set var = "i" value = "0"/>
-	<c:forEach var ="operatorNoticeFaqs" items ="${list }">
+	<c:forEach var ="operatorEvents" items ="${list }">
 		<c:set var="i"  value = "${i+1 }"/>
 		<tr class="ct_list_pop">
 		<td align="center">${ i }</td>
 		<td></td>
-			  <td align="left" data-value="${ operatorNoticeFaqs.noticeFaqNo }" title="Click :내용보기">${ operatorNoticeFaqs.title }</td>
+			  <td align="left" data-value="${ operatorEvents.eventNo }" title="Click :내용보기">${ operatorEvents.eventTitle }</td>
 			  <td align="left">
-			  <input type="hidden" value="${operatorNoticeFaqs.noticeFaqNo}"></td>
+			  <input type="hidden" value="${operatorEvents.eventNo}"></td>
 
-			  <td align="left">${ operatorNoticeFaqs.userEmail }</td>
-			  <td align="left">${ operatorNoticeFaqs.regDate }</td>
+			  <td align="left">${ operatorEvents.eventTitle }</td>
+			  <td align="left">${ operatorEvents.thumbnailImg }</td>
+			  <td align="left">${ operatorEvents.regDate }</td>
 			  <td align="left">
-			  <input type="hidden" value="${operatorNoticeFaqs.noticeFaqNo}">
+			  <input type="hidden" value="${operatorEvents.eventNo}">
 			  </td>
 	</tr>	
 	</c:forEach>
@@ -176,7 +147,7 @@
 
 
 <!-- 새글쓰기 누를 때 -->
-<form action="/operator/addOperatorNotice" method="GET">
+<form action="/operator/addOperatorEvents" method="GET">
 <input type="submit" class="btn btn-primary " value="글쓰기"/>
 
 <!-- 새글의 계층 정보 -->

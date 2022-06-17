@@ -25,8 +25,8 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 	<style>
-	  body {
-            padding-top : 70px;
+	  .container {
+            padding-top : 150px;
         }
         
     </style>
@@ -39,59 +39,45 @@
 			$("form").attr("method" , "POST").attr("action" , "/operator/listOperatorFaqs").submit();	
 		}
 		
-		$(function() {
-			
-			$( "td.ct_btn01:contains('검색')" ).on("click" , function() {
-				fncGetList(1);
-			});
-			 
-			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
-			
-				var title = $(this).text().trim();
-				$.ajax( 
-						{
-							url : "/operator/json/getOperatorFaqs/"+title ,
-							method : "GET" ,
-							dataType : "json" ,
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							success : function(JSONData , status) {
-			
-								//Debug...
-								//alert(status);
-								//Debug...
-								//alert("JSONData : \n"+JSONData);
-								
-								var displayValue = "<h3>"
-
-			                          const displayDetail = 
-			                              <div class="detail">
-			                                   <div id="제 목">제 목:&nbsp \${JSONData.title} </div>
-			                                   <div id="작성자">작성자: <br/> \${JSONData.userEmail} </div>
-			                                   <div id="태그">태그:&nbsp \${JSONData.faqTag} </div>
-			                                   <div id="작성일">작성일:&nbsp \${JSONData.regDate} </div>
-			                               </div>
-			                           $("div.detail").remove();
-			                           $( "#"+JSONData.title+"" ).append(displayDetail);
-			                           console.log(JSONData , status);
-								
-								
-								
-								
-
-							}
-					});
-					
-			});
-			//==> title LINK Event End User 에게 보일수 있도록 
-			//$( ".ct_list_pop td:nth-child(3)" ).css("color" , "orange");
-			$("h7").css("color" , "red");
-			
-			//==> 아래와 같이 정의한 이유는 ??
-			$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+		$( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+			fncGetList(1);
+		});
 		
+		$(function() {
+			$( ".faqtitle" ).on("click" , function() {
+			//alert("ajax 연습");
+			var title = $(this).text().trim();
+			//alert("title :"+title);
+			$.ajax( 
+					{
+						url : "/operator/json/getOperatorFaqs/"+title ,
+						method : "GET",
+	                       dataType : "json",
+	                       headers : {
+	                          "Accept" : "application/json",
+	                          "Content-Type" : "application/json"
+	                       },
+	                       success : function(JSONData , status) {
+	                           
+	                           const displayDetail = 
+	                              `
+	                              <div class="detail">
+	                                   <div id="0">제목 :&nbsp \${JSONData.title} ? </div>
+	                                   <br>
+	                                   
+	                                   <div id="1">내용:&nbsp \${JSONData.detail} </div>
+	                                   <br>
+	                                   
+	                                   
+	                               </div>`
+	                           $("div.detail").remove();
+	                           $( "#append" ).append(displayDetail);
+	                           console.log(JSONData , status);
+	                     }
+					});
+	           
+				});
+				$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");				
 		});
 	</script>
 </head>
@@ -141,7 +127,17 @@
 
 		
 <table class="table table-striped">
-	<tr>
+  	<tr>
+		<br></br>	
+		<td></td>		
+		<td>제목</td>
+		<td>작성자</td>
+		<td>태그</td>
+		<td>작성일</td>
+		<td></td>
+	</tr>
+
+<!--  	<tr>
 		<br></br>	
 		<td>번호<br></td>
 		<td></td>		
@@ -150,26 +146,24 @@
 		<td>태그</td>
 		<td>작성일</td>
 		<td></td>
-	</tr>
+	</tr>-->
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 
 	<c:set var = "i" value = "0"/>
-	<c:forEach var ="NoticeFaqs" items ="${list }">
+	<c:forEach var ="operatorNoticeFaqs" items ="${list }">
 		<c:set var="i"  value = "${i+1 }"/>
-		<tr class="ct_list_pop">
-		<td align="center">${ i }</td>
 			 <td></td>		
-			  <td align="left" data-value="${ NoticeFaqs.title }" title="Click :내용보기">${ NoticeFaqs.title }</td>
+			  <td class="faqtitle" align="left" data-value="${ operatorNoticeFaqs.title }" title="Click :내용보기">${ operatorNoticeFaqs.title }?</td>
 			  
-			  <td align="left">${ NoticeFaqs.userEmail }</td>
-			  <td align="left">${ NoticeFaqs.faqTag }</td>
-			  <td align="left">${ NoticeFaqs.regDate }</td>
+			  <td align="left">${ operatorNoticeFaqs.userEmail }</td>
+			  <td align="left">${ operatorNoticeFaqs.faqTag }</td>
+			  <td align="left">${ operatorNoticeFaqs.regDate }</td>
 			  <td align="left"></td>
 	</tr>	
 	<tr>
-		<td id="${NoticeFaqs.title}" colspan="11" bgcolor="D6D7D6" height="1"></td>
+		<td id="append">
 	</tr>
 	
 	</c:forEach>

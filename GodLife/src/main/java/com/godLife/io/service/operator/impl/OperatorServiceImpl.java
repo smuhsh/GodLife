@@ -84,6 +84,8 @@ public class OperatorServiceImpl implements OperatorService{
 //		return operatorDao.getOperatorFaqs(noticeFaqNo);
 //	}
 	public OperatorNoticeFaqs getOperatorFaqs(String title) throws Exception {
+		System.out.println("@@@@@@@serviceimpl title"+title);
+		
 		return operatorDao.getOperatorFaqs(title);
 	}
 	

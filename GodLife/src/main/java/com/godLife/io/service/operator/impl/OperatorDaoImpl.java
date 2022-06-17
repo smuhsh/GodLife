@@ -93,6 +93,8 @@ public class OperatorDaoImpl implements OperatorDao{
 //		return sqlSession.selectOne("OperatorMapper.getOperatorFaqs",noticeFaqNo);
 //	}
 	public OperatorNoticeFaqs getOperatorFaqs(String title) throws Exception {
+		
+		System.out.println("@@@daoimpl title :"+title);
 		return sqlSession.selectOne("OperatorMapper.getOperatorFaqs",title);
 	}
 	

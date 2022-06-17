@@ -25,6 +25,10 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 	<style>
+	  .container {
+            padding-top : 150px;
+        }
+
         body {
             padding-top : 70px;
             background-size: cover;
@@ -201,7 +205,6 @@
 	</tr>
 </table>	
 
-	
-
+</div>	
 </body>
 </html>
