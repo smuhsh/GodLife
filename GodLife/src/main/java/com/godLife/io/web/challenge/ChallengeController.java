@@ -109,7 +109,7 @@ public class ChallengeController {
 		
 		challengeService.addChallenge(challenge, joinChallenger);
 		
-		return "/";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "addChallengeView", method=RequestMethod.POST)
@@ -326,9 +326,13 @@ public class ChallengeController {
 		map.put("user", user);
 		map.put("challengeNo", challengeNo);
 		Challenge challenge = challengeService.getChallenge(map);
+		List<JoinChallenger> joinChallengerList = 
+				challengeService.getChallengeJoinerList(challenge.getChallengeNo());
+		
+		
 		
 		User hostUser = userService.getUser(challenge.getHostEmail());
-		
+		model.addAttribute("joinChallengerList",joinChallengerList);
 		model.addAttribute("challenge",challenge);
 		model.addAttribute("hostUser",hostUser);
 		model.addAttribute("user",user);
@@ -620,7 +624,7 @@ public class ChallengeController {
 		
 		challengeService.addChallengeCertiImg(certiImg);
 		
-		return "redirect:/common/close.jsp";
+		return "redirect:/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
 	}
 	
 	
@@ -630,9 +634,9 @@ public class ChallengeController {
 		
 		
 		
-		List<JoinChallenger> JoinChallengerList = 
+		List<JoinChallenger> joinChallengerList = 
 				challengeService.getChallengeJoinerList(challenge.getChallengeNo());
-		model.addAttribute(JoinChallengerList);
+		model.addAttribute("joinChallengerList",joinChallengerList);
 		return "forward:/challenge/listChallengeJoinUser.jsp";
 	}
 	

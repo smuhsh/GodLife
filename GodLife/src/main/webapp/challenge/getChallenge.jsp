@@ -170,6 +170,9 @@
 				        			<p id="ending">${challenge.challengeTitle } 챌린지가 종료 되었습니다.</p>
 				        	</div>
 			        	</c:if>
+			        	
+			        	
+			        	
 			        	<div>
 			        		<p id="detail">챌린지 소개</p>
 			        		<textarea readonly>${challenge.challengeDetail }</textarea>
