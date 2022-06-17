@@ -34,7 +34,6 @@
 		}	
 		
  		body {
-            padding-top : 50px;
 
 		    font-weight: bold; 
 		    font-family: 'oneMobile';
@@ -89,7 +88,8 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<br><br>
+	<br><br><br><br><br><br>
+	<br><br><br><br><br><br>
 	<div class="container">
 	
 		<h2 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">배지 상세 정보</h2>
