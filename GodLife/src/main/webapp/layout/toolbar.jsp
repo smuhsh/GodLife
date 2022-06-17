@@ -158,7 +158,7 @@ background-color:  #EDFFFD;
       
 <!--/////////////////////////// 고정된 탑바 ////////////////////////////////////////////// -->
       
-		<div id="menu-bar">
+      <div id="menu-bar">
          <ul class="menu">
             <!-- == main -->
             <li class="all_category header_a_li">
@@ -176,13 +176,13 @@ background-color:  #EDFFFD;
             </li>
 
             <li class="new-product-category">
-               <a	href="/operator/listOperatorEvent" style="text-decoration:none;">이벤트</a></li>
+               <a   href="링크" style="text-decoration:none;">이벤트</a></li>
                
                <li class="new-product-category">
-               <a	href="/operator/listOperatorNotice" style="text-decoration:none;">공지사항</a></li>
+               <a   href="링크" style="text-decoration:none;">공지사항</a></li>
                
                <li class="new-product-category">
-               <a	href="/operator/listOperatorFaqs" style="text-decoration:none;">FAQ</a></li>
+               <a   href="링크" style="text-decoration:none;">FAQ</a></li>
                
                
                
@@ -203,16 +203,16 @@ background-color:  #EDFFFD;
                   <li><a class="링크">상품권 관리</a></li>
                   <li><a class="링크">쿠폰 관리</a></li>
                   <li><a class="링크">배지 관리</a></li>
-                  <li><a class="/operator/listOperatorEvent">이벤트 관리</a></li>
-                  <li><a class="/operator/listJoinOperatorEvent">이벤트참여자 관리</a></li>
+                  <li><a class="링크">이벤트 관리</a></li>
+                  <li><a class="링크">이벤트참여자 관리</a></li>
                   <li><a class="링크">일대일문의 관리</a></li>
-                  <li><a class="/operator/listOperatorNotice">공지사항 관리</a></li>
-                  <li><a class="/operator/listOperatorFaqs">FAQ 관리</a></li>
+                  <li><a class="링크">공지사항 관리</a></li>
+                  <li><a class="링크">FAQ 관리</a></li>
                </ul>
             </li>
                   </c:if>
          </ul>
-		</div>
+      </div>
       </div>
    </div>
 
