@@ -14,11 +14,14 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
+
 <title>아이디 찾기</title>
 
 <link rel="stylesheet" href="/css/getUserEmailView.css" />
 
 <script type="text/javascript" >
+
+
 
 //휴대폰 번호 인증
 $(function(){
@@ -94,7 +97,7 @@ $(function() {
 </head>
 <body>
 	<div id="content" style="height: 61.5%;">
-		<div class="section_login">
+		<div class="section_login" id="user">
 			<form id="form" name="frmMember">
 			<h2 class="tit_login">아이디 찾기</h2>
 			<div class="write_form find_view">

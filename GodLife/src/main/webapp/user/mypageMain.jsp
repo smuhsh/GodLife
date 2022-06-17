@@ -29,7 +29,7 @@
       <ul>
          <li id="managerMainChart" style="text-align: left;"><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}" class="link_lnb">개인정보 조회 및 수정</a></li>
          <li id="managerMainCalender" style="text-align: left;"><a href="/point/getPointPurchaseList" class="link_lnb">포인트 이용내역</a></li>
-         <li id="managerMainCalender" style="text-align: left;"><a href="링크" class="link_lnb">보유 배지</a></li>
+         <li id="managerMainCalender" style="text-align: left;"><a href="/myBadge/getBadgeMyList" class="link_lnb">보유 배지</a></li>
          <li id="managerMainCalender" style="text-align: left;"><a href="/user/listFriend?userEmail=${sessionScope.user.userEmail}" class="link_lnb">친구 관리</a></li>
          <li id="managerMainCalender" style="text-align: left;"><a href="/user/listFriendRequest?targetEmail=${sessionScope.user.userEmail}" class="link_lnb">친구요청 관리</a></li>
          <li id="managerMainCalender" style="text-align: left;"><a href="/user/listBlack?userEmail=${sessionScope.user.userEmail}" class="link_lnb">블랙리스트 관리</a></li>
@@ -57,9 +57,9 @@
       <li class="lnb_admin4">
       <strong><span class="ico_admin"></span> <span class="txt_lnb">고객센터 관리</span></strong>
       <ul>
-         <li id="managerNotice" style="text-align: left;"><a href="링크" class="link_lnb">공지사항 관리</a></li>
-         <li id="managerServiceQuestion" style="text-align: left;"><a href="링크" class="link_lnb">자주묻는질문 관리</a></li>
-         <li id="managerServiceInquire" style="text-align: left;"><a href="링크" class="link_lnb">1:1 문의 관리</a></li>
+          <li id="managerNotice" style="text-align: left;"><a href="/operator/listOperatorNotice" class="link_lnb">공지사항</a></li>
+         <li id="managerServiceQuestion" style="text-align: left;"><a href="/operator/listOperatorFaqs" class="link_lnb">FAQ</a></li>
+         <li id="managerServiceInquire" style="text-align: left;"><a href="링크" class="link_lnb">1:1 문의</a></li>
          <li id="managerReport" style="text-align: left;"><a href="링크" class="link_lnb">신고게시판 관리</a></li>
       </ul>
    </li>
