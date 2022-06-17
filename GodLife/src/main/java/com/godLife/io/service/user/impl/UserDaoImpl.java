@@ -43,6 +43,12 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("UserMapper.findUserEmail", phone);
 	}
 	
+	//비밀번호 찾기 
+	public int findUserPwd(Map<String, String> map)throws Exception{
+		return sqlSession.selectOne("UserMapper.findUserPwd", map);
+	}
+	
+	
 // userEmail 중중복체크
 	public int checkUserEmail(String userEmail) throws Exception {
 		return sqlSession.selectOne("UserMapper.checkUserEmail", userEmail);
@@ -74,6 +80,9 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUserList(Search search) throws Exception {
 		return sqlSession.selectList("UserMapper.getUserList", search);
 	}
+	
+
+	
 	
 //	//핸드폰 번호로 아이디, 비번찾기 
 //	public User findUserPhone(String phone) throws Exception {

@@ -109,7 +109,7 @@ public class ChallengeController {
 		
 		challengeService.addChallenge(challenge, joinChallenger);
 		
-		return "/main.jsp";
+		return "/";
 	}
 	
 	@RequestMapping(value = "addChallengeView", method=RequestMethod.POST)
@@ -501,13 +501,23 @@ public class ChallengeController {
 	}
 	
 	
-	@RequestMapping("listChallengeMyCertiImg")
-	public String listchallengeMycertiImg(@ModelAttribute Challenge challenge,
+	@RequestMapping("listChallengeJoinCertiImg")
+	public String listchallengeJoincertiImg(@ModelAttribute Challenge challenge,
+										  @ModelAttribute User user,
 										  HttpSession session,
 										  Model model,
-										  Map<String,Object> map) {
+										  Map<String,Object> map) throws Exception {
 		
-		User user = (User)session.getAttribute("user");
+		String opt;
+		if(user.getUserEmail() == null) {
+			user = (User)session.getAttribute("user");
+			opt = "my";
+		}else {
+			user = userService.getUser(user.getUserEmail());
+			opt = "thirdParty";
+		}
+		
+		
 		map.put("challengeNo", challenge.getChallengeNo());
 		map.put("user", user);
 		challenge = challengeService.getChallenge(map);
@@ -526,24 +536,53 @@ public class ChallengeController {
 		System.out.println("certiImgList size "+certiImgList.size());
 		
 		System.out.println("Challenge CertiDate :"+challenge.getCertiDate());
-		
-		for(int i=0; i<certiImgs.capacity(); i++) { 
-			if(i>=certiImgList.size()) { 
+		int j=0;
+		certi:for(int i=0; i<certiImgs.capacity(); i++) { 
+			
+			if(j>=certiImgList.size()) { 
 				CertiImg certiImg = new CertiImg();
 				certiImg.setCertiImg("temp.jpg");
 				certiImg.setCertiDate(challenge.getCertiDate().get(i));
 				certiImgs.add(certiImg);
+				j++;
 			}else {
-				certiImgList.get(i).setCertiDate((String)challenge.getCertiDate().get(i));
-				certiImgs.add(certiImgList.get(i));//이미지 밀림 방지로 regDate랑 인증 날짜랑 비교해야됨.
-				//두번째 쿠폰 이미지인가? 그럼 바로 넣는다. 그래도 아니라면 대체이미지인 temp.jpg...
+				
+				if(challenge.getCertiDate().get(i).equals(
+						certiImgList.get(j).getCertiImgRegDate()+"")) {
+					certiImgList.get(j).setCertiDate(challenge.getCertiDate().get(i));
+					certiImgs.add(certiImgList.get(j));
+					System.out.println("정상위치");
+					j++;
+				}else {// 여기서 쿠폰이 사용된게 있는지 없는지 certiImgList에서 찾아서 넣어야한다.
+						// 쿠폰 이미지 이름은 업로드시간+coupon+challenge.getCertiDate(해당 인증날짜)
+					
+					for(int a=0; a<certiImgList.size(); a++) {
+						
+						if(certiImgList.get(a).getCertiImg().contains(
+								challenge.getCertiDate().get(i))) {
+							certiImgList.get(a).setCertiDate(challenge.getCertiDate().get(i));
+							certiImgs.add(certiImgList.get(j));
+							j++;
+							continue certi;
+						}
+						
+					}
+					
+					CertiImg certiImg = new CertiImg();
+					certiImg.setCertiImg("temp.jpg");
+					certiImg.setCertiDate(challenge.getCertiDate().get(i));
+					certiImgs.add(certiImg);
+					System.out.println("이미지는 있는데 날짜 일치안해서 스킵");
+				}
+				
 			}
 		}
 		
 		System.out.println("certiImgs "+certiImgs);
-		
+		model.addAttribute("challenge",challenge);
 		model.addAttribute("certiImgs",certiImgs);
 		model.addAttribute("joinChallenger",joinChallenger);
+		model.addAttribute("opt",opt);
 		
 		return "forward:/challenge/listChallengeJoinCertiImg.jsp";
 	}
@@ -568,7 +607,7 @@ public class ChallengeController {
 		
 		String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
 		
-		MultipartFile mf = mtfRequest.getFile("certiImg");
+		MultipartFile mf = mtfRequest.getFile("certiImgFile");
 		
 		String originFileName = mf.getOriginalFilename();
 		
@@ -576,12 +615,26 @@ public class ChallengeController {
 		certiImg.setEmail(user.getUserEmail());
 		certiImg.setCertiImg(System.currentTimeMillis()+originFileName);
 		
+		
 		mf.transferTo(new File(path+certiImg.getCertiImg()));
 		
-		return "/challenge/listChallengeMyCertiImg?challengeNo="+challenge.getChallengeNo();
+		challengeService.addChallengeCertiImg(certiImg);
+		
+		return "redirect:/common/close.jsp";
 	}
 	
 	
+	@RequestMapping(value="listChallengeJoinUser",method=RequestMethod.GET)
+	public String listChallengeJoinUser(@ModelAttribute Challenge challenge,
+										Model model) {
+		
+		
+		
+		List<JoinChallenger> JoinChallengerList = 
+				challengeService.getChallengeJoinerList(challenge.getChallengeNo());
+		model.addAttribute(JoinChallengerList);
+		return "forward:/challenge/listChallengeJoinUser.jsp";
+	}
 	
 	
 	

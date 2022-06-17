@@ -94,24 +94,10 @@ public class OperatorNoticeFaqs {
 
 	@Override
 	public String toString() {
-		return "NoticeFaqs [noticeFaqNo=" + noticeFaqNo + ", userEmail=" + userEmail + ", status=" + status
+		return "OperatorNoticeFaqs [noticeFaqNo=" + noticeFaqNo + ", userEmail=" + userEmail + ", status=" + status
 				+ ", noticeMust=" + noticeMust + ", title=" + title + ", detail=" + detail + ", img=" + img
 				+ ", faqTag=" + faqTag + ", regDate=" + regDate + "]";
 	}
 
-	public OperatorNoticeFaqs(int noticeFaqNo, String userEmail, String status, String noticeMust, String title, String detail,
-			String img, String faqTag, Date regDate) {
-		super();
-		this.noticeFaqNo = noticeFaqNo;
-		this.userEmail = userEmail;
-		this.status = status;
-		this.noticeMust = noticeMust;
-		this.title = title;
-		this.detail = detail;
-		this.img = img;
-		this.faqTag = faqTag;
-		this.regDate = regDate;
-	}
-	
 
 }

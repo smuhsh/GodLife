@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -105,8 +106,10 @@ public class UserController {
       
       // 계정정지 상태 
       if(dbUser.getAccountStatus()=="2") {
-         model.addAttribute("message1", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다."); // 해당 메세지 알러트창으로 어떻게?
-         return "redirect:/user/loginView.jsp";   // 로그인 페이지 
+         model.addAttribute("msg", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다.");
+         model.addAttribute("url", "/user/loginView.jsp"); // 해당 메세지 알러트창으로 어떻게?
+         //return "redirect:/user/loginView.jsp";   // 로그인 페이지 
+         return "alert";
       }
       
       // 관리자일때 
@@ -242,8 +245,7 @@ public class UserController {
     }
    
     
-   
-   @RequestMapping( value="listUser" )  // 테스트완료, 시간되면 매퍼에서 서치검색어 like로 바꾸기 
+   @RequestMapping( value="listUser" )  // 테스트완료, 매퍼에서 서치검색어 like로 바꾸기 
    public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
       
       
@@ -279,51 +281,67 @@ public class UserController {
    
    @PostMapping(value = "findUserEmail")
    public String findUserEmail(HttpServletResponse response, @RequestParam("phone") String phone, Model md) throws Exception{
+      
       md.addAttribute("userEmail", userService.findUserEmail(response, phone));
       
       return "forward:/user/getUserEmail.jsp";
    }
    
    
-//   @GetMapping("findUserPwd")
-//   public String findUserPwd() throws Exception{
-//      
-//      System.out.println("/user/findUserPwd : GET");
-//      
-//      return "bbb"; // 비밀번호 찾기 페이지로 이동 
-//   }
-//   
-//   @PostMapping("findUserPwd")
-//   public String findUserPwd(String userEmail, String phone, String sms, HttpSession session) throws Exception{
-//      
-//      System.out.println("/user/findPwd : POST");
-//      
-//      // sms인증 필요
-//      
-//      User user = userService.getUser(userEmail);
-//      User user1 = userService.findUserPhone(콜);
-//      
-//      if(user.getUserEmail() == user1.getUserEmail()){
-//         session.setAttribute("user", user);
-//         
-//         return "user/updateUserPwd";
-//      }
-//      
-//      return "user/updateUserPwd"; // 새 비밀번호 입력창으로 이동
-//   }   
-   
-   @PostMapping("updateUserPwd") 
-   public String updateUserPwd( @ModelAttribute("user") User user, HttpSession session, Model model  ) throws Exception {
+   /* 비밀번호 찾기 */
+   @GetMapping(value = "findUserPwd")
+   public String findUserPwd () throws Exception{
 
-      System.out.println("/user/updateUserPwd : POST");
-      //Business Logic
+      System.out.println("/user/findUserPwd : GET");
       
-      //뭔가를 추가해야함... 
-      
-      userService.updatePwd(user);
-      
-      return "bbb"; // 비밀번호 변경되고 로그인페이지 또는 메인페이지로 이동 
+      return "redirect:/user/getUserPwdView.jsp"; // 비밀번호 찾기 페이지로 이동 
    }
+   
+   
+   @GetMapping(value="updateUserPwd") 
+   public String findUserPwd( @RequestParam("phone")String phone, @RequestParam("userEmail") String userEmail,HttpSession session,
+                        Model model) throws Exception {
+
+      System.out.println("비밀번호 찾기 시작");
+      //Business Logic
+      int cnt = userService.findUserPwd(phone, userEmail);
+      
+      if(cnt == 0) {
+         System.out.println("이메일, 폰있나 개수 : "+cnt);
+         model.addAttribute("msg", "이메일 및 핸드폰번호를 확인해주세요");
+         return "redirect:/user/getUserPwdView.jsp";
+      }
+      
+      User user = new User();
+      user.setUserEmail(userEmail);
+      session.setAttribute("user", user);
+      
+      return "forward:/user/updateUserPwd.jsp";//비밀번호 수정 페이지로 이동 
+   }
+   
+   
+   @PostMapping( value="updateUserPwd")  
+   public String updateUserPwd( @RequestParam("userEmail") String userEmail ,@RequestParam("pwd") String pwd, Model model , HttpSession session
+                      )throws Exception{
+      
+         System.out.println("@@updateUserPwd user"+userEmail);
+         User user=new User();
+         user.setUserEmail(userEmail);
+         user.setPwd(pwd);
+         
+         //Business Logic
+         System.out.println("@@@updatepwd start user :" +user);
+         userService.updatePwd(user);
+         
+         
+//         String sessionId=((User)session.getAttribute("user")).getUserEmail();
+//         if(sessionId.equals(user.getUserEmail())){
+//            session.setAttribute("user", user);
+//         }
+         
+         return "redirect:/user/loginView.jsp";// 비밀번호가 변경되고 로그인페이지로 이동 
+   }
+   
    
    //coolSms api 사용
    @GetMapping(value = "phoneCheck") // 테스트완료 
@@ -456,7 +474,7 @@ public class UserController {
       //Business Logic
       userService.addFriend(friendBlack);
       
-      //친구 중복방지
+      //친구 중복방지???
       int isAlready = userService.isAlreadyAppliedFriend(userEmail,targetEmail);
       
       if(isAlready > 0) {
@@ -543,13 +561,14 @@ public class UserController {
    }
    
    @PostMapping( value="addUserMsg")
-   public String addMsg( @ModelAttribute("msg") Msg msg ) throws Exception {
+   public String addMsg( @ModelAttribute("msg") Msg msg, @RequestParam("sendEmail") String sendEmail, 
+                    Model model, HttpSession session) throws Exception {
 
       System.out.println("쪽지보내기 : POST");
       //Business Logic
       userService.addMsg(msg);
       
-      return "bbb"; // 쪽지를 보내고 보낸 쪽지함으로 이동? 또는 상세조회페이지로 이동 
+      return "forward:/user/getUserRecvMsg.jsp"; // 쪽지를 보내고 보낸 쪽지함으로 이동? 또는 상세조회페이지로 이동 
    }
    
    @GetMapping( value="getUserRecvMsg")

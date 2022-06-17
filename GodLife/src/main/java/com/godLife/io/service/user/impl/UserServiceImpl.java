@@ -86,6 +86,45 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	//비밀번호 찾기
+	public int findUserPwd(String phone, String userEmail) throws Exception{
+		
+		Map<String, String>map = new HashMap<>();
+		map.put("phone", phone);
+		map.put("userEmail", userEmail);
+		
+		int cnt = userDao.findUserPwd(map);
+		System.out.println("개수"+cnt);
+		
+		return userDao.findUserPwd(map);
+	}
+	
+	
+		
+	
+
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void addUser(User user) throws Exception {
 		userDao.addUser(user);
 	}

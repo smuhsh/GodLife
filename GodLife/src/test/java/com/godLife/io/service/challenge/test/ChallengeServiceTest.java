@@ -163,9 +163,9 @@ public class ChallengeServiceTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void getChallenge() throws Exception{
-		int challengeNo = 10063; // hostEmail : chilee4650@naver.com
+		int challengeNo = 10070; // hostEmail : chilee4650@naver.com
 		
 		//회원조회
 		User user = new User();
@@ -185,6 +185,7 @@ public class ChallengeServiceTest {
 		
 //		User hostUser = userService.getUser(challenge.getHostEmail()); //hostNick를 가져오기 위함.
 //		challenge.setHostNick(hostUser.getNick());
+		System.out.println("challenge regDate : "+challenge.getChallengeRegDate());
 		
 		System.out.println("Challenge 상세정보");
 		System.out.println(challenge);

@@ -42,7 +42,16 @@ public interface UserService {
 //	
 //	// 이메일로 비번찾기  *
 //	public User findUserEmail(String userEmail)throws Exception;
-//	
+	
+	//비밀번호 찾기 
+	public int findUserPwd(String phone, String userEmail)throws Exception;
+	
+
+	
+	
+	
+	
+	
 		
     // 유저상세조회 > 쿼리 아직 완성 x
 	

@@ -215,9 +215,11 @@
 					       </c:if>
 					       <h5 id="regDate">등록일 : ${challenge.challengeRegDate }</h5>
 					       <c:if test="${challengeListOpt == 'add' }">
-					       		<a href="#" id="deleteChallenge" data-param="${challenge.challengeNo }" >
-					       			<h5 class="delete">[삭제하기]</h5>
-					       		</a>
+					       		<c:if test="${challenge.challengeStatus == 0 }">
+						       		<a href="#" id="deleteChallenge" data-param="${challenge.challengeNo }" >
+						       			<h5 class="delete">[삭제하기]</h5>
+						       		</a>
+						       	</c:if>
 					       </c:if>
 					       <c:if test="${challengeListOpt == 'pick' }">
 					       		<a href="#" id="deleteChallengePick" data-param="${challenge.challengeNo }" >

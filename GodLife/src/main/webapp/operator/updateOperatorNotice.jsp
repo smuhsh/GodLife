@@ -25,9 +25,8 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 	<style>
-        body {
-            padding-top : 70px;
-            background-size: cover;
+	  .container {
+            padding-top : 150px;
         }
         
        	p{

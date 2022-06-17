@@ -48,13 +48,13 @@ public class OperatorRestController {
 	public OperatorNoticeFaqs getOperatorFaqs( @PathVariable String title ) throws Exception{
 		
 		System.out.println("/operator/json/getOperatorFaqs : GET");
-		
-		OperatorNoticeFaqs operatorFaqs = operatorService.getOperatorFaqs(title);
-		
+		System.out.println("@@@@@operatorFaqs :"+title);
+		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorFaqs(title);
+		System.out.println("@@@@@operatorFaqs Success:"+operatorNoticeFaqs);
 		//Business Logic
 		//return operatorService.getOperatorFaqs(noticeFaqNo);
 		//return operatorService.getOperatorFaqs(title);
-		return operatorFaqs;
+		return operatorNoticeFaqs;
 	}
 
 }

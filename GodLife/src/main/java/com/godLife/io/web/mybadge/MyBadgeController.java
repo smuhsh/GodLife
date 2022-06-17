@@ -83,11 +83,12 @@ public class MyBadgeController {
 		System.out.println(resultPage);
 		
 		// Model 과 View 연결
-		model.addAttribute("list", map.get("list"));
+		model.addAttribute("list1", map.get("list1"));
+		model.addAttribute("list2", map.get("list2"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/myBadge/listBadgeMy.jsp";
+		return "forward:/myBadge/getBadgeMyList.jsp";
 	}
 
 	

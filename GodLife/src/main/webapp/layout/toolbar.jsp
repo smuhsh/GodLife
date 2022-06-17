@@ -58,35 +58,17 @@
    //    });
    // 
       
-      //=============  판매상품등록 Event  처리 =============   
-      $(function() {
-         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-          $("a:contains('판매상품등록')").on("click" , function() {
-            //$(self.location).attr("href","/user/logout");
-            self.location = "/product/addProductView.jsp"
-         }); 
-       });
-      
-      
-      //=============  판매상품관리 Event  처리 =============   
-      $(function() {
-         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-          $("a:contains('판매상품관리')").on("click" , function() {
-            //$(self.location).attr("href","/user/logout");
-            self.location = "/product/listProduct?menu=manage"
-         }); 
-       });
       
    </script>
 
 <style>
 @font-face {
-	font-family: 'S-CoreDream-4Regular';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
+   font-family: 'S-CoreDream-4Regular';
+   src:
+      url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
+      format('woff');
+   font-weight: normal;
+   font-style: normal;
 }
 #profile{
 font-family: 'S-CoreDream-4Regular';
@@ -110,13 +92,13 @@ margin : 0;
 background-color:  #EDFFFD;
 }
 #profileImg{
-	width: 50px;
+   width: 50px;
     height: 50px; 
     border-radius: 70%;
     overflow: hidden;
 }
 div#menu-bar{
-	text-align: center;
+   text-align: center;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -144,14 +126,8 @@ div#menu-bar{
                 <img src="/images/uploadFiles/${user.profileImg}" id="profileImg"> &nbsp; <div id="profile">닉네임 : ${user.nick }<br>포인트 : ${user.totalPoint }</div>
                <br>
                 <li class="service_center_item">
-               <a class="service_center" href="/user/getUser?userEmail=${sessionScope.user.userEmail}"> 마이페이지</a>
+               <a class="service_center"> 마이페이지</a>
                <button type="button" class="service_center_icon"></button>
-               
-               <c:if test="${user.userEmail != null}">
-               <li class="sign_in_item"><a href="/challenge/addChallengeTos.jsp">챌린지 생성</a></li>
-            </c:if>
-               
-               
                <ul class="service_center_detail">
                   <li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">개인정보 조회</a></li>
                   <li><a href="링크">포인트 구매</a></li>
@@ -164,6 +140,12 @@ div#menu-bar{
                     
                   </c:if>
                
+               
+               <c:if test="${user.userEmail != null}">
+               <li class="sign_in_item"><a href="/challenge/addChallengeTos.jsp">챌린지 생성</a></li>
+            </c:if>
+               
+               
                <c:if test="${user.userEmail != null}">
                <li class="sign_in_item"><a href="/user/logout">로그아웃</a></li>
             </c:if>
@@ -175,7 +157,7 @@ div#menu-bar{
       <div class="logo_image">
       <h1 class="logo">
       <a href="/"> 
-            <img src="/images/uploadFiles/GodLife 임시로고.png" />
+            <img src="/images/uploadFiles/로고.png" />
             </a>
       </h1>
       </div>
@@ -199,14 +181,23 @@ div#menu-bar{
                </ul>
             </li>
 
-            <li class="new-product-category">
-               <a   href="링크" style="text-decoration:none;">이벤트</a></li>
+            <li class="all_category header_a_li">
+                <a href="/operator/listOperatorEvents" class="button">
+                  <button type="button" class="menu_button"></button>이벤트
+            </a> 
+               <ul class="all_category_item" id="all_category_item">
+               
+               		<li><a href="/operator/OperatorNewEvent">신규회원</a></li>
+               		<li><a href="/operator/OperatorDayEvent">매일출석</a></li>
+               		<li><a href="/operator/OperatorRoullEvent">룰렛 이벤트</a></li>
+               </ul>
+            </li>
                
                <li class="new-product-category">
-               <a   href="링크" style="text-decoration:none;">공지사항</a></li>
+               <a	href="/operator/listOperatorNotice" style="text-decoration:none;">공지사항</a></li>
                
                <li class="new-product-category">
-               <a   href="링크" style="text-decoration:none;">FAQ</a></li>
+               <a	href="/operator/listOperatorFaqs" style="text-decoration:none;">FAQ</a></li>
                
                
                
@@ -227,11 +218,11 @@ div#menu-bar{
                   <li><a class="링크">상품권 관리</a></li>
                   <li><a class="링크">쿠폰 관리</a></li>
                   <li><a class="링크">배지 관리</a></li>
-                  <li><a class="링크">이벤트 관리</a></li>
+                  <li><a href="/operator/listOperatorEvent.jsp">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
                   <li><a class="링크">일대일문의 관리</a></li>
-                  <li><a class="링크">공지사항 관리</a></li>
-                  <li><a class="링크">FAQ 관리</a></li>
+                  <li><a href="/operator/listOperatorNotice">공지사항 관리</a></li>
+                  <li><a href="/operator/listOperatorFaqs">FAQ 관리</a></li>
                </ul>
             </li>
                   </c:if>

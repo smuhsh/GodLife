@@ -22,7 +22,7 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
-	<link rel="stylesheet" href="/resources/css/getChallenges.css" type="text/css">
+	<link rel="stylesheet" href="/resources/css/getChallenge.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/title.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/search.css" type="text/css">
 
@@ -101,9 +101,17 @@
 		$(function(){
 			$("button#myCertiImgList").on("click",function(){
 				window.
-				open("/challenge/listChallengeMyCertiImg?challengeNo=${challenge.challengeNo}&totalCertiCount=${challenge.totalCertiCount}"
+				open("/challenge/listChallengeJoinCertiImg?challengeNo=${challenge.challengeNo}&totalCertiCount=${challenge.totalCertiCount}"
 						,"인증이미지 목록","left=300,top=200,width=1000,height=400");
 			});
+		
+		
+			$("button#joinUserList").on("click",function(){
+				window.
+				open("/challenge/listChallengeJoinUser?challengeNo=${challenge.challengeNo}"
+						,"참여 회원목록","left=300,top=200,width=1000,height=400");
+			});
+			
 		});
 		
 	</script>
@@ -147,14 +155,21 @@
 			        <p class="rightInfo" ></p>
 			        
 			        <div id="leftInfo">
-			        	<p>호스트</p>
-			        	<div id="hostArea">
-			        		<img id="profile" src="/resources/images/uploadFiles/${hostUser.profileImg }"
-			        		onerror="this.src='/resources/images/Default-Profile-Picture-Free-PNG-Image.png'">
-			        		<p id="nick">${challenge.hostNick }</p>
+			        	<div id="left-detail">
+				        	<p>호스트</p>
+				        	<div id="hostArea">
+				        		<img id="profile" src="/resources/images/uploadFiles/${hostUser.profileImg }"
+				        		onerror="this.src='/resources/images/Default-Profile-Picture-Free-PNG-Image.png'">
+				        		<p id="nick">${challenge.hostNick }</p>
+				        	</div>
+				        	<p id="categ">관심사 : ${challenge.challengeCategName }</p>
 			        	</div>
-			        	<p id="categ">관심사 : ${challenge.challengeCategName }</p>
 			        	
+			        	<c:if test="${challenge.challengeStatus == 2}">
+				        	<div id="notice">
+				        			<p id="ending">${challenge.challengeTitle } 챌린지가 종료 되었습니다.</p>
+				        	</div>
+			        	</c:if>
 			        	<div>
 			        		<p id="detail">챌린지 소개</p>
 			        		<textarea readonly>${challenge.challengeDetail }</textarea>
@@ -203,7 +218,6 @@
 			        		<button type="button" id="pick" class="btn btn-default abc">찜하기</button>
 			        	</c:if>
 			        	<c:if test="${challenge.challengeStatus == 0}">
-				        	<button type="button" class="btn btn-default abc">공유하기</button>
 				        	<a id="kakao-link-btn" href="javascript:;">
 							  <img
 							    src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
