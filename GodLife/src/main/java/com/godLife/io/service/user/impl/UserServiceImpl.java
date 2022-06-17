@@ -86,6 +86,45 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	//비밀번호 찾기
+	public int findUserPwd(String phone, String userEmail) throws Exception{
+		
+		Map<String, String>map = new HashMap<>();
+		map.put("phone", phone);
+		map.put("userEmail", userEmail);
+		
+		int cnt = userDao.findUserPwd(map);
+		System.out.println("개수"+cnt);
+		
+		return userDao.findUserPwd(map);
+	}
+	
+	
+		
+	
+
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void addUser(User user) throws Exception {
 		userDao.addUser(user);
 	}
@@ -124,14 +163,14 @@ public class UserServiceImpl implements UserService{
 	
 	//인증 문자 보내기 
 	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) throws Exception {
-		String api_key = "NCSFLNAKPLATWT5U";
-	    String api_secret = "UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI";
+		String api_key = "NCSOUIL3U4BKDNTU";
+	    String api_secret = "PECGMMRB6KBESSNFX14HFI2NY7Q4VBEN";
 	    Message coolsms = new Message(api_key, api_secret);
 
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
 	    params.put("to", userPhoneNumber);    // 수신전화번호
-	    params.put("from", "01080077545");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	    params.put("from", userPhoneNumber);    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
 	    params.put("type", "SMS");
 	    params.put("text", "[TEST] 인증번호는" + "["+randomNumber+"]" + "입니다."); // 문자 내용 입력
 	    params.put("app_version", "test app 1.2"); // application name and version

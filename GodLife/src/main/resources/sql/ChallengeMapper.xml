@@ -69,6 +69,7 @@
 		<result property="challengeRewardFlag"	column="challenge_reward_flag"	jdbcType="VARCHAR" />
 		<result property="joinNick"				column="nick"					jdbcType="VARCHAR" />
 		<result property="status"				column="status"					jdbcType="VARCHAR" />
+		<result property="profile"				column="profile_img"			jdbcType="VARCHAR" />
 	</resultMap>
  	<!-- //////////////////////JoinChallenger////////////////////////// -->
  	
@@ -827,7 +828,7 @@
  	<select id="getChallengeJoinerList" parameterType="int" resultMap="JoinChallengerSelectMap">
  		SELECT
  		jc.*,
- 		u.nick
+ 		u.nick,u.profile_img
  		FROM
  		join_challenger jc, users u
  		WHERE u.user_email = jc.user_email

@@ -126,21 +126,21 @@
     </select>
    
     
-    
     <select id ="findUserEmail" parameterType="String"  resultType="String">  
 	SELECT user_email 
 	FROM users
 	WHERE phone = #{phone}
 	</select>
-	
-	
-   <!--  
-   <select id ="findUserPwd" parameterType="map"  resultType="String" > 
+ 
+ 
+   <select id ="findUserPwd" parameterType="map"  resultType="int">  
 	SELECT COUNT(*)
-	FROM user
-	WHERE  phone_number =#{phoneNumber}  
-	AND 
-	</select>-->
+	FROM users
+	WHERE  phone = #{phone}  
+	AND user_email = #{userEmail}
+	</select>
+	
+    
     
     <!-- userEmail 중복체크 -->
 	 <select id="checkUserEmail"  parameterType="String" resultType="int">

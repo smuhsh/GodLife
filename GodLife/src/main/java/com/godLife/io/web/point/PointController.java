@@ -202,6 +202,29 @@ public class PointController {
 
 		return "forward:/point/listPointPurchaseDonation.jsp";
 	}
+	@RequestMapping(value = "getPointMyCouponList")
+	public String getPointMyCouponList( @ModelAttribute("search") Search search,Map<String,Object> map ,Model model, HttpSession session) throws Exception {
+		
+		System.out.println("/point/getPointMyCouponList : GET / POST");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		User user = (User) session.getAttribute("user");
+		String userEmail = user.getUserEmail();
+		System.out.println("session userEmail : " + userEmail);
+		map =productService.getProductCouponList(search);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute(userService.getUser(userEmail));
+		
+				
+		System.out.println("model: "+model);
+		
+		return "forward:/point/listPointMyCouponList.jsp";
+	}
 	
 	//coolSms api 사용
 		@GetMapping(value = "sendPointVoucher") // 테스트완료 

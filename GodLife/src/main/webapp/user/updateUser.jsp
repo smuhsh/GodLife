@@ -31,6 +31,10 @@
            padding-top : 50px;
        }
        
+      #getUser{
+       padding-top : 130px;
+       }
+       
        
        .id_ok{
 	color:#064ACB;
@@ -198,7 +202,7 @@ float : center;
 </head>
 <body>
 	<div class="page_aticle">
-		<div class="type_form getUser">
+		<div class="type_form getUser" id="getUser">
 			<form id="form" name="frmMember"  encType="multipart/form-data" >
 			
 			<input type="hidden" name="userEmail" value="${user.userEmail }"/>

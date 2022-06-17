@@ -25,6 +25,12 @@ body {
            padding-top : 50px;
            padding-right: :5px;
        }
+       
+       #getUser{
+       padding-top : 130px;
+       }
+       
+       
         
 img
 {
@@ -69,7 +75,7 @@ float : center;
 </head>
 <body>
 	<div class="page_aticle">
-		<div class="type_form getUser">
+		<div class="type_form getUser" id="getUser">
 			<form id="form" name="frmMember">
 				<div class="field_head">
 					<h3 class="tit">개인정보 조회</h3>
