@@ -28,10 +28,12 @@
 
 <style>
 body {
-	padding-top: 50px;
-	min-height: 885px;
-	background-image: url("/resources/images/uploadFiles/donation.jpg");
+	
 }
+.container{
+    padding-top:220px;
+    background-image: url("/resources/images/uploadFiles/donation.jpg");
+    }
 #top{
 padding-top: 30px;
 }
@@ -46,7 +48,7 @@ p {
 .form-control{
 height: 50px;
 }
-.donation{
+#donation{
 	width: 100px;
 	height: 50px;
 	margin: 0 auto;
@@ -94,7 +96,7 @@ table {
 	}
 
 	$(function() {
-		$(".donation").on("click", function() {
+		$("#donation").on("click", function() {
 			fncAddPointDonation();
 		});
 	});
@@ -107,7 +109,7 @@ table {
 
 		<jsp:include page="/layout/toolbar.jsp" />
 		<form class="form-horizontal">
-
+<div class="container">
 		<div class="form-group"></div>
 		<div class="form-group" id="top">
 			<label for="inputEmail3" class="col-sm-2 control-label">Donation
@@ -163,7 +165,7 @@ table {
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="button" class="donation">기부하기</button>
+				<button type="button" class="btn btn-default" id="donation">기부하기</button>
 			</div>
 		</div>
 		<div class="form-group">
@@ -175,7 +177,7 @@ table {
 
 			</div>
 		</div>
-
+</div>
 	</form>
 </body>
 </html>
