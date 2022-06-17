@@ -58,6 +58,7 @@
             
             #container{
             padding-left: 250px;
+            padding-top : 130px;
             }
             
             #caption{
