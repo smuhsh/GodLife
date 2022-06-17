@@ -28,7 +28,6 @@
 	
 	
  		body {
-            padding-top : 50px;
 
 		    font-weight: bold; 
 		    font-family: 'oneMobile';
@@ -112,11 +111,12 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<br><br>
+	<br><br><br><br><br><br>
+	<br><br><br><br><br><br>
 	<div class="container">
 	
 		<h2 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">신규 배지 등록</h2>
-		
+		<br><br>
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal" encType="multipart/form-data" style="border-color: black;">
 

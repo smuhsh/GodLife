@@ -31,7 +31,7 @@
 		}   
    
  		body {
-            padding-top : 50px;
+
             background-color: #708090 ;
 		    font-weight: bold; 
 		    font-family: 'oneMobile';

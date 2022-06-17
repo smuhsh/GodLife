@@ -1,6 +1,6 @@
 package com.godLife.io.service.mybadge;
 
-import java.util.List;
+import java.util.Map;
 
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.MyBadge;
@@ -16,7 +16,7 @@ public interface MyBadgeDao {
 	public MyBadge getBadgeMy(int myBadgeNo) throws Exception ;
 
 	// 내 배지 전체 목록 UI 요청
-	public List<MyBadge> getBadgeMyList(Search search) throws Exception ;
+	public Map<String, Object> getBadgeMyList(Search search) throws Exception ;
 
 	// 내 배지 활동 횟수량 증가
 	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception ;	

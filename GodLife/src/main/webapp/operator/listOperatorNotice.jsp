@@ -25,8 +25,8 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 
 	<style>
-	  body {
-            padding-top : 70px;
+	  .container {
+            padding-top : 150px;
         }
         
     </style>
@@ -86,21 +86,12 @@
 </head>
 
 <body>
-	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-	
-   	<!-- ToolBar End /////////////////////////////////////-->
-	
-	<!--  화면구성 div Start /////////////////////////////////////-->
+<jsp:include page="/layout/toolbar.jsp" />	
 	<div class="container">
 		<div class="page-header text-info">
 	       <h3>공지사항</h3>
 	    </div>
-	    
-	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-	    <div class="row">
-	    
+	    <div class="row">	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
@@ -148,19 +139,19 @@
 	</tr>
 
 	<c:set var = "i" value = "0"/>
-	<c:forEach var ="NoticeFaqs" items ="${list }">
+	<c:forEach var ="operatorNoticeFaqs" items ="${list }">
 		<c:set var="i"  value = "${i+1 }"/>
 		<tr class="ct_list_pop">
 		<td align="center">${ i }</td>
 		<td></td>
-			  <td align="left" data-value="${ NoticeFaqs.noticeFaqNo }" title="Click :내용보기">${ NoticeFaqs.title }</td>
+			  <td align="left" data-value="${ operatorNoticeFaqs.noticeFaqNo }" title="Click :내용보기">${ operatorNoticeFaqs.title }</td>
 			  <td align="left">
-			  <input type="hidden" value="${NoticeFaqs.noticeFaqNo}"></td>
+			  <input type="hidden" value="${operatorNoticeFaqs.noticeFaqNo}"></td>
 
-			  <td align="left">${ NoticeFaqs.userEmail }</td>
-			  <td align="left">${ NoticeFaqs.regDate }</td>
+			  <td align="left">${ operatorNoticeFaqs.userEmail }</td>
+			  <td align="left">${ operatorNoticeFaqs.regDate }</td>
 			  <td align="left">
-			  <input type="hidden" value="${NoticeFaqs.noticeFaqNo}">
+			  <input type="hidden" value="${operatorNoticeFaqs.noticeFaqNo}">
 			  </td>
 	</tr>	
 	</c:forEach>

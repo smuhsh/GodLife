@@ -63,12 +63,12 @@
 
 <style>
 @font-face {
-	font-family: 'S-CoreDream-4Regular';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
-		format('woff');
-	font-weight: normal;
-	font-style: normal;
+   font-family: 'S-CoreDream-4Regular';
+   src:
+      url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
+      format('woff');
+   font-weight: normal;
+   font-style: normal;
 }
 #profile{
 font-family: 'S-CoreDream-4Regular';
@@ -92,13 +92,13 @@ margin : 0;
 background-color:  #EDFFFD;
 }
 #profileImg{
-	width: 50px;
+   width: 50px;
     height: 50px; 
     border-radius: 70%;
     overflow: hidden;
 }
 div#menu-bar{
-	text-align: center;
+   text-align: center;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -181,14 +181,23 @@ div#menu-bar{
                </ul>
             </li>
 
-            <li class="new-product-category">
-               <a   href="링크" style="text-decoration:none;">이벤트</a></li>
+            <li class="all_category header_a_li">
+                <a href="/operator/listOperatorEvents" class="button">
+                  <button type="button" class="menu_button"></button>이벤트
+            </a> 
+               <ul class="all_category_item" id="all_category_item">
+               
+               		<li><a href="/operator/OperatorNewEvent">신규회원</a></li>
+               		<li><a href="/operator/OperatorDayEvent">매일출석</a></li>
+               		<li><a href="/operator/OperatorRoullEvent">룰렛 이벤트</a></li>
+               </ul>
+            </li>
                
                <li class="new-product-category">
-               <a   href="링크" style="text-decoration:none;">공지사항</a></li>
+               <a	href="/operator/listOperatorNotice" style="text-decoration:none;">공지사항</a></li>
                
                <li class="new-product-category">
-               <a   href="링크" style="text-decoration:none;">FAQ</a></li>
+               <a	href="/operator/listOperatorFaqs" style="text-decoration:none;">FAQ</a></li>
                
                
                
@@ -209,11 +218,11 @@ div#menu-bar{
                   <li><a class="링크">상품권 관리</a></li>
                   <li><a class="링크">쿠폰 관리</a></li>
                   <li><a class="링크">배지 관리</a></li>
-                  <li><a class="링크">이벤트 관리</a></li>
+                  <li><a href="/operator/listOperatorEvent.jsp">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
                   <li><a class="링크">일대일문의 관리</a></li>
-                  <li><a class="링크">공지사항 관리</a></li>
-                  <li><a class="링크">FAQ 관리</a></li>
+                  <li><a href="/operator/listOperatorNotice">공지사항 관리</a></li>
+                  <li><a href="/operator/listOperatorFaqs">FAQ 관리</a></li>
                </ul>
             </li>
                   </c:if>

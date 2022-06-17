@@ -25,10 +25,11 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 	<style>
-        body {
-            padding-top : 70px;
-            background-size: cover;
+	
+	  .container {
+            padding-top : 150px;
         }
+	
         
        	p{
        		font-size : 14px;
@@ -55,10 +56,10 @@
 					 alert("상태는 반드시 입력하셔야 합니다.");
 					 return;
 				 }
-				 if($("input[name='noticeMust']").val() == ""){
-					 alert("필수사항은 반드시 입력하셔야 합니다.");
-					 return;
-				 }
+				 //if($("input[name='noticeMust']").val() == ""){
+					// alert("필수사항은 반드시 입력하셔야 합니다.");
+					// return;
+				 //}
 				 if($("input[name='title']").val() == ""){
 					 alert("제목은 반드시 입력하여야 합니다.");
 					 return;
@@ -138,11 +139,12 @@
 						    name="status" id="status" placeholder="공지사항:0 FAQ:1">
 						  </div>
 						  
+						  <!--  
 						  <div class="form-group">
 						    <label for="noticeMust">필수공지여부</label>
 						    <input type="noticeMust" class="form-control" 
 						    name="noticeMust" id="noticeMust" placeholder="일반:0 필수:1">
-						  </div>
+						  </div>-->
 						  
 						  <div class="form-group">
 						    <label for="title">제목</label>

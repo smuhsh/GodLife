@@ -350,7 +350,7 @@
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getOperatorFaqs"	parameterType="int" resultMap="operatorNoticeFaqsSelectMap">
+	 <select 	id="getOperatorFaqs"	parameterType="String" resultMap="operatorNoticeFaqsSelectMap">
 		SELECT
 		notice_faq_no , user_email , status , notice_must , title, detail, img, reg_date, faq_tag
 		FROM notice_faqs 
