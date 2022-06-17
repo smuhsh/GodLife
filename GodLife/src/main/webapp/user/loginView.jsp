@@ -8,11 +8,13 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 <link rel="stylesheet" href="/css/loginView.css" />
+
+
 </head>
 <body>
 
 <div id="content">
-	<div class="section_login">
+	<div class="section_login"  id="user">
 		<h3 class="tit_login">로그인</h3>
 		<div class="write_form">
 			<div class="write_view login_view">

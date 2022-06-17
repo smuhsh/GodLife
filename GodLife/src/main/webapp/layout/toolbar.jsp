@@ -130,10 +130,10 @@ div#menu-bar{
                <button type="button" class="service_center_icon"></button>
                <ul class="service_center_detail">
                   <li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">개인정보 조회</a></li>
-                  <li><a href="링크">포인트 구매</a></li>
-                  <li><a href="링크">상품권 구매</a></li>
-                  <li><a href="링크">쿠폰 구매</a></li>
-                  <li><a href="링크">기부하기</a></li>
+                  <li><a href="/product/getProductPointList">포인트 구매</a></li>
+                  <li><a href="/product/getProductVoucherList">상품권 구매</a></li>
+                  <li><a href="/product/getProductCouponList">쿠폰 구매</a></li>
+                  <li><a href="/point/addPointDonationView">기부하기</a></li>
                   
                   </ul>
                   </li>
@@ -157,7 +157,7 @@ div#menu-bar{
       <div class="logo_image">
       <h1 class="logo">
       <a href="/"> 
-            <img src="/images/uploadFiles/로고.png" />
+            <img src="/images/로고.png" />
             </a>
       </h1>
       </div>
@@ -187,17 +187,17 @@ div#menu-bar{
             </a> 
                <ul class="all_category_item" id="all_category_item">
                
-               		<li><a href="/operator/OperatorNewEvent">신규회원</a></li>
-               		<li><a href="/operator/OperatorDayEvent">매일출석</a></li>
-               		<li><a href="/operator/OperatorRoullEvent">룰렛 이벤트</a></li>
+                     <li><a href="/operator/OperatorNewEvent">신규회원</a></li>
+                     <li><a href="/operator/OperatorDayEvent">매일출석</a></li>
+                     <li><a href="/operator/OperatorRoullEvent">룰렛 이벤트</a></li>
                </ul>
             </li>
                
                <li class="new-product-category">
-               <a	href="/operator/listOperatorNotice" style="text-decoration:none;">공지사항</a></li>
+               <a   href="/operator/listOperatorNotice" style="text-decoration:none;">공지사항</a></li>
                
                <li class="new-product-category">
-               <a	href="/operator/listOperatorFaqs" style="text-decoration:none;">FAQ</a></li>
+               <a   href="/operator/listOperatorFaqs" style="text-decoration:none;">FAQ</a></li>
                
                
                
@@ -212,13 +212,11 @@ div#menu-bar{
                   <li><a href="링크">회원 전체목록</a></li>
                     <li><a href="링크">신고관리</a></li>
                   <li><a class="링크">챌린지관리</a></li>
-                  <li><a class="링크">인증이미지 게시글관리</a></li>
-                  <li><a class="링크"> 개설한 챌린지관리</a></li>
-                  <li><a class="링크">포인트 상품관리</a></li>
-                  <li><a class="링크">상품권 관리</a></li>
-                  <li><a class="링크">쿠폰 관리</a></li>
-                  <li><a class="링크">배지 관리</a></li>
-                  <li><a href="/operator/listOperatorEvent.jsp">이벤트 관리</a></li>
+                  <li><a href="/product/getProductPointList">포인트 상품관리</a></li>
+                  <li><a href="/product/getProductVoucherList">상품권 관리</a></li>
+                  <li><a href="/product/getProductCouponList">쿠폰 관리</a></li>
+                  <li><a href="/badge/getBadgeList">배지 관리</a></li>
+                  <li><a href="/operator/listOperatorEvents">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
                   <li><a class="링크">일대일문의 관리</a></li>
                   <li><a href="/operator/listOperatorNotice">공지사항 관리</a></li>
