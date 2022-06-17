@@ -33,11 +33,11 @@ public class MyBadgeDaoImpl implements MyBadgeDao{
 	}
 	
 	///Method
-	
+///////////////////////////////////////	
 	public MyBadge getBadgeMy(int myBadgeNo) throws Exception {
 		return sqlSession.selectOne("MyBadgeMapper.getBadgeMy", myBadgeNo);
 	}
-
+///////////////////////////////////////	
 	public Map<String, Object> getBadgeMyList(Search search) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -46,13 +46,13 @@ public class MyBadgeDaoImpl implements MyBadgeDao{
 		System.out.println("@@@@dao Search : "+search);
 		map.put("search", search);
 		List<Point> list = sqlSession.selectList("MyBadgeMapper.getBadgeMyList", search);
-		System.out.println("@@@daoImpl list1 : "+list);
+		System.out.println("@@@daoImpl list : "+list);
 		map.put("list", list);
 
 		
 		return map;
 	}
-
+///////////////////////////////////////	
 	// 내 배지 활동 횟수량 증가
 	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception{
 		sqlSession.update("MyBadgeMapper.updateBadgeMyActCount", myBadge);

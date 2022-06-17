@@ -214,10 +214,10 @@ div#menu-bar{
                   <li><a class="링크">챌린지관리</a></li>
                   <li><a class="링크">인증이미지 게시글관리</a></li>
                   <li><a class="링크"> 개설한 챌린지관리</a></li>
-                  <li><a class="링크">포인트 상품관리</a></li>
+                  <li><a href="링크">포인트 상품관리</a></li>
                   <li><a class="링크">상품권 관리</a></li>
                   <li><a class="링크">쿠폰 관리</a></li>
-                  <li><a class="링크">배지 관리</a></li>
+                  <li><a href="/badge/getBadgeList">배지 관리</a></li>
                   <li><a href="/operator/listOperatorEvent.jsp">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
                   <li><a class="링크">일대일문의 관리</a></li>

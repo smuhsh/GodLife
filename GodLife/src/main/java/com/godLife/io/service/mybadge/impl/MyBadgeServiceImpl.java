@@ -33,11 +33,11 @@ public class MyBadgeServiceImpl implements MyBadgeService{
 	}
 
 	///Method
-	
+///////////////////////////	
 	public MyBadge getBadgeMy(int myBadgeNo) throws Exception {
 		return myBadgeDao.getBadgeMy(myBadgeNo);
 	}
-
+///////////////////////////	
 	public Map<String , Object> getBadgeMyList(Search search) throws Exception {
 
 		int totalCount = myBadgeDao.getTotalCount(search);

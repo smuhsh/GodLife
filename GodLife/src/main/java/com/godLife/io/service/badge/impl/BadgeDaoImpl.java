@@ -49,10 +49,10 @@ public class BadgeDaoImpl implements BadgeDao{
 		map.put("startRowNum",  search.getStartRowNum()+"" );
 		System.out.println("@@@@dao Search : "+search);
 		map.put("search", search);
-		List<Point> list1 = sqlSession.selectList("BadgeMapper.getBadgeABList", search);
+		List<Badge> list1 = sqlSession.selectList("BadgeMapper.getBadgeABList", search);
 		System.out.println("@@@daoImpl list1 : "+list1);
 		map.put("list1", list1);
-		List<Point> list2 = sqlSession.selectList("BadgeMapper.getBadgeIBList", search);
+		List<Badge> list2 = sqlSession.selectList("BadgeMapper.getBadgeIBList", search);
 		System.out.println("@@@daoImpl list2 : "+list2);
 		map.put("list2", list2);
 		return map;
