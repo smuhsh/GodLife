@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -112,14 +111,13 @@
 </head>
 <body>
 <form name="challenge">
-		
+	<jsp:include page="/layout/toolbar.jsp" />
 		<input type="hidden" name="challengeNo" value="${challenge.challengeNo }" >
 		<input type="hidden" name="joinPoint" value="${challenge.joinPoint }" >
 		<input type="hidden" name="hostEmail" value="${challenge.hostEmail }" >
 		<input type="hidden" name="totalCertiCount" value="${challenge.totalCertiCount }" >
 		<input type="hidden" name="certiDate" value="${challenge.certiDate }" >
 	<div class="container">
-	<jsp:include page="/layout/toolbar.jsp" />
 			  <div class="col-xs-6 col-sm-1">
 			  </div>
 			  <div class="col-xs-6 col-sm-10">

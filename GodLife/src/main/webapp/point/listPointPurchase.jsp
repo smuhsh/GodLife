@@ -1,13 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html>
 <head>
-<title>Æ÷ÀÎÆ® ÀÌ¿ë ¸ñ·ÏÁ¶È¸</title>
+<title>í¬ì¸íŠ¸ ì´ìš© ëª©ë¡ì¡°íšŒ</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -16,13 +15,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<link rel="stylesheet" href="/resources/css/toolbar2.css" />
 	<link rel="stylesheet" href="/resources/css/purchaseList.css" type="text/css">
 
 	<style>
-	  body {
-            padding-top : 50px;
-        }
-    
+
+    .container{
+    padding-top:220px;
+    }
     #search{
     height: 32px;
 
@@ -33,15 +33,6 @@
 		text-align: center;
 	}
     
-	#resetSearch:focus {
-		outline:0;
-	}
-	#resetSearch:hover{
-		background: gray;
-		cursor: pointer;
-		box-shadow: 0 2px 4px rgba(0,79,255,0.6);
-	}
-	
 	#search:focus {
 		outline:0;
 	}
@@ -72,7 +63,7 @@
 			$("form").attr("method" , "POST").attr("action" , "/point/getPointPurchaseList").submit();
 		}
 		$(function(){
-				$("button:contains('°Ë»ö')").on("click",function(){
+				$("button:contains('ê²€ìƒ‰')").on("click",function(){
 					fncGetList(1);
 				});
 		});
@@ -81,67 +72,71 @@
 </head>
 
 <body>
-	<jsp:include page="/layout/toolbar.jsp" />
-	<form class="form-inline" name="detailForm">	
-
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<form class="form-inline" name="detailForm">	
+	<jsp:include page="/layout/toolbar.jsp" />
+	<div class="row">
+	<jsp:include page="/user/mypageMain.jsp" />
+
+	<div class="col-md-3" >
+	
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>Æ÷ÀÎÆ® ÀÌ¿ë³»¿ª ¸ñ·Ï</h3>
+	       <h3>í¬ì¸íŠ¸ ì´ìš©ë‚´ì—­ ëª©ë¡</h3>
 	    </div>
 	   
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row">
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç
+		    		ì „ì²´  ${resultPage.totalCount } ê±´
 		    	</p>
 		    </div>
 		    <div class="col-md-6 text-right">
+		    <a href="/point/getPointPurchaseVoucherList">ìƒí’ˆê¶Œ êµ¬ë§¤ë‚´ì—­</a> &nbsp; &nbsp;<a href="/point/getPointPurchaseDonationList" class="link_lnb">ê¸°ë¶€ ë‚´ì—­</a>
+		    <br>
 				<div class="input-group">
 				<div class="form-group">
-						    
 						  </div>
-						
 						  		<div class="form-group">
 								    <select class="form-control" id="condition" name="orderCondition" >
-										<option value="0" ${search.orderCondition == 0 ? "selected" : "" }>ÀüÃ¼ ³»¿ª</option>
-										<option value="1" ${search.orderCondition == 1 ? "selected" : "" }>Ã§¸°Áö ³»¿ª</option>
-										<option value="2" ${search.orderCondition == 2 ? "selected" : "" }>ÀÌº¥Æ® ³»¿ª</option>
+										<option value="0" ${search.orderCondition == 0 ? "selected" : "" }>ì „ì²´ ë‚´ì—­</option>
+										<option value="1" ${search.orderCondition == 1 ? "selected" : "" }>ì±Œë¦°ì§€ ë‚´ì—­</option>
+										<option value="2" ${search.orderCondition == 2 ? "selected" : "" }>ì´ë²¤íŠ¸ ë‚´ì—­</option>
 	
 									</select>
 								 </div>
 								  &nbsp;
 							  	<div class="form-group">
 								    <select class="form-control" id="condition" name="searchCondition" >
-								    	<option value="0" ${search.searchCondition == "0" ? "selected" : ""}>Á¤·Ä ¿É¼Ç</option>
-										<option value="1" ${search.searchCondition == "1" ? "selected" : ""}>ÃæÀü</option>
-										<option value="2" ${search.searchCondition == "2" ? "selected" : ""}>¼Òºñ</option>
+								    	<option value="0" ${search.searchCondition == "0" ? "selected" : ""}>ì •ë ¬ ì˜µì…˜</option>
+										<option value="1" ${search.searchCondition == "1" ? "selected" : ""}>ì¶©ì „</option>
+										<option value="2" ${search.searchCondition == "2" ? "selected" : ""}>ì†Œë¹„</option>
 									</select>
 									 &nbsp; &nbsp;
-									<button class="btn btn-default" id="search">°Ë»ö</button>
-									<!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+									<button class="btn btn-default" id="search">ê²€ìƒ‰</button>
+									<!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 								 </div>
 								 
 				  </div>
  </div>
  </div>
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 		
 		
 <table class="table table-striped">
 	
 	<tr>
-		<td>¹øÈ£<br></td>
-		<td>ÀÌ¿ë À¯Çü<br></td>
+		<td>ë²ˆí˜¸<br></td>
+		<td>ì´ìš© ìœ í˜•<br></td>
 		<td></td>
-		<td>±İ¾×</td>
+		<td>ê¸ˆì•¡</td>
 		<td></td>
-		<td>³»¿ë</td>
+		<td>ë‚´ìš©</td>
 		<td></td>
-		<td>³¯Â¥</td>
+		<td>ë‚ ì§œ</td>
 		
 	</tr>
 
@@ -152,22 +147,22 @@
 		<tr>
 		<td>${i }</td>
 		<td>
-				<c:if test="${! empty point.useStatus && point.useStatus=='1'}">Ãæ Àü</c:if>
-				<c:if test="${! empty point.useStatus && point.useStatus=='2'}">¼Ò ºñ</c:if>
+				<c:if test="${! empty point.useStatus && point.useStatus=='1'}">ì¶© ì „</c:if>
+				<c:if test="${! empty point.useStatus && point.useStatus=='2'}">ì†Œ ë¹„</c:if>
 			</td>
 		<td></td>
 		<td>${point.point}</td>
 		<td></td>
 		<td>
-		<c:if test="${! empty point.useDetail && point.useDetail=='1'}">Æ÷ÀÎÆ® ÃæÀü</c:if>
-		<c:if test="${! empty point.useDetail && point.useDetail=='2'}">Ã§¸°Áö Âü°¡</c:if>
-		<c:if test="${! empty point.useDetail && point.useDetail=='3'}">Ã§¸°Áö È¯ºÒ</c:if>
-		<c:if test="${! empty point.useDetail && point.useDetail=='4'}">Ã§¸°Áö º¸»ó</c:if>
-		<c:if test="${! empty point.useDetail && point.useDetail=='5'}">ÀÌº¥Æ® Âü°¡</c:if>
-		<c:if test="${! empty point.useDetail && point.useDetail=='6'}">ÀÌº¥Æ® º¸»ó</c:if>
-		<c:if test="${! empty point.useDetail && point.useDetail=='7'}">Æ÷ÀÎÆ® ±âºÎ</c:if>
-		<c:if test="${! empty point.useDetail && point.useDetail=='8'}">Äí Æù ±¸¸Å</c:if>
-		<c:if test="${! empty point.useDetail && point.useDetail=='9'}">»óÇ°±Ç ±¸¸Å</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='1'}">í¬ì¸íŠ¸ ì¶©ì „</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='2'}">ì±Œë¦°ì§€ ì°¸ê°€</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='3'}">ì±Œë¦°ì§€ í™˜ë¶ˆ</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='4'}">ì±Œë¦°ì§€ ë³´ìƒ</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='5'}">ì´ë²¤íŠ¸ ì°¸ê°€</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='6'}">ì´ë²¤íŠ¸ ë³´ìƒ</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='7'}">í¬ì¸íŠ¸ ê¸°ë¶€</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='8'}">ì¿  í° êµ¬ë§¤</c:if>
+		<c:if test="${! empty point.useDetail && point.useDetail=='9'}">ìƒí’ˆê¶Œ êµ¬ë§¤</c:if>
 		</td>
 		<td></td>
 		<td>${point.regDate}</td>
@@ -176,7 +171,7 @@
 	</c:forEach>
 </table>	
 	
-<!--  ÆäÀÌÁö Navigator ½ÃÀÛ -->
+<!--  í˜ì´ì§€ Navigator ì‹œì‘ -->
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
@@ -188,10 +183,11 @@
     	</td>
 	</tr>
 </table>
-<!--  ÆäÀÌÁö Navigator ³¡ -->
+<!--  í˜ì´ì§€ Navigator ë -->
 
-
-
+</div>
+</div>
+<div class="col-md-1" ></div>
 </div>
 </form>
 </body>

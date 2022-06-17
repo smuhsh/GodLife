@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -9,13 +8,90 @@
 <title>GodLife</title>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
-<link rel="stylesheet" href="/css/toolbar.css" />
-
-<style type="text/css">
-
-</style>
+<link rel="stylesheet" href="/resources/css/toolbar2.css" />
+   <script type="text/javascript">
+   
+      $(document).ready(function() {
+         
+         //전체 카테코리 호버 이벤트
+         $(".menu>.all_category").mouseover(function() {
+            $(this).children(".all_category_item").stop().slideDown();
+         });
+         
+         $(".menu>.all_category").mouseleave(function() {
+            $(this).children(".all_category_item").stop().slideUp();
+         });
+         
+      
+      //마이페이지 호버이벤트
+      $(".member_items .service_center_item").mouseover(function() {
+         $(this).children(".service_center_detail").stop().slideDown();
+      });
+      
+      $(".member_items .service_center_item").mouseleave(function() {
+         $(this).children(".service_center_detail").stop().slideUp();
+      });
+      
+   
+      $('#all_category_item>li').click(function(){
+         //alert
+         location.href = '/challenge/listChallenge?challengeListOpt=total&searchCondition=2&orderCondition=' + $(this).children('a').attr('class');
+      });
+      
+});   
+      
+   // //header 고정 이벤트
+   //  $(function(){
+   //      var top_pos= $('.menuDiv').offset().top;
+   //      win = window;
+   //      $(win).on('scroll',
+   //         function(){
+   //           var pos = $(this).scrollTop();
+   //           
+   //           if(pos >= top_pos){
+   //              $('.menuDiv').addClass('fix');
+   //           } 
+   //            else{
+   //              $('.menuDiv').removeClass('fix');
+   //            }
+   //      });         
+   //    });
+   // 
+      
+      //=============  판매상품등록 Event  처리 =============   
+      $(function() {
+         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+          $("a:contains('판매상품등록')").on("click" , function() {
+            //$(self.location).attr("href","/user/logout");
+            self.location = "/product/addProductView.jsp"
+         }); 
+       });
+      
+      
+      //=============  판매상품관리 Event  처리 =============   
+      $(function() {
+         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+          $("a:contains('판매상품관리')").on("click" , function() {
+            //$(self.location).attr("href","/user/logout");
+            self.location = "/product/listProduct?menu=manage"
+         }); 
+       });
+      
+   </script>
 
 <style>
+@font-face {
+	font-family: 'S-CoreDream-4Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+#profile{
+font-family: 'S-CoreDream-4Regular';
+font-size:15px;
+}
 .menuDiv{
 
 }
@@ -33,13 +109,26 @@ margin : 0;
 .logo_image{
 background-color:  #EDFFFD;
 }
-
+#profileImg{
+	width: 50px;
+    height: 50px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+div#menu-bar{
+	text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding-left: 300px;
+}
 </style>
 
 </head>
 <body>
 
    <!-- header -->
+  <div class="menuDiv"> 
    <div class="header">
 
       <div align="center" class="header_bar">
@@ -52,13 +141,14 @@ background-color:  #EDFFFD;
 
 
             <c:if test="${user.userEmail != null}">
-            
+                <img src="/images/uploadFiles/${user.profileImg}" id="profileImg"> &nbsp; <div id="profile">닉네임 : ${user.nick }<br>포인트 : ${user.totalPoint }</div>
+               <br>
                 <li class="service_center_item">
                <a class="service_center" href="/user/getUser?userEmail=${sessionScope.user.userEmail}"> 마이페이지</a>
                <button type="button" class="service_center_icon"></button>
                
                <c:if test="${user.userEmail != null}">
-               <li class="sign_in_item"><a href="링크">챌린지 생성</a></li>
+               <li class="sign_in_item"><a href="/challenge/addChallengeTos.jsp">챌린지 생성</a></li>
             </c:if>
                
                
@@ -90,9 +180,9 @@ background-color:  #EDFFFD;
       </h1>
       </div>
       
-
-      <div class="menuDiv">
-
+<!--/////////////////////////// 고정된 탑바 ////////////////////////////////////////////// -->
+      
+      <div id="menu-bar">
          <ul class="menu">
             <!-- == main -->
             <li class="all_category header_a_li">
@@ -146,92 +236,12 @@ background-color:  #EDFFFD;
             </li>
                   </c:if>
          </ul>
-
+      </div>
       </div>
    </div>
 
 
 
-
-
-
-
-   <script type="text/javascript"
-      src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
-      
-      
-      
-      
-      
-      
-   <script type="text/javascript">
    
-      $(document).ready(function() {
-         
-         //전체 카테코리 호버 이벤트
-         $(".menu>.all_category").mouseover(function() {
-            $(this).children(".all_category_item").stop().slideDown();
-         });
-         
-         $(".menu>.all_category").mouseleave(function() {
-            $(this).children(".all_category_item").stop().slideUp();
-         });
-         
-      
-      //마이페이지 호버이벤트
-      $(".member_items .service_center_item").mouseover(function() {
-         $(this).children(".service_center_detail").stop().slideDown();
-      });
-      
-      $(".member_items .service_center_item").mouseleave(function() {
-         $(this).children(".service_center_detail").stop().slideUp();
-      });
-      
-   
-      $('#all_category_item>li').click(function(){
-         //alert
-         location.href = '/challenge/listChallenge?challengeListOpt=total&searchCondition=2&orderCondition=' + $(this).children('a').attr('class');
-      });
-      
-});   
-      
-      //header 고정 이벤트
-       $(function(){
-           var top_pos= $('.menuDiv').offset().top;
-           win = window;
-           $(win).on('scroll',
-              function(){
-                var pos = $(this).scrollTop();
-                
-                if(pos >= top_pos){
-                   $('.menuDiv').addClass('fix');
-                } 
-                 else{
-                   $('.menuDiv').removeClass('fix');
-                 }
-           });         
-         });
-      
-      
-      //=============  판매상품등록 Event  처리 =============   
-      $(function() {
-         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-          $("a:contains('판매상품등록')").on("click" , function() {
-            //$(self.location).attr("href","/user/logout");
-            self.location = "/product/addProductView.jsp"
-         }); 
-       });
-      
-      
-      //=============  판매상품관리 Event  처리 =============   
-      $(function() {
-         //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-          $("a:contains('판매상품관리')").on("click" , function() {
-            //$(self.location).attr("href","/user/logout");
-            self.location = "/product/listProduct?menu=manage"
-         }); 
-       });
-      
-   </script>
 </body>
 </html>

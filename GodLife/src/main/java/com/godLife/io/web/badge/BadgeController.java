@@ -122,10 +122,10 @@ public class BadgeController {
 	
 	
 	
-	@RequestMapping( value="updateBadge", method=RequestMethod.GET )
+	@RequestMapping( value="updateBadgeView", method=RequestMethod.GET )
 	public String updateBadge( @RequestParam("badgeNo") int badgeNo , Model model ) throws Exception{	
 	
-		System.out.println("/badge/updateBadge : GET");
+		System.out.println("/badge/updateBadgeView : GET");
 		
 		//Business Logic
 		Badge badge = badgeService.getBadge(badgeNo);
@@ -138,14 +138,22 @@ public class BadgeController {
 
 
 	@RequestMapping( value="updateBadge", method=RequestMethod.POST )
-	public String updateBadge( @ModelAttribute("badge") Badge badge , Model model , HttpSession session) throws Exception{
+	public String updateBadge( @ModelAttribute("badge") Badge badge , Model model , HttpSession session,
+								@RequestParam ("imageUpload" )  MultipartFile file) throws Exception{
 
 		System.out.println("/badge/updateBadge : POST");
+
+		String fileName = file.getOriginalFilename();
+
+		fileName =  uploadFile(fileName, file.getBytes());   // 파일 이름 중복 제거 
+
+		badge.setBadgeImg(fileName);
+		
 		
 		//Business Logic
 		badgeService.updateBadge(badge);
 
-		return "redirect:/badge/getBadge?badgeNo="+badge.getBadgeNo();
+		return "forward:/badge/getBadgeList?badgeNo="+badge.getBadgeNo();
 	}
 
 	@RequestMapping( value="getBadgeList" )
@@ -180,7 +188,7 @@ public class BadgeController {
 	//Business Logic
 	badgeService.deleteBadge(badgeNo);
 
-	return "redirect:/badge/listBadge.jsp";
+	return "forward:/badge/getBadgeList";
 	
 	
 	}

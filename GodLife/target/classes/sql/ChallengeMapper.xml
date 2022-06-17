@@ -199,8 +199,10 @@
 						        FROM
 						        challenges
 						        where open_range = '1'
+						        AND status = '0'
 						    )c
 						    <where>
+							    host_email = 'friend_filter'
 							    <foreach item="value" collection="friend">
 									OR host_email = #{value}
 								</foreach>
@@ -272,8 +274,10 @@
 						        FROM
 						        challenges
 						        where open_range = '1'
+						        AND status = '0'
 						    )c
 						    <where>
+						    	host_email = 'friend_filter'
 							    <foreach item="value" collection="friend">
 									OR host_email = #{value}
 								</foreach>
@@ -305,6 +309,108 @@
 				
 		</select>
 	 
+	 <select id="getChallengeListFriend" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
+	 					
+	 					
+	 					
+	 			SELECT
+				challenge.*
+				FROM
+				(
+				SELECT
+				ROWNUM no, search.*
+				FROM(
+	 					SELECT
+						friend.*,ct.categ_name
+						FROM
+						(
+						    SELECT
+						    c.*
+						    FROM
+						     (
+						        SELECT
+						        *
+						        FROM
+						        challenges
+						        WHERE status = '0'
+						        <if test="search.searchKeyword != null and search.searchKeyword != ''">
+							  		AND title LIKE '%'||#{search.searchKeyword}||'%'
+								</if>
+								<if test="search.orderCondition != 0">
+									AND categ_no = #{search.orderCondition}
+								</if>
+								 <if test="search.searchCondition != null">
+									<if test="search.searchCondition == 0">
+										ORDER BY reg_date DESC
+									</if>
+									<if test="search.searchCondition == 1">
+										ORDER BY join_count DESC
+									</if>
+								</if>
+								<if test="search.searchCondition == null or search.searchCondition == 2">
+									ORDER BY challenge_no
+								</if>
+						    )c
+						    <where>
+						    	host_email = 'friend_filter'
+							    <foreach item="value" collection="friend">
+									OR host_email = #{value}
+								</foreach>
+						    </where>
+						)friend, categs ct
+						WHERE ct.categ_no = friend.categ_no
+					)search
+					WHERE ROWNUM &lt;= #{search.endRowNum}
+				)challenge
+				WHERE challenge.no BETWEEN #{search.startRowNum} AND #{search.endRowNum}
+	 
+	 </select>
+	 
+	 <select id="getChallengeListFriendTotal" parameterType="java.util.Map" resultType="int">
+	 			SELECT
+				COUNT(*)
+				FROM(
+	 					SELECT
+						friend.*,ct.categ_name
+						FROM
+						(
+						    SELECT
+						    c.*
+						    FROM
+						     (
+						        SELECT
+						        *
+						        FROM
+						        challenges
+						        WHERE status = '0'
+						        <if test="search.searchKeyword != null and search.searchKeyword != ''">
+							  		AND title LIKE '%'||#{search.searchKeyword}||'%'
+								</if>
+								<if test="search.orderCondition != 0">
+									AND categ_no = #{search.orderCondition}
+								</if>
+								<if test="search.searchCondition != null">
+									<if test="search.searchCondition == 0">
+										ORDER BY reg_date DESC
+									</if>
+									<if test="search.searchCondition == 1">
+										ORDER BY join_count DESC
+									</if>
+									</if>
+								<if test="search.searchCondition == null or search.searchCondition == 2">
+									ORDER BY challenge_no
+								</if>
+						    )c
+						    <where>
+						    	host_email = 'friend_filter'
+							    <foreach item="value" collection="friend">
+									OR host_email = #{value}
+								</foreach>
+						    </where>
+						)friend, categs ct
+						WHERE ct.categ_no = friend.categ_no
+					)search
+	 </select>
 	 
 	 <select id="getChallengeList" parameterType="java.util.Map" resultMap="ChallengeSelectMap">
 	 	

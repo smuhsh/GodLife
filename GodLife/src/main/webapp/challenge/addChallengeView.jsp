@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -24,9 +23,8 @@
 	
 
 <style>
-	  body {
-            padding-top : 70px;
-            background-size: cover;
+	  .container{
+      	 padding-top : 200px;
         }
 	  p{
 	       		font-size : 14px;

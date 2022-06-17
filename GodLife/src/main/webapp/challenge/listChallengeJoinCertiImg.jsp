@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -48,16 +47,40 @@
 
 	$(function(){
 		$("button#upload").on("click",function(){
-			var nowDate = new Date();
-			var uploadDate = $(this).data("certiDate");
-			alert(uploadDate);
-			var challengeNo = $(this).data("challengeNo");
-			if(nowDate.getTime() == uploadDate.getTime()){
+			
+			const date = new Date();
+			
+			const protoDay = date.getDate()+"";
+			
+			const protoMonth = (date.getMonth()+1)+"";
+			
+			const year = date.getFullYear()+"";
+			
+			var month;
+			var day;
+			
+			if(protoDay.length==1){
+				day = "0"+protoDay;
+			}else{
+				day = protoDay;
+			}
+			if(protoMonth.length==1){
+				month = "0"+protoMonth;
+			}else{
+				month = protoMonth;
+			}
+
+			var challengeNo = $(this).data("challengeno");
+			var nowDate = year+"-"+month+"-"+day;
+			var uploadDate = $(this).data("certidate");
+			
+			if(nowDate == uploadDate){
 				self.location = "/challenge/addChallengeCertiImg?challengeNo="+challengeNo;
 			}else{
 				alert("인증 가능한 날짜가 아닙니다.");
 				return;
 			}
+			
 			
 		});
 	});
@@ -92,8 +115,8 @@
 				     	<div>
 				     		<c:if test="${certiImg.certiImg == 'temp.jpg'}">
 					      		<button type="button" id="upload" class="btn btn-default abc"
-					      		 data-certiDate="${certiImg.certiDate}"
-					      		 data-challengeNo="${certiImg.challengeNo}">업로드</button>
+					      		 data-certidate="${certiImg.certiDate}"
+					      		 data-challengeno="${certiImg.challengeNo}">업로드</button>
 				     		</c:if>
 				     		<c:if test="${certiImg.certiImg != 'temp.jpg'}">
 				     			<button type="button" id="upload" class="btn btn-default abc"

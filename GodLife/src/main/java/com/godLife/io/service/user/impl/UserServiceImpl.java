@@ -86,19 +86,12 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
-	
-	
-	
 	public void addUser(User user) throws Exception {
 		userDao.addUser(user);
 	}
 	
 	public User getUser(String userEmail) throws Exception {
 		return userDao.getUser(userEmail);
-	}
-	
-	public List<User> getUserTarget(String nick) throws Exception {
-		return userDao.getUserTarget(nick);
 	}
 	
 	public void updatePwd(User user) throws Exception {
@@ -131,14 +124,14 @@ public class UserServiceImpl implements UserService{
 	
 	//인증 문자 보내기 
 	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) throws Exception {
-		String api_key = "NCSFLNAKPLATWT5U";
-	    String api_secret = "UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI";
+		String api_key = "NCSOUIL3U4BKDNTU";
+	    String api_secret = "PECGMMRB6KBESSNFX14HFI2NY7Q4VBEN";
 	    Message coolsms = new Message(api_key, api_secret);
 
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
 	    params.put("to", userPhoneNumber);    // 수신전화번호
-	    params.put("from", "01080077545");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	    params.put("from", userPhoneNumber);    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
 	    params.put("type", "SMS");
 	    params.put("text", "[TEST] 인증번호는" + "["+randomNumber+"]" + "입니다."); // 문자 내용 입력
 	    params.put("app_version", "test app 1.2"); // application name and version
@@ -154,9 +147,9 @@ public class UserServiceImpl implements UserService{
 	
 	//================친구, 블랙리스트=================================================
 	
-	
+	//친구 요청목록조회
 	public Map<String , Object > getFriendList(Search search, String userEmail) throws Exception {
-		int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getUserFriendListTotalCount(search, userEmail);
 		
 		Map<String, Object> map = userDao.getFriendList(search, userEmail);
 		map.put("totalCount", new Integer(totalCount));
@@ -165,7 +158,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public Map<String , Object > getBlackList(Search search, String userEmail) throws Exception {
-		int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getUserBlackListTotalCount(search, userEmail);
 		
 		Map<String, Object> map = userDao.getBlackList(search, userEmail);
 		map.put("totalCount", new Integer(totalCount));
@@ -175,7 +168,7 @@ public class UserServiceImpl implements UserService{
 	
 	
 	public Map<String , Object > getFriendRequestList(Search search, String targetEmail) throws Exception {
-		int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getUserFriendRequestListTotalCount(search, targetEmail);
 		
 		Map<String, Object> map = userDao.getFriendRequestList(search, targetEmail);
 		map.put("totalCount", new Integer(totalCount));
@@ -197,9 +190,33 @@ public class UserServiceImpl implements UserService{
 		userDao.updateAccStatus(friendBlack);
 	}
 	
+	public void deleteFriendRequest(FriendBlack friendBlack) throws Exception {
+		userDao.deleteFriendRequest(friendBlack);
+	}
+	
 	public void deleteFriend(FriendBlack friendBlack) throws Exception {
 		userDao.deleteFriend(friendBlack);
 	}
+	
+	
+	// 친구신청 중복검사
+	public int isAlreadyAppliedFriend(String userEmail, String targetEmail) {
+		Map<String, String> map = new HashMap<>();
+		map.put("userEmail", userEmail);
+		map.put("targetEmail", targetEmail);
+		int isAlready = userDao.isAlreadyAppliedFriend(map);
+		
+		// 친구신청이 안되어있다면 반대로 확인
+		if(isAlready < 1) {
+			Map<String, String> mapReverse = new HashMap<>();
+			mapReverse.put("userEmail", userEmail);
+			mapReverse.put("targetEmail", targetEmail);
+			isAlready = userDao.isAlreadyAppliedFriend(mapReverse);
+		}
+		// 결과값 전달
+		return isAlready;
+	}
+
 	
 	
 	//================쪽지================================================

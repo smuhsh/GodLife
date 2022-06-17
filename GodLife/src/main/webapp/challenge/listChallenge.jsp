@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -24,7 +23,7 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
-	<link rel="stylesheet" href="/resources/css/thumbnail.css" type="text/css">
+	<link rel="stylesheet" href="/resources/css/thumbnails.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/title.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/search.css" type="text/css">
    	
@@ -110,7 +109,9 @@
 </head>
 <body>
 <form name="challengeList">
-			<c:if test = "${challengeListOpt == 'total'}">
+	<jsp:include page="/layout/toolbar.jsp" />
+	<div class="container">
+		<c:if test = "${challengeListOpt == 'total'}">
 	 			<input type="hidden" name ="challengeListOpt" value="total">
 	 		</c:if>
 	 		<c:if test = "${challengeListOpt == 'add'}">
@@ -122,10 +123,10 @@
 	 		<c:if test = "${challengeListOpt == 'pick'}">
 	 			<input type="hidden" name ="challengeListOpt" value="pick">
 	 		</c:if>
-				
-	<div class="container">
+	 		<c:if test = "${challengeListOpt == 'friend'}">
+	 			<input type="hidden" name ="challengeListOpt" value="friend">
+	 		</c:if>
 	<div class="img_item">
-	<jsp:include page="/layout/toolbar.jsp" />
 	<div class="row">
 			  <div class="col-xs-6 col-sm-1">
 			  
@@ -143,6 +144,9 @@
 			  		</c:if>
 			  		<c:if test = "${challengeListOpt == 'pick'}">
 			  			<h2>찜한 챌린지 목록</h2>
+			  		</c:if>
+			  		<c:if test = "${challengeListOpt == 'friend'}">
+			  			<h2>친구가 등록한 챌린지 목록</h2>
 			  		</c:if>
 				</div>
 				
@@ -234,13 +238,13 @@
 				  	
 			  </div>
 		</div>
-	
+		</div>
+		<div class="container">
+			<jsp:include page="../common/pageNavigator_new.jsp"/>
+		</div>
 	</div>
 	<input type="hidden" id="currentPage" name="currentPage" value=""/>
-	</div>
-	<div class="container">
-		<jsp:include page="../common/pageNavigator_new.jsp"/>
-	</div>
+	
 </form>
 </body>
 </html>
