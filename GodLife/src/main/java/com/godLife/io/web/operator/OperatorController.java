@@ -227,7 +227,7 @@ public class OperatorController {
 //		
 //	}
 	@RequestMapping( value="listOperatorNotice" )
-	public String listOperatorNotice( @ModelAttribute("search") Search search, User user, OperatorNoticeFaqs operatorNotice , Model model , HttpServletRequest request) throws Exception{
+	public String listOperatorNotice( @ModelAttribute("search") Search search, OperatorNoticeFaqs operatorNotice , Model model , HttpSession session) throws Exception{
 		
 		System.out.println("/operator/listOperatorNotice : GET / POST");
 		
@@ -235,7 +235,7 @@ public class OperatorController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);		
-		user = (User) request.getSession().getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		// Business logic 수행
 		//Map<String , Object> map=operatorService.getOperatorNoticeFaqsList(search);
 		Map<String , Object> map=operatorService.getOperatorNoticeList(search, user, operatorNotice);
@@ -308,7 +308,7 @@ public class OperatorController {
 	}
 	
 	@RequestMapping( value="listOperatorFaqs" )
-	public String listOperatorFaqs( @ModelAttribute("search") Search search, User user, OperatorNoticeFaqs operatorFaqs , Model model , HttpServletRequest request) throws Exception{
+	public String listOperatorFaqs( @ModelAttribute("search") Search search, OperatorNoticeFaqs operatorFaqs , Model model , HttpSession session) throws Exception{
 		
 		System.out.println("/operator/listOperatorFaqs : GET / POST");
 		
@@ -316,7 +316,7 @@ public class OperatorController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);		
-		user = (User) request.getSession().getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		// Business logic 수행
 		Map<String , Object> map=operatorService.getOperatorFaqsList(search, user, operatorFaqs);
 		

@@ -130,10 +130,10 @@ div#menu-bar{
                <button type="button" class="service_center_icon"></button>
                <ul class="service_center_detail">
                   <li><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}">개인정보 조회</a></li>
-                  <li><a href="링크">포인트 구매</a></li>
-                  <li><a href="링크">상품권 구매</a></li>
-                  <li><a href="링크">쿠폰 구매</a></li>
-                  <li><a href="링크">기부하기</a></li>
+                  <li><a href="/product/getProductPointList">포인트 구매</a></li>
+                  <li><a href="/product/getProductVoucherList">상품권 구매</a></li>
+                  <li><a href="/product/getProductCouponList">쿠폰 구매</a></li>
+                  <li><a href="/point/addPointDonationView">기부하기</a></li>
                   
                   </ul>
                   </li>
@@ -157,7 +157,7 @@ div#menu-bar{
       <div class="logo_image">
       <h1 class="logo">
       <a href="/"> 
-            <img src="/images/uploadFiles/로고.png" />
+            <img src="/images/로고.png" />
             </a>
       </h1>
       </div>

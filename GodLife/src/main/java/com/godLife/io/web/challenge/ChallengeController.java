@@ -109,7 +109,7 @@ public class ChallengeController {
 		
 		challengeService.addChallenge(challenge, joinChallenger);
 		
-		return "/";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "addChallengeView", method=RequestMethod.POST)

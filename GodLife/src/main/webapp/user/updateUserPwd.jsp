@@ -14,6 +14,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
+
 <title>비밀번호 수정</title>
 
 <link rel="stylesheet" href="/css/getUserEmailView.css" />
@@ -55,7 +56,7 @@ $(function() {
 </head>
 <body>
 	<div id="content" style="height: 61.5%;">
-		<div class="section_login">
+		<div class="section_login" id="user">
 			<form id="form" name="frmMember">
 			<h2 class="tit_login">비밀번호 수정</h2>
 			<div class="write_form find_view">
