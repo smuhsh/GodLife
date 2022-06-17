@@ -5,9 +5,9 @@
 		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
 		}
 		
-        body {
-            padding-top : 70px;
-            background-size: cover;
+         body {
+            font-family: 'oneMobile';
+       		overflow-x:hidden;
         }
         
         h3{

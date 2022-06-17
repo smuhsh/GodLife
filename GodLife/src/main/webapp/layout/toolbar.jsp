@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -63,6 +62,18 @@
    </script>
 
 <style>
+@font-face {
+	font-family: 'S-CoreDream-4Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+#profile{
+font-family: 'S-CoreDream-4Regular';
+font-size:15px;
+}
 .menuDiv{
 
 }
@@ -80,7 +91,19 @@ margin : 0;
 .logo_image{
 background-color:  #EDFFFD;
 }
-
+#profileImg{
+	width: 50px;
+    height: 50px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+div#menu-bar{
+	text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding-left: 300px;
+}
 </style>
 
 </head>
@@ -100,7 +123,8 @@ background-color:  #EDFFFD;
 
 
             <c:if test="${user.userEmail != null}">
-            
+                <img src="/images/uploadFiles/${user.profileImg}" id="profileImg"> &nbsp; <div id="profile">닉네임 : ${user.nick }<br>포인트 : ${user.totalPoint }</div>
+               <br>
                 <li class="service_center_item">
                <a class="service_center"> 마이페이지</a>
                <button type="button" class="service_center_icon"></button>
