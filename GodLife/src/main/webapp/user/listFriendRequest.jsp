@@ -58,6 +58,7 @@
             
             #container{
             padding-left: 250px;
+            padding-top : 130px;
             }
             
             #caption{
@@ -181,6 +182,7 @@
       </table>
 	  <!--  table End /////////////////////////////////////-->
 	  
+ 	</div>
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
  	
