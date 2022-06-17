@@ -45,22 +45,26 @@
 <!-- //////////////////////////배지 전체 목록 조회//////////////////////////////////////////////////////  -->
 		 
 	<!-- SQL : SELECT LIST -->
-	<select  id="getBadgeMyList"  parameterType="search"	resultMap="myBadgeSelectMap">
+<!-- 원본 
+	<select  id="getBadgeList"  parameterType="search"	resultMap="myBadgeSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT my_badge_no, user_email , badge_no, act_count  
 											FROM my_badge 
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				my_badge_no LIKE '%${searchKeyword}%'
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				badge_no LIKE '%${searchKeyword}%'
-													</if>
-												</where>
-											</if>
 											ORDER BY my_badge_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+-->
+	<select  id="getBadgeList"  parameterType="search"	resultMap="myBadgeSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT a.my_badge_no, a.user_email, a.badge_no, a.act_count
+										FROM my_badge a
+										    INNER JOIN badges b
+										    ON a.badge_no = b.badge_no
+										WHERE a.user_email = #{userEmail:VARCHAR}
+										ORDER BY a.my_badge_no ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>

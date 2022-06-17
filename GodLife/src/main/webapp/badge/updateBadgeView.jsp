@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  
-
+ 
 <html>
 <head>
 <meta charset="UTF-8">
@@ -31,8 +31,7 @@
 	
 	
  		body {
-            padding-top : 50px;
-            background-color: #708090 ;
+
 		    font-weight: bold; 
 		    font-family: 'oneMobile';
         }
@@ -140,7 +139,8 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<br><br>
+	<br><br><br><br><br><br>
+	<br><br><br><br><br><br>
 	<div class="container">
 	
 		<h2 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">배지 수정 및 삭제</h2>
@@ -198,14 +198,14 @@
 <!-- 배지 이미지 입력 End -->
 <!--///////////////////////// Test용 ActBadge와 Grade를 입력하는 곳을 만들자 Start////////////////////////////// -->
 			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-           <label for="grade" class="col-sm-offset-1 col-sm-3 control-label">배지 등급</label>
+<!-- grade를 없앨 예정, actCount로만 할 것임 -->
+           <label for="grade" class="col-sm-offset-1 col-sm-3 control-label">배지 등급 입력</label>
             <div class="col-sm-4">
-               <input type="text" class="form-control" id="grade" name="grade" 
+               <input type="hidden" class="form-control" id="grade" name="grade" 
                   value="${badge.grade}">
             </div>
-			<br>
-           <label for="actCount" class="col-sm-offset-1 col-sm-3 control-label">배지 활동 횟수량</label>
+			<br><br><br><br>
+           <label for="actCount" class="col-sm-offset-1 col-sm-3 control-label">배지 활동 횟수량 입력</label>
             <div class="col-sm-4">
                <input type="text" class="form-control" id="actCount" name="actCount" 
                   value="${badge.actCount}">
@@ -251,33 +251,34 @@
 		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 150; width: 180px; ">
 		    	Bronze Badge<br>
 		    	활동 횟수량 : 1 ~ 10
-		    	<img src="../images/uploadFiles/BronzeBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    	<img src="/images/uploadFiles/BronzeBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
 		    </div>
 
 		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 150; width: 180px;">
 		    	Silver Badge<br>
 		    	활동 횟수량 : 11 ~ 20
-		    	<img src="../images/uploadFiles/SilverBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    	<img src="/images/uploadFiles/SilverBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
 		    </div>
 			    
 		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 150; width: 180px;">
 		    	Gold Badge<br>
 		    	활동 횟수량 : 21 ~ 
-		    	<img src="../images/uploadFiles/GoldBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    	<img src="/images/uploadFiles/GoldBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
 		    </div>
 		
 <!-- 배지 등급 이미지 입력 End -->	
 
-					<br><br><br>
+					<br><br><br><br><br>
 <!-- 버튼 모음 -->
          <div class="form-group">
             <div class="col-sm-offset-4  col-sm-4 text-center">
                <button type="button" class="btn btn-primary update">수 &nbsp;정 완 료</button>
                <button type="button" class="btn btn-primary delete">삭 &nbsp;제</button>
-               <a class="btn btn-primary btn" href="#" role="button">내용리셋</a>
+               <a class="btn btn-primary btn" href="#" role="button">내용리셋</a> 
+               <br><br>
                <button type="button" class="btn btn-primary back">이전페이지로 돌아가기</button>          
             </div>
          </div>

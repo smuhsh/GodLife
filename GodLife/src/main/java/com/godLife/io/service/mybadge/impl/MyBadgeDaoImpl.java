@@ -1,6 +1,8 @@
 package com.godLife.io.service.mybadge.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.MyBadge;
+import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.mybadge.MyBadgeDao;
 
 
@@ -35,8 +38,19 @@ public class MyBadgeDaoImpl implements MyBadgeDao{
 		return sqlSession.selectOne("MyBadgeMapper.getBadgeMy", myBadgeNo);
 	}
 
-	public List<MyBadge> getBadgeMyList(Search search) throws Exception {
-		return sqlSession.selectList("MyBadgeMapper.getBadgeMyList", search);
+	public Map<String, Object> getBadgeMyList(Search search) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("endRowNum",  search.getEndRowNum()+"" );
+		map.put("startRowNum",  search.getStartRowNum()+"" );
+		System.out.println("@@@@dao Search : "+search);
+		map.put("search", search);
+		List<Point> list = sqlSession.selectList("MyBadgeMapper.getBadgeMyList", search);
+		System.out.println("@@@daoImpl list1 : "+list);
+		map.put("list", list);
+
+		
+		return map;
 	}
 
 	// 내 배지 활동 횟수량 증가

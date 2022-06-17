@@ -85,9 +85,6 @@ $(function() {
 		return;
   }
 	
-  
-  
-		
 		$("form").attr("method" , "POST").attr("action" , "/user/findUserEmail").submit();
 	});
 });	
@@ -102,7 +99,6 @@ $(function() {
 			<h2 class="tit_login">아이디 찾기</h2>
 			<div class="write_form find_view">
 			
-				
 					<strong class="tit_label">휴대폰번호</strong>
 					<input id="phone" type="text" name="phone" title="전화번호 입력" placeholder="예) 01011111111" required/>
 									<span id="phoneChk" class="doubleChk">인증번호 보내기</span><br/>

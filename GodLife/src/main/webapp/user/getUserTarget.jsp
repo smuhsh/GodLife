@@ -25,6 +25,10 @@ body {
            padding-top : 50px;
            padding-right: :5px;
        }
+       
+  #getUser{
+       padding-top : 130px;
+       }
         
 img
 {
@@ -75,7 +79,7 @@ $(function() {
 </head>
 <body>
 	<div class="page_aticle">
-		<div class="type_form getUser">
+		<div class="type_form getUser" id="getUser">
 			<form id="form" name="frmMember">
 				<div class="field_head">
 					<h3 class="tit">유저 상세정보 조회</h3>

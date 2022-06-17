@@ -9,6 +9,7 @@ public class MyBadge {
 	private String userEmail;
 	private int badgeNo;
 	private int actCount;
+	//리스트에서 2가지로 구분 하기 위해 넣음 0 : 활동배지, 1 : 관심사 배지
 	
 	///Constructor
 	public MyBadge() {
@@ -42,11 +43,11 @@ public class MyBadge {
 	@Override
 	public String toString() {
 		return "MyBadge [myBadgeNo=" + myBadgeNo + ", userEmail=" + userEmail + ", badgeNo=" + badgeNo + ", actCount="
-				+ actCount + " ]";
+				+ actCount +  "]";
 	}
-	
-	
 
+
+	
 
 }
 
