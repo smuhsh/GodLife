@@ -21,10 +21,6 @@
 
 <style>
 
-body {
-           padding-top : 50px;
-           padding-right: :5px;
-       }
         
 img
 {

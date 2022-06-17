@@ -7,8 +7,6 @@
 <head>
 <title>기부 목록</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -16,8 +14,32 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<link rel="stylesheet" href="/resources/css/toolbar2.css" />
 	<link rel="stylesheet" href="/resources/css/purchaseList.css" type="text/css">
-	
+	<style>
+
+	.container{
+    padding-top:220px;
+    }
+    #search{
+    height: 32px;
+
+    }
+    
+    #condition{
+		width: 212px;
+		text-align: center;
+	}
+    
+	#search:focus {
+		outline:0;
+	}
+	#search:hover{
+		background: gray;
+		cursor: pointer;
+		box-shadow: 0 2px 4px rgba(0,79,255,0.6);
+	}
+	</style>
 	<script type="text/javascript">
 	
 
@@ -37,10 +59,11 @@ $(function(){
 
 <body>
 <form class="form-inline" name="detailForm">	
-	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-	
+	<div class="row">
+	<jsp:include page="/user/mypageMain.jsp" />
+
+	<div class="col-md-3" >
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
@@ -57,9 +80,8 @@ $(function(){
 		    </div>
 		    
 		    <div class="col-md-6 text-right">
-		    
-			    
-			    
+			 <a href="/point/getPointPurchaseList">포인트 이용내역</a> &nbsp; &nbsp;<a href="/point/getPointPurchaseVoucherList">상품권 구매내역</a>
+		    <br>
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>기부처</option>
@@ -127,8 +149,9 @@ $(function(){
 </table>
 <!--  페이지 Navigator 끝 -->
 
-
-
+</div>
+</div>
+<div class="col-md-1" ></div>
 </div>
 	</form>
 </body>

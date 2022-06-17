@@ -1,13 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html>
 <head>
-<title>»óÇ°±Ç ±¸¸Å ¸ñ·Ï</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
+<title>ìƒí’ˆê¶Œ êµ¬ë§¤ ëª©ë¡</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -16,11 +14,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<link rel="stylesheet" href="/resources/css/purchaseLists.css" type="text/css">
+	<link rel="stylesheet" href="/resources/css/toolbar2.css" />
+	<link rel="stylesheet" href="/resources/css/purchaseList.css" type="text/css">
+
 	<style>
-	  body {
-            padding-top : 70px;
-        }
+
+	 .container{
+    padding-top:220px;
+    }
       #mesaageimg{
       	width: 30px;
       	height: 30px;
@@ -29,6 +30,15 @@
      	 width: 30px;
       	height: 40px;
       }
+
+	#search:focus {
+		outline:0;
+	}
+	#search:hover{
+		background: gray;
+		cursor: pointer;
+		box-shadow: 0 2px 4px rgba(0,79,255,0.6);
+	}
    
     </style>
 	<script type="text/javascript">
@@ -42,13 +52,13 @@ function fncGetList(currentPage) {
 }
 
 $(function(){
-	$("button:contains('°Ë»ö')").on("click",function(){
+	$("button:contains('ê²€ìƒ‰')").on("click",function(){
 		fncGetList(1);
 	});
 });
 
 $(function(){
-	$("a:contains('Àü¼Û')").click(function(){
+	$("a:contains('ì „ì†¡')").click(function(){
 		alert(productName+""+voucherUniqueNo+""+regDate);
 		var productName = $(this).data("param1");
 		var voucherUniqueNo = $(this).data("param2");
@@ -74,56 +84,63 @@ $(function(){
 
 <body>
 	
+	<form class="form-inline" name="detailForm">	
 	<jsp:include page="/layout/toolbar.jsp" />
-	<form class="form-inline" name="detailForm">
+	<div class="row">
+	<jsp:include page="/user/mypageMain.jsp" />
+
+	<div class="col-md-3" >
 	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>»óÇ°±Ç ±¸¸Å¸ñ·Ï</h3>
+	       <h3>ìƒí’ˆê¶Œ êµ¬ë§¤ëª©ë¡</h3>
 	    </div>
-	    	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row">
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç
+		    		ì „ì²´  ${resultPage.totalCount } ê±´
 		    	</p>
 		    </div>
 		    <div class="col-md-6 text-right">
+		    <a href="/point/getPointPurchaseList">í¬ì¸íŠ¸ ì´ìš©ë‚´ì—­</a> &nbsp; &nbsp;<a href="/point/getPointPurchaseDonationList" class="link_lnb">ê¸°ë¶€ ë‚´ì—­</a>
+		    <br>
+		    <div class="input-group">
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ÀüÃ¼</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>3000¿ø±Ç</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>5000¿ø±Ç</option>
-						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>10000¿ø±Ç</option>
-						<option value="4"  ${ ! empty search.searchCondition && search.searchCondition==4 ? "selected" : "" }>30000¿ø±Ç</option>
-						<option value="5"  ${ ! empty search.searchCondition && search.searchCondition==5 ? "selected" : "" }>100000¿ø±Ç</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ì „ì²´</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>3000ì›ê¶Œ</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>5000ì›ê¶Œ</option>
+						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>10000ì›ê¶Œ</option>
+						<option value="4"  ${ ! empty search.searchCondition && search.searchCondition==4 ? "selected" : "" }>30000ì›ê¶Œ</option>
+						<option value="5"  ${ ! empty search.searchCondition && search.searchCondition==5 ? "selected" : "" }>100000ì›ê¶Œ</option>
 					</select>
 					</div>
 				  
 				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
+				  <button type="button" class="btn btn-default" id="search">ê²€ìƒ‰</button>
 				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 			</div>
 	    </div>
-	  
+	  </div>
 	
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 		
 		
 <table class="table table-striped">
 	<tr>
-		<td>¹øÈ£<br></td>
-		<td>»óÇ°±Ç<br></td>
+		<td>ë²ˆí˜¸<br></td>
+		<td>ìƒí’ˆê¶Œ<br></td>
 		<td></td>
-		<td>°íÀ¯¹øÈ£</td>
+		<td>ê³ ìœ ë²ˆí˜¸</td>
 		<td></td>
-		<td>±¸¸Å³¯Â¥</td>
+		<td>êµ¬ë§¤ë‚ ì§œ</td>
 		<td></td>
-		<td>¸Ş¼¼Áö</td>
+		<td>ë©”ì„¸ì§€</td>
 		
 	</tr>
 	<c:set var = "i" value = "0"/>
@@ -141,13 +158,13 @@ $(function(){
 		data-param1="${point.productName}"
 		data-param2="${point.voucherUniqueNo}"
 		data-param3="${point.regDate}"
-		><img src="/resources/images/uploadFiles/voucherMesaage.png" id="mesaageimg">Àü¼Û</a></td>
+		><img src="/resources/images/uploadFiles/voucherMesaage.png" id="mesaageimg">ì „ì†¡</a></td>
 	</tr>
 	
 	</c:forEach>
 </table>	
 	
-<!--  ÆäÀÌÁö Navigator ½ÃÀÛ -->
+<!--  í˜ì´ì§€ Navigator ì‹œì‘ -->
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
@@ -159,10 +176,13 @@ $(function(){
     	</td>
 	</tr>
 </table>
-<!--  ÆäÀÌÁö Navigator ³¡ -->
+<!--  í˜ì´ì§€ Navigator ë -->
 
 
-
+</div>
+</div>
+<div class="col-md-1" >
+	</div>
 </div>
 </form>
 </body>
