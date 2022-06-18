@@ -10,19 +10,16 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
    
-    <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
-	<link rel="stylesheet" href="/resources/css/getChallenge.css" type="text/css">
+	<link rel="stylesheet" href="/resources/css/getChallenges.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/title.css" type="text/css">
 	<link rel="stylesheet" href="/resources/css/search.css" type="text/css">
 
@@ -37,13 +34,18 @@
 								  "참여 하시겠습니까?")){
 					var joinPoint = ${challenge.joinPoint}
 					var userPoint = ${user.totalPoint}
-					if(userPoint < joinPoint){
-						alert("보유 포인트가 부족합니다.");
-						return;
+					if(${sessionScope.user != null}){
+						if(userPoint < joinPoint){
+							alert("보유 포인트가 부족합니다.");
+							return;
+						}
+						
+						$("form[name='challenge']").attr("method","POST").attr("action","/challenge/addChallengeJoin")
+						.submit();
+					}else{
+						alert("로그인 후 이용해 주세요.");
 					}
 					
-					$("form[name='challenge']").attr("method","POST").attr("action","/challenge/addChallengeJoin")
-					.submit();
 				}
 				
 			});
@@ -114,6 +116,10 @@
 			
 		});
 		
+		
+		
+		
+		
 	</script>
 <title>Insert title here</title>
 </head>
@@ -154,6 +160,10 @@
 			        <p class="rightInfo" >총 포인트 : ${challenge.joinPoint * challenge.joinCount}</p>
 			        <p class="rightInfo" ></p>
 			        
+			       
+			        
+			        
+			        
 			        <div id="leftInfo">
 			        	<div id="left-detail">
 				        	<p>호스트</p>
@@ -171,8 +181,7 @@
 				        	</div>
 			        	</c:if>
 			        	
-			        	
-			        	
+						
 			        	<div>
 			        		<p id="detail">챌린지 소개</p>
 			        		<textarea readonly>${challenge.challengeDetail }</textarea>
@@ -182,6 +191,8 @@
 			        	</div>
 			        	&nbsp;
 			        </div>
+			        
+			        
 			        	<c:if test="${challenge.challengeStatus == 1}">
 			        	  <center>
 			        		<div>
@@ -195,6 +206,12 @@
 			              &nbsp;
 			        	</c:if>
 			        <div id="center">
+			        		<c:if test="${challenge.challengeStatus == 2}">
+			        			<div>
+			        				<button type="button" id="reward" class="btn btn-default abc">포인트 환급 받기</button>
+			        			</div>
+			        		</c:if>
+			        		
 				        	<c:if test="${challenge.challengeStatus == 0}">
 				        		<button type="button" id="back" class="btn btn-default abc">뒤로가기</button>
 				        	</c:if>

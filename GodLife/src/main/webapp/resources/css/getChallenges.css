@@ -130,4 +130,38 @@
        		bottom:55px;
        		text-align:center;
        }
-     
+       #joiner{
+       		border:solid 1px black;
+       		width:871px;
+       		height:200px;
+       		overflow:auto;
+       }
+     	
+     	
+     	
+     	img#profile-join{
+        	width:35px!important;
+        	height:35px!important;
+        	position:relative;
+        	right:100px!important;
+        	left:22px;
+        	border-radius: 30px 30px 30px 30px!important
+        }
+        
+        .profile-t{
+        	width:40px;
+        	position:relative;
+        	top:5px;
+        }
+        
+        .nick-t{
+        	width:130px;
+        	position:relative;
+        	top:5px;
+        }
+        .percent-t{
+        	position:relative;
+        	top:5px;
+        }
+        
+		

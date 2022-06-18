@@ -12,6 +12,7 @@ public class CertiImg {
 	private int like;
 	private int dislike;
 	private int categNo;
+	private String categName;
 	private String status;
 	private String certiDate;
 	public int getCertiImgNo() {
@@ -81,14 +82,20 @@ public class CertiImg {
 	public void setCertiDate(String certiDate) {
 		this.certiDate = certiDate;
 	}
+	public String getCategName() {
+		return categName;
+	}
+	public void setCategName(String categName) {
+		this.categName = categName;
+	}
 	@Override
 	public String toString() {
 		return "CertiImg [certiImgNo=" + certiImgNo + ", challengeNo=" + challengeNo + ", certiImg=" + certiImg
 				+ ", email=" + email + ", nick=" + nick + ", certiImgRegDate=" + certiImgRegDate + ", like=" + like
-				+ ", dislike=" + dislike + ", categNo=" + categNo + ", status=" + status + ", certiDate=" + certiDate
-				+ "]";
+				+ ", dislike=" + dislike + ", categNo=" + categNo + ", categName=" + categName + ", status=" + status
+				+ ", certiDate=" + certiDate + "]";
 	}
-
+	
 
 	
 	

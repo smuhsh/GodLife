@@ -27,8 +27,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 	
 	
 	@Override
-	public void addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
-		challengeDao.addChallenge(challenge,joinChallenger);
+	public Map<String,Object> addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
+		return challengeDao.addChallenge(challenge,joinChallenger);
 	}
 
 

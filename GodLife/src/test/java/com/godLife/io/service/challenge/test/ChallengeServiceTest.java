@@ -163,7 +163,7 @@ public class ChallengeServiceTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void getChallenge() throws Exception{
 		int challengeNo = 10070; // hostEmail : chilee4650@naver.com
 		
@@ -333,7 +333,7 @@ public class ChallengeServiceTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void getChallengeCertiImgList() {
 		
 		//로그인

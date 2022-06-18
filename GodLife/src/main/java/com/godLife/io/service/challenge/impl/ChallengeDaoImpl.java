@@ -24,7 +24,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 	private SqlSession sqlSession;
 
 	@Override
-	public void addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
+	public Map<String,Object> addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
 		
 		sqlSession.insert("ChallengeMapper.insertChallenge",challenge);
 		
@@ -46,7 +46,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		
 		sqlSession.insert("ChallengeMapper.insertJoinChallenger",joinChallenger);
 		
-		
+		return map;
 	}
 
 	public Map<String, Object> getChallengeList(Map<String, Object> map) {
