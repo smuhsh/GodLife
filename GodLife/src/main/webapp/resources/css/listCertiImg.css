@@ -49,11 +49,6 @@ img#profile{
 }
 .like-dislike{
 	display:flex;
-	position:relative;
-	left:650px;
-	bottom:130px;
-	
-	
 }
 #like{
 	padding-right: 20px;
@@ -73,6 +68,12 @@ img#profile{
 	width:150px;
 	height:50px;
 	border-radius: 30px 30px 30px 30px;
+	align-items: center;
+    display: flex;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top : 10px;
 }
 .glyphicon glyphicon-thumbs-up{
 	font-size:30px;
@@ -83,4 +84,33 @@ img#profile{
 }
 #comment-btn{
 	width:700px;
+}
+
+
+
+#comments{
+	width:700px!important;
+	position:relative;
+	left:86px;
+	margin-bottom:0px;
+}
+
+#input-comment{
+	
+	position:relative;
+	left:86px;
+	
+}
+
+#input-comt{
+	width:640px;
+}
+
+a.comment-update{
+	text-decoration: none;
+        	color:black;
+}
+a.comment-delete{
+	text-decoration: none;
+        	color:black;
 }
