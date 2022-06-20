@@ -10,7 +10,7 @@ import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
 
 public interface ChallengeService {
-	public void addChallenge(Challenge challenge, JoinChallenger joinChallenger);
+	public Map<String,Object> addChallenge(Challenge challenge, JoinChallenger joinChallenger);
 	
 	public Map<String,Object> getChallengeList(Map<String, Object> map);
 	
@@ -29,6 +29,8 @@ public interface ChallengeService {
 	public Map<String,Object> getChallengeCertiImgList(Map<String,Object> map);
 	
 	public CertiImg getChallengeCertiImg(int certiImgNo);
+	
+	public Map<String,Object> getChallengeReview(Map<String,Object> map);
 	
 	public void addChallengeReview(Review review);
 	
@@ -49,5 +51,7 @@ public interface ChallengeService {
 	public List<JoinChallenger> getChallengeJoinerList(int challengeNo);
 	
 	public Map<String, Object> getChallengeListFriend(Map<String,Object> map);
+	
+	
 
 }

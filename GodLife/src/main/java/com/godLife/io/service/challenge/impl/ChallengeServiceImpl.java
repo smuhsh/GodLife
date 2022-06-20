@@ -27,8 +27,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 	
 	
 	@Override
-	public void addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
-		challengeDao.addChallenge(challenge,joinChallenger);
+	public Map<String,Object> addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
+		return challengeDao.addChallenge(challenge,joinChallenger);
 	}
 
 
@@ -86,7 +86,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public CertiImg getChallengeCertiImg(int certiImgNo) {
 		return challengeDao.getChallengeCertiImg(certiImgNo);
 	}
-
+	@Override
+	public Map<String,Object> getChallengeReview(Map<String,Object> map) {
+		
+		return challengeDao.getChallengeReview(map);
+	}
 
 	@Override
 	public void addChallengeReview(Review review) {

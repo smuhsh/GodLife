@@ -11,12 +11,11 @@
    width: 170px;
    float: left;
    margin-top: 260px;
-   margin-left:350px;
+   margin-left: 350px;
    border-top: 1px solid #d4d7da;
+
 }
 </style>
-
-
 
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -42,6 +41,7 @@
          <li id="managerSaleboard" style="text-align: left;"><a href="/challenge/listChallenge?challengeListOpt=add" class="link_lnb">등록한 챌린지 목록</a></li>
          <li id="managerFreeboard" style="text-align: left;"><a href="/challenge/listChallenge?challengeListOpt=join" class="link_lnb">참여한 챌린지 목록</a></li>
          <li id="managerReviewboard" style="text-align: left;"><a href="/challenge/listChallenge?challengeListOpt=pick" class="link_lnb">찜한 챌린지 목록</a></li>
+      	 <li id="managerReviewboard" style="text-align: left;"><a href="/challenge/listChallengeCertiImg?certiImgOpt=my" class="link_lnb">내가 인증한 이미지 목록</a></li>
       </ul>
    </li>
    
@@ -49,8 +49,8 @@
       <strong><span class="ico_admin"></span> <span class="txt_lnb">쪽지 관리</span></strong>
       <ul>
          <li id="managerSaleboard" style="text-align: left;"><a href="/user/addUserMsg?sendEmail=${sessionScope.user.userEmail}" class="link_lnb">쪽지 쓰기</a></li>
-         <li id="managerFreeboard" style="text-align: left;"><a href="링크" class="link_lnb">받은 쪽지함</a></li>
-         <li id="managerReviewboard" style="text-align: left;"><a href="링크" class="link_lnb">보낸 쪽지함</a></li>
+         <li id="managerFreeboard" style="text-align: left;"><a href="/user/listUserRecvMsg?recvEmail=${sessionScope.user.userEmail}"  class="link_lnb">받은 쪽지함</a></li>
+         <li id="managerReviewboard" style="text-align: left;"><a href="/user/listUserSendMsg?sendEmail=${sessionScope.user.userEmail}" class="link_lnb">보낸 쪽지함</a></li>
       </ul>
    </li>
    
