@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -108,6 +109,8 @@ public class ChallengeController {
 		System.out.println("DB에 등록될 Challenge 정보: "+challenge);
 		
 		challengeService.addChallenge(challenge, joinChallenger);
+		
+		int challengeNo = (Integer)map.get("challengeNo");
 		
 		return "redirect:/";
 	}
@@ -322,13 +325,18 @@ public class ChallengeController {
 							   Map<String,Object> map,
 							   Model model) throws Exception {
 		
+		System.out.println("challengeNo : "+challengeNo);
 		user = (User)session.getAttribute("user");
 		map.put("user", user);
 		map.put("challengeNo", challengeNo);
 		Challenge challenge = challengeService.getChallenge(map);
+		List<JoinChallenger> joinChallengerList = 
+				challengeService.getChallengeJoinerList(challenge.getChallengeNo());
+		
+		
 		
 		User hostUser = userService.getUser(challenge.getHostEmail());
-		
+		model.addAttribute("joinChallengerList",joinChallengerList);
 		model.addAttribute("challenge",challenge);
 		model.addAttribute("hostUser",hostUser);
 		model.addAttribute("user",user);
@@ -370,11 +378,8 @@ public class ChallengeController {
 		
 		map.put("challengeNo", challenge.getChallengeNo());
 		
-		challenge = challengeService.getChallenge(map);
 		
-		model.addAttribute(challenge);
-		
-		return "forward:/challenge/getChallenge.jsp";
+		return "redirect:/challenge/getChallenge?challengeNo="+challenge.getChallengeNo();
 	}
 	
 	
@@ -468,9 +473,8 @@ public class ChallengeController {
 		
 		challenge = challengeService.getChallenge(map);
 		
-		model.addAttribute("challenge",challenge);
 		
-		return "/challenge/getChallenge.jsp";                    
+		return "redirect:/challenge/getChallenge?challengeNo="+challenge.getChallengeNo();                    
 	}                                 
 	        
 	@RequestMapping(value="addChallengePick",method=RequestMethod.POST)
@@ -601,7 +605,8 @@ public class ChallengeController {
 	public String addChallengeCertiImg(CertiImg certiImg,
 									   @ModelAttribute Challenge challenge,
 									   MultipartHttpServletRequest mtfRequest,
-									   HttpSession session) throws IllegalStateException, IOException {
+									   HttpSession session,
+									   @RequestParam(defaultValue = "general") String status) throws IllegalStateException, IOException {
 		
 		User user = (User)session.getAttribute("user");
 		
@@ -612,15 +617,21 @@ public class ChallengeController {
 		String originFileName = mf.getOriginalFilename();
 		
 		certiImg.setChallengeNo(challenge.getChallengeNo());
-		certiImg.setEmail(user.getUserEmail());
+		certiImg.setUser(user);
 		certiImg.setCertiImg(System.currentTimeMillis()+originFileName);
+		
+		if(status.equals("coupon")) {
+			certiImg.setStatus("1");
+		}else {
+			certiImg.setStatus("0");
+		}
 		
 		
 		mf.transferTo(new File(path+certiImg.getCertiImg()));
 		
 		challengeService.addChallengeCertiImg(certiImg);
 		
-		return "redirect:/common/close.jsp";
+		return "redirect:/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
 	}
 	
 	
@@ -630,13 +641,52 @@ public class ChallengeController {
 		
 		
 		
-		List<JoinChallenger> JoinChallengerList = 
+		List<JoinChallenger> joinChallengerList = 
 				challengeService.getChallengeJoinerList(challenge.getChallengeNo());
-		model.addAttribute(JoinChallengerList);
+		model.addAttribute("joinChallengerList",joinChallengerList);
 		return "forward:/challenge/listChallengeJoinUser.jsp";
 	}
 	
+	@RequestMapping(value="listChallengeCertiImg",method=RequestMethod.GET)
+	public String listChallengeCertiImg(@RequestParam(required = false) String certiImgOpt,
+										@ModelAttribute Search search,
+										HttpSession session,
+										Map<String,Object> map,
+										Model model) {
+		
+		User user = (User)session.getAttribute("user");
+		
+		
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		
+		search.setPageSize(pageSize);
+		
+		map.put("certiImgOpt",certiImgOpt);
+		map.put("search", search);
+		map.put("user", user);
+		
+		map = challengeService.getChallengeCertiImgList(map);
+		
+		List<CertiImg> certiImgList = (List<CertiImg>)map.get("certiImgList");
+		
+		for(CertiImg certiImg : certiImgList) {
+			System.out.println(certiImg);
+		}
+		
+		model.addAttribute(certiImgList);
+		model.addAttribute("page",search.getCurrentPage());
+		
+		return "/challenge/listCertiImg.jsp";
+	}
 	
+	
+	@RequestMapping(value="addChallengeReward",method=RequestMethod.POST)
+	public String addChallengeReward() {
+		
+		return null;
+	}
 	
 	///////////Scheduled////////////////////
 	
