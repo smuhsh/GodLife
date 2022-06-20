@@ -200,17 +200,18 @@ div#menu-bar{
             </a> 
                <ul class="all_category_item" id="all_category_item">
                
-               		<li><a href="/operator/OperatorNewEvent">신규회원</a></li>
-               		<li><a href="/operator/OperatorDayEvent">매일출석</a></li>
-               		<li><a href="/operator/OperatorRoullEvent">룰렛 이벤트</a></li>
+                     <!--  <li><a href="/operator/OperatorNewEvent">신규회원</a></li>-->
+                     <li><a href="/operator/getOperatorJoinDayEvent?eventNo=1">매일출석</a></li>
+                     <li><a href="/operator/getOperatorJoinRoullEvent?eventNo=2">룰렛 이벤트</a></li>
                </ul>
             </li>
                
-               <li class="new-product-category">
-               <a	href="/operator/listOperatorNotice" style="text-decoration:none;">공지사항</a></li>
+               <li class="all_category header_a_li">
+               <a   href="/operator/listOperatorNotice">공지사항</a>
+               </li>
                
-               <li class="new-product-category">
-               <a	href="/operator/listOperatorFaqs" style="text-decoration:none;">FAQ</a></li>
+               <li class="all_category header_a_li">
+               <a   href="/operator/listOperatorFaqs">FAQ</a></li>
                
                
                
