@@ -320,7 +320,6 @@ crossorigin="anonymous"></script>
 			       	<div class="info">
 			       		<p class="font-size">관심사 : ${certiImg.categName }</p>
 			       	</div>
-<<<<<<< HEAD
 			       	<div id="bord">
 			       	 	<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-up" id="updateLike" aria-hidden="true" data-param="${certiImg.certiImgNo}"></span></p>
 			       		&nbsp;
@@ -331,18 +330,6 @@ crossorigin="anonymous"></script>
                          &nbsp;
                          <div id="DislikePlace"></div>
                          <p class="font-size" id="dislike">${certiImg.dislike}<p>
-=======
-			       	<div id="bord"></div>
-			       	<div id="review">
-				       	<div class="like-dislike">
-				       	 	<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></p>
-				       		&nbsp;
-				       		<p class="font-size" id="like">${certiImg.like }<p>
-				       		<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></p>
-				       		&nbsp;
-				       		<p class="font-size" id="dislike">${certiImg.dislike }<p>
-				       	</div>
->>>>>>> refs/remotes/origin/master
 			       	</div>
 			       	<center>
 			       		<button type="button" id="comment-btn" class="btn btn-default" 
