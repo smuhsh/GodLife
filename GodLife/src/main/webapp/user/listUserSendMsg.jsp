@@ -22,6 +22,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	
+	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
@@ -39,16 +40,12 @@
   
   <!-- 상단바삽입 -->
 	<jsp:include page="/layout/toolbar.jsp" />
-	<!-- 왼쪽 레이아웃 삽입-->
-	<jsp:include page="/user/mypageMain.jsp" />
 	
+	<!-- 왼쪽 레이아웃 삽입-->
+		<jsp:include page="/user/mypageMain.jsp" />
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	
-		#container{
-		padding-top : 130px;
-		}
 	 
         h2{
                 font-size: 2.3rem;
@@ -61,6 +58,7 @@
             
             #container{
             padding-left: 250px;
+            padding-top : 130px;
             }
             
             #caption{
@@ -70,19 +68,6 @@
             h3{
             font-size: 15px;
             }
-            
-         /*  #writeBtn1{
-           border: 1px solid #064acb;
-	      background-color: #064acb;
-	      color: #fff;
-	      WIDTH: 60pt;
-	      HEIGHT: 30pt;
-	      margin-left: 380px;
-           }
-           */
-           
-            
-            
     </style>
     
     
@@ -92,7 +77,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listFriend?userEmail=${user.userEmail}").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listUserSendMsg?").submit();
 		}
 		
 		//============= "검색"  Event  처리 =============	
@@ -103,9 +88,8 @@
 			});
 		 });
 		
-		
 		//=============  선택 삭제처리 =============
-		
+			
 		 $(function() {
 				
 				$("#writeBtn1").on("click" , function() {
@@ -118,15 +102,18 @@
 					
 					//Debug..
 					if(checkCount != 0) {
-						alert(checkCount+"명의 친구를 삭제하시겠습니까?")
-						self.location = "/user/deleteUserFriend?checkList="+array;
+						alert(checkCount+"개의 쪽지를 삭제하시겠습니까?")
+						self.location = "/user/deleteUserSendMsg?checkList="+array;
 					} else {
-						alert("선택된 친구가 없습니다.")						
+						alert("선택된 쪽지가 없습니다.")						
 					}
 				});
 			});
 		
-		 
+		
+		
+		
+		
 	</script>
 	
 </head>
@@ -134,16 +121,18 @@
 <body>
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	
+
 	<div class="container" id="container" >
 	
 		<div class="head_aticle" align="center" id = "head_aticle">
-	      <h2 class="tit" style="color: #333;">나의 친구 목록조회</h2>
+	      <h2 class="tit" style="color: #333;">보낸 쪽지함</h2>
+	      
+	      <button type="button" class="btn active btn_join" id="writeBtn1" style="float: right;  margin-right: 10px;">선택삭제</button>
 	    </div>
-	    <br></br>
 	    
+	    <br></br>
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-	    <div class="row" id="myFollowForm" >
+	    <div class="row" >
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-secondary" >
@@ -152,22 +141,25 @@
 		    </div>
 		    
 		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm" >
+			    <form class="form-inline" name="detailForm">
 			    
+			 <!--  
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>닉네임</option>
 					</select>
 				  </div>
 				  
+				
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
+				  </div> 
 				  
-				  <button type="button" class="btn btn-default">검색</button>
-				  <button type="button" class="btn btn-default" id="writeBtn1">선택삭제</button>
+				  <button type="button" class="btn btn-default">검색</button>-->
+				  
+				  
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
@@ -176,14 +168,10 @@
 	    
 	    	
 		</div>
-		
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
-      <!--  table Start /////////////////////////////////////-->
-      		<br></br>
-      		
-      		<!-- 
-       <table class="table table-hover table-striped" >
+		<br></br>
+      <table class="table table-hover table-striped" >
       
         <thead>
         <tr class="bg-light">
@@ -194,52 +182,52 @@
         </tr>
       </thead>
        
-		<tbody>	
-		-->	
-      		
-      		 <c:set var="i" value="0" />
-	   <c:forEach var="friendBlack" items="${list}">
-		<c:set var="i" value="${ i+1 }" />
+		<tbody>
 		
-		<div class="col-sm-3 col-md-3 "  id= "md3">
-		
-      <input type="checkbox" name="deleteCheck" id="${friendBlack.friendBlackNo}">
-      <div class="thumbnail"  style="height: 300px;">
-       <img class="img-responsive"  src="/images/uploadFiles/${friendBlack.profileImg}"  
-       onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;"> 
-     
-         <div class="caption"  id = "rego">
-           <h3>닉네임  :${friendBlack.nick}</h3>
-          <h3><a  href="/user/getUserTarget?userEmail=${friendBlack.userEmail}">${friendBlack.userEmail }</a></h3>
-            
-            <input type="hidden" value="${friendBlack.friendBlackNo}">
-            
-            
-            </div>
-            
-      </div>
-    </div>
-    
-
-	</c:forEach>	
-	
-	    <!-- </tbody>
-	     
-	           </table>--> 
-
-</div>
-
-	</div>
-	
-	
-		
-		
+		  <c:set var="i" value="0" />
+		  <c:forEach var="msg" items="${list}">
+			<c:set var="i" value="${ i+1 }" />
+			<tr>
+			  <td align="center"><input type="checkbox" name="deleteCheck" id="${msg.msgNo}"></td>
+			  <td align="left" > <a  href="/user/getUserTarget?userEmail=${msg.recvEmail}">${msg.nick} </a></td>
+			  <td align="left" ><a  href="/user/getUserSendMsg?msgNo=${msg.msgNo}" onclick="window.open(this.href, '_blank', 'width=600, height=550'); return false;">${msg.title}</a></td>
+			  
+			   <td align="left">${msg.regDate}</td>
+			   <td align="left">
+			   
+			   	  <input type="hidden" name="msgNo" id="msgNo" value="${msg.msgNo}"> </td>
+			   
+			   
+			  <!--  <td align="left">
+			  	<input type="hidden" value="${user.userEmail}">
+			  	<input type="hidden" value="${friendBlack.targetEmail}">
+			  </td> -->
+			  
+			</tr>
+          </c:forEach>
+        
+        </tbody>
+      
+      </table>
+	  <!--  table End /////////////////////////////////////-->
+	  
+ 	</div>
+ 	</div>
+ 	
+ 	  
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	<!--  화면구성 div End /////////////////////////////////////-->
+ 	
+ 	
+ 	
  	
  	<!-- PageNavigation Start... -->
 	<jsp:include page="../common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation End... -->
-	
-	
 	
 </body>
 

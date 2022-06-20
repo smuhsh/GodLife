@@ -17,54 +17,14 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
 
-<title>회원가입</title>
+<title>카카오 회원가입</title>
 
 <link rel="stylesheet" href="/css/addUserView.css" />
 
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-	//==>"이메일" 유효성Check  Event 처리 및 연결(완료인데... 뭔가이상함..)
-		 $(function() {
-			 
-			 $("input[name='userEmail']").on("change" , function() {
-				
-				 var email=$("input[name='userEmail']").val();
-			    
-				 if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1) ){
-			    	alert("이메일 형식이 아닙니다.");
-			     }
-			});
-		});	
 	
-	
-		//==>"이메일" 중복검사 Event 처리 및 연결(완료)
-		
-		function checkUserEmail(){
-	        var userEmail = $('#userEmail').val(); //id값이 "id"인 입력란의 값을 저장
-	        
-	        $.ajax({
-	        	 url: '/user/json/checkUserEmail', //Controller에서 요청 받을 주소
-	            type:'post', //POST 방식으로 전달
-	            data:{userEmail:userEmail},
-	       
-	            success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
-	                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
-	                    $('.id_ok').css("display","inline-block"); 
-	                    $('.id_already').css("display", "none");
-	                } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
-	                    $('.id_already').css("display","inline-block");
-	                    $('.id_ok').css("display", "none");
-	                    alert("이메일을 다시 입력해주세요");
-	                }
-	            },
-	            error:function(){
-	                alert("에러입니다");
-	            }
-	        });
-	        };
-		
-		
 	   //==>"닉네임" 중복검사 Event 처리 및 연결(완료)
 	
 	   function checkNick(){
@@ -150,48 +110,26 @@
 				
 				function fncAddUser() {
 					
-					var id=$("input[name='userEmail']").val();
-					var pw=$("input[name='pwd']").val();
-					var pw_confirm=$("input[name='pwd2']").val();
 					var name=$("input[name='nick']").val();
 					var successPhoneCkt = $(".successPhoneChk").text();
 					console.log(   "successPhoneCkt" + successPhoneCkt ) ; 
-		
-				if(     successPhoneCkt != '인증번호가 일치합니다.'   ){
-					alert("인증번호를 확인해 주세요 ");
-					return;
-							}
 					
-					if(id == null || id.length <1){
-						alert("이메일은 반드시 입력하셔야 합니다.");
-						return;
-					}
-					if(pw == null || pw.length <1){
-						alert("비밀번호는  반드시 입력하셔야 합니다.");
-						return;
-					}
-					if(pw_confirm == null || pw_confirm.length <1){
-						alert("비밀번호 확인은  반드시 입력하셔야 합니다.");
-						return;
-					}
 					if(name == null || name.length <1){
 						alert("닉네임은  반드시 입력하셔야 합니다.");
 						return;
 					}
 					
-					if( pw != pw_confirm ) {				
-						alert("비밀번호가 일치하지않습니다.");
+					if(     successPhoneCkt != '인증번호가 일치합니다.'   ){
+						alert("인증번호를 확인해 주세요 ");
 						return;
-					}
+								}
 						
 					if ($("#phone").val() == "" || $("#phone").val().length != 11 || isNaN($("#phone").val())) {
 						alert("휴대폰번호를 정확히 입력해 주세요");
 						return;
 					}
 					
-			
-					
-					$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
+					$("form").attr("method" , "POST").attr("action" , "/user/addUserKaKao").submit();
 				}
 		   
 </script>		
@@ -203,33 +141,10 @@
 		<div class="type_form member_join" id="user">
 			<form id="form" name="frmMember">
 				<div class="field_head">
-					<h3 class="tit">회원가입</h3>
+					<h3 class="tit">카카오 전용 회원가입</h3>
 					<p class="sub"><span class="ico">*</span>필수입력사항</p>
 				</div>
 				<table class="tbl_comm">
-				
-					<tr class="fst">
-						<th>이메일<span class="ico">*<span class="screen_out">필수항목</span></span></th>
-						<td>
-							<input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="이메일" oninput = "checkUserEmail()" >
-							<span id="helpBlock" class="id_ok">사용 가능한 이메일입니다.</span>
-			 				 <span id="helpBlock" class="id_already">이미 등록된 이메일입니다.</span>
-						</td>
-					</tr>
-					
-					<tr>
-						<th>비밀번호<span class="ico">*<span class="screen_out">필수항목</span></span></th>
-						<td>
-							<input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호">
-						</td>
-					</tr>
-					
-					<tr>
-						<th>비밀번호확인<span class="ico">*<span class="screen_out">필수항목</span></span></th>
-						<td>
-							<input type="password" class="form-control" id="pwd2" name="pwd2" placeholder="비밀번호 확인">
-						</td>
-					</tr>
 					
 					<tr>
 						<th>닉네임<span class="ico">*<span class="screen_out">필수항목</span></span></th>
@@ -284,6 +199,9 @@
 					</tr>
 				</table>
 				
+			<input type ="hidden" name="userEmail" id="userEmail" value = "${kakaouserId}">
+			<input type ="hidden" name="pwd" id="pwd" value = "12345">
+			
 				
 				
 				<div id="formSubmit" class="form_footer">

@@ -165,6 +165,7 @@ float : center;
 	});
 	</script>
 	
+	
 <title>쪽지 보내기</title>
 </head>
 <body>
@@ -181,7 +182,7 @@ float : center;
 				<tr class="fst">
 						<th>이메일</th>
 						<td>
-							<input type="text" class="form-control" id="recvEmail" name="recvEmail" placeholder="이메일" oninput = "checkUserEmail()" >
+							<input type="text" class="form-control" id="recvEmail" name="recvEmail" placeholder="${msg.recvEmail}" oninput = "checkUserEmail()" >
 							<span id="helpBlock" class="id_ok">해당 이메일은 존재하지 않습니다. </span>
 			 				 <span id="helpBlock" class="id_already"></span>
 						</td>
@@ -213,7 +214,7 @@ float : center;
 		</div>
 		
 			  	
-		
+		 	  <input type="hidden" name="msgNo" id="msgNo" value="${msg.msgNo}"> 
 		
 		
 		

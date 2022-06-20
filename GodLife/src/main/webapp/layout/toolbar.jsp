@@ -123,7 +123,7 @@ div#menu-bar{
 
 
             <c:if test="${user.userEmail != null}">
-                <img src="/images/uploadFiles/${user.profileImg}" id="profileImg"> &nbsp; <div id="profile">닉네임 : ${user.nick }<br>포인트 : ${user.totalPoint }</div>
+                <img src="/images/uploadFiles/${sessionScope.user.profileImg}" id="profileImg"> &nbsp; <div id="profile">닉네임 : ${sessionScope.user.nick }<br>포인트 : ${sessionScope.user.totalPoint }</div>
                <br>
                 <li class="service_center_item">
                <a class="service_center"> 마이페이지</a>
@@ -147,8 +147,21 @@ div#menu-bar{
                
                
                <c:if test="${user.userEmail != null}">
-               <li class="sign_in_item"><a href="/user/logout">로그아웃</a></li>
+               <li class="sign_in_item">   
+               		               
+		             <c:if test="${user.joinPath == '1'}">
+		             <a href="/user/logout">로그아웃</a>
+ 		            </c:if>
+               
+		             <c:if test="${user.joinPath != '1'}">
+		             <a href="https://kauth.kakao.com/oauth/logout?client_id=6d708d50985428b8450271c1e7e98b04&logout_redirect_uri=http://localhost:8080/user/logout">로그아웃</a>
+		            </c:if>
+		            
+              </li>
+               
             </c:if>
+            
+       
             
 
          </ul>
