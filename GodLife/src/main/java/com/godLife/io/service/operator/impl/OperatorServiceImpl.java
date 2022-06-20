@@ -40,8 +40,14 @@ public class OperatorServiceImpl implements OperatorService{
 		operatorDao.addOperatorEvents(operatorEvents);
 	}
 	
-	public void addOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
-		operatorDao.addOperatorJoinEvent(operatorJoinEvent);
+//	public void addOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+//		operatorDao.addOperatorJoinEvent(operatorJoinEvent);
+//	}
+	public void addOperatorJoinDayEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+		operatorDao.addOperatorJoinDayEvent(operatorJoinEvent);
+	}
+	public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+		operatorDao.addOperatorJoinRoullEvent(operatorJoinEvent);
 	}
 	
 	public void addOperatorReward(OperatorReward operatorReward) throws Exception {
@@ -66,8 +72,15 @@ public class OperatorServiceImpl implements OperatorService{
 	//	return operatorDao.getOperatorJoinEvent(userEmail);
 	//}	
 	
-	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
-		return operatorDao.getOperatorJoinEvent(joinEventNo);
+//	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
+//		return operatorDao.getOperatorJoinEvent(joinEventNo);
+//	}
+	public OperatorJoinEvent getOperatorJoinDayEvent(int joinEventNo) throws Exception {
+		System.out.println("@@@@@@@@@@@ getOperatorJoinDayEvent"+joinEventNo);
+		return operatorDao.getOperatorJoinDayEvent(joinEventNo);
+	}
+	public OperatorJoinEvent getOperatorJoinRoullEvent(int joinEventNo) throws Exception {
+		return operatorDao.getOperatorJoinRoullEvent(joinEventNo);
 	}
 	
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception {

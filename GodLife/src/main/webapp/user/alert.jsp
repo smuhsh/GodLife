@@ -1,14 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-<!--  ///////////////////////// JSTL  ////////////////////////// -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<script>
-    var msg = "<c:out value='${msg}'/>";
-    var url = "<c:out value='${url}'/>";
-    alert(msg);
-    location.href = url;
-</script>
-
-
+<html>
+<head>
+<meta charset="UTF-8">
+<title>alertPage</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var message = "${msg}";
+		var url = "${url}";
+		alert(message);
+		document.location.href = url;
+	</script>
+</body>
+</html>
