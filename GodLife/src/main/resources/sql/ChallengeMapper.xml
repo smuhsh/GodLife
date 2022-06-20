@@ -34,13 +34,16 @@
 		<result property="certiImgNo"				column="certi_img_no"		jdbcType="NUMERIC" />
 		<result property="challengeNo"				column="challenge_no"		jdbcType="NUMERIC" />
 		<result property="certiImg"					column="certi_img"			jdbcType="VARCHAR" />
-		<result property="email"					column="user_email"			jdbcType="VARCHAR" />
 		<result property="certiImgRegDate"			column="reg_date"			jdbcType="DATE" />
-		<result property="nick"						column="nick"				jdbcType="VARCHAR" />
 		<result property="like"						column="like_count"			jdbcType="VARCHAR" />
 		<result property="dislike"					column="dislike_count"		jdbcType="VARCHAR" />
 		<result property="status"					column="status"				jdbcType="VARCHAR" />
 		<result property="categName"				column="categ_name"			jdbcType="VARCHAR" />
+		<association property="user" javaType="com.godLife.io.service.domain.User">
+			<result property="nick"						column="nick"				jdbcType="VARCHAR" />
+			<result property="userEmail"				column="user_email"			jdbcType="VARCHAR" />
+			<result property="profileImg"				column="profile_img"		jdbcType="VARCHAR" />
+		</association>
 	</resultMap>
  	
  	<!--/////////////////////// CertiImg ////////////////////// -->
@@ -914,7 +917,7 @@
 				seq_certi_imgs_certi_img_no.nextval
 				,#{challengeNo}
 				,#{certiImg}
-				,#{email}
+				,#{user.userEmail}
 				,SYSDATE
 				,#{categNo}
 				,0
@@ -953,7 +956,7 @@
 		ROWNUM no, search.*, ct.categ_name
 		FROM(
 	 		SELECT
-			u.nick,
+			u.nick,u.profile_img,
 			ci.*
 			FROM
 			certi_imgs ci, users u
@@ -1005,7 +1008,7 @@
 		ROWNUM no, search.*,ct.categ_name
 		FROM(
 	 		SELECT
-			u.nick,
+			u.nick,u.profile_img,
 			ci.*
 			FROM
 			certi_imgs ci, users u

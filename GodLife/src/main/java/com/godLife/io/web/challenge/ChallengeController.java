@@ -605,7 +605,8 @@ public class ChallengeController {
 	public String addChallengeCertiImg(CertiImg certiImg,
 									   @ModelAttribute Challenge challenge,
 									   MultipartHttpServletRequest mtfRequest,
-									   HttpSession session) throws IllegalStateException, IOException {
+									   HttpSession session,
+									   @RequestParam(defaultValue = "general") String status) throws IllegalStateException, IOException {
 		
 		User user = (User)session.getAttribute("user");
 		
@@ -616,8 +617,14 @@ public class ChallengeController {
 		String originFileName = mf.getOriginalFilename();
 		
 		certiImg.setChallengeNo(challenge.getChallengeNo());
-		certiImg.setEmail(user.getUserEmail());
+		certiImg.setUser(user);
 		certiImg.setCertiImg(System.currentTimeMillis()+originFileName);
+		
+		if(status.equals("coupon")) {
+			certiImg.setStatus("1");
+		}else {
+			certiImg.setStatus("0");
+		}
 		
 		
 		mf.transferTo(new File(path+certiImg.getCertiImg()));

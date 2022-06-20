@@ -404,7 +404,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		//인증이미지 삭제
 		sqlSession.delete("ChallengeMapper.deleteChallengeCertiImg",map);
 		
-		System.out.println("userEmail : "+certiImg.getEmail());
+		System.out.println("userEmail : "+certiImg.getUser().getUserEmail());
 		System.out.println("challengeNo : "+certiImg.getChallengeNo());
 		//인증 횟수 차감
 		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);

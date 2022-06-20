@@ -280,7 +280,7 @@ public class ChallengeServiceTest {
 		CertiImg certiImg = new CertiImg();
 		
 		certiImg.setChallengeNo(10011);
-		certiImg.setEmail("user02@io.com");
+		certiImg.getUser().setUserEmail("user02@io.com");
 		certiImg.setCertiImg("user02.io.com.jpg");
 		
 		challengeService.addChallengeCertiImg(certiImg);
