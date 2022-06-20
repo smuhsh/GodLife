@@ -10,7 +10,7 @@ import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
 
 public interface ChallengeDao {
-	public void addChallenge(Challenge challenge, JoinChallenger joinChallenger);
+	public Map<String,Object> addChallenge(Challenge challenge, JoinChallenger joinChallenger);
 	
 	public Map<String, Object> getChallengeList(Map<String, Object> map);
 	
