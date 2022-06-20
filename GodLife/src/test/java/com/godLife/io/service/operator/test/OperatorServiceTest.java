@@ -456,7 +456,7 @@ public class OperatorServiceTest {
 		 operatorJoinEvent.setRewardPoint(1000);
 		 
 		 
-		 operatorService.addOperatorJoinEvent(operatorJoinEvent);
+		 operatorService.addOperatorJoinDayEvent(operatorJoinEvent);
 		 
 		 //==> console check
 		 System.out.println(operatorJoinEvent);
@@ -479,7 +479,7 @@ public class OperatorServiceTest {
 		 //operatorReward.setEventNo(Integer.parseInt(("1")));
 		 //operatorReward.setRewardPoint(2);
 		 
-		 operatorService.getOperatorJoinEvent(10005);
+		 operatorService.getOperatorJoinRoullEvent(10005);
 		 
 		 //==> console check
 		 System.out.println(operatorJoinEvent);
@@ -490,7 +490,7 @@ public class OperatorServiceTest {
 		 //Assert.assertEquals(1, operatorReward.getEventNo());
 		 //Assert.assertEquals(2, operatorReward.getRewardPoint());
 		 
-		 Assert.assertNotNull(operatorService.getOperatorJoinEvent(10005));
+		 Assert.assertNotNull(operatorService.getOperatorJoinRoullEvent(10005));
 		 
 	 }
 	 

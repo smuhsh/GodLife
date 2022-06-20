@@ -22,7 +22,6 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	
-	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
@@ -40,12 +39,16 @@
   
   <!-- 상단바삽입 -->
 	<jsp:include page="/layout/toolbar.jsp" />
-	
 	<!-- 왼쪽 레이아웃 삽입-->
-		<jsp:include page="/user/mypageMain.jsp" />
+	<jsp:include page="/user/mypageMain.jsp" />
+	
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+	
+		#container{
+		padding-top : 130px;
+		}
 	 
         h2{
                 font-size: 2.3rem;
@@ -58,7 +61,6 @@
             
             #container{
             padding-left: 250px;
-            padding-top : 130px;
             }
             
             #caption{
@@ -69,6 +71,18 @@
             font-size: 15px;
             }
             
+         /*  #writeBtn1{
+           border: 1px solid #064acb;
+	      background-color: #064acb;
+	      color: #fff;
+	      WIDTH: 60pt;
+	      HEIGHT: 30pt;
+	      margin-left: 380px;
+           }
+           */
+           
+            
+            
     </style>
     
     
@@ -78,7 +92,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listBlack").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listBlack?userEmail=${user.userEmail}").submit();
 		}
 		
 		//============= "검색"  Event  처리 =============	
@@ -90,7 +104,29 @@
 		 });
 		
 		
-
+		//=============  선택 삭제처리 =============
+		
+		 $(function() {
+				
+				$("#writeBtn1").on("click" , function() {
+					
+					var checkCount = $("input[name='deleteCheck']:checked").length;
+				    var array = new Array();
+					$("input[name='deleteCheck']:checked").each(function() {
+						array.push($(this).attr('id'));  <!-- 배열의 끝에 요소를 추가  -->
+				    });
+					
+					//Debug..
+					if(checkCount != 0) {
+						alert(checkCount+"명의 블랙리스트를 삭제하시겠습니까?")
+						self.location = "/user/deleteUserBlack?checkList="+array;
+					} else {
+						alert("선택된 블랙리스트가 없습니다.")						
+					}
+				});
+			});
+		
+		 
 	</script>
 	
 </head>
@@ -104,9 +140,10 @@
 		<div class="head_aticle" align="center" id = "head_aticle">
 	      <h2 class="tit" style="color: #333;">나의 블랙리스트 목록조회</h2>
 	    </div>
+	    <br></br>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-	    <div class="row" >
+	    <div class="row" id="myFollowForm" >
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-secondary" >
@@ -115,7 +152,7 @@
 		    </div>
 		    
 		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
+			    <form class="form-inline" name="detailForm" >
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
@@ -130,6 +167,7 @@
 				  </div>
 				  
 				  <button type="button" class="btn btn-default">검색</button>
+				  <button type="button" class="btn btn-default" id="writeBtn1">선택삭제</button>
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
@@ -138,44 +176,70 @@
 	    
 	    	
 		</div>
-		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
+		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
       <!--  table Start /////////////////////////////////////-->
       		<br></br>
       		
+      		<!-- 
+       <table class="table table-hover table-striped" >
+      
+        <thead>
+        <tr class="bg-light">
+          <th scope="col" width="10%"></th>
+          <th scope="col" width="20%">닉네임</th>
+          <th scope="col" width="40%" >제목</th>
+          <th scope="col" width="20%">날짜</th>
+        </tr>
+      </thead>
+       
+		<tbody>	
+		-->	
       		
       		 <c:set var="i" value="0" />
-	   <c:forEach var="user" items="${list}">
+	   <c:forEach var="friendBlack" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
+		
 		<div class="col-sm-3 col-md-3 "  id= "md3">
-      <div class="thumbnail"  style="height: 300px;"   >
-       <img class="img-responsive" src="/images/uploadFiles/${user.profileImg }"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;" > 
+		
+      <input type="checkbox" name="deleteCheck" id="${friendBlack.friendBlackNo}">
+      <div class="thumbnail"  style="height: 300px;">
+       <img class="img-responsive"  src="/images/uploadFiles/${friendBlack.profileImg}"  
+       onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;"> 
      
-          <div class="caption"  id = "caption">
-              <h3>닉네임  :${user.nick}</h3>
-         	 <a  href="/user/getUserTarget?userEmail=${user.userEmail}"> ${user.userEmail}</a>
+         <div class="caption"  id = "rego">
+           <h3>닉네임  :${friendBlack.nick}</h3>
+          <h3><a  href="/user/getUserTarget?userEmail=${friendBlack.userEmail}">${friendBlack.userEmail }</a></h3>
             
-            <input type="hidden" value="${user.userEmail}">
+            <input type="hidden" value="${friendBlack.friendBlackNo}">
+            
+            
             </div>
             
       </div>
-    </div> 
+    </div>
     
+
 	</c:forEach>	
+	
+	    <!-- </tbody>
+	     
+	           </table>--> 
 
 </div>
+
 	</div>
+	
+	
 		
 		
-		
-		
-		
- 	
  	
  	<!-- PageNavigation Start... -->
 	<jsp:include page="../common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation End... -->
+	
+	
 	
 </body>
 

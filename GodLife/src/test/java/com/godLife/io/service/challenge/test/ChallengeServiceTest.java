@@ -333,7 +333,7 @@ public class ChallengeServiceTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void getChallengeCertiImgList() {
 		
 		//로그인
@@ -410,7 +410,7 @@ public class ChallengeServiceTest {
 		review.setStatus("1");// 좋아요
 		//review.setStatus("2");// 싫어요
 		
-		review.setCertiImgNo(10028); // 댓글 혹은 좋아요/싫어요를 등록할 인증이미지
+		review.setCertiImgNo(10070); // 댓글 혹은 좋아요/싫어요를 등록할 인증이미지
 		review.setEmail("user04@io.com");
 		review.setComment("잘찍었네요");
 		
@@ -421,10 +421,10 @@ public class ChallengeServiceTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void getChallengeCommentList() {
 		
-		int certiImgNo = 10028; // 댓글 목록을 가져올 인증이미지번호
+		int certiImgNo = 10070; // 댓글 목록을 가져올 인증이미지번호
 		
 		List<Review> commentList = challengeService.getChallengeCommentList(certiImgNo);
 		

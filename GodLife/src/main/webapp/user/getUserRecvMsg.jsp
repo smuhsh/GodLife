@@ -13,8 +13,6 @@
 <!-- 쪽지 viewer -->
 <form id="myMessageFormForm" name="myMessageFormForm">
 
-	  <input type="hidden" name="seq" id="seq" value="${seq}"> 
-	 <input type="hidden" name="id" id="id" value="${memId}">
 		
 	<div class="head_aticle">
 		<h2 class="tit" align="center">받은 쪽지 상세조회</h2>
@@ -25,7 +23,7 @@
 			
 		<tr>
 			<td align="left" colspan="3" class="title">보낸 사람 : 
-			<input type="text" id="message_subject" name="message_subject" placeholder="${msg.sendEmail}"  readonly style="width:450px; height:20px; background-color: #f2f2f2; border:0; outline:0;">
+			<input type="text" id="message_subject" name="message_subject" placeholder="${msg.nick}"  readonly style="width:450px; height:20px; background-color: #f2f2f2; border:0; outline:0;">
 			<div id="message_subject_div_check"></div></td>
 		</tr>
 		
@@ -38,7 +36,7 @@
 		<tr>	
 			<td class="content" colspan="3" valign="top">
 				<div class="content_div" align="left">
-					<pre><textarea name="message_content_Span" id="message_content_Span" placeholder="${msg.detail }"  readonly style="width:450px; height:240px; 
+					<pre><textarea name="message_content_Span" id="message_content_Span" placeholder="${msg.detail}"  readonly style="width:450px; height:240px; 
 							border:0; resize:none; background-color: #f4f4f4;"></textarea></pre>
 				</div>
 				<div id="content_div_check"></div>
@@ -47,9 +45,10 @@
 		
 		<tr>
 			<td colspan="3" align="center" class="moveToListTd">
-				<!--  <button class="sendBtn" id="sendBtn" ><a href="/jaju/mypage/myMessageSend?pg=1">답장</a></button>  -->
-				<button class="sendBtn" id="sendBtn" >보내기</button>
-				<button type="reset" id="resetBtn" >다시작성</button>
+				<button class="sendBtn" id="sendBtn" >답장</a></button> 
+			
+				<!--  <button class="sendBtn" id="sendBtn" >보내기</button> -->
+				<!--  <button type="reset" id="resetBtn" >다시작성</button> -->
 				<!-- <span class="backBtn" id="backBtn"><a href="/jaju/mypage/myMessage?pg=1">&emsp;쪽지함 이동&emsp;</a></span> -->
 			</td>
 		</tr>

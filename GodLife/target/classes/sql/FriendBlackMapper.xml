@@ -27,7 +27,7 @@
 	  	FROM (	
 	  					SELECT 
 	  					inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	select u.user_email, u.nick, u.profile_img
+	  					FROM		(	select u.user_email, u.nick, u.profile_img, f.friend_black_no
 											from users u, friend_blacks f 
 											WHERE
 											 u.user_email = f.target_email 
@@ -35,7 +35,7 @@
 											and f.acc_status = '2'
 											and f.user_email = #{userEmail}
 											union
-											select u.user_email, u.nick, u.profile_img 
+											select u.user_email, u.nick, u.profile_img, f.friend_black_no
 											from users u, friend_blacks f 
 											where u.user_email = f.user_email 
 											and f.f_b_status = '1'
@@ -60,7 +60,7 @@
 	  					SELECT 
 	  					inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT 
-	  					                   u.user_email, u.nick, u.profile_img
+	  					                   u.user_email, u.nick, u.profile_img, f.friend_black_no
 											FROM users u, friend_blacks f 
 											<where>
 											u.user_email = f.target_email 
@@ -101,7 +101,7 @@
 	<!-- SQL : SELECT ROW Count // 나의 친구목록조회 토탈카운트  -->	 
 	 <select  id="getUserFriendListTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	select u.user_email, u.nick, u.profile_img 
+	  	FROM(	select u.user_email, u.nick, u.profile_img
 											from users u, friend_blacks f 
 											WHERE
 											 u.user_email = f.target_email 
@@ -128,7 +128,7 @@
 	 	<select  id="getUserFriendRequestListTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT 
-	  					                   u.user_email, u.nick, u.profile_img, f.acc_status
+	  					                   u.user_email, u.nick, u.profile_img
 											FROM users u, friend_blacks f 
 											<where>
 											u.user_email = f.user_email 
@@ -207,26 +207,40 @@
 	 <delete id="deleteFriend">
 	   delete from friend_blacks 
 	   WHERE f_b_status = '1' and acc_status = '2'  
-	   and user_email= #{userEmail}
+	   AND friend_black_no = #{friendBlackNo}
 	 </delete>
 	  
 	  <!-- 블랙리스트 삭제  -->
-	  
 	  <delete id="deleteBlack">
 	   delete from friend_blacks 
 	   WHERE f_b_status = '2' 
-	   and user_email = #{userEmail} 
+	    AND friend_black_no = #{friendBlackNo}
 	 </delete>
 	 
 	 
-	<!-- 친구 중복신청 방지  -->
-	<select  id="isAlreadyAppliedFriend"  parameterType="map"	 resultType="int">
-	  	SELECT count(*) 
+	<!-- 친구 중복신청 방지, 이미 친구사이.. 일떄  친구는 양방향처리해줘야함-->
+	<select  id="checkFriend"  parameterType="map"	 resultType="int">
+		SELECT COUNT(*) FROM (  
+		SELECT *
 	  	FROM friend_blacks 
 		WHERE user_email = #{userEmail}
-		AND
-		target_email = #{targetEmail}
+		AND target_email = #{targetEmail}
 		AND f_b_status ='1' and acc_status = '2'
+        UNION
+        SELECT *
+	  	FROM friend_blacks 
+		WHERE user_email = #{targetEmail}
+		AND target_email = #{userEmail}
+		AND f_b_status ='1' and acc_status = '2')
+	 </select>
+	 
+	 <!-- 블랙리스트 등록 중복방지.. 단방향이라서 하나만 체크 -->
+	 <select  id="checkBlack"  parameterType="map"	 resultType="int">
+		SELECT COUNT(*) 
+		FROM friend_blacks
+		WHERE user_email = #{userEmail}
+		AND target_email = #{targetEmail} 
+		AND f_b_status ='2' 
 	 </select>
 	 
 	 

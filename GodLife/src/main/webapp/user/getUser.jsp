@@ -30,8 +30,6 @@ body {
        padding-top : 130px;
        }
        
-       
-        
 img
 {
 border : 5px solid white;
@@ -40,12 +38,13 @@ height : 200px;
 float : center;
 }
 
+#aa{
+
+}
+
 </style>
 
-<!-- 상단바삽입 -->
-	<jsp:include page="/layout/toolbar.jsp" />
-	<!-- 왼쪽 레이아웃 삽입-->
-	<jsp:include page="/user/mypageMain.jsp" />
+
 
 <!--  자바스크립트 -->
 <script type="text/javascript">
@@ -68,13 +67,17 @@ float : center;
 				});
 		});
 		
-		
 	</script>
+	
 
 <title>개인정보 조회</title>
 </head>
 <body>
-	<div class="page_aticle">
+
+	<!-- 왼쪽 레이아웃 삽입-->
+	<jsp:include page="/user/mypageMain.jsp" />
+
+	<div class="page_aticle" id="aa">
 		<div class="type_form getUser" id="getUser">
 			<form id="form" name="frmMember">
 				<div class="field_head">
@@ -147,14 +150,13 @@ float : center;
 					</table>
 					
 	
-	
-	
 				<div id="formSubmit" class="form_footer">
 					<div id="checkDiv" class="checkDiv"></div>
 					<button type="button" class="btn active btn_join" id="writeBtn">수정하러가기</button>
 				</div>
 			</form>
-		</div>
+		</div>z
+		
 		
 		
 	</div>

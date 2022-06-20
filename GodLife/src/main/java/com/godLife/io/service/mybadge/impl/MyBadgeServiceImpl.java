@@ -1,7 +1,5 @@
 package com.godLife.io.service.mybadge.impl;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.Badge;
 import com.godLife.io.service.domain.MyBadge;
+import com.godLife.io.service.domain.User;
 import com.godLife.io.service.mybadge.MyBadgeDao;
 import com.godLife.io.service.mybadge.MyBadgeService;
 
@@ -33,24 +32,26 @@ public class MyBadgeServiceImpl implements MyBadgeService{
 	}
 
 	///Method
-	
-	public MyBadge getBadgeMy(int myBadgeNo) throws Exception {
-		return myBadgeDao.getBadgeMy(myBadgeNo);
+///////////////////////////	
+	public MyBadge getBadgeMy(int myBadgeNo, User user) throws Exception {
+		return myBadgeDao.getBadgeMy(myBadgeNo, user);
 	}
-
-	public Map<String , Object> getBadgeMyList(Search search) throws Exception {
-
-		int totalCount = myBadgeDao.getTotalCount(search);
+///////////////////////////	
+	public Map<String , Object> getBadgeMyList(Search search, User user, Badge badge) throws Exception {
+		System.out.println("getBadgeMyList user : "+ user);
+		//int totalCount = myBadgeDao.getTotalCount(search);
+		int totalCount = myBadgeDao.getTotalCount(search, user, badge);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println("getBadgeMyList totalCount : "+ totalCount);
+		Map<String, Object> map = myBadgeDao.getBadgeMyList(search, user, badge);
 		
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
 	}
 
-	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception {
-		myBadgeDao.updateBadgeMyActCount(myBadge);
+	public void updateBadgeMyActCount(MyBadge myBadge, User user) throws Exception {
+		myBadgeDao.updateBadgeMyActCount(myBadge, user);
 	}
 
 	

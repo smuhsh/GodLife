@@ -695,176 +695,176 @@
       WHERE challenge_no = #{challengeNo}
       AND status = '1'
         ORDER BY certi_date
-   </select>
-   
-   <!-- ////////// select //////////// -->
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   <!-- ////////// delete //////////// -->
-   <delete id="deleteCertiCycle" parameterType="int">
-   
-      delete 
-      FROM
-      certi_cycle
-      WHERE challenge_no = #{challengeNo}
-   
-   </delete>
-   <!-- ////////// delete //////////// -->
-   
-   
-   
-   <!--/////////////////////// CertiCycle ////////////////////// -->
-       
-       
-       
-       
-    <!--/////////////////////// JoinChallenger ////////////////////// -->
-    
-    
-    <!-- ////////// insert //////////// -->
-    <insert id="insertJoinChallenger" parameterType="joinChallenger">
-       INSERT INTO join_challenger
-                (
-                join_challenger_no
-                ,user_email
-                ,challenge_no
-                <if test="status == 0">
-                ,certi_count
-                ,challenge_percent
-                ,challenge_reward_point
-                ,challenge_reward_flag
-                </if>
-                ,status
-                )
-            VALUES(
-               seq_join_challenger_no.nextval
-               ,#{email}
-               ,#{challengeNo}
-               <if test="status == 0">
-               ,0
-               ,0.0
-               ,0
-               ,0
-               </if>
-               ,#{status}
-               )
-    </insert>
-    <!-- ////////// insert //////////// -->
-    
-    
-    <!-- ////////// select //////////// -->
-    <select id="getJoiner" parameterType="java.util.Map" resultType="int">
-       SELECT
-      COUNT(*)
-      FROM
-      join_challenger
-      WHERE user_email = #{user.userEmail}
-      AND challenge_no = #{challengeNo}
-      AND status = '0'
-    </select>
-    
-    
-    <select id="getChallengeJoinList" parameterType="int" resultType="String">
-    
-       SELECT
-      user_email
-      FROM
-      join_challenger
-      WHERE challenge_no = #{challengeNo}
-      AND status = '0'
-    
-    </select>
-    
-    <select id="selectCertiCount" parameterType="certiImg" resultType="int">
-       
-       SELECT
-       certi_count
-       FROM
-       join_challenger
-       WHERE user_email = #{user.userEmail}
-       AND challenge_no = #{challengeNo}
-          
-    </select>
-    
-    
-    <select id="getJoinCount" parameterType="joinChallenger" resultType="int">
-    
-       SELECT
-       COUNT(*)
-       FROM
-       join_challenger
-       WHERE challenge_no = #{challengeNo}
-    
-    </select>
-    
-    <select id="getChallengePick" parameterType="java.util.Map" resultType="int">
-    
-       SELECT
-       COUNT(*)
-       FROM
-       join_challenger
-       WHERE challenge_no = #{challengeNo}
-       AND user_email = #{user.userEmail}
-       AND status = '1'
-    
-    </select>
-    
-    <select id="getChallengeJoiner" parameterType="java.util.Map" resultMap="JoinChallengerSelectMap">
-       SELECT
-       jc.*,
-       u.nick
-       FROM
-       join_challenger jc, users u
-       WHERE u.user_email = jc.user_email
-       AND jc.user_email = #{user.userEmail}
-       AND jc.challenge_no = #{challengeNo}
-    </select>
-    
-    <select id="getChallengeJoinerList" parameterType="int" resultMap="JoinChallengerSelectMap">
-       SELECT
-       jc.*,
-       u.nick,u.profile_img
-       FROM
-       join_challenger jc, users u
-       WHERE u.user_email = jc.user_email
-       AND jc.challenge_no = #{challengeNo}
-    </select>
-    
-    <!-- ////////// select //////////// -->
-    
-    
-    
-    
-    <!-- ////////// update //////////// -->
-    <update id="updateChallengeJoin" parameterType="java.util.Map">
-       update
-       join_challenger
-       SET
-          <if test="percent == null">
-             <if test="certiImgUp != null">
-                certi_count = certi_count+1
-             </if>
-             <if test="certiImgUp == null">
-                certi_count = certi_count-1
-             </if>   
-          </if>
-          <if test="percent != null">
-             challenge_percent = #{percent}
-          </if>
-       WHERE user_email = #{certiImg.user.userEmail}
-       AND challenge_no = #{certiImg.challengeNo}
-       
-    </update>
-    <!-- ////////// update //////////// -->
+	</select>
+	
+	<!-- ////////// select //////////// -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- ////////// delete //////////// -->
+	<delete id="deleteCertiCycle" parameterType="int">
+	
+		delete 
+		FROM
+		certi_cycle
+		WHERE challenge_no = #{challengeNo}
+	
+	</delete>
+	<!-- ////////// delete //////////// -->
+	
+	
+	
+	<!--/////////////////////// CertiCycle ////////////////////// -->
+	 	
+	 	
+	 	
+	 	
+ 	<!--/////////////////////// JoinChallenger ////////////////////// -->
+ 	
+ 	
+ 	<!-- ////////// insert //////////// -->
+ 	<insert id="insertJoinChallenger" parameterType="joinChallenger">
+ 		INSERT INTO join_challenger
+ 					(
+ 					join_challenger_no
+ 					,user_email
+ 					,challenge_no
+ 					<if test="status == 0">
+ 					,certi_count
+ 					,challenge_percent
+ 					,challenge_reward_point
+ 					,challenge_reward_flag
+ 					</if>
+ 					,status
+ 					)
+				VALUES(
+					seq_join_challenger_no.nextval
+					,#{email}
+					,#{challengeNo}
+					<if test="status == 0">
+					,0
+					,0.0
+					,0
+					,0
+					</if>
+					,#{status}
+					)
+ 	</insert>
+ 	<!-- ////////// insert //////////// -->
+ 	
+ 	
+ 	<!-- ////////// select //////////// -->
+ 	<select id="getJoiner" parameterType="java.util.Map" resultType="int">
+ 		SELECT
+		COUNT(*)
+		FROM
+		join_challenger
+		WHERE user_email = #{user.userEmail}
+		AND challenge_no = #{challengeNo}
+		AND status = '0'
+ 	</select>
+ 	
+ 	
+ 	<select id="getChallengeJoinList" parameterType="int" resultType="String">
+ 	
+ 		SELECT
+		user_email
+		FROM
+		join_challenger
+		WHERE challenge_no = #{challengeNo}
+		AND status = '0'
+ 	
+ 	</select>
+ 	
+ 	<select id="selectCertiCount" parameterType="certiImg" resultType="int">
+ 		
+ 		SELECT
+ 		certi_count
+ 		FROM
+ 		join_challenger
+ 		WHERE user_email = #{user.userEmail}
+ 		AND challenge_no = #{challengeNo}
+ 			
+ 	</select>
+ 	
+ 	
+ 	<select id="getJoinCount" parameterType="joinChallenger" resultType="int">
+ 	
+ 		SELECT
+ 		COUNT(*)
+ 		FROM
+ 		join_challenger
+ 		WHERE challenge_no = #{challengeNo}
+ 	
+ 	</select>
+ 	
+ 	<select id="getChallengePick" parameterType="java.util.Map" resultType="int">
+ 	
+ 		SELECT
+ 		COUNT(*)
+ 		FROM
+ 		join_challenger
+ 		WHERE challenge_no = #{challengeNo}
+ 		AND user_email = #{user.userEmail}
+ 		AND status = '1'
+ 	
+ 	</select>
+ 	
+ 	<select id="getChallengeJoiner" parameterType="java.util.Map" resultMap="JoinChallengerSelectMap">
+ 		SELECT
+ 		jc.*,
+ 		u.nick
+ 		FROM
+ 		join_challenger jc, users u
+ 		WHERE u.user_email = jc.user_email
+ 		AND jc.user_email = #{user.userEmail}
+ 		AND jc.challenge_no = #{challengeNo}
+ 	</select>
+ 	
+ 	<select id="getChallengeJoinerList" parameterType="int" resultMap="JoinChallengerSelectMap">
+ 		SELECT
+ 		jc.*,
+ 		u.nick,u.profile_img
+ 		FROM
+ 		join_challenger jc, users u
+ 		WHERE u.user_email = jc.user_email
+ 		AND jc.challenge_no = #{challengeNo}
+ 	</select>
+ 	
+ 	<!-- ////////// select //////////// -->
+ 	
+ 	
+ 	
+ 	
+ 	<!-- ////////// update //////////// -->
+ 	<update id="updateChallengeJoin" parameterType="java.util.Map">
+ 		update
+ 		join_challenger
+ 		SET
+ 			<if test="percent == null">
+ 				<if test="certiImgUp != null">
+ 					certi_count = certi_count+1
+ 				</if>
+ 				<if test="certiImgUp == null">
+ 					certi_count = certi_count-1
+ 				</if>	
+ 			</if>
+ 			<if test="percent != null">
+ 				challenge_percent = #{percent}
+ 			</if>
+ 		WHERE user_email = #{certiImg.user.userEmail}
+ 		AND challenge_no = #{certiImg.challengeNo}
+ 		
+ 	</update>
+ 	<!-- ////////// update //////////// -->
 
 
 
