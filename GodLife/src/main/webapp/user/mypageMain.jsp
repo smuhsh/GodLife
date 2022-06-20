@@ -42,6 +42,7 @@
          <li id="managerSaleboard" style="text-align: left;"><a href="/challenge/listChallenge?challengeListOpt=add" class="link_lnb">등록한 챌린지 목록</a></li>
          <li id="managerFreeboard" style="text-align: left;"><a href="/challenge/listChallenge?challengeListOpt=join" class="link_lnb">참여한 챌린지 목록</a></li>
          <li id="managerReviewboard" style="text-align: left;"><a href="/challenge/listChallenge?challengeListOpt=pick" class="link_lnb">찜한 챌린지 목록</a></li>
+      	 <li id="managerReviewboard" style="text-align: left;"><a href="/challenge/listChallengeCertiImg?certiImgOpt=my" class="link_lnb">내가 인증한 이미지 목록</a></li>
       </ul>
    </li>
    
