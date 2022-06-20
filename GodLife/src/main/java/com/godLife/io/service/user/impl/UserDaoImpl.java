@@ -37,6 +37,11 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	//================회원=======================================================
+	public int  getUserKakao(User user) throws Exception {
+ 		return sqlSession.selectOne("UserMapper.getUserKakao", user);
+	}
+
+	
 	
 //아이디 찾기 
 	public String findUserEmail(String phone) throws Exception{
@@ -162,13 +167,23 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.delete("FriendBlackMapper.deleteFriendRequest", friendBlack);
 	}
 	
-	public void deleteFriend(FriendBlack friendBlack) throws Exception {
-		sqlSession.delete("FriendBlackMapper.deleteFriend", friendBlack);
+	public void deleteFriend(int friendBlackNo) throws Exception {
+		sqlSession.delete("FriendBlackMapper.deleteFriend", friendBlackNo);
+	}
+	
+	public void deleteBlack(int friendBlackNo) throws Exception {
+		sqlSession.delete("FriendBlackMapper.deleteBlack", friendBlackNo);
+	}
+	
+	
+	// 친구신청 중복검사
+	public int checkFriend(Map<String, String> map) {
+		return sqlSession.selectOne("FriendBlackMapper.checkFriend", map);
 	}
 	
 	// 친구신청 중복검사
-	public int isAlreadyAppliedFriend(Map<String, String> map) {
-		return sqlSession.selectOne("FriendBlackMapper.isAlreadyAppliedFriend", map);
+	public int checkBlack(Map<String, String> map) {
+		return sqlSession.selectOne("FriendBlackMapper.checkBlack", map);
 	}
 	
 	
@@ -341,6 +356,19 @@ public class UserDaoImpl implements UserDao{
 		map.put("search", search);
 		map.put("userEmail", userEmail);
 		return sqlSession.selectOne("FriendBlackMapper.getUserBlackListTotalCount", map);
+		}
+	
+	
+	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. (보낸쪽지 목록조회) 
+	public int getUserSendMsgTotalCount(Search search, String sendEmail) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		
+		map.put("search", search);
+		map.put("sendEmail",sendEmail);
+		
+		return sqlSession.selectOne("MsgMapper.getUserSendMsgTotalCount", map);
+		
 		}
 
 	
