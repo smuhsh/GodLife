@@ -24,7 +24,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 	private SqlSession sqlSession;
 
 	@Override
-	public void addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
+	public Map<String,Object> addChallenge(Challenge challenge,JoinChallenger joinChallenger) {
 		
 		sqlSession.insert("ChallengeMapper.insertChallenge",challenge);
 		
@@ -46,7 +46,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		
 		sqlSession.insert("ChallengeMapper.insertJoinChallenger",joinChallenger);
 		
-		
+		return map;
 	}
 
 	public Map<String, Object> getChallengeList(Map<String, Object> map) {
@@ -404,7 +404,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		//인증이미지 삭제
 		sqlSession.delete("ChallengeMapper.deleteChallengeCertiImg",map);
 		
-		System.out.println("userEmail : "+certiImg.getEmail());
+		System.out.println("userEmail : "+certiImg.getUser().getUserEmail());
 		System.out.println("challengeNo : "+certiImg.getChallengeNo());
 		//인증 횟수 차감
 		sqlSession.update("ChallengeMapper.updateChallengeJoin",map);
