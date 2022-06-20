@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+@font-face {
+		    font-family: 'oneMobile'!important;
+		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype')!important;
+		}
+
+.container{
+	 font-family: 'oneMobile'!important;
+	 padding-top : 200px;
+}
+
+#header{
+	font-family: 'oneMobile'!important;
+	font-size:26px;
+	text-align:center;
+	
+}
+.thumbnail{
+	width:900px;
+	position:relative;
+	left:130px;
+}
+
+#user{
+	
+	font-size:26px;
+	position:relative;
+	left:10px;
+	top:10px;
+	
+}
+img#profile{
+        	width:60px;
+        	height:60px;
+        	border-radius: 30px 30px 30px 30px
+        }
+        
+#user-info{
+	padding-top:40px;
+	display: flex;
+	
+}
+.info{
+	padding-top:40px;
+}
+.font-size{
+	font-size:24px;
+}
+.like-dislike{
+	display:flex;
+	position:relative;
+	left:650px;
+	bottom:130px;
+	
+	
+}
+#like{
+	padding-right: 20px;
+}
+
+.like-dislike-model{
+	font-size:24px;
+}
+
+
+#bord{
+	position:relative;
+	left:630px;
+	bottom:87px;
+	border:solid 1px;
+	border-color:#d9d9d9;
+	width:150px;
+	height:50px;
+	border-radius: 30px 30px 30px 30px;
+}
+.glyphicon glyphicon-thumbs-up{
+	font-size:30px;
+}
+
+.glyphicon glyphicon-thumbs-down{
+	font-size:30px;
+}
+#comment-btn{
+	width:700px;
+}

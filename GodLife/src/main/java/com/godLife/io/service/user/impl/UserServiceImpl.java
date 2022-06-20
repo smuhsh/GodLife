@@ -20,12 +20,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.godLife.io.service.user.UserService;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.godLife.io.common.Search;
+ import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
 import com.godLife.io.service.domain.OneInq;
@@ -52,9 +54,128 @@ public class UserServiceImpl implements UserService{
 		System.out.println(this.getClass());
 	}
 	
+	
+	public int  getUserKakao(User user) throws Exception {
+		return userDao.getUserKakao(user);
+	}
+
+	
+	
 	//================회원=======================================================
 	
-// id 중복체크
+	public String getKaKaoAccessToken(String authorize_code) throws Exception{
+
+
+		System.out.println("토큰 받으러 getKaKaoAccessToken 서비스에 옴 ");
+		//System.out.println;("받은 인가 코드 getKaKaoAccessToken {} " , authorize_code);
+
+		String access_Token = "";
+		String refresh_Token = "";
+		//요청하는 인증 URL		
+		String reqURL = "https://kauth.kakao.com/oauth/token";  
+
+		try {
+			URL url = new URL(reqURL);
+            
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			// POST 요청을 위해 기본값이 false인 setDoOutput을 true로
+            
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
+            
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+			sb.append("grant_type=authorization_code");  // 인가 코드  요청 authorization_code 
+            
+			sb.append("&client_id=6d708d50985428b8450271c1e7e98b04&"); //본인이 발급받은 key
+			sb.append("&redirect_uri=http://localhost:8080/user/kakaoLogin"); // 본인이 설정한 주소
+            
+			sb.append("&code=" + authorize_code); // 인가 코드 까지 삽입
+			bw.write(sb.toString());
+			bw.flush(); //bw 출력 
+            
+			// 결과 코드가 200이라면 성공
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : {}" + responseCode);
+            
+			
+			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+            
+			//카카오에서 주는 정보 한줄한줄 읽어서 result에 저장 
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+			System.out.println("response body : {}" + result);
+            
+			// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
+			JsonParser parser = new JsonParser();
+			JsonElement element = parser.parse(result);
+            
+			access_Token = element.getAsJsonObject().get("access_token").getAsString();
+			refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            
+			System.out.println("access_token : {} " + access_Token);
+			System.out.println("refresh_token :{} " +refresh_Token);
+			System.out.println("== kakao 정보 끝 ==");
+
+			br.close();
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return access_Token;
+		//통신 결과가 200이어야 OK
+		
+	}
+	public HashMap<String, Object> getKakoUserInfo(String access_Token) throws Exception {
+		// 요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
+				HashMap<String, Object> userInfo = new HashMap<String, Object>();
+				String reqURL = "https://kapi.kakao.com/v2/user/me";
+				try {
+					URL url = new URL(reqURL);
+					HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+					conn.setRequestMethod("GET");
+
+					// 요청에 필요한 Header에 포함될 내용
+					conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+
+					int responseCode = conn.getResponseCode();
+					System.out.println("responseCode : " + responseCode);
+
+					BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+					String line = "";
+					String result = "";
+
+					while ((line = br.readLine()) != null) {
+						result += line;
+					}
+					System.out.println("response body : " + result);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(result);
+
+					JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+					JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+
+		 			String email = kakao_account.getAsJsonObject().get("email").getAsString();
+
+		 			userInfo.put("email", email);
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return userInfo;
+		
+	}
+	
+	
+	
+// 이메일 중복체크
 	public int checkUserEmail(String userEmail) throws Exception {
 		int cnt = userDao.checkUserEmail(userEmail);
 		System.out.println("cnt: " + cnt);
@@ -100,30 +221,6 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	
-		
-	
-
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public void addUser(User user) throws Exception {
 		userDao.addUser(user);
@@ -153,6 +250,7 @@ public class UserServiceImpl implements UserService{
 		return map;
 	}
 	
+	
 //	public User findUserPhone(String phone) throws Exception {
 //		return userDao.findUserPhone(phone);
 //	}
@@ -163,14 +261,14 @@ public class UserServiceImpl implements UserService{
 	
 	//인증 문자 보내기 
 	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) throws Exception {
-		String api_key = "NCSOUIL3U4BKDNTU";
-	    String api_secret = "PECGMMRB6KBESSNFX14HFI2NY7Q4VBEN";
+		String api_key = "NCSFLNAKPLATWT5U";
+	    String api_secret = "UQHE4HDGLZ99FWYC4YHSECRYKMLHGVZI";
 	    Message coolsms = new Message(api_key, api_secret);
 
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
-	    params.put("to", userPhoneNumber);    // 수신전화번호
-	    params.put("from", userPhoneNumber);    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	    params.put("to", "01080077545");    // 수신전화번호
+	    params.put("from", "01080077545");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
 	    params.put("type", "SMS");
 	    params.put("text", "[TEST] 인증번호는" + "["+randomNumber+"]" + "입니다."); // 문자 내용 입력
 	    params.put("app_version", "test app 1.2"); // application name and version
@@ -233,30 +331,35 @@ public class UserServiceImpl implements UserService{
 		userDao.deleteFriendRequest(friendBlack);
 	}
 	
-	public void deleteFriend(FriendBlack friendBlack) throws Exception {
-		userDao.deleteFriend(friendBlack);
+	public void deleteFriend(int friendBlackNo) throws Exception {
+		userDao.deleteFriend(friendBlackNo);
+	}
+	
+	public void deleteBlack(int friendBlackNo) throws Exception {
+		userDao.deleteBlack(friendBlackNo);
+	}
+	
+	// 친구신청 중복검사
+	public int checkFriend(String userEmail, String targetEmail) {
+		Map<String, String> map = new HashMap<>();
+		map.put("userEmail", userEmail);
+		map.put("targetEmail", targetEmail);
+		int checkFriend = userDao.checkFriend(map);
+		
+		return checkFriend;
 	}
 	
 	
 	// 친구신청 중복검사
-	public int isAlreadyAppliedFriend(String userEmail, String targetEmail) {
+	public int checkBlack(String userEmail, String targetEmail) {
 		Map<String, String> map = new HashMap<>();
 		map.put("userEmail", userEmail);
 		map.put("targetEmail", targetEmail);
-		int isAlready = userDao.isAlreadyAppliedFriend(map);
+		int checkBlack = userDao.checkBlack(map);
 		
-		// 친구신청이 안되어있다면 반대로 확인
-		if(isAlready < 1) {
-			Map<String, String> mapReverse = new HashMap<>();
-			mapReverse.put("userEmail", userEmail);
-			mapReverse.put("targetEmail", targetEmail);
-			isAlready = userDao.isAlreadyAppliedFriend(mapReverse);
-		}
-		// 결과값 전달
-		return isAlready;
+		return checkBlack;
 	}
 
-	
 	
 	//================쪽지================================================
 	
@@ -288,7 +391,7 @@ public class UserServiceImpl implements UserService{
 	
 	
 	public Map<String , Object > getSendMsgList(Search search, String sendEmail) throws Exception {
-		int totalCount = userDao.getTotalCount(search);
+		int totalCount = userDao.getUserSendMsgTotalCount(search, sendEmail);
 
 		Map<String, Object> map = userDao.getSendMsgList(search, sendEmail);
 		map.put("totalCount", new Integer(totalCount));
@@ -343,11 +446,6 @@ public class UserServiceImpl implements UserService{
 		userDao.addReport(report);
 	}
 
-	@Override
-	public String getAccessToken(String authorize_code) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	public void updateUserTotalPoint(User user) throws Exception{

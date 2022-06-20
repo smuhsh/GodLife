@@ -8,11 +8,14 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 <link rel="stylesheet" href="/css/loginView.css" />
+
+
+    <script src = "https://developers.kakao.com/sdk/js/kakao.js"></script>
 </head>
 <body>
 
 <div id="content">
-	<div class="section_login">
+	<div class="section_login"  id="user">
 		<h3 class="tit_login">로그인</h3>
 		<div class="write_form">
 			<div class="write_view login_view">
@@ -32,6 +35,12 @@
 					<button type="button" class="btn_type1" id="loginBtn"><span class="txt_type">로그인</span></button>
 				</form>
 				<a href="/user/addUser" class="btn_type2 btn_member"><span class="txt_type">회원가입</span></a>
+				
+				<br>
+				
+				<a class = "p-2"  
+                                   href = "https://kauth.kakao.com/oauth/authorize?client_id=6d708d50985428b8450271c1e7e98b04&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code">
+                                  <img id = "kakao"  src = "/images/uploadFiles/kakao_login_medium_narrow.png"></a>
 			</div>
 		</div>
 	</div>
