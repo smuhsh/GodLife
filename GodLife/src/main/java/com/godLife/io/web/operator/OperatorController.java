@@ -227,7 +227,7 @@ public class OperatorController {
 //		
 //	}
 	@RequestMapping( value="listOperatorNotice" )
-	public String listOperatorNotice( @ModelAttribute("search") Search search, User user, OperatorNoticeFaqs operatorNotice , Model model , HttpServletRequest request) throws Exception{
+	public String listOperatorNotice( @ModelAttribute("search") Search search, OperatorNoticeFaqs operatorNotice , Model model , HttpSession session) throws Exception{
 		
 		System.out.println("/operator/listOperatorNotice : GET / POST");
 		
@@ -235,7 +235,7 @@ public class OperatorController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);		
-		user = (User) request.getSession().getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		// Business logic 수행
 		//Map<String , Object> map=operatorService.getOperatorNoticeFaqsList(search);
 		Map<String , Object> map=operatorService.getOperatorNoticeList(search, user, operatorNotice);
@@ -308,7 +308,7 @@ public class OperatorController {
 	}
 	
 	@RequestMapping( value="listOperatorFaqs" )
-	public String listOperatorFaqs( @ModelAttribute("search") Search search, User user, OperatorNoticeFaqs operatorFaqs , Model model , HttpServletRequest request) throws Exception{
+	public String listOperatorFaqs( @ModelAttribute("search") Search search, OperatorNoticeFaqs operatorFaqs , Model model , HttpSession session) throws Exception{
 		
 		System.out.println("/operator/listOperatorFaqs : GET / POST");
 		
@@ -316,7 +316,7 @@ public class OperatorController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);		
-		user = (User) request.getSession().getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		// Business logic 수행
 		Map<String , Object> map=operatorService.getOperatorFaqsList(search, user, operatorFaqs);
 		
@@ -353,10 +353,90 @@ public class OperatorController {
 		return "redirect:/operator/addOperatorJoinEvent.jsp";
 	}
 	
-	@RequestMapping(value="addOperatorJoinEvent", method=RequestMethod.POST)
+	//2022-06-20 shhwang addOperatorJoinEvent 를 addOperatorJoinDayEvent addOperatorJoinRoullEvent 로 변경함
+//	@RequestMapping(value="addOperatorJoinEvent", method=RequestMethod.POST)
+//	public String addOperatorJoinEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map) throws Exception {
+//		
+//		System.out.println("/operator/addOperatorJoinEvent : POST");
+//		//Business Logic
+//		
+//		User user = (User)session.getAttribute("user");
+//		
+//		operatorJoinEvent.setUserEmail(user.getUserEmail());
+//		
+//		Point point = new Point();
+//		
+//		if(operatorJoinEvent.getEventNo()==2) {
+//		point.setUseStatus("2");
+//		point.setPoint(1000);
+//		point.setUseDetail("5");
+//		
+//		map.put("user", user);
+//		map.put("point", point);
+//		
+//		pointService.addPointPurchase(map);
+//		}
+//		
+//		System.out.println("oper@@@@@@@@@ : "+ operatorJoinEvent);
+//		
+//		operatorService.addOperatorJoinEvent(operatorJoinEvent);
+//		point.setUserEmail(user.getUserEmail());
+//		point.setUseStatus("1");
+//		point.setPoint(operatorJoinEvent.getRewardPoint());
+//		point.setUseDetail("6");
+//		
+//		map.put("user", user);
+//		map.put("point", point);
+//		pointService.addPointPurchase(map);
+//		
+//		
+//		return "forward:/operator/addOperatorJoinEvent.jsp";
+//	}
+	//addOperatorJoinDayEvent 매일출석1 보상1,5 (100,10000) 14,28 일차에 보상5
+	@RequestMapping(value="addOperatorJoinDayEvent", method=RequestMethod.GET)
+	public String addOperatorJoinDayEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map) throws Exception {
+		
+		System.out.println("/operator/addOperatorJoinDayEvent : GET");
+		//Business Logic
+		
+		User user = (User)session.getAttribute("user");
+		
+		operatorJoinEvent.setUserEmail(user.getUserEmail());
+		
+		Point point = new Point();
+		
+		if(operatorJoinEvent.getEventNo()==1) {
+			point.setUseStatus("1");
+			point.setPoint(100);
+			point.setUseDetail("6");
+			
+			map.put("user", user);
+			map.put("point", point);
+			
+			pointService.addPointPurchase(map);
+		}
+		
+		System.out.println("oper@@@@@@@@@ : "+ operatorJoinEvent);
+		
+		operatorService.addOperatorJoinDayEvent(operatorJoinEvent);
+		point.setUserEmail(user.getUserEmail());
+		point.setUseStatus("1");
+		point.setPoint(operatorJoinEvent.getRewardPoint());
+		point.setUseDetail("5");
+		
+		map.put("user", user);
+		map.put("point", point);
+		pointService.addPointPurchase(map);
+		
+		
+		return "forward:/operator/addOperatorJoinDayEvent.jsp";
+	}
+	
+	//addOperatorJoinRoullEvent 룰렛2 보상2~5 (100,1000,3000,5000,10000)
+	@RequestMapping(value="addOperatorJoinRoullEvent", method=RequestMethod.GET)
 	public String addOperatorJoinEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map) throws Exception {
 		
-		System.out.println("/operator/addOperatorJoinEvent : POST");
+		System.out.println("/operator/addOperatorJoinRoullEvent : GET");
 		//Business Logic
 		
 		User user = (User)session.getAttribute("user");
@@ -366,19 +446,19 @@ public class OperatorController {
 		Point point = new Point();
 		
 		if(operatorJoinEvent.getEventNo()==2) {
-		point.setUseStatus("2");
-		point.setPoint(1000);
-		point.setUseDetail("5");
-		
-		map.put("user", user);
-		map.put("point", point);
-		
-		pointService.addPointPurchase(map);
+			point.setUseStatus("2");
+			point.setPoint(1000);
+			point.setUseDetail("5");
+			
+			map.put("user", user);
+			map.put("point", point);
+			
+			pointService.addPointPurchase(map);
 		}
 		
 		System.out.println("oper@@@@@@@@@ : "+ operatorJoinEvent);
 		
-		operatorService.addOperatorJoinEvent(operatorJoinEvent);
+		operatorService.addOperatorJoinRoullEvent(operatorJoinEvent);
 		point.setUserEmail(user.getUserEmail());
 		point.setUseStatus("1");
 		point.setPoint(operatorJoinEvent.getRewardPoint());
@@ -389,47 +469,65 @@ public class OperatorController {
 		pointService.addPointPurchase(map);
 		
 		
-		return "forward:/operator/addOperatorJoinEvent.jsp";
+		return "forward:/operator/addOperatorJoinRoullEvent.jsp";
 	}
 	
-	@RequestMapping(value="getOperatorJoinEvent", method=RequestMethod.GET)
-	public String getOperatorJoinEvent( @RequestParam("eventNo") int joinEventNo , Model model ) throws Exception {
+//	@RequestMapping(value="getOperatorJoinEvent", method=RequestMethod.GET)
+//	public String getOperatorJoinEvent( @RequestParam("eventNo") int joinEventNo , Model model ) throws Exception {
+//		
+//		System.out.println("/operator/getOperatorJoinEvent : GET");
+//		//Business Logic
+//		OperatorJoinEvent operatorJoinEvent = operatorService.getOperatorJoinEvent(joinEventNo);
+//		// Connect Model and View 
+//		model.addAttribute("operatorJoinEvent", operatorJoinEvent);		
+//		return "forward:/operator/getOperatorJoinEvent.jsp";
+//	}
+	@RequestMapping(value="getOperatorJoinDayEvent", method=RequestMethod.GET)
+	public String getOperatorJoinDayEvent( @RequestParam("eventNo") int eventNo , Model model ) throws Exception {
 		
-		System.out.println("/operator/getOperatorJoinEvent : GET");
+		System.out.println("/operator/getOperatorJoinDayEvent : GET");
 		//Business Logic
-		OperatorJoinEvent operatorJoinEvent = operatorService.getOperatorJoinEvent(joinEventNo);
+		OperatorJoinEvent operatorJoinEvent = operatorService.getOperatorJoinDayEvent(eventNo);
 		// Connect Model and View 
+		model.addAttribute("operatorJoinEvent", operatorJoinEvent);		
+		return "forward:/operator/getOperatorJoinDayEvent.jsp";
+	}
+	@RequestMapping(value="getOperatorJoinRoullEvent", method=RequestMethod.GET)
+	public String getOperatorJoinRoullEvent( @RequestParam("eventNo") int eventNo , Model model ) throws Exception {
+		
+		System.out.println("/operator/getOperatorJoinRoullEvent : GET");
+		//Business Logic
+		OperatorJoinEvent operatorJoinEvent = operatorService.getOperatorJoinRoullEvent(eventNo);
+		// Connect Model and View 
+		model.addAttribute("operatorJoinEvent", operatorJoinEvent);		
+		return "forward:/operator/getOperatorJoinRoullEvent.jsp";
+	}
 
-		
-		model.addAttribute("operatorJoinEvent", operatorJoinEvent);
-		
-		return "forward:/operator/getOperatorJoinEvent.jsp";
-	}
+	//2022-06-20 shhwang 불필요
+//	@RequestMapping(value="updateOperatorJoinEvent", method=RequestMethod.GET)
+//	public String updateOperatorJoinEvent( @RequestParam("eventNo") int joinEventNo , Model model ) throws Exception{
+//		
+//		System.out.println("/update/updateOperatorJoinEvent : GET");
+//		//Business Logic
+//		OperatorJoinEvent operatorJoinEvent = operatorService.getOperatorJoinEvent(joinEventNo);
+//		// Connect Model and View 
+//		model.addAttribute("operatorJoinEvent", operatorJoinEvent);
+//		return "forward:/operator/updateOperatorJoinEvent.jsp";
+//	}
 	
-	@RequestMapping(value="updateOperatorJoinEvent", method=RequestMethod.GET)
-	public String updateOperatorJoinEvent( @RequestParam("eventNo") int joinEventNo , Model model ) throws Exception{
-		
-		System.out.println("/update/updateOperatorJoinEvent : GET");
-		//Business Logic
-		OperatorJoinEvent operatorJoinEvent = operatorService.getOperatorJoinEvent(joinEventNo);
-		// Connect Model and View 
-		model.addAttribute("operatorJoinEvent", operatorJoinEvent);
-		return "forward:/operator/updateOperatorJoinEvent.jsp";
-	}
-	
-	@RequestMapping(value="updateOperatorJoinEvent", method=RequestMethod.POST)
-	public String updateOperatorJoinEvent( @ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent , Model model , HttpSession session) throws Exception{
-		
-		System.out.println("/update/updateOperatorJoinEvent : POST");
-		//Business Logic
-		operatorService.updateOperatorJoinEvent(operatorJoinEvent);
-	
-		Integer sessionId=((OperatorJoinEvent)session.getAttribute("operator")).getJoinEventNo();
-		if(sessionId.equals(operatorJoinEvent.getJoinEventNo())){
-			session.setAttribute("operator", operatorJoinEvent);
-		}
-		return "forward:/operator/getOperatorJoinEvent";
-	}
+//	@RequestMapping(value="updateOperatorJoinEvent", method=RequestMethod.POST)
+//	public String updateOperatorJoinEvent( @ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent , Model model , HttpSession session) throws Exception{
+//		
+//		System.out.println("/update/updateOperatorJoinEvent : POST");
+//		//Business Logic
+//		operatorService.updateOperatorJoinEvent(operatorJoinEvent);
+//	
+//		Integer sessionId=((OperatorJoinEvent)session.getAttribute("operator")).getJoinEventNo();
+//		if(sessionId.equals(operatorJoinEvent.getJoinEventNo())){
+//			session.setAttribute("operator", operatorJoinEvent);
+//		}
+//		return "forward:/operator/getOperatorJoinEvent";
+//	}
 	
 	@RequestMapping("/listOperatorJoinEvent")
 	public String listOperatorJoinEvent(@ModelAttribute("search") Search search, Model model, @RequestParam(value="status", required=false) String status) throws Exception{

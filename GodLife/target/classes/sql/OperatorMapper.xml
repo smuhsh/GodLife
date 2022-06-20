@@ -56,7 +56,7 @@
 		VALUES	 (	#{eventNo:INTEGER}, #{eventTitle:VARCHAR} , #{thumbnailImg:VARCHAR} , #{detail:VARCHAR} , 
 							#{eventImg:VARCHAR} , #{roullJoinPoint:INTEGER} , SYSDATE )
 	 </insert>
-	 
+	 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getOperatorEvents"	parameterType="int" resultMap="operatorEventsSelectMap">
 		SELECT
@@ -124,14 +124,27 @@
 	<!-- ///////////////////////// JoinEvent ///////////////////////// -->
 	
 	<!-- SQL : INSERT -->
-	<insert 	id="addOperatorJoinEvent"		parameterType="operatorJoinEvent" >
+	<insert 	id="addOperatorJoinDayEvent"		parameterType="operatorJoinEvent" >
+	 	INSERT
+		INTO join_event( join_event_no , user_email , event_no , reg_date, reward_point) 
+		VALUES	 (	seq_join_event_join_event_no.NEXTVAL, #{userEmail:VARCHAR} , #{eventNo:INTEGER} , SYSDATE, #{rewardPoint:INTEGER} )
+	 </insert>
+	 
+	<insert 	id="addOperatorJoinRoullEvent"		parameterType="operatorJoinEvent" >
 	 	INSERT
 		INTO join_event( join_event_no , user_email , event_no , reg_date, reward_point) 
 		VALUES	 (	seq_join_event_join_event_no.NEXTVAL, #{userEmail:VARCHAR} , #{eventNo:INTEGER} , SYSDATE, #{rewardPoint:INTEGER} )
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getOperatorJoinEvent"	parameterType="int" resultMap="operatorJoinEventSelectMap">
+	 <select 	id="getOperatorJoinDayEvent"	parameterType="int" resultMap="operatorJoinEventSelectMap">
+        SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
+        FROM reward r, join_event j
+        WHERE j.join_event_no = #{joinEventNo}
+            AND j.join_event_no = r.reward_no
+	 </select>
+	 
+	 <select 	id="getOperatorJoinRoullEvent"	parameterType="int" resultMap="operatorJoinEventSelectMap">
         SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
         FROM reward r, join_event j
         WHERE j.join_event_no = #{joinEventNo}
