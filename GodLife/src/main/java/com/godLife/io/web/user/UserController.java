@@ -51,6 +51,16 @@ import com.godLife.io.service.domain.Msg;
 import com.godLife.io.service.domain.OneInq;
 import com.godLife.io.service.domain.User;
 
+import com.godLife.io.service.user.UserService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.godLife.io.common.Page;
+import com.godLife.io.common.Search;
+import com.godLife.io.service.domain.FriendBlack;
+import com.godLife.io.service.domain.Msg;
+import com.godLife.io.service.domain.OneInq;
+import com.godLife.io.service.domain.User;
+
 //==> 회원관리 Controller
 @Controller
 @RequestMapping("/user/*")
@@ -76,10 +86,71 @@ public class UserController {
    
    ////////////////////////////////회원관리/////////////////////////////////////////////////////////
    
-   //checkdupulication 알아보기 
-   //전체적으로 세션 설정하기, 로그인안했을때.. 
-   
-   @GetMapping( value="login")  // 테스트완료 
+     //카카오 로그인 
+     @GetMapping( "kakaoLogin" )
+      public String kakaoLogin( @RequestParam( "code") String code , Model model , HttpSession session ) throws Exception{
+          // 사용자 로그인 및  동의 후 , 인가 코드를 발급받아 302 redirect를 통해  ,  이 메소드 도착함
+
+         System.out.println( "##kakaoLogin## 페이지 도착 " );
+         System.out.println( "##code {} ##" + code ); // 코드 출력
+
+         // 사용자 정보를 가져오기 위하여 code로  access 토큰 가져오기 !
+         String access_Token = userService.getKaKaoAccessToken( code );
+         System.out.println( "##access_Token 가져옴 ::  {} ##" + access_Token );
+
+         // 카카오 getUserInfo 에서 access_Token를 통하여  userInfo 가져오기
+         Map<String, Object> userInfo = userService.getKakoUserInfo( access_Token );
+         System.out.println( "##access_Token {} ##" +access_Token );
+         System.out.println( "##email {} ##" + userInfo.get( "email" ) );
+
+         String kakaouserId = ( String ) userInfo.get( "email" );
+         User user = new User();
+         user.setUserEmail(kakaouserId);
+         user.setPwd( "12345" ); // 카카오 로그인시 비밀번호
+         if ( userService.getUser(kakaouserId) == null ) {  // 카카로 로그인 ID가 우리 사이트에 존재 x
+             System.out.println( "로그인한 카카오 아이디가 존재 하지 않습니다. " );
+
+             model.addAttribute("kakaouserId" ,kakaouserId);
+
+             return "forward:/user/addUserKaKao.jsp"; 
+
+         } else {
+             // 카카오 로그인시 ID가 우리 사이트에 존재 할때
+
+             // Model 과 View 연결
+             user = userService.getUser(kakaouserId)  ;
+             session.setAttribute( "user" , user );
+             System.out.println( "로그인 성공. " );
+
+             return "/";
+         } // 존재 할때
+
+     }
+     
+     @PostMapping( value="addUserKaKao") // 테스트완료 
+     public String addUserKaKao( @ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+    	 
+    	 System.out.println(" addUserKaKao :: 에온 user  "+user);
+    	 
+    	 
+    	 
+    	 user.setPwd("12345");
+    	 user.setJoinPath("2");
+        //Business Logic
+        userService.addUser(user);
+        
+        user = userService.getUser(user.getUserEmail());
+   	 System.out.println(" getUser :: 에온 user  "+user);
+
+     session.setAttribute("user", user);
+        
+        System.out.println("/user/addUser : POST   끝");
+
+        return "/";
+     }   
+     
+     
+   @GetMapping( value="login")  // 완료 
    public String login() throws Exception{
       
       System.out.println("/user/login : GET");
@@ -88,44 +159,52 @@ public class UserController {
    }
       
    
-   @PostMapping( value="login") // 테스트완료 ??? 아이디 없을때,, 이런거 다시 체크하기 
+   @PostMapping( value="login") // 완료
    public String login(@ModelAttribute("user") User user , HttpSession session, Model model) throws Exception{
       
       System.out.println("/user/login : POST");
       
       //Business Logic
       User dbUser=userService.getUser(user.getUserEmail());
+      //User dbUser1 = userService.getUser(user.getAccountStatus());
+      
       System.out.println("getUser 결과 : "+dbUser);
       
-      //db에 아이디가 없을 경우
-      if(dbUser.getUserEmail()==null && dbUser.getPwd()==null) {
-         model.addAttribute("message", "아이디 및 비밀번호가 올바르지 않습니다."); // 해당 메세지 알러트창으로 어떻게?
-         model.addAttribute("url", "redirect:/user/loginView.jsp"); // 이거아닌듯.. 
-         //return "redirect:/user/loginView.jsp"; // 로그인 페이지 
+      //아이디가 없을 경우(알러트창,, 드디어성공) 
+      if(dbUser == null){
+         model.addAttribute("msg", "아이디 및 비밀번호가 일치하지 않습니다."); // 해당 메세지 알러트창으로 어떻게?
+         model.addAttribute("url", "/user/loginView.jsp"); // 메세지 알러트창 
+         return "alert.jsp"; 
       }
       
-      // 계정정지 상태 
-      if(dbUser.getAccountStatus()=="2") {
+      
+      // 계정정지 상태 (이거안됨...왜안될까...)
+      if(dbUser.getAccountStatus() == "2") {
          model.addAttribute("msg", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다.");
          model.addAttribute("url", "/user/loginView.jsp"); // 해당 메세지 알러트창으로 어떻게?
-         //return "redirect:/user/loginView.jsp";   // 로그인 페이지 
-         return "alert";
+         return "alert.jsp"; 
       }
       
-      // 관리자일때 
+      // 일치할경우(로그인성공)
       if( user.getPwd().equals(dbUser.getPwd())){
          session.setAttribute("user", dbUser);
-      }
       
       System.out.println("세션 만들어짐...");
       System.out.println(session.getAttribute("user"));
       
       return "/"; // 메인페이지로 이동 
-   }   
-
    
+      
+      //비밀번호가 일치하지않을때 
+   }else{
+	   model.addAttribute("msg", "아이디 및 비밀번호가 일치하지 않습니다.");
+	   model.addAttribute("url", "/user/loginView.jsp");
+	   return "alert.jsp";
+   }
    
-   @GetMapping( value="logout") // 테스트완료  
+}  
+   
+   @GetMapping( value="logout") // 완료  
    public String logout(HttpSession session ) throws Exception{
       
       System.out.println("/user/logout : POST");
@@ -136,7 +215,7 @@ public class UserController {
    }
    
 
-   @GetMapping( value="addUser") // 테스트완료 
+   @GetMapping( value="addUser") // 완료 
    public String addUser() throws Exception{
    
       System.out.println("/user/addUser : GET");
@@ -144,20 +223,24 @@ public class UserController {
       return "redirect:/user/addUserView.jsp"; // 회원가입 페이지로 이동 
    }
    
-   @PostMapping( value="addUser") // 테스트완료 
+   
+   @PostMapping( value="addUser") // 완료 
    public String addUser( @ModelAttribute("user") User user, Model model) throws Exception {
 
       System.out.println("/user/addUser : POST");
+      
       //Business Logic
       userService.addUser(user);
+      model.addAttribute("msg", "GodLife에 가입해주셔서 감사합니다.");
+      model.addAttribute("url","/user/loginView.jsp");
       
-      model.addAttribute("message", "GodLife에 가입해주셔서 감사합니다.");
+      return "alert.jsp";
       
-      return "redirect:/user/loginView.jsp"; // 회원가입하면 로그인페이지로 이동 
+      //return "redirect:/user/loginView.jsp"; // 회원가입하면 로그인페이지로 이동 
    }
    
    
-   @GetMapping( value="getUser") // 본인정보조회, 테스트완료
+   @GetMapping( value="getUser") // 완료
    public String getUser( @RequestParam("userEmail") String userEmail , Model model) 
                      throws Exception {
       
@@ -320,6 +403,7 @@ public class UserController {
    }
    
    
+   
    @PostMapping( value="updateUserPwd")  
    public String updateUserPwd( @RequestParam("userEmail") String userEmail ,@RequestParam("pwd") String pwd, Model model , HttpSession session
                       )throws Exception{
@@ -342,7 +426,6 @@ public class UserController {
          return "redirect:/user/loginView.jsp";// 비밀번호가 변경되고 로그인페이지로 이동 
    }
    
-   
    //coolSms api 사용
    @GetMapping(value = "phoneCheck") // 테스트완료 
    @ResponseBody
@@ -354,10 +437,7 @@ public class UserController {
       return Integer.toString(randomNumber);
    }
    
-   
-   
    ///////////////////////////////마이페이지/////////////////////////////////////////////////////////
-   
    
    
    
@@ -365,7 +445,7 @@ public class UserController {
    ////////////////////////////////친구, 블랙리스트 관리/////////////////////////////////////////////////////////
    
    // 친구 목록조회
-   @RequestMapping( value = "listFriend") // 테스트완료
+   @RequestMapping( value = "listFriend") // 검색 확인해주기 
    public String listFriend (@ModelAttribute("search") Search search, 
                         Model model, HttpServletRequest request, HttpSession session)throws Exception{
       
@@ -394,8 +474,9 @@ public class UserController {
       return "forward:/user/listFriend.jsp"; // 친구 목록조회 리스트로 이동             
    }
    
+   
    // 블랙리스트 목록조회
-   @RequestMapping( value = "listBlack") // 테스트 완료, 
+   @RequestMapping( value = "listBlack") // 검색 확인해주기  
    public String listBlack (@ModelAttribute("search") Search search, 
                         Model model, HttpServletRequest request, HttpSession session)throws Exception{
       
@@ -424,9 +505,8 @@ public class UserController {
                         
    }
    
-   
    // 친구요청 목록조회 
-   @RequestMapping( value = "listFriendRequest") // 테스트완료, 카운트값, 서치값만 확인 
+   @RequestMapping( value = "listFriendRequest") // 검색 확인해주기 
    public String listFriendRequest (@ModelAttribute("search") Search search,  
                         Model model, HttpServletRequest request,HttpSession session)throws Exception{
       
@@ -454,9 +534,8 @@ public class UserController {
        return "forward:/user/listFriendRequest.jsp";
                         
    }
-
    
-   @RequestMapping( value="addFriend")
+   @RequestMapping( value="addFriend") // 완료
    public String addFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack, 
                       @RequestParam("userEmail") String userEmail, 
                       @RequestParam("targetEmail") String targetEmail, HttpSession session, Model model) throws Exception {
@@ -464,45 +543,78 @@ public class UserController {
       System.out.println("나의 친구등록이 되라... ");
       
       User user = (User)session.getAttribute("user");
-      
       friendBlack.setUserEmail(user.getUserEmail());
-      //String userEmail = user.getUserEmail();
+      
+      System.out.println("친구에서 유저이메일은?"+friendBlack.getUserEmail());
+      System.out.println("친구에서 타켓이메일은?"+targetEmail);
       
       System.out.println("유저 :"+user);
       
-      // 이미 친구관계일때는 등록 x 중복안되게?... 어떻게할수없을까.... boolean? 
-      //Business Logic
-      userService.addFriend(friendBlack);
+      //친구 중복 등록 방지 (성공...후아..) 
+      int checkFriend = userService.checkFriend(friendBlack.getUserEmail(),targetEmail);
+
+      System.out.println("개수!!!!!!뭐야!!!!!"+checkFriend);
+     
       
-      //친구 중복방지???
-      int isAlready = userService.isAlreadyAppliedFriend(userEmail,targetEmail);
-      
-      if(isAlready > 0) {
-         //이미 친구라면 
+      if(checkFriend > 0) {
+    	  
+         //이미 친구라면 (개수가 1일때 이미 친구상태, 0일때 친구 아님) 
          model.addAttribute("msg", "이미 친구로 등록된 상태입니다."); 
+         model.addAttribute("url", "/user/listFriend?userEmail="+user.getUserEmail());
+         return "alert.jsp";
+         
+      }else {
+    	  userService.addFriend(friendBlack);
       }
       
-      return "redirect:/user/getUserTarget?userEmail="+friendBlack.getTargetEmail(); 
-
+    //이미 친구라면 (개수가 1일때 이미 친구상태, 0일때 친구 아님) 
+      model.addAttribute("msg", "친구 요청이 완료되었습니다. 요청이 수락되면 친구 목록조회에서 확인할 수 있습니다."); 
+      model.addAttribute("url", "/user/getUserTarget?userEmail="+friendBlack.getTargetEmail());
+      return "alert.jsp";
+      
    }
    
    
-   @RequestMapping( value="addBlack", method=RequestMethod.POST )
-   public String addBlack( @ModelAttribute("friendBlack") FriendBlack friendBlack, HttpSession session ) throws Exception {
+   
+   @RequestMapping( value="addBlack") // 완료
+   public String addBlack( @ModelAttribute("friendBlack") FriendBlack friendBlack, 
+                      @RequestParam("userEmail") String userEmail, 
+                      @RequestParam("targetEmail") String targetEmail, HttpSession session, Model model) throws Exception {
+                     
+      System.out.println("블랙리스트 등록되라... 중복안되게... ... ");
+      
+      User user = (User)session.getAttribute("user");
+      friendBlack.setUserEmail(user.getUserEmail()); // 유저이메일 세션으로 박아버림 
+      
+      System.out.println("블랙리스트에서 유저이메일은?"+friendBlack.getUserEmail());
+      System.out.println("블랙리스트에서 타켓이메일은?"+targetEmail);
+      
+      //블랙리스트 등록 중복 방지 
+      int checkBlack = userService.checkBlack(friendBlack.getUserEmail(),targetEmail);
 
-      System.out.println("나의 블랙리스트등록이 되라... ");
+      System.out.println("개수!!!!!!뭐야!!!!!@@@@"+checkBlack);
+     
       
-      User user = (User)session.getAttribute("user"); // 세션으로 등록한 회원 이메일 박아버리기
-      friendBlack.setUserEmail(user.getUserEmail());
+      if(checkBlack > 0) {
+    	  
+         //이미 블랙리스트라면 (개수가 1일때 이미 블랙리스트상태, 0일때 블랙리스트 아님) 
+         model.addAttribute("msg", "이미 블랙리스트로 등록된 상태입니다."); 
+         model.addAttribute("url", "/user/listBlack?userEmail="+user.getUserEmail());
+         return "alert.jsp";
+         
+      }else {
+    	  userService.addBlack(friendBlack);
+      }
       
-      // 이미 블랙리스트 등록했을때는...  등록 x 중복안되게?... 어떻게할수없을까.... 
-      //Business Logic
-      userService.addBlack(friendBlack);
-      return "redirect:/user/getUserTarget?userEmail="+friendBlack.getTargetEmail(); 
+    //이미 블랙리스트라면 (개수가 1일때 이미 친구상태, 0일때 친구 아님) 
+      model.addAttribute("msg", "블랙리스트 등록이 완료되었습니다. 블랙리스트 목록조회에서 확인가능합니다."); 
+      model.addAttribute("url", "/user/getUserTarget?userEmail="+friendBlack.getTargetEmail());
+      return "alert.jsp";
+      
    }
    
    
-   //친구 요청 수락 (친구요청 목록조회에서)  // 테스트완료 
+   //친구 요청 수락 (친구요청 목록조회에서)  // 완료 
    @RequestMapping( value="updateAccStatus")
    public String updateAccStatus( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
                            @RequestParam("userEmail") String userEmail,
@@ -511,48 +623,74 @@ public class UserController {
       System.out.println("친구 요청수락 시작 ");
       //Business Logic
       userService.updateAccStatus(friendBlack);
-      //따로 뭐 더 안해줘도되는건가.. 
       
-       return "forward:/user/listFriendRequest";
+      User user = (User)session.getAttribute("user");
+      
+      model.addAttribute("msg", "친구 수락이 완료되었습니다. 친구 목록조회에서 확인가능합니다."); 
+      model.addAttribute("url", "/user/listFriendRequest?targetEmail="+user.getUserEmail());
+      return "alert.jsp";
+      
+       //return "forward:/user/listFriendRequest";
    }
    
-   
-   //친구 요청 거절 (친구요청 목록조회에서)  // 테스트완료 
+   //친구 요청 거절 (친구요청 목록조회에서)  // 완료
    @RequestMapping( value="deleteFriendRequest")
    public String deleteFriendRequest( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
                         @RequestParam("userEmail") String userEmail,
-                        Model model , HttpServletRequest request) throws Exception{
+                        Model model , HttpServletRequest request, HttpSession session) throws Exception{
       
       System.out.println("친구 거절 시작 ");
       //Business Logic
       userService.deleteFriendRequest(friendBlack);
       //따로 뭐 더 안해줘도되는건가.. 
       
-       return "forward:/user/listFriendRequest"; // 수정된상태의 조회페이지로 이동 
-   }
-   
-   //친구 삭제 (친구 목록에서, 이것도 세션처리??)
-   @RequestMapping( value="deleteFriend") // 라디오박스로 전체삭제되고 타겟이메일에 있는 것만 삭제됨 
-   public String deleteFriend( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
-                        @RequestParam("userEmail") String userEmail,
-                        Model model , HttpServletRequest request) throws Exception{
+      User user = (User)session.getAttribute("user");
       
-      System.out.println("친구를 삭제하시오 ");
-      //Business Logic
-      userService.deleteFriend(friendBlack);
-      //따로 뭐 더 안해줘도되는건가.. 
+      model.addAttribute("msg", "친구 거절이 완료되었습니다."); 
+      model.addAttribute("url", "/user/listFriendRequest?targetEmail="+user.getUserEmail());
+      return "alert.jsp";
       
-      return "forward:/user/listFriend.jsp"; // 수정된상태의 조회페이지로 이동 
+      // return "forward:/user/listFriendRequest"; // 수정된상태의 조회페이지로 이동 
    }
    
    
-   //블랙리스트 삭제 (블랙리스트 목록, 이것도 세션처리?? ) 
+   @RequestMapping(value = "deleteUserFriend") // 친구목록에서 선택삭제
+  	public String deleteUserFriend(@RequestParam("checkList") int[] reviewList, HttpSession session) throws Exception {
+
+  		System.out.println("친구목록에서 친구삭제!!!");
+
+  		for (int i = 0; i < reviewList.length; i++) {
+  			System.out.println(reviewList[i]); // 친구블랙리스트번호가 나옴 
+  		}
+  		for (int i = 0; i < reviewList.length; i++) {
+  			userService.deleteFriend(reviewList[i]);
+  		}
+  		
+  		User user = (User)session.getAttribute("user");
+  		
+  		return "redirect:/user/listFriend?userEmail="+user.getUserEmail(); //내 친구 목록조회로 이동 
+  	}
    
-   //친구등록 중복방지, 블랙리스트 등록 중복방지.... 어떻게할까.... 
+   @RequestMapping(value = "deleteUserBlack") // 블랙리스트목록에서 선택삭제
+ 	public String deleteUserBlack(@RequestParam("checkList") int[] reviewList, HttpSession session) throws Exception {
+
+ 		System.out.println("블랙리스트목록에서 친구삭제!!!");
+
+ 		for (int i = 0; i < reviewList.length; i++) {
+ 			System.out.println(reviewList[i]); // 친구블랙리스트번호가 나옴 
+ 		}
+ 		for (int i = 0; i < reviewList.length; i++) {
+ 			userService.deleteBlack(reviewList[i]);
+ 		}
+ 		
+ 		User user = (User)session.getAttribute("user");
+ 		
+ 		return "redirect:/user/listBlack?userEmail="+user.getUserEmail(); //내 블랙리스트 목록으로 이동  
+ 	}
    
    ////////////////////////////////쪽지관리/////////////////////////////////////////////////////////
    
-   @GetMapping( value="addUserMsg")
+   @GetMapping( value="addUserMsg") // 완료
    public String addMsg() throws Exception{
    
       System.out.println("쪽지보내기 : GET");
@@ -560,21 +698,57 @@ public class UserController {
       return "forward:/user/addUserMsgView.jsp"; // 쪽지 보낼수있는 화면으로 이동 
    }
    
-   @PostMapping( value="addUserMsg")
-   public String addMsg( @ModelAttribute("msg") Msg msg, @RequestParam("sendEmail") String sendEmail, 
+   @PostMapping( value="addUserMsg") 
+   public String addMsg( @ModelAttribute("msg") Msg msg, 
                     Model model, HttpSession session) throws Exception {
 
       System.out.println("쪽지보내기 : POST");
+      
+      User user = (User)session.getAttribute("user");
+      msg.setSendEmail(user.getUserEmail());    // 보내는사람 세션으로 박아버리기
+      
+     //model.addAttribute("msg", msg);
+      
       //Business Logic
       userService.addMsg(msg);
       
-      return "forward:/user/getUserRecvMsg.jsp"; // 쪽지를 보내고 보낸 쪽지함으로 이동? 또는 상세조회페이지로 이동 
+      return "forward:/user/listUserSendMsg?sendEmail="+user.getUserEmail(); // 보낸 쪽지 목록으로 이동 
    }
+   
+   
+   //쪽지 답장 답장 띄우는 것만 일단 
+   @GetMapping( value="addUserMsgReply") 
+   public String addUserMsgReply( @ModelAttribute("msg") Msg msg,
+		   						
+                    Model model, HttpSession session) throws Exception {
+
+      System.out.println("쪽지 답장보내기 : POST");
+      
+      User user = (User)session.getAttribute("user");
+      msg.setSendEmail(user.getUserEmail());  // 보내는사람 세션으로 박아버리기
+      
+      System.out.println("쪽지 보내는사람은?"+user.getUserEmail());
+      System.out.println("쪽지 받는사람은?" + msg.getSendEmail());
+      
+      
+     model.addAttribute("msg", msg);
+      
+      //Business Logic
+      userService.addMsg(msg);
+      return "forward:/user/addUserMsgReply.jsp"; // 답장 보낼수있는 화면으로 이동 
+   }
+   
+   // 쪽지 답장보내기 post
+   
+   
+   
+   
+   
    
    @GetMapping( value="getUserRecvMsg")
    public String getMsg( @RequestParam("msgNo") int msgNo , Model model ) throws Exception {
       
-      System.out.println("받은 쪽지 조회 : GET");
+      System.out.println("받은 쪽지 상세조회 : GET");
       
       //Business Logic
       Msg msg = userService.getRecvMsg(msgNo);
@@ -585,36 +759,59 @@ public class UserController {
       return "forward:/user/getUserRecvMsg.jsp";  // 받은 쪽지 상세페이지로 이동 
    }
    
-   @GetMapping( value="getSendMsg")
+   @GetMapping( value="getUserSendMsg")
    public String getSendMsg( @RequestParam("msgNo") int msgNo , Model model ) throws Exception {
       
-      System.out.println("보낸 쪽지 조회 :  GET");
-      
+      System.out.println("보낸 쪽지 상세조회 :  GET");
       //Business Logic
       Msg msg = userService.getSendMsg(msgNo);
-      
       // Model 과 View 연결
       model.addAttribute("msg", msg);
       
-      return "bbb"; // 보낸 쪽지 상세페이지로 이동 
-   }
-   
-   // 레스트로 가야할수도.. 
-   @GetMapping( value="deleteMsg")
-   public String deleteMsg( @RequestParam("msgNo") int msgNo )throws Exception {
-      
-      System.out.println("쪽지 삭제되라");
-      
-      userService.deleteMsg(msgNo);
-      
-      return "ccc"; // 쪽지 삭제가 되고, 어디로 이동??...??? 
+      return "forward:/user/getUserSendMsg.jsp";  // 보낸 쪽지 상세페이지로 이동 
    }
    
    
-   //받은 쪽지 목록조회 
+   @RequestMapping(value = "deleteUserRecvMsg") // 받은쪽지목록조회에서 선택삭제 배열사용
+	public String deleteUserRecvMsg(@RequestParam("checkList") int[] reviewList, HttpSession session) throws Exception {
+
+		System.out.println("받은쪽지목록조회에서 선택삭제!!!");
+
+		for (int i = 0; i < reviewList.length; i++) {
+			System.out.println(reviewList[i]); // 쪽지번호가 나옴 
+		}
+		for (int i = 0; i < reviewList.length; i++) {
+			userService.deleteMsg(reviewList[i]);
+		}
+		
+		User user = (User)session.getAttribute("user");
+		return "redirect:/user/listUserRecvMsg?recvEmail="+user.getUserEmail(); 
+	}
+   
+   
+   @RequestMapping(value = "deleteUserSendMsg") // 보낸쪽지목록조회에서 선택삭제 배열사용
+  	public String deleteUserSendMsg(@RequestParam("checkList") int[] reviewList, HttpSession session) throws Exception {
+
+  		System.out.println("보낸 쪽지 목록에서 선택삭제!!!");
+
+  		for (int i = 0; i < reviewList.length; i++) {
+  			System.out.println(reviewList[i]); // 쪽지번호가 나옴 
+  		}
+  		for (int i = 0; i < reviewList.length; i++) {
+  			userService.deleteMsg(reviewList[i]);
+  		}
+  		
+  		User user = (User)session.getAttribute("user");
+  		return "redirect:/user/listUserSendMsg?sendEmail="+user.getUserEmail(); 
+  	}
+   
+   
+   
+   //받은 쪽지 목록조회
    @RequestMapping( value = "listUserRecvMsg")
    public String listRecvMsg (@ModelAttribute("search") Search search, 
-                        @RequestParam("recvEmail")String recvEmail, 
+                        //@RequestParam("recvEmail")String recvEmail, 
+                        HttpSession session,
                         Model model, HttpServletRequest request)throws Exception{
       
       System.out.println("listRecvMsg : GET / POST");
@@ -623,6 +820,9 @@ public class UserController {
          search.setCurrentPage(1);
       }
       search.setPageSize(pageSize);
+      
+      User user = (User)session.getAttribute("user"); // 파라미터말고 세션으로 박아버리기 
+      String recvEmail = user.getUserEmail();
       
       // Business logic 수행
       Map<String , Object> map=userService.getRecvMsgList(search, recvEmail);
@@ -636,14 +836,14 @@ public class UserController {
       model.addAttribute("search", search);
             
        return "forward:/user/listUserRecvMsg.jsp";               
-                        
    }
    
+   
    ////보낸 쪽지 목록조회 
-   @RequestMapping( value = "listSendMsg")
+   @RequestMapping( value = "listUserSendMsg")
    public String listSendMsg (@ModelAttribute("search") Search search, 
-                        @RequestParam("sendEmail")String sendEmail, 
-                        Model model, HttpServletRequest request)throws Exception{
+		   					//@RequestParam("sendEmail")String sendEmail, 
+		   					Model model, HttpServletRequest request, HttpSession session)throws Exception{
       
       System.out.println("listSendMsg : GET / POST");
       
@@ -652,26 +852,27 @@ public class UserController {
       }
       search.setPageSize(pageSize);
       
+      User user = (User)session.getAttribute("user");
+      String sendEmail = user.getUserEmail();
+      
       // Business logic 수행
       Map<String , Object> map=userService.getSendMsgList(search, sendEmail);
       
       Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
       System.out.println(resultPage);
       
+      
       // Model 과 View 연결
       model.addAttribute("list", map.get("list"));
       model.addAttribute("resultPage", resultPage);
       model.addAttribute("search", search);
             
-     return "aaa"; // 보낸 쪽지 목록으로 이동                   
-                        
+      return "forward:/user/listUserSendMsg.jsp";   // 보낸 쪽지 목록으로 이동                   
    }
    
-   
-   
-   
-                           
    ////////////////////////////////일대일 문의 관리 /////////////////////////////////////////////////////////
+   
+   
    
    @GetMapping("addOneInq")
    public String addOneInq() throws Exception{

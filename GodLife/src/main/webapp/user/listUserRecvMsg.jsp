@@ -1,90 +1,432 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page pageEncoding="EUC-KR"%>
+
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Î∞õÏùÄ Ï™ΩÏßÄÌï®</title>
-<link rel="stylesheet" href="/css/listUserRecvMsg.css" />
-<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
-	<!-- ÏÉÅÎã®Î∞îÏÇΩÏûÖ -->
+
+<!DOCTYPE html>
+
+<html lang="ko">
+	
+<head>
+	<meta charset="EUC-KR">
+	
+	<!-- ¬¸¡∂ : http://getbootstrap.com/css/   ¬¸¡∂ -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   
+      <link href="../css/kfonts2.css" rel="stylesheet">
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+   
+   
+   <!-- jQuery UI toolTip ªÁøÎ CSS-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- jQuery UI toolTip ªÁøÎ JS-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  <!-- ªÛ¥‹πŸª¿‘ -->
 	<jsp:include page="/layout/toolbar.jsp" />
 	
-	<!-- ÏôºÏ™Ω Î†àÏù¥ÏïÑÏõÉ ÏÇΩÏûÖ-->
+	<!-- øﬁ¬  ∑π¿Ãæ∆øÙ ª¿‘-->
 		<jsp:include page="/user/mypageMain.jsp" />
-		
-		<style>
-
- 		body {
-            padding-top : 50px;
+	
+	<!--  ///////////////////////// CSS ////////////////////////// -->
+	<style>
+	 
+        h2{
+                font-size: 2.3rem;
+                padding-right: 100px;
+            }
+            
+            #head_aticle{
+            padding-top : 80px;
+            }
+            
+            #container{
+            padding-left: 250px;
+            padding-top : 130px;
+            }
+            
+            #caption{
+            font-size: 15px;
+            }
+            
+            h3{
+            font-size: 20px;
+            font-weight: bold;
+            
+            }
+            
+                /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
         }
-       
-</style>
-
-
-</head>
-<body>
-
-<div class="myMessageWrap">
- 
-    <form id="messageForm" method="get" action="deleteMyMessage" >
     
-	<div class="head_aticle">
-		<h2 class="tit">Î∞õÏùÄ Ï™ΩÏßÄÌï®</h2>
-	</div>
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */                          
+        }
+        
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+            
+    </style>
+    
+    
+     <!--  ///////////////////////// JavaScript ////////////////////////// -->
+	<script type="text/javascript">
 	
-	<div class="mainMessage">
-	<br>
+		//============= ∞Àªˆ / page µŒ∞°¡ˆ ∞ÊøÏ ∏µŒ  Event  √≥∏Æ =============	
+		function fncGetList(currentPage) {
+			$("#currentPage").val(currentPage)
+			$("form").attr("method" , "POST").attr("action" , "/user/listUserRecvMsg?").submit();
+		}
+		
+		//============= "∞Àªˆ"  Event  √≥∏Æ =============	
+		 $(function() {
+			 //==> DOM Object GET 3∞°¡ˆ πÊπ˝ ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "button.btn.btn-default" ).on("click" , function() {
+			fncGetList(1);
+			});
+		 });
+		
+		//=============  º±≈√ ªË¡¶√≥∏Æ =============
+			
+		 $(function() {
+				
+				$("#writeBtn1").on("click" , function() {
+					
+					var checkCount = $("input[name='deleteCheck']:checked").length;
+				    var array = new Array();
+					$("input[name='deleteCheck']:checked").each(function() {
+						array.push($(this).attr('id'));  <!-- πËø≠¿« ≥°ø° ø‰º“∏¶ √ﬂ∞°  -->
+				    });
+					
+					//Debug..
+					if(checkCount != 0) {
+						alert(checkCount+"∞≥¿« ¬ ¡ˆ∏¶ ªË¡¶«œΩ√∞⁄Ω¿¥œ±Ó?")
+						self.location = "/user/deleteUserRecvMsg?checkList="+array;
+					} else {
+						alert("º±≈√µ» ¬ ¡ˆ∞° æ¯Ω¿¥œ¥Ÿ.")						
+					}
+				});
+			});
+		
+		
+		
+		
+			//=============  ∏¥ﬁ ≈◊Ω∫∆Æ =============	
+		$(function() {		
+	 // Get the modal
+        var modal = document.getElementById('myModal');
+ 
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+ 
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];                                          
+ 
+        // When the user clicks on the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+ 
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+ 
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+		});	
+			
+			
+	   //==>"πﬁ¥¬ªÁ∂˜ ¿Ã∏ﬁ¿œ" ¿÷¥¬¡ˆ æ¯¥¬¡ˆ ∞ÀªÁ 
+		
+		function checkUserEmail(){
+	        var userEmail = $('#recvEmail').val(); //id∞™¿Ã "id"¿Œ ¿‘∑¬∂ı¿« ∞™¿ª ¿˙¿Â
+	        
+	        $.ajax({
+	        	 url: '/user/json/checkUserEmail', //Controllerø°º≠ ø‰√ª πﬁ¿ª ¡÷º“
+	            type:'post', //POST πÊΩƒ¿∏∑Œ ¿¸¥ﬁ
+	            data:{userEmail:userEmail},
+	       
+	            success:function(cnt){ //ƒ¡∆Æ∑—∑Øø°º≠ ≥—æÓø¬ cnt∞™¿ª πﬁ¥¬¥Ÿ 
+	                if(cnt == 0){ //cnt∞° 1¿Ã æ∆¥œ∏È(=0¿œ ∞ÊøÏ) -> µ∫Òø° æ¯¿∏¥œ±Ó ∫∏≥æºˆæ¯¥¬ ¿Ã∏ﬁ¿œ  
+	                    $('.id_ok').css("display","inline-block"); 
+	                    $('.id_already').css("display", "none");
+	                    //alert("«ÿ¥Á ¿Ã∏ﬁ¿œ¿∫ ¡∏¿Á«œ¡ˆ æ Ω¿¥œ¥Ÿ.");
+	                } else { // cnt∞° 1¿œ ∞ÊøÏ -> ¿ÃπÃ ¡∏¿Á«œ¥¬ ¿Ã∏ﬁ¿œ¿Ã¥œ±Ó ∫∏≥æºˆ¿÷¿Ω
+	                    $('.id_already').css("display","inline-block");
+	                    $('.id_ok').css("display", "none");
+	                    //alert("¿Ã∏ﬁ¿œ¿ª ¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰");
+	                }
+	            },
+	            error:function(){
+	                alert("ø°∑Ø¿‘¥œ¥Ÿ");
+	            }
+	        });
+	        };
+		
+		
+			//============= "¥‰¿Â""  Event ø¨∞· =============
+		 $(function() {
+			//==> DOM Object GET 3∞°¡ˆ πÊπ˝ ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "#writeBtn" ).on("click" , function() {
+				fncAddUserMsg();
+			});
+		});	
+		
+			
+		function fncAddUserMsg() {
+			
+			var recvEmail=$("input[name='recvEmail']").val();
+			var name=$("input[name='title']").val();
+			
+			if(recvEmail == null || recvEmail.length <1){
+				alert("¿Ã∏ﬁ¿œ¿∫  π›µÂΩ√ ¿‘∑¬«œº≈æﬂ «’¥œ¥Ÿ.");
+				return;
+			}
+			
+			if(name == null || name.length <1){
+				alert("¡¶∏Ò¿∫  π›µÂΩ√ ¿‘∑¬«œº≈æﬂ «’¥œ¥Ÿ.");
+				return;
+			}
+			
+			$("form").attr("method" , "POST").attr("action" , "/user/addUserMsg").submit();
+			alert("¿¸º€¿Ã øœ∑·µ«æ˙Ω¿¥œ¥Ÿ")
+		}
+		
+		
+		//============= "≥ªøÎ ±€¿⁄ºˆ ∞ÀªÁ" =============
+		$(document).ready(function() {
+	    $('#detail').on('keyup', function() {
+	        $('#test_cnt').html("("+$(this).val().length+" / 1000)");
+	 
+	        if($(this).val().length > 1000) {
+	            $(this).val($(this).val().substring(0, 1000));
+	            $('#test_cnt').html("(1000 / 1000)");
+	        }
+	    });
+	});
+		
+		//============= "¡¶∏Ò ±€¿⁄ ºˆ ∞ÀªÁ" =============
+		
+		$(document).ready(function() {
+	    $('#title').on('keyup', function() {
+	        $('#test_cnt1').html("("+$(this).val().length+" / 50)");
+	 
+	        if($(this).val().length > 50) {
+	            $(this).val($(this).val().substring(0, 50));
+	            $('#test_cnt1').html("(50 / 50)");
+	        }
+	    });
+	});
+		
+	</script>
 	
-		<div class="message_Btn">
-			<span class="deleteBtn" id="deleteBtn"><a href="#">&emsp;ÏÇ≠Ï†ú&emsp;</a></span>
-		</div><!-- message_Btn -->
-		
-		<table border="3"  id="followListTable" cellpadding="5" width="850px" bordercolor="#ededed"  align="center" frame="hsides" rules="rows">
-		
-		<!-- Ï™ΩÏßÄ ÌãÄ -->
-			<tr class="message_title" style="height:35px;">
-				<td align="center">No</td>
-				<td align="center">Î≥¥ÎÇ∏Ïù¥</td>
-				<td align="center" style="width: 200px;">Ï†úÎ™©</td>
-				<td align="center">ÏûëÏÑ±Ïùº</td>
-			</tr>
-		</table>
+</head>
+
+<body>
+	
+	<!--  »≠∏È±∏º∫ div Start /////////////////////////////////////-->
+
+	<div class="container" id="container" >
+	
+		<div class="head_aticle" align="center" id = "head_aticle">
+	      <h2 class="tit" style="color: #333;">πﬁ¿∫ ¬ ¡ˆ«‘</h2>
+	      
+	      <button type="button" class="btn active btn_join" id="writeBtn1" style="float: right;  margin-right: 10px;">º±≈√ªË¡¶</button>
+									         
+									         <!-- ∏¥ﬁ πˆ∆∞  -->
+								    <button type="button" class="btn active btn_join" id="myBtn" style="float: right;  margin-right: 10px;">¥‰¿Â</button>
+								    <!-- The Modal -->
+								    <div id="myModal" class="modal">
+								 
+								      <!-- ¥‰¿Â∫∏≥ª±‚ ∏¥ﬁ ≥ªøÎ p≈¬±◊æ»ø° -->
+								      <div class="modal-content">
+								        <span class="close">&times;</span>    
+								                                                                   
+				<div class="page_aticle">
+		<div class="type_form getUser" id="getUser">
+			<form id="form" name="frmMember" >
+			
+				<div class="field_head">
+					<h3 class="tit">¬ ¡ˆ ∫∏≥ª±‚</h3>
+				</div>
 				
+				<table class="tbl_comm">
 				
-		<div class="messageListDiv">
-				<table border="4"   id="messageListTable" cellpadding="5" width="850px" bordercolor="#ededed"  align="center" frame="hsides" rules="rows">
-					<tbody>
-					  <c:set var="i" value="0" />
-					  <c:forEach var="msg" items="${list}">
-						<c:set var="i" value="${ i+1 }" />
-						
-						<tr>
-						  <td align="center">${ i }</td>
-						  <td align="center"  title="Click : ÌöåÏõêÏ†ïÎ≥¥ ÌôïÏù∏">${msg.nick} 
-						  <td align="center"  style="width: 200px;">${msg.title}</td>
-						  <td align="center">${msg.regDate}</td>
-						  <td align="center">
-						  	<input type="hidden" value="${msg.recvEmail}">
+				<tr class="fst">
+						<th>¿Ã∏ﬁ¿œ</th>
+						<td>
+							<input type="text" class="form-control" id="recvEmail" name="recvEmail" oninput = "checkUserEmail()" >
+							<span id="helpBlock" class="id_ok">«ÿ¥Á ¿Ã∏ﬁ¿œ¿∫ ¡∏¿Á«œ¡ˆ æ Ω¿¥œ¥Ÿ. </span>
+			 				 <span id="helpBlock" class="id_already"></span>
+						</td>
+					</tr>
+				
+					<tr>
+						<th>¡¶∏Ò</th>
+						<td>
+						      <input type="text" class="form-control" id="title" name="title"  style="width :455px; height : 45px;">
+						      <div id="test_cnt1" style ="font-size : 13px">(0 / 50)</div>
 						  </td>
-						</tr>
-			          </c:forEach>
-			        
-			        </tbody>
-				</table>
-
-
+					</tr>
+					
+					<tr class="detail">
+						<th>≥ªøÎ</th>
+						<td>
+								<textarea id = "detail" name="detail" cols="50" rows="20"  style="width :455px; height : 327px;"></textarea>
+								<div id="test_cnt" style ="font-size : 13px">(0 / 1000)</div>
+						</td>
+					</tr>
+					
+					</table>
+	
+				<div id="formSubmit" class="form_footer">
+					<div id="checkDiv" class="checkDiv"></div>
+					<button type="button"  class="btn active btn_join" id="writeBtn">¿¸º€</button>
+				</div>
+			</form>
 		</div>
 		
-	</div><!-- mainMessage -->
-	</form>
-</div><!-- myMessageWrap -->
+			  	
+		 	  <input type="hidden" name="msgNo" id="msgNo" value="${msg.msgNo}"> 
+	</div>
+								        
+        
+      </div>
+    </div>
+      <!-- ∏¥ﬁ ≥°-->
+
+	    </div>
+	    
+	    <br></br>
+	    <!-- table ¿ß¬  ∞Àªˆ Start /////////////////////////////////////-->
+	    <div class="row" >
+	    
+		    <div class="col-md-6 text-left">
+		    	<p class="text-secondary" >
+		    		¿¸√º  ${resultPage.totalCount } ∞«ºˆ, «ˆ¿Á ${resultPage.currentPage}  ∆‰¿Ã¡ˆ
+		    	</p>
+		    </div>
+		    
+		    <div class="col-md-6 text-right">
+			    <form class="form-inline" name="detailForm">
+			    
+			 <!--  
+				  <div class="form-group">
+				    <select class="form-control" name="searchCondition" >
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>¥–≥◊¿”</option>
+					</select>
+				  </div>
+				  
+				
+				  <div class="form-group">
+				    <label class="sr-only" for="searchKeyword">∞ÀªˆæÓ</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="∞ÀªˆæÓ"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				  </div> 
+				  
+				  <button type="button" class="btn btn-default">∞Àªˆ</button>-->
+				  
+				  
+				  
+				  <!-- PageNavigation º±≈√ ∆‰¿Ã¡ˆ ∞™¿ª ∫∏≥ª¥¬ ∫Œ∫– -->
+				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
+				  
+				</form>
+	    
+	    	
+		</div>
+		<!-- table ¿ß¬  ∞Àªˆ Start /////////////////////////////////////-->
 		
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js"></script>	
+		<br></br>
+      <table class="table table-hover table-striped" >
+      
+        <thead>
+        <tr class="bg-light">
+          <th scope="col" width="10%"></th>
+          <th scope="col" width="20%">¥–≥◊¿”</th>
+          <th scope="col" width="40%" >¡¶∏Ò</th>
+          <th scope="col" width="20%">≥Ø¬•</th>
+        </tr>
+      </thead>
+       
+		<tbody>
+		
+		  <c:set var="i" value="0" />
+		  <c:forEach var="msg" items="${list}">
+			<c:set var="i" value="${ i+1 }" />
+			<tr>
+			  <td align="center"><input type="checkbox" name="deleteCheck" id="${msg.msgNo}"></td>
+			  <td align="left" > <a  href="/user/getUserTarget?userEmail=${msg.sendEmail}">${msg.nick} </a></td>
+			   <td align="left" ><a  href="/user/getUserRecvMsg?msgNo=${msg.msgNo}" onclick="window.open(this.href, '_blank', 'width=600, height=550'); return false;">${msg.title}</a></td>
+			   <td align="left">${msg.regDate}</td>
+			   
+			  <!--  <td align="left">
+			  	<input type="hidden" value="${user.userEmail}">
+			  	<input type="hidden" value="${friendBlack.targetEmail}">
+			  </td> -->
+			  
+			</tr>
+          </c:forEach>
+        
+        </tbody>
+      
+      </table>
+	  <!--  table End /////////////////////////////////////-->
+	  
+ 	</div>
+ 	</div>
+ 	<!--  »≠∏È±∏º∫ div End /////////////////////////////////////-->
+ 	
+ 	
+ 	<!-- PageNavigation Start... -->
+	<jsp:include page="../common/pageNavigator_new.jsp"/>
+	<!-- PageNavigation End... -->
+	
 </body>
+
 </html>

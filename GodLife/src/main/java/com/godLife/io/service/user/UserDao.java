@@ -21,6 +21,9 @@ public interface UserDao {
 	
 	// 본인정보 상세조회, 로그인 
 	public User getUser(String userEmail) throws Exception ;
+// 카카오 로그이니 학인	
+	public int  getUserKakao(User user) throws Exception ;
+
 	
 	// 비밀번호 변경 
 	public void updatePwd(User user) throws Exception ;
@@ -81,16 +84,18 @@ public interface UserDao {
 	public void deleteFriendRequest(FriendBlack friendBlack) throws Exception ;
 	
 	//친구 삭제 
-	public void deleteFriend(FriendBlack friendBlack) throws Exception ;
+	public void deleteFriend(int friendBlackNo) throws Exception ;
 	
 	//블랙리스트 삭제
-	
+	public void deleteBlack(int friendBlackNo) throws Exception ;
 	
 	// 친구신청 중복검사
-     public int isAlreadyAppliedFriend(Map<String, String> map);
-	
-	
-	
+     public int checkFriend(Map<String, String> map);
+     
+ 	// 블랙리스트 신청 중복검사
+     public int checkBlack(Map<String, String> map);
+     
+     
 	
 	////////////////////////////쪽지 관리//////////////////
 	
@@ -185,6 +190,9 @@ public interface UserDao {
 	
 	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 나의 블랙리스트 목록조회
 	public int getUserBlackListTotalCount(Search search, String userEmail) throws Exception ;
+	
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 보낸 쪽지 목록조회 
+		public int getUserSendMsgTotalCount(Search search, String sendEmail) throws Exception ;
 
 
 }

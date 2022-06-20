@@ -239,4 +239,29 @@ public class ChallengeRestController {
 		return certiImg;
 	}
 	
+	@RequestMapping(value="getChallengeCertiImgList",method=RequestMethod.GET)
+	public List<CertiImg> getChallengeCertiImgList(@RequestParam(required = false) String certiImgOpt,
+												   @RequestParam int pageNo,
+												   Search search,
+												   HttpSession session,
+												   Map<String,Object> map){
+		
+		User user = (User)session.getAttribute("user");
+		search.setCurrentPage(pageNo);
+		search.setPageSize(pageSize);
+		
+		map.put("certiImgOpt",certiImgOpt);
+		map.put("search", search);
+		map.put("user", user);
+		map = challengeService.getChallengeCertiImgList(map);
+		System.out.println("map : "+map);
+		List<CertiImg> certiImgList = (List<CertiImg>)map.get("certiImgList");
+		
+		for(CertiImg certiImg : certiImgList) {
+			System.out.println(certiImg);
+		}
+		
+		return certiImgList;
+	}
+	
 }
