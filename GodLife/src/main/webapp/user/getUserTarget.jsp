@@ -339,7 +339,7 @@ $(function() {
 				<tr class="fst">
 						<th>이메일</th>
 						<td>
-							<input type="text" class="form-control" id="recvEmail" name="recvEmail" placeholder="이메일" oninput = "checkUserEmail()" >
+							<input type="text" class="form-control" id="recvEmail" name="recvEmail" placeholder="${user.userEmail}" oninput = "checkUserEmail()" >
 							<span id="helpBlock" class="id_ok">해당 이메일은 존재하지 않습니다. </span>
 			 				 <span id="helpBlock" class="id_already"></span>
 						</td>
