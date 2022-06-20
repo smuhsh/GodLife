@@ -790,7 +790,7 @@
  		certi_count
  		FROM
  		join_challenger
- 		WHERE user_email = #{email}
+ 		WHERE user_email = #{user.userEmail}
  		AND challenge_no = #{challengeNo}
  			
  	</select>
@@ -860,7 +860,7 @@
  			<if test="percent != null">
  				challenge_percent = #{percent}
  			</if>
- 		WHERE user_email = #{certiImg.email}
+ 		WHERE user_email = #{certiImg.user.userEmail}
  		AND challenge_no = #{certiImg.challengeNo}
  		
  	</update>

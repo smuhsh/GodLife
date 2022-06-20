@@ -25,6 +25,7 @@ import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
 import com.godLife.io.service.domain.Point;
+import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.point.PointService;
 import com.godLife.io.service.user.UserService;
@@ -264,4 +265,41 @@ public class ChallengeRestController {
 		return certiImgList;
 	}
 	
+	@RequestMapping(value="getChallengeCommentList", method=RequestMethod.GET)
+	public List<Review> getChallengeCommentList(@RequestParam int certiImgNo) {
+		
+		 // 댓글 목록을 가져올 인증이미지번호
+		
+		List<Review> commentList = challengeService.getChallengeCommentList(certiImgNo);
+		
+		System.out.println(certiImgNo+"번 인증이미지 댓글");
+		for(Review comment : commentList) {
+			System.out.println(comment.getNick()+":"+comment.getComment());
+		}
+		
+		return commentList;
+	}
+	
+	@RequestMapping(value="addChallengeReview",method=RequestMethod.POST)
+	public List<Review> addChallengeReview(@RequestBody Review review,
+										   HttpSession session){
+		
+		
+		
+		
+		User user = (User)session.getAttribute("user");
+
+		System.out.println(review);
+		review.setEmail(user.getUserEmail()); // 댓글은 로그인 후에 입력가능...
+		challengeService.addChallengeReview(review);
+		
+		List<Review> commentList = challengeService.getChallengeCommentList(review.getCertiImgNo());
+		
+		System.out.println(review.getCertiImgNo()+"번 인증이미지 댓글");
+		for(Review comment : commentList) {
+			System.out.println(comment.getNick()+":"+comment.getComment());
+		}
+		
+		return commentList;
+	}
 }

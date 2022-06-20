@@ -656,6 +656,10 @@ public class ChallengeController {
 		
 		User user = (User)session.getAttribute("user");
 		
+		if(user == null) {
+			user = new User();
+			user.setUserEmail("noLogin");
+		}
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
@@ -677,6 +681,8 @@ public class ChallengeController {
 		
 		model.addAttribute(certiImgList);
 		model.addAttribute("page",search.getCurrentPage());
+		model.addAttribute("certiImgOpt",certiImgOpt);
+		model.addAttribute("user",user);
 		
 		return "/challenge/listCertiImg.jsp";
 	}

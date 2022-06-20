@@ -33,20 +33,27 @@ crossorigin="anonymous"></script>
 				
 			    if (maxHeight <= currentScroll + 100) {
 			    	var page = Number($("input[name='page']").val())+1;
-			    	dis="<input type=\"hidden\" name=\"page\" value=\""+page+"\">";
+			    	dis="<div id=\"pages\"><input type=\"hidden\" name=\"page\" value=\""+page+"\"></div>";
 			      $("#pages").remove();
 			      $("#flat").html(dis);
+			      	var url;
+			      if(${empty certiImgOpt}){
+			    	 url = "/challenge/challengeRest/getChallengeCertiImgList?pageNo="+page;
+			      }else{
+			    	 url = "/challenge/challengeRest/getChallengeCertiImgList?pageNo="+page+"&certiImgOpt=my";
+			      }
 			      
 			      	$.ajax({
-			      		url:"/challenge/challengeRest/getChallengeCertiImgList?pageNo="+page,
+			      		url:url,
 			      		method:"GET",
-			      		dateType:"json",
+			      		dataType:"json",
 			      		headers:{
 			      			"Accept":"application/json",
 			      			"content-Type":"application/json"
 			      		},
 			      		success:function(JSONData){
 				      			$(JSONData).each(function(){
+				      				var user = "${user.userEmail}";
 				      				console.log(this.certiImg);
 				      				var displayView = "<div class=\"thumbnail\">"+
 				      				"<img style=\"width:700px; height:700px; position:relative; top:30px;\" src=\"/resources/images/uploadFiles/"+this.certiImg+
@@ -70,8 +77,12 @@ crossorigin="anonymous"></script>
 				      				"<p class=\"font-size\" id=\"dislike\">"+this.dislike+"<p>"+
 				      				"</div>"+
 				      				"<center>"+
-				      				"<button type=\"button\" id=\"comment-btn\"class=\"btn btn-default\">댓글 펼치기/접기</button>"+
+				      				"<button type=\"button\" id=\"comment-btn\"class=\"btn btn-default\" data-param = \""+this.certiImgNo+"\">댓글 펼치기/접기</button>"+
 				      				"</center>"+
+				      				"<div id=\"comment"+this.certiImgNo+"\">"+
+						       		"<div id=\"comment-list"+this.certiImgNo+"\">"+
+						       		"</div>"+
+						       	    "</div>"+
 				      				"</div>"+
 				      				"</div>";
 				      				$("#infinit-scroll").append(displayView);
@@ -84,7 +95,114 @@ crossorigin="anonymous"></script>
 			    })
 			  });
 			
+			
+			$(function(){
+				
+				$(document).on("click","#comment-btn",function(){
+					var certiImgNo = $(this).data("param");
+					var user = "${user.userEmail}";
+					$.ajax({
+						url:"/challenge/challengeRest/getChallengeCommentList?certiImgNo="+certiImgNo,
+						method:"GET",
+						dataType:"json",
+						headers:{
+							"accept":"application/json",
+							"content-Type":"application/json"	
+							},
+							success:function(JSONData){
+								displayView="<table id=\"comments\" class=\"table table-striped\">";
+								$(JSONData).each(function(){
+									displayView = displayView + "<tr>";
+									displayView = displayView + "<td>"+this.nick+" : "+this.comment+"</td>";
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td><a href =\"#\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\">[수정]</a></td>";	
+									}
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td>[삭제]</td>";	
+									} 
+									if(user === "admin@io.com"){
+										displayView = displayView + "<td>[삭제]</td>";	
+									}
+									displayView = displayView + "</tr>";
+								})
+								displayView = displayView + "</table>";
+								displayView = displayView + "<div id=\"input-comment\">";
+								displayView = displayView + "<input name=\"comment\" style=\"width:640px;\" id=\"input-comt"+certiImgNo+"\"/>";
+								displayView = displayView + "<button type=\"button\" id=\"comment-input-btn\" class=\"btn btn-default\" data-param=\""+certiImgNo+"\">입력</button>";
+								displayView = displayView + "</div>";
+								$("#comment-list"+certiImgNo).html(displayView);
+							}
+						});
+						
+					});
+				
+				
+					$(document).on("click","#comment-input-btn",function(){ //ajax처리해야됨.
+						var certiImgNo = $(this).data("param");
+						var commentDetail = $("#input-comt"+certiImgNo).val();
+						var status = "0";
+						var user = "${user.userEmail}";
+						$.ajax({
+							url:"/challenge/challengeRest/addChallengeReview",
+							method:"POST",
+							data:JSON.stringify({
+								certiImgNo:certiImgNo,
+								comment:commentDetail,
+								status:status
+							}),
+							dataType:"json",
+				      		headers:{
+				      			"Accept":"application/json",
+				      			"content-Type":"application/json"
+				      		},
+							success:function(JSONData){
+								$("#comment-list"+certiImgNo).remove();
+								displayView = "<div id=\"comment-list"+certiImgNo+"\">"+
+								"<table id=\"comments\" class=\"table table-striped\">";
+								$(JSONData).each(function(){
+									displayView = displayView + "<tr>";
+									displayView = displayView + "<td>"+this.nick+" : "+this.comment+"</td>";
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td><a href =\"#\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\">[수정]</a></td>";		
+									}
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td>[삭제]</td>";	
+									}
 
+									if(user === "admin@io.com"){
+										displayView = displayView + "<td>[삭제]</td>";	
+									}
+									displayView = displayView + "</tr>";
+								})
+								displayView = displayView + "</table>";
+								displayView = displayView + "<div id=\"input-comment\">";
+								displayView = displayView + "<input name=\"comment\" style=\"width:640px;\" id=\"input-comt"+certiImgNo+"\"/>";
+								displayView = displayView + "<button type=\"button\" id=\"comment-input-btn\" class=\"btn btn-default\" data-param=\""+certiImgNo+"\">입력</button>";
+								displayView = displayView + "</div>";
+								displayView = displayView + "</div>";
+								$("#comment"+certiImgNo).html(displayView);
+
+							}
+						});
+						
+					});
+					
+					$(document).on("click","#comment-update-id",function(){
+						var reviewNo = $(this).data("param");
+						alert(reviewNo);
+					});
+					
+				});
+				
+			
 </script>
 
 <title>Insert title here</title>
@@ -95,7 +213,12 @@ crossorigin="anonymous"></script>
 	<div class="container">
 	
 		<div class="page-header">
-		  <p id="header">인증이미지 목록</p>
+		  <c:if test="${!empty certiImgOpt }">
+		  	<p id="header">내가 인증한 이미지 목록</p>
+		  </c:if>
+		  <c:if test="${empty certiImgOpt }">
+		  	 <p id="header">인증 이미지 목록</p>
+		  </c:if>
 		</div>
 	
 		<div id="infinit-scroll">
@@ -119,17 +242,24 @@ crossorigin="anonymous"></script>
 			       		<p class="font-size">관심사 : ${certiImg.categName }<p>
 			       	</div>
 			       	<div id="bord"></div>
-			       	<div class="like-dislike">
-			       	 	<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></p>
-			       		&nbsp;
-			       		<p class="font-size" id="like">${certiImg.like }<p>
-			       		<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></p>
-			       		&nbsp;
-			       		<p class="font-size" id="dislike">${certiImg.dislike }<p>
+			       	<div id="review">
+				       	<div class="like-dislike">
+				       	 	<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></p>
+				       		&nbsp;
+				       		<p class="font-size" id="like">${certiImg.like }<p>
+				       		<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></p>
+				       		&nbsp;
+				       		<p class="font-size" id="dislike">${certiImg.dislike }<p>
+				       	</div>
 			       	</div>
 			       	<center>
-			       		<button type="button" id="comment-btn"class="btn btn-default">댓글 펼치기/접기</button> 
+			       		<button type="button" id="comment-btn" class="btn btn-default" 
+			       		data-param="${certiImg.certiImgNo }">댓글 펼치기/접기</button> 
 			        </center>
+			        <div id="comment${certiImg.certiImgNo }">
+			       		<div id="comment-list${certiImg.certiImgNo }">
+			       		</div>
+			       	</div>
 			      </div>
 			    </div>
 

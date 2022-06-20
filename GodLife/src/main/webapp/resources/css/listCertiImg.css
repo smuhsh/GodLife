@@ -84,3 +84,32 @@ img#profile{
 #comment-btn{
 	width:700px;
 }
+
+
+
+#comments{
+	width:700px!important;
+	position:relative;
+	left:86px;
+	margin-bottom:0px;
+}
+
+#input-comment{
+	
+	position:relative;
+	left:86px;
+	
+}
+
+#input-comt{
+	width:640px;
+}
+
+a.comment-update{
+	text-decoration: none;
+        	color:black;
+}
+a.comment-delete{
+	text-decoration: none;
+        	color:black;
+}
