@@ -14,16 +14,20 @@ public interface OperatorDao {
 	
 	//Insert
 	public void addOperatorEvents(OperatorEvents operatorEvents ) throws Exception;
-	public void addOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent ) throws Exception;
+	//public void addOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent ) throws Exception;
+	public void addOperatorJoinDayEvent(OperatorJoinEvent operatorJoinEvent ) throws Exception;
+	public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent ) throws Exception;
 	public void addOperatorReward(OperatorReward operatorReward ) throws Exception;
 	//public void addOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs ) throws Exception;
 	public void addOperatorNotice(OperatorNoticeFaqs operatorNotice ) throws Exception;
-	public void addOperatorFaqs(OperatorNoticeFaqs operatorFaqs ) throws Exception;
+	public void addOperatorFaqs(OperatorNoticeFaqs operatorFaqs ) throws Exception;	
 	
 	//SELECT ONE
 	public OperatorEvents getOperatorEvents(int eventNo) throws Exception;
 	//public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception;
-	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception;
+	//public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception;
+	public OperatorJoinEvent getOperatorJoinDayEvent(int joinEventNo) throws Exception;
+	public OperatorJoinEvent getOperatorJoinRoullEvent(int joinEventNo) throws Exception;
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception;
 	//public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception;
 	public OperatorNoticeFaqs getOperatorNotice(int noticeFaqNo) throws Exception;

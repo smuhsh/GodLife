@@ -354,7 +354,16 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		CertiImg certiImg = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImg",certiImgNo);
 		return certiImg;
 	}
-
+	
+	@Override
+	public Map<String,Object> getChallengeReview(Map<String,Object> map) {
+		
+		int totalCount=sqlSession.selectOne("ChallengeMapper.getChallengeReview",map);
+		map.put("totalCount", totalCount);
+		return map;
+	}
+	
+	
 	@Override
 	public void addChallengeReview(Review review) {
 		

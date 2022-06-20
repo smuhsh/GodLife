@@ -200,19 +200,17 @@ div#menu-bar{
             </a> 
                <ul class="all_category_item" id="all_category_item">
                
-               		<li><a href="/operator/OperatorNewEvent">신규회원</a></li>
-               		<li><a href="/operator/OperatorDayEvent">매일출석</a></li>
-               		<li><a href="/operator/OperatorRoullEvent">룰렛 이벤트</a></li>
+                     <li><a href="/operator/getOperatorJoinDayEvent?eventNo=1">매일출석</a></li>
+                     <li><a href="/operator/getOperatorJoinRoullEvent?eventNo=2">룰렛 이벤트</a></li>
                </ul>
             </li>
                
-               <li class="new-product-category">
-               <a	href="/operator/listOperatorNotice" style="text-decoration:none;">공지사항</a></li>
+               <li class="all_category header_a_li">
+               <a   href="/operator/listOperatorNotice">공지사항</a>
+               </li>
                
-               <li class="new-product-category">
-               <a	href="/operator/listOperatorFaqs" style="text-decoration:none;">FAQ</a></li>
-               
-               
+               <li class="all_category header_a_li">
+               <a   href="/operator/listOperatorFaqs">FAQ</a></li>
                
             <!-- == 관리자 -->
             <c:if test="${user.role == '2'}">
@@ -225,11 +223,13 @@ div#menu-bar{
                   <li><a href="링크">회원 전체목록</a></li>
                     <li><a href="링크">신고관리</a></li>
                   <li><a class="링크">챌린지관리</a></li>
+                  <li><a class="링크">인증이미지 게시글관리</a></li>
+                  <li><a class="링크"> 개설한 챌린지관리</a></li>
                   <li><a href="/product/getProductPointList">포인트 상품관리</a></li>
                   <li><a href="/product/getProductVoucherList">상품권 관리</a></li>
                   <li><a href="/product/getProductCouponList">쿠폰 관리</a></li>
                   <li><a href="/badge/getBadgeList">배지 관리</a></li>
-                  <li><a href="/operator/listOperatorEvents">이벤트 관리</a></li>
+                  <li><a href="/operator/listOperatorEvent.jsp">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
                   <li><a class="링크">일대일문의 관리</a></li>
                   <li><a href="/operator/listOperatorNotice">공지사항 관리</a></li>

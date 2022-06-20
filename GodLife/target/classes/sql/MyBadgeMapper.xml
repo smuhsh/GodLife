@@ -12,6 +12,13 @@
 		<result property="userEmail"		column="user_email" 	jdbcType="VARCHAR" />
 		<result property="badgeNo" 			column="badge_no" 		jdbcType="NUMERIC"/>
 		<result property="actCount" 		column="act_count" 		jdbcType="NUMERIC" />
+      <association property="badge" javaType="com.godLife.io.service.domain.Badge">
+         <result property="badgeNo"         column="badge_no"       jdbcType="NUMERIC" />
+         <result property="badgeName"       column="badge_name"     jdbcType="VARCHAR" />
+         <result property="badgeImg"        column="badge_img"      jdbcType="VARCHAR" />
+         <result property="badgeDetail"     column="badge_detail"   jdbcType="VARCHAR" />
+      </association>
+
 	</resultMap>
 	
 
@@ -56,19 +63,37 @@
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 -->
-	<select  id="getBadgeList"  parameterType="search"	resultMap="myBadgeSelectMap">
+	<select  id="getBadgeMyABList"  parameterType="map"	resultMap="myBadgeSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT a.my_badge_no, a.user_email, a.badge_no, a.act_count
-										FROM my_badge a
-										    INNER JOIN badges b
-										    ON a.badge_no = b.badge_no
-										WHERE a.user_email = #{userEmail:VARCHAR}
+	  					FROM		(	SELECT a.my_badge_no, a.user_email, a.badge_no, a.act_count, b.badge_name, b.badge_img, b.badge_detail, b.status 
+										FROM my_badge a 
+										    INNER JOIN badges b 
+										    ON a.badge_no = b.badge_no 
+											WHERE a.user_email = #{ userEmail:VARCHAR }
+
+                                              and status = '0'
+
 										ORDER BY a.my_badge_no ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 
+	<select  id="getBadgeMyIBList"  parameterType="map"	resultMap="myBadgeSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT a.my_badge_no, a.user_email, a.badge_no, a.act_count, b.badge_name, b.badge_img, b.badge_detail, b.status 
+										FROM my_badge a
+										    INNER JOIN badges b
+										    ON a.badge_no = b.badge_no
+											WHERE a.user_email = #{ userEmail:VARCHAR }
+
+                                              and status = '1' 
+
+										ORDER BY a.my_badge_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
 	
 	 
 	 	<!--  위 두번째 subQuery 의  
@@ -83,20 +108,23 @@
 		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM(	SELECT my_badge_no, user_email 
-						FROM my_Badge 
+	  	FROM(	SELECT my_badge_no, badge_no,  user_email , act_count 
+						FROM my_badge 
+						<where>
+						user_email = #{userEmail}
 						<if test="searchCondition != null">
-							<where>
+
 								<if test="searchCondition == 0 and searchKeyword !='' ">
 									my_badge_no LIKE '%${searchKeyword}%'
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
 									badge_no LIKE '%${searchKeyword}%'
 								</if>						
-							</where>
-						</if> ) countTable						
+
+						</if>
+						</where> ) countTable						
 	 </select>
 	 
 </mapper>
