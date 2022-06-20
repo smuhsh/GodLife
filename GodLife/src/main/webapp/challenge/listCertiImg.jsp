@@ -62,17 +62,15 @@ crossorigin="anonymous"></script>
 				      				"</div>"+
 				      				"<div id=\"bord\"></div>"+
 				      				"<div class=\"like-dislike\">"+
-				      				"<p class=\"like-dislike-model\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
+				      				"<p class=\"like-dislike-model\"><span id=\"updateLike"+this.certiImgNo+"\" class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
 				      				"&nbsp;"+
 				      				"<p class=\"font-size\" id=\"like\">"+this.like+"<p>"+
-				      				"<p class=\"like-dislike-model\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-				      				"&nbsp;"+
-				      				"<p class=\"font-size\" id=\"dislike\">"+this.dislike+"<p>"+
-				      				"</div>"+
 				      				"<center>"+
 				      				"<button type=\"button\" id=\"comment-btn\"class=\"btn btn-default\">댓글 펼치기/접기</button>"+
 				      				"</center>"+
 				      				"</div>"+
+				      				
+				      				"<input type=\"hidden\" name=\"certiImgNo\" value=\""+this.certiImgNo+"\">"+
 				      				"</div>";
 				      				$("#infinit-scroll").append(displayView);
 				      			})
@@ -84,6 +82,87 @@ crossorigin="anonymous"></script>
 			    })
 			  });
 			
+		$(function(){
+			$(document).on("click","#updateLike",function(){
+				var certiImgNo=$(this).data("param");
+				alert("좋아요!")
+				alert(certiImgNo+"certiImgNo")
+				$.ajax({
+					url:"/challenge/challengeRest/duplicationLike?certiImgNo="+certiImgNo+"&status=1",
+		      		method:"GET",
+		      		dateType:"json",
+		      		headers:{
+		      			"Accept":"application/json",
+		      			"content-Type":"application/json"
+		      		},
+				success:function(JSONData){
+					if(JSONData.totalCount != 0){
+						alert("이미 체크하셨습니다.");
+					}else{
+						$.ajax({
+				      		url:"/challenge/challengeRest/addChallengeReviewLike?certiImgNo="+certiImgNo,
+				      		method:"GET",
+				      		dateType:"json",
+				      		headers:{
+				      			"Accept":"application/json",
+				      			"content-Type":"application/json"
+				      		},
+		      				success:function(JSONData){
+		      			
+			      			alert("성공");
+			      			$("#like").remove();
+			      			$(JSONData).each(function(){
+			      				var displayView ="<p class=\"font-size\" id=\"like\">"+this.like+"<p>"
+			      				$("#LikePlace").append(displayView);
+			      			});
+			      			}
+						});
+					}
+				}
+			});
+		});
+	});	
+
+		$(function(){
+			$(document).on("click","#updateDislike",function(){
+				var certiImgNo=$(this).data("param");
+				alert("싫어요!");
+				alert(certiImgNo+"certiImgNo");
+				$.ajax({
+					url:"/challenge/challengeRest/duplicationLike?certiImgNo="+certiImgNo+"&status=2",
+		      		method:"GET",
+		      		dateType:"json",
+		      		headers:{
+		      			"Accept":"application/json",
+		      			"content-Type":"application/json"
+		      		},
+				success:function(JSONData){
+					if(JSONData.totalCount != 0){
+						alert("이미 체크하셨습니다.");
+					}else{
+						$.ajax({
+				      		url:"/challenge/challengeRest/addChallengeReviewDislike?certiImgNo="+certiImgNo,
+				      		method:"GET",
+				      		dateType:"json",
+				      		headers:{
+				      			"Accept":"application/json",
+				      			"content-Type":"application/json"
+				      		},
+				      		success:function(JSONData){
+				      			
+				      			alert("성공");
+				      			$("#dislike").remove();
+				      			$(JSONData).each(function(){
+				      				var displayView ="<p class=\"font-size\" id=\"dislike\">"+this.dislike+"<p>"
+				      				$("#DislikePlace").append(displayView);
+				      			});
+					      	}
+						});
+					}
+				}
+			});
+		});
+	});	
 
 </script>
 
@@ -111,21 +190,23 @@ crossorigin="anonymous"></script>
 				      onerror="this.src='https://dummyimage.com/700x700/1af0d4/000000.gif'">
 			      <div class="caption">
 			     	 <div id="user-info">
-				      	<img id="profile" src="/resources/images/uploadFiles/${certiImt.user.profileImg }"
+				      	<img id="profile" src="/resources/images/uploadFiles/${certiImg.user.profileImg }"
 				        		onerror="this.src='/resources/images/Default-Profile-Picture-Free-PNG-Image.png'">
 				        <p id="user">${certiImg.user.nick }</p>
 			        </div>
 			       	<div class="info">
-			       		<p class="font-size">관심사 : ${certiImg.categName }<p>
+			       		<p class="font-size">관심사 : ${certiImg.categName }</p>
 			       	</div>
-			       	<div id="bord"></div>
-			       	<div class="like-dislike">
-			       	 	<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></p>
+			       	<div id="bord">
+			       	 	<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-up" id="updateLike" aria-hidden="true" data-param="${certiImg.certiImgNo}"></span></p>
 			       		&nbsp;
-			       		<p class="font-size" id="like">${certiImg.like }<p>
-			       		<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></p>
-			       		&nbsp;
-			       		<p class="font-size" id="dislike">${certiImg.dislike }<p>
+			       		<div id="LikePlace"></div>
+			       		<p class="font-size" id="like">${certiImg.like }</p>
+						
+						<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-down" id="updateDislike" aria-hidden="true" data-param="${certiImg.certiImgNo}"></span></p>
+                         &nbsp;
+                         <div id="DislikePlace"></div>
+                         <p class="font-size" id="dislike">${certiImg.dislike}<p>
 			       	</div>
 			       	<center>
 			       		<button type="button" id="comment-btn"class="btn btn-default">댓글 펼치기/접기</button> 

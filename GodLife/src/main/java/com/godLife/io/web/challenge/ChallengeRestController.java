@@ -25,6 +25,7 @@ import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
 import com.godLife.io.service.domain.Point;
+import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.point.PointService;
 import com.godLife.io.service.user.UserService;
@@ -264,4 +265,47 @@ public class ChallengeRestController {
 		return certiImgList;
 	}
 	
+	@RequestMapping(value="addChallengeReviewLike",method=RequestMethod.GET)
+	public CertiImg addChallengeReviewLike(@RequestParam int certiImgNo,HttpSession session,CertiImg certiImg) {
+		
+		User user = (User)session.getAttribute("user");
+		Review review = new Review();
+		review.setStatus("1");
+		review.setCertiImgNo(certiImgNo);
+		review.setEmail(user.getUserEmail());
+		challengeService.addChallengeReview(review);
+		certiImg=(challengeService.getChallengeCertiImg(certiImgNo));
+		System.out.println("RestController Review certiImg"+certiImg);
+		return certiImg;
+	}
+	
+	@RequestMapping(value="addChallengeReviewDislike",method=RequestMethod.GET)
+	public CertiImg addChallengeReviewDislike(@RequestParam int certiImgNo,HttpSession session,CertiImg certiImg) {
+		
+		User user = (User)session.getAttribute("user");
+		Review review = new Review();
+		review.setStatus("2");
+		review.setCertiImgNo(certiImgNo);
+		review.setEmail(user.getUserEmail());
+		System.out.println("review "+ review);
+		challengeService.addChallengeReview(review);
+		certiImg=(challengeService.getChallengeCertiImg(certiImgNo));
+		System.out.println("RestController Review certiImg"+certiImg);
+		return certiImg;
+	}
+	
+	@RequestMapping(value="duplicationLike",method=RequestMethod.GET)
+	public Map<String,Object> duplicationLike(@RequestParam int certiImgNo,@RequestParam String status,HttpSession session,CertiImg certiImg) {
+		User user = (User)session.getAttribute("user");
+
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userEmail", user.getUserEmail());
+		map.put("certiImgNo", certiImgNo);
+		map.put("status", status);
+		challengeService.getChallengeReview(map);
+		System.out.println("total"+map.get("totalCount"));
+		int totalCount = (Integer)map.get("totalCount");
+		
+		return map;
+	}
 }
