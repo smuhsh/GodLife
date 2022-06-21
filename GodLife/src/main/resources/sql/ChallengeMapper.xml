@@ -1139,19 +1139,53 @@
 	 
 	 <!-- ////////// select //////////// -->
 	 
-	 <select id="getChallengeCommentList" parameterType="int" resultMap="ReviewSelectMap">
-	 	
-	 	SELECT
-		u.nick,
-		r.*
-		FROM
-		reviews r, users u
-		WHERE u.user_email = r.user_email
-		AND certi_img_no = #{certiImgNo}
-		AND status = '0'
-	 
+	 <select id="getChallengeCommentList" parameterType="java.util.Map" resultMap="ReviewSelectMap">
+	 		    SELECT
+				comments.*
+				FROM
+				(
+				SELECT
+				ROWNUM no, search.*
+				FROM
+					(  
+                    SELECT
+					ROWNUM r,
+					u.nick,
+					r.*
+					FROM
+					reviews r, users u
+					WHERE u.user_email = r.user_email
+					AND certi_img_no = #{certiImgNo}
+					AND status = '0'
+					ORDER BY r.review_no DESC
+                    )search
+					WHERE ROWNUM &lt;= #{search.endRowNum}
+				)comments
+				WHERE comments.no BETWEEN #{search.startRowNum} AND #{search.endRowNum}
 	 </select>
 	 
+	 
+	 <select id="getChallengeMoreCommentList" parameterType="java.util.Map" resultMap="ReviewSelectMap">
+	 		    
+				SELECT
+				ROWNUM no, search.*
+				FROM
+					(  
+                    SELECT
+					ROWNUM r,
+					u.nick,
+					r.*
+					FROM
+					reviews r, users u
+					WHERE u.user_email = r.user_email
+					AND certi_img_no = #{certiImgNo}
+					AND status = '0'
+					ORDER BY r.review_no DESC
+                    )search
+				WHERE ROWNUM &lt;= #{search.endRowNum}
+				
+				
+	 </select>
 	 
 	 <!-- ////////// select //////////// -->
 	 

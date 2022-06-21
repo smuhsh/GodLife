@@ -81,10 +81,13 @@ img#profile{
 .glyphicon glyphicon-thumbs-down{
 	font-size:30px;
 }
-#comment-btn{
+#comment-btn-open{
 	width:700px;
 }
 
+#comment-btn-close{
+	width:700px;
+}
 
 
 #comments{
@@ -112,4 +115,32 @@ a.comment-update{
 a.comment-delete{
 	text-decoration: none;
         	color:black;
+}
+td.nick-comment{
+	width:560px;
+}
+
+.text-comment{
+	
+	width:546px;
+	height:80px;
+	resize:none;
+	white-space: pre-wrap;
+	border: none;
+	overflow:visible;
+	
+}
+#update-comt{
+	width:546px;
+	height:80px;
+	resize:none;
+	white-space: pre-wrap;
+	overflow:visible;
+	
+}
+#comment-input-btn{
+	
+	position:relative;
+	bottom:20px;
+	
 }

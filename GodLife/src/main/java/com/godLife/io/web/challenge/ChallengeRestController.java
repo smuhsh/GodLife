@@ -1,6 +1,7 @@
 package com.godLife.io.web.challenge;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godLife.io.common.Page;
+import com.godLife.io.common.PostObject;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.challenge.ChallengeService;
 import com.godLife.io.service.domain.CertiImg;
@@ -266,11 +268,19 @@ public class ChallengeRestController {
 	}
 	
 	@RequestMapping(value="getChallengeCommentList", method=RequestMethod.GET)
-	public List<Review> getChallengeCommentList(@RequestParam int certiImgNo) {
+	public List<Review> getChallengeCommentList(@RequestParam int certiImgNo,
+												@ModelAttribute Search search,
+												Map<String,Object> map) { //
 		
 		 // 댓글 목록을 가져올 인증이미지번호
 		
-		List<Review> commentList = challengeService.getChallengeCommentList(certiImgNo);
+		
+		search.setPageSize(pageSize);
+		
+		map.put("search", search);
+		map.put("certiImgNo", certiImgNo);
+		
+		List<Review> commentList = challengeService.getChallengeCommentList(map);
 		
 		System.out.println(certiImgNo+"번 인증이미지 댓글");
 		for(Review comment : commentList) {
@@ -278,11 +288,17 @@ public class ChallengeRestController {
 		}
 		
 		return commentList;
-	}
+	}// 한번 더 요청
+	
+	
+	
 	
 	@RequestMapping(value="addChallengeReview",method=RequestMethod.POST)
-	public List<Review> addChallengeReview(@RequestBody Review review,
-										   HttpSession session){
+	public List<Review> addChallengeReview(@RequestBody PostObject postObject,
+										   Review review,
+										   Search search,
+										   HttpSession session,
+										   Map<String,Object> map){//
 		
 		
 		
@@ -290,12 +306,95 @@ public class ChallengeRestController {
 		User user = (User)session.getAttribute("user");
 
 		System.out.println(review);
+		review.setCertiImgNo(postObject.getCertiImgNo());
+		review.setComment(postObject.getComment());
+		review.setStatus(postObject.getStatus());
 		review.setEmail(user.getUserEmail()); // 댓글은 로그인 후에 입력가능...
 		challengeService.addChallengeReview(review);
 		
-		List<Review> commentList = challengeService.getChallengeCommentList(review.getCertiImgNo());
+		search.setPageSize(pageSize);
+		search.setCurrentPage(postObject.getCurrentPage());
+		
+		map.put("search", search);
+		map.put("certiImgNo", review.getCertiImgNo());
+		
+		List<Review> commentList = new ArrayList<Review>();
+		
+		if(search.getCurrentPage() >= 2) {
+			commentList = challengeService.getChallengeMoreCommentList(map);
+			System.out.println("more : "+commentList);
+		}else {
+			commentList = challengeService.getChallengeCommentList(map);
+		}
+		
+		
 		
 		System.out.println(review.getCertiImgNo()+"번 인증이미지 댓글");
+		for(Review comment : commentList) {
+			System.out.println(comment.getNick()+":"+comment.getComment());
+		}
+		
+		return commentList;
+	}
+	
+	
+	@RequestMapping(value="updateChallengeReview",method=RequestMethod.POST)
+	public List<Review> updateChallengeReview(@RequestBody PostObject postObject,
+											  Review review,
+			                                  Search search,
+											  Map<String,Object> map){//
+		
+		review.setReviewNo(postObject.getReviewNo());
+		review.setComment(postObject.getComment());
+		review.setCertiImgNo(postObject.getCertiImgNo());
+		
+		challengeService.updateChallengeReview(review);
+		search.setPageSize(pageSize);
+		search.setCurrentPage(postObject.getCurrentPage());
+		
+		map.put("search", search);
+		map.put("certiImgNo", postObject.getCertiImgNo());
+		List<Review> commentList = new ArrayList<Review>();
+		
+		if(search.getCurrentPage() >= 2) {
+			commentList = challengeService.getChallengeMoreCommentList(map);
+		}else {
+			commentList = challengeService.getChallengeCommentList(map);
+		}
+		
+		System.out.println(review.getCertiImgNo()+"번 인증이미지 댓글");
+		for(Review comment : commentList) {
+			System.out.println(comment.getNick()+":"+comment.getComment());
+		}
+		
+		return commentList;
+	}
+	
+	@RequestMapping(value="deleteChallengeReview",method=RequestMethod.POST)
+	public List<Review> deleteChallengeReview(@RequestBody PostObject postObject,
+											  Search search,
+											  Map<String,Object> map){//
+		
+		
+		
+		System.out.println("PostObject ::"+postObject);
+		
+		challengeService.deleteChallengeReview(postObject.getReviewNo());
+		search.setPageSize(pageSize);
+		search.setCurrentPage(postObject.getCurrentPage());
+		
+		map.put("search", search);
+		map.put("certiImgNo", postObject.getCertiImgNo());
+		
+		List<Review> commentList = new ArrayList<Review>();
+		
+		if(search.getCurrentPage() >= 2) {
+			commentList = challengeService.getChallengeMoreCommentList(map);
+		}else {
+			commentList = challengeService.getChallengeCommentList(map);
+		}
+		
+		System.out.println(postObject.getCertiImgNo()+"번 인증이미지 댓글");
 		for(Review comment : commentList) {
 			System.out.println(comment.getNick()+":"+comment.getComment());
 		}

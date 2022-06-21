@@ -26,12 +26,12 @@ crossorigin="anonymous"></script>
 
 <script type="text/javascript">
 		$(document).ready(function () {
-			  $(document).scroll(function() {
+			
+			  $(document).scroll(function async() {
 			    var maxHeight = $(document).height();
 			    var currentScroll = $(window).scrollTop() + $(window).height();
 				
-				
-			    if (maxHeight <= currentScroll + 100) {
+			     if(maxHeight <= currentScroll + 100) {
 			    	var page = Number($("input[name='page']").val())+1;
 			    	dis="<div id=\"pages\"><input type=\"hidden\" name=\"page\" value=\""+page+"\"></div>";
 			      $("#pages").remove();
@@ -76,8 +76,8 @@ crossorigin="anonymous"></script>
 				      				"&nbsp;"+
 				      				"<p class=\"font-size\" id=\"dislike\">"+this.dislike+"<p>"+
 				      				"</div>"+
-				      				"<center>"+
-				      				"<button type=\"button\" id=\"comment-btn\"class=\"btn btn-default\" data-param = \""+this.certiImgNo+"\">댓글 펼치기/접기</button>"+
+				      				"<center id=\"com-btn"+this.certiImgNo+"\">"+
+				      				"<button type=\"button\" id=\"comment-btn-open\"class=\"btn btn-default\" data-param = \""+this.certiImgNo+"\">댓글 펼치기/접기</button>"+
 				      				"</center>"+
 				      				"<div id=\"comment"+this.certiImgNo+"\">"+
 						       		"<div id=\"comment-list"+this.certiImgNo+"\">"+
@@ -98,11 +98,24 @@ crossorigin="anonymous"></script>
 			
 			$(function(){
 				
-				$(document).on("click","#comment-btn",function(){
+				$(document).on("click","#comment-btn-close",function(){
+					
+					var certiImgNo = $(this).data("param");
+					var newButton = "<button type=\"button\" id=\"comment-btn-open\" class=\"btn btn-default\" data-param = \""+certiImgNo+"\">댓글 펼치기/접기</button>"
+					
+					
+					$("#comment"+certiImgNo+" > .comt").remove();
+					$("center#com-btn"+certiImgNo).html(newButton);
+					
+				});
+				
+				
+				
+				$(document).on("click","#comment-btn-open",function(){
 					var certiImgNo = $(this).data("param");
 					var user = "${user.userEmail}";
 					$.ajax({
-						url:"/challenge/challengeRest/getChallengeCommentList?certiImgNo="+certiImgNo,
+						url:"/challenge/challengeRest/getChallengeCommentList?certiImgNo="+certiImgNo+"&currentPage=1",
 						method:"GET",
 						dataType:"json",
 						headers:{
@@ -110,48 +123,120 @@ crossorigin="anonymous"></script>
 							"content-Type":"application/json"	
 							},
 							success:function(JSONData){
-								displayView="<table id=\"comments\" class=\"table table-striped\">";
+								console.log($("center#com-btn"+certiImgNo+" > #comment-btn-open"));
+								$("center#com-btn"+certiImgNo+" > #comment-btn-open").remove();
+								newButton = "<button type=\"button\" id=\"comment-btn-close\"class=\"btn btn-default\" data-param = \""+certiImgNo+"\">댓글 펼치기/접기</button>"
+								$("center#com-btn"+certiImgNo).html(newButton);
+								displayView = "<div id=\"comment-list"+certiImgNo+"\" class=\"comt\">"+
+								"<div id=\"input-comment\">"+
+								"<textarea name=\"comment\" style=\"width:640px; resize: none;\" id=\"input-comt"+certiImgNo+"\"></textarea>"+
+								"<button type=\"button\" id=\"comment-input-btn\" class=\"btn btn-default\" data-param=\""+certiImgNo+"\">입력</button>"+
+								"</div>"+
+								"<input type=\"hidden\" name=\"currnetPage"+certiImgNo+"\" value=\"1\">"+
+								"<table id=\"comments\" class=\"table table-striped\">";
 								$(JSONData).each(function(){
+									console.log(this);
 									displayView = displayView + "<tr>";
-									displayView = displayView + "<td>"+this.nick+" : "+this.comment+"</td>";
+									displayView = displayView + "<td class=\"nick-comment\">"+this.nick+" : <textarea class=\"text-comment\" readonly>"+this.comment+"</textarea></td>";
 									if(this.email != user){
 										displayView = displayView + "<td></td>";
 									}else if(this.email == user){
-										displayView = displayView + "<td><a href =\"#\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\">[수정]</a></td>";	
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[수정]</a></td>";	
 									}
 									if(this.email != user){
 										displayView = displayView + "<td></td>";
 									}else if(this.email == user){
-										displayView = displayView + "<td>[삭제]</td>";	
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	;	
 									} 
 									if(user === "admin@io.com"){
-										displayView = displayView + "<td>[삭제]</td>";	
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	;	
 									}
 									displayView = displayView + "</tr>";
+									displayView = displayView + "<tr id=\"update-row"+this.reviewNo+"\">";
+									displayView = displayView + "</tr>";
 								})
+								displayView = displayView + "<tr id=\"more-view"+certiImgNo+"\">";
+								displayView = displayView + "<td class=\"mo\"><a class=\"comment-update\" id=\"more-comment\" href=\"javascript:;\" data-certiimgno=\""+certiImgNo+"\">댓글 더 보기</a></td>";
+								displayView = displayView + "</tr>";
 								displayView = displayView + "</table>";
-								displayView = displayView + "<div id=\"input-comment\">";
-								displayView = displayView + "<input name=\"comment\" style=\"width:640px;\" id=\"input-comt"+certiImgNo+"\"/>";
-								displayView = displayView + "<button type=\"button\" id=\"comment-input-btn\" class=\"btn btn-default\" data-param=\""+certiImgNo+"\">입력</button>";
 								displayView = displayView + "</div>";
-								$("#comment-list"+certiImgNo).html(displayView);
+								$("#comment"+certiImgNo).html(displayView);
 							}
 						});
 						
 					});
 				
+					$(document).on("click","#more-comment",function(){
+						var certiImgNo = $(this).data("certiimgno");
+						var currentPage = Number($("input[name='currnetPage"+certiImgNo+"']").val())+1;
+						$("input[name='currnetPage"+certiImgNo+"']").remove();
+						var newPage = "<input type=\"hidden\" name=\"currnetPage"+certiImgNo+"\" value=\""+currentPage+"\">";
+						$("#comment-list"+certiImgNo).append(newPage);
+						var user = "${user.userEmail}";
+						console.log(currentPage);
+						
+						
+						$.ajax({
+							url:"/challenge/challengeRest/getChallengeCommentList?certiImgNo="+certiImgNo+"&currentPage="+currentPage,
+							method:"GET",
+							dataType:"json",
+							headers:{
+								"Accept":"application/json",
+								"content-Type":"application/json"
+							},
+							success:function(JSONData){
+								$("#more-view"+certiImgNo+" > td.mo").remove();
+								displayView = "<div id=\"comment-list"+certiImgNo+"\" class=\"comt\">"+
+								"<input type=\"hidden\" name=\"currnetPage"+certiImgNo+"\" value=\""+currentPage+"\">"+
+								"<table id=\"comments\" class=\"table table-striped\">";
+								$(JSONData).each(function(){
+									console.log(this);
+									displayView = displayView + "<tr>";
+									displayView = displayView + "<td class=\"nick-comment\">"+this.nick+" : <textarea class=\"text-comment\" readonly>"+this.comment+"</textarea></td>";
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[수정]</a></td>";	
+									}
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	;	
+									} 
+									if(user === "admin@io.com"){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	;	
+									}
+									displayView = displayView + "</tr>";
+									displayView = displayView + "<tr id=\"update-row"+this.reviewNo+"\">";
+									displayView = displayView + "</tr>";
+								})
+								displayView = displayView + "<tr id=\"more-view"+certiImgNo+"\">";
+								displayView = displayView + "<td class=\"mo\"><a class=\"comment-update\" id=\"more-comment\" href=\"javascript:;\" data-certiimgno=\""+certiImgNo+"\">댓글 더 보기</a></td>";
+								displayView = displayView + "</tr>";
+								displayView = displayView + "</table>";
+								displayView = displayView + "</div>";
+								$("#comment"+certiImgNo).append(displayView);
+							}
+							
+						});
+						
+						
+						
+					});
 				
 					$(document).on("click","#comment-input-btn",function(){ //ajax처리해야됨.
 						var certiImgNo = $(this).data("param");
 						var commentDetail = $("#input-comt"+certiImgNo).val();
 						var status = "0";
 						var user = "${user.userEmail}";
+						var currentPage = Number($("input[name='currnetPage"+certiImgNo+"']").val());
 						$.ajax({
 							url:"/challenge/challengeRest/addChallengeReview",
 							method:"POST",
 							data:JSON.stringify({
 								certiImgNo:certiImgNo,
 								comment:commentDetail,
+								currentPage:currentPage,
 								status:status
 							}),
 							dataType:"json",
@@ -161,32 +246,38 @@ crossorigin="anonymous"></script>
 				      		},
 							success:function(JSONData){
 								$("#comment-list"+certiImgNo).remove();
-								displayView = "<div id=\"comment-list"+certiImgNo+"\">"+
+								displayView = "<div id=\"comment-list"+certiImgNo+"\" class=\"comt\">"+
+								"<div id=\"input-comment\">"+
+								"<textarea name=\"comment\" style=\"width:640px; resize: none;\" id=\"input-comt"+certiImgNo+"\"></textarea>"+
+								"<button type=\"button\" id=\"comment-input-btn\" class=\"btn btn-default\" data-param=\""+certiImgNo+"\">입력</button>"+
+								"</div>"+
+								"<input type=\"hidden\" name=\"currnetPage"+certiImgNo+"\" value=\""+currentPage+"\">"+
 								"<table id=\"comments\" class=\"table table-striped\">";
 								$(JSONData).each(function(){
 									displayView = displayView + "<tr>";
-									displayView = displayView + "<td>"+this.nick+" : "+this.comment+"</td>";
+									displayView = displayView + "<td class=\"nick-comment\">"+this.nick+" : <textarea class=\"text-comment\" readonly>"+this.comment+"</textarea></td>";
 									if(this.email != user){
 										displayView = displayView + "<td></td>";
 									}else if(this.email == user){
-										displayView = displayView + "<td><a href =\"#\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\">[수정]</a></td>";		
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[수정]</a></td>";		
 									}
 									if(this.email != user){
 										displayView = displayView + "<td></td>";
 									}else if(this.email == user){
-										displayView = displayView + "<td>[삭제]</td>";	
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	
 									}
 
 									if(user === "admin@io.com"){
-										displayView = displayView + "<td>[삭제]</td>";	
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	
 									}
 									displayView = displayView + "</tr>";
+									displayView = displayView + "<tr id=\"update-row"+this.reviewNo+"\">";
+									displayView = displayView + "</tr>";
 								})
+								displayView = displayView + "<tr id=\"more-view"+certiImgNo+"\">";
+								displayView = displayView + "<td class=\"mo\"><a class=\"comment-update\" id=\"more-comment\" href=\"javascript:;\" data-certiimgno=\""+certiImgNo+"\">댓글 더 보기</a></td>";
+								displayView = displayView + "</tr>";
 								displayView = displayView + "</table>";
-								displayView = displayView + "<div id=\"input-comment\">";
-								displayView = displayView + "<input name=\"comment\" style=\"width:640px;\" id=\"input-comt"+certiImgNo+"\"/>";
-								displayView = displayView + "<button type=\"button\" id=\"comment-input-btn\" class=\"btn btn-default\" data-param=\""+certiImgNo+"\">입력</button>";
-								displayView = displayView + "</div>";
 								displayView = displayView + "</div>";
 								$("#comment"+certiImgNo).html(displayView);
 
@@ -196,8 +287,153 @@ crossorigin="anonymous"></script>
 					});
 					
 					$(document).on("click","#comment-update-id",function(){
+						
+						$("td.update-class").remove();
 						var reviewNo = $(this).data("param");
-						alert(reviewNo);
+						var certiImgNo = $(this).data("param2");
+						displayView = "<td class=\"update-class\" id=\"update-input"+reviewNo+"\">"+
+						"<textarea name=\"comment\" id=\"update-comt\"></textarea>"+
+						"<button type=\"button\" id=\"comment-update-btn\" class=\"btn btn-default\" data-param=\""+reviewNo+"\" data-param2=\""+certiImgNo+"\">수정</button>"+
+						"<button type=\"button\" id=\"update-cancel\" class=\"btn btn-default\">취소</button>"+
+						"</td>";
+						$("tr#update-row"+reviewNo).append(displayView);
+					});
+					
+					
+					$(document).on("click","#comment-update-btn",function(){
+						var reviewNo = $(this).data("param");
+						var certiImgNo = $(this).data("param2");
+						var updateComment = $("#update-comt").val();
+						var user = "${user.userEmail}";
+						var currentPage = Number($("input[name='currnetPage"+certiImgNo+"']").val());
+						
+						$.ajax({
+							url:"/challenge/challengeRest/updateChallengeReview",
+							method:"POST",
+							dataType:"json",
+							headers:{
+								"Accept":"application/json",
+								"content-Type":"application/json"
+							},
+							data:JSON.stringify({
+								reviewNo:reviewNo,
+								comment:updateComment,
+								currentPage:currentPage,
+								certiImgNo:certiImgNo
+							}),
+							success:function(JSONData){
+								$("#comment-list"+certiImgNo).remove();
+								displayView = "<div id=\"comment-list"+certiImgNo+"\" class=\"comt\">"+
+								"<div id=\"input-comment\">"+
+								"<textarea name=\"comment\" style=\"width:640px; resize: none;\" id=\"input-comt"+certiImgNo+"\"></textarea>"+
+								"<button type=\"button\" id=\"comment-input-btn\" class=\"btn btn-default\" data-param=\""+certiImgNo+"\">입력</button>"+
+								"</div>"+
+								"<input type=\"hidden\" name=\"currnetPage"+certiImgNo+"\" value=\""+currentPage+"\">"+
+								"<table id=\"comments\" class=\"table table-striped\">";
+								$(JSONData).each(function(){
+									displayView = displayView + "<tr>";
+									displayView = displayView + "<td class=\"nick-comment\">"+this.nick+" : <textarea class=\"text-comment\" readonly>"+this.comment+"</textarea></td>";
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[수정]</a></td>";		
+									}
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	
+									}
+
+									if(user === "admin@io.com"){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	
+									}
+									displayView = displayView + "</tr>";
+									displayView = displayView + "<tr id=\"update-row"+this.reviewNo+"\">";
+									displayView = displayView + "</tr>";
+								})
+								displayView = displayView + "<tr id=\"more-view"+certiImgNo+"\">";
+								displayView = displayView + "<td class=\"mo\"><a class=\"comment-update\" id=\"more-comment\" href=\"javascript:;\" data-certiimgno=\""+certiImgNo+"\">댓글 더 보기</a></td>";
+								displayView = displayView + "</tr>";
+								displayView = displayView + "</table>";
+								displayView = displayView + "</div>";
+								$("#comment"+certiImgNo).html(displayView);
+
+							}
+						});
+						
+						
+					});
+					
+					
+					$(document).on("click","#comment-delete-id",function(){
+						
+						var reviewNo = $(this).data("param");
+						var certiImgNo = $(this).data("param2");
+						var user = "${user.userEmail}";
+						var currentPage = Number($("input[name='currnetPage"+certiImgNo+"']").val());
+						$.ajax({
+							
+							url:"/challenge/challengeRest/deleteChallengeReview",
+							method:"POST",
+							dataType:"json",
+							headers:{
+								"Accept":"application/json",
+								"content-Type":"application/json"
+							},
+							data:JSON.stringify({
+								reviewNo:reviewNo,
+								certiImgNo:certiImgNo,
+								currentPage:currentPage
+							}),
+							success:function(JSONData){
+								$("#comment-list"+certiImgNo).remove();
+								displayView = "<div id=\"comment-list"+certiImgNo+"\ class=\"comt\">"+
+								"<div id=\"input-comment\">"+
+								"<textarea name=\"comment\" style=\"width:640px; resize: none;\" id=\"input-comt"+certiImgNo+"\"></textarea>"+
+								"<button type=\"button\" id=\"comment-input-btn\" class=\"btn btn-default\" data-param=\""+certiImgNo+"\">입력</button>"+
+								"</div>"+
+								"<input type=\"hidden\" name=\"currnetPage"+certiImgNo+"\" value=\""+currentPage+"\">"+
+								"<table id=\"comments\" class=\"table table-striped\">";
+								$(JSONData).each(function(){
+									displayView = displayView + "<tr>";
+									displayView = displayView + "<td class=\"nick-comment\">"+this.nick+" : <textarea class=\"text-comment\" readonly>"+this.comment+"</textarea></td>";
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-update\" id=\"comment-update-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[수정]</a></td>";		
+									}
+									if(this.email != user){
+										displayView = displayView + "<td></td>";
+									}else if(this.email == user){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	
+									}
+
+									if(user === "admin@io.com"){
+										displayView = displayView + "<td><a href =\"javascript:;\" class=\"comment-delete\" id=\"comment-delete-id\" data-param=\""+this.reviewNo+"\" data-param2=\""+certiImgNo+"\">[삭제]</a></td>";	
+									}
+									displayView = displayView + "</tr>";
+									displayView = displayView + "<tr id=\"update-row"+this.reviewNo+"\">";
+									displayView = displayView + "</tr>";
+								})
+								displayView = displayView + "<tr id=\"more-view"+certiImgNo+"\">";
+								displayView = displayView + "<td class=\"mo\"><a class=\"comment-update\" id=\"more-comment\" href=\"javascript:;\" data-certiimgno=\""+certiImgNo+"\">댓글 더 보기</a></td>";
+								displayView = displayView + "</tr>";
+								displayView = displayView + "</table>";
+								displayView = displayView + "</div>";
+								$("#comment"+certiImgNo).html(displayView);
+							}
+							
+						});
+						
+					});
+					
+					
+					
+					
+					$(document).on("click","#update-cancel",function(){
+						
+						$("td.update-class").remove();
+						
 					});
 					
 				});
@@ -228,7 +464,7 @@ crossorigin="anonymous"></script>
 				</div>
 			</div>
 		<c:forEach var="certiImg" items="${certiImgList }">
-			
+				
 			    <div class="thumbnail">
 				      <img style="width:700px; height:700px; position:relative; top:30px;" src="/resources/images/uploadFiles/${certiImg.certiImg }" 
 				      onerror="this.src='https://dummyimage.com/700x700/1af0d4/000000.gif'">
@@ -252,13 +488,11 @@ crossorigin="anonymous"></script>
 				       		<p class="font-size" id="dislike">${certiImg.dislike }<p>
 				       	</div>
 			       	</div>
-			       	<center>
-			       		<button type="button" id="comment-btn" class="btn btn-default" 
+			       	<center id="com-btn${certiImg.certiImgNo }">
+			       		<button type="button" id="comment-btn-open" class="btn btn-default" 
 			       		data-param="${certiImg.certiImgNo }">댓글 펼치기/접기</button> 
 			        </center>
 			        <div id="comment${certiImg.certiImgNo }">
-			       		<div id="comment-list${certiImg.certiImgNo }">
-			       		</div>
 			       	</div>
 			      </div>
 			    </div>

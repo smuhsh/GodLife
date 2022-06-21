@@ -108,8 +108,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 
 	@Override
-	public List<Review> getChallengeCommentList(int certiImgNo) {
-		return challengeDao.getChallengeCommentList(certiImgNo);
+	public List<Review> getChallengeCommentList(Map<String,Object> map) {
+		return challengeDao.getChallengeCommentList(map);
 	}
 
 
@@ -146,6 +146,12 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public Map<String, Object> getChallengeListFriend(Map<String, Object> map) {
 		return challengeDao.getChallengeListFriend(map);
+	}
+
+
+	@Override
+	public List<Review> getChallengeMoreCommentList(Map<String, Object> map) {
+		return challengeDao.getChallengeMoreCommentList(map);
 	}
 
 
