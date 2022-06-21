@@ -49,6 +49,11 @@ img#profile{
 }
 .like-dislike{
 	display:flex;
+	position:relative;
+	left:650px;
+	bottom:130px;
+	
+	
 }
 #like{
 	padding-right: 20px;
@@ -68,12 +73,6 @@ img#profile{
 	width:150px;
 	height:50px;
 	border-radius: 30px 30px 30px 30px;
-	align-items: center;
-    display: flex;
-    justify-content: center;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top : 10px;
 }
 .glyphicon glyphicon-thumbs-up{
 	font-size:30px;

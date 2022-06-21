@@ -30,8 +30,6 @@ public interface ChallengeDao {
 	
 	public CertiImg getChallengeCertiImg(int certiImgNo);
 	
-	public Map<String,Object> getChallengeReview(Map<String,Object> map);
-	
 	public void addChallengeReview(Review review);
 	
 	public void updateChallengeReview(Review review);

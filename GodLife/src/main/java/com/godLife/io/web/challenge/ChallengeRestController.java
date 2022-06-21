@@ -265,49 +265,6 @@ public class ChallengeRestController {
 		return certiImgList;
 	}
 	
-	@RequestMapping(value="addChallengeReviewLike",method=RequestMethod.GET)
-	public CertiImg addChallengeReviewLike(@RequestParam int certiImgNo,HttpSession session,CertiImg certiImg) {
-		
-		User user = (User)session.getAttribute("user");
-		Review review = new Review();
-		review.setStatus("1");
-		review.setCertiImgNo(certiImgNo);
-		review.setEmail(user.getUserEmail());
-		challengeService.addChallengeReview(review);
-		certiImg=(challengeService.getChallengeCertiImg(certiImgNo));
-		System.out.println("RestController Review certiImg"+certiImg);
-		return certiImg;
-	}
-	
-	@RequestMapping(value="addChallengeReviewDislike",method=RequestMethod.GET)
-	public CertiImg addChallengeReviewDislike(@RequestParam int certiImgNo,HttpSession session,CertiImg certiImg) {
-		
-		User user = (User)session.getAttribute("user");
-		Review review = new Review();
-		review.setStatus("2");
-		review.setCertiImgNo(certiImgNo);
-		review.setEmail(user.getUserEmail());
-		System.out.println("review "+ review);
-		challengeService.addChallengeReview(review);
-		certiImg=(challengeService.getChallengeCertiImg(certiImgNo));
-		System.out.println("RestController Review certiImg"+certiImg);
-		return certiImg;
-	}
-	
-	@RequestMapping(value="duplicationLike",method=RequestMethod.GET)
-	public Map<String,Object> duplicationLike(@RequestParam int certiImgNo,@RequestParam String status,HttpSession session,CertiImg certiImg) {
-		User user = (User)session.getAttribute("user");
-
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("userEmail", user.getUserEmail());
-		map.put("certiImgNo", certiImgNo);
-		map.put("status", status);
-		challengeService.getChallengeReview(map);
-		System.out.println("total"+map.get("totalCount"));
-		int totalCount = (Integer)map.get("totalCount");
-		
-		return map;
-	}
 	@RequestMapping(value="getChallengeCommentList", method=RequestMethod.GET)
 	public List<Review> getChallengeCommentList(@RequestParam int certiImgNo) {
 		
@@ -317,7 +274,7 @@ public class ChallengeRestController {
 		
 		System.out.println(certiImgNo+"번 인증이미지 댓글");
 		for(Review comment : commentList) {
-			System.out.println(comment.getNick()+":"+comment.getComment());
+			System.out.println(comment.getReviewNo()+":"+comment.getNick()+":"+comment.getComment());
 		}
 		
 		return commentList;

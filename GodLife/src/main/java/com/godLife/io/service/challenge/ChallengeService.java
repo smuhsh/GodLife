@@ -30,8 +30,6 @@ public interface ChallengeService {
 	
 	public CertiImg getChallengeCertiImg(int certiImgNo);
 	
-	public Map<String,Object> getChallengeReview(Map<String,Object> map);
-	
 	public void addChallengeReview(Review review);
 	
 	public void updateChallengeReview(Review review);
@@ -51,7 +49,5 @@ public interface ChallengeService {
 	public List<JoinChallenger> getChallengeJoinerList(int challengeNo);
 	
 	public Map<String, Object> getChallengeListFriend(Map<String,Object> map);
-	
-	
 
 }
