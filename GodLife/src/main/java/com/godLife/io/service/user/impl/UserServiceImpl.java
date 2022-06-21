@@ -350,7 +350,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	
-	// 친구신청 중복검사
+	// 블랙리스트신청 중복검사
 	public int checkBlack(String userEmail, String targetEmail) {
 		Map<String, String> map = new HashMap<>();
 		map.put("userEmail", userEmail);
@@ -400,6 +400,18 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	
+	// 쪽지 유효성 검사 블랙리스트 못보내게
+	public int checkMsgBlack(String userEmail, String targetEmail) {
+		Map<String, String> map = new HashMap<>();
+		map.put("userEmail", userEmail);
+		map.put("targetEmail", targetEmail);
+		int checkMsgBlack = userDao.checkMsgBlack(map);
+		
+		return checkMsgBlack;
+	}
+	
+	
+	
 	
 	
 	
@@ -442,11 +454,14 @@ public class UserServiceImpl implements UserService{
 	
 	//================신고================================================
 	
-	public void addReport(Report report) throws Exception {
-		userDao.addReport(report);
+	//쪽지 신고등록 
+	public void addMsgReport(Report report) throws Exception {
+		userDao.addMsgReport(report);
 	}
-
-
+	
+	
+	
+	
 
 	public void updateUserTotalPoint(User user) throws Exception{
 		userDao.updateUserTotalPoint(user);
@@ -460,6 +475,9 @@ public class UserServiceImpl implements UserService{
 		userDao.updateUserCertiCouponCount(user);
 	}
 	
+	
+	
+	//레드카드 발급 
 	public void updateRedCard(User user) throws Exception{
 		userDao.updateRedCard(user);
 	}

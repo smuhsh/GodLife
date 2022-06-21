@@ -21,9 +21,9 @@ public interface UserDao {
 	
 	// 본인정보 상세조회, 로그인 
 	public User getUser(String userEmail) throws Exception ;
-// 카카오 로그이니 학인	
+	
+	// 카카오 로그인 학인	
 	public int  getUserKakao(User user) throws Exception ;
-
 	
 	// 비밀번호 변경 
 	public void updatePwd(User user) throws Exception ;
@@ -57,8 +57,6 @@ public interface UserDao {
 	// 닉네임 중복체크
 	public int checkNick(String nick) throws Exception;
 
-	
-	
 	
 	////////////////////////////친구,블랙리스트 관리//////////////////
 	
@@ -117,6 +115,10 @@ public interface UserDao {
     // 보낸 쪽지 목록조회 
     public Map<String, Object> getSendMsgList(Search search, String sendEmail) throws Exception ;
     
+    //쪽지 블랙리스트 못보내게 유효성 검사 
+    public int checkMsgBlack(Map<String, String> map);
+    
+    
 	////////////////////////////일대일문의 //////////////////
     
     // 일대일 문의 등록 
@@ -140,31 +142,28 @@ public interface UserDao {
     
 ////////////////////////////신고 //////////////////
     
-    // 신고 등록 
-    public void addReport(Report report) throws Exception ;
+    // 쪽지 신고 등록 
+    public void addMsgReport(Report report) throws Exception ;
     
     
     //신고 유저 목록조회(관리자) 
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //레드카드 발급, 제거 
     public void updateRedCard(User user) throws Exception; 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     // 병문오빠 추가 

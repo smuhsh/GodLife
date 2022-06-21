@@ -190,7 +190,7 @@
 			<tr>
 			  <td align="center"><input type="checkbox" name="deleteCheck" id="${msg.msgNo}"></td>
 			  <td align="left" > <a  href="/user/getUserTarget?userEmail=${msg.recvEmail}">${msg.nick} </a></td>
-			  <td align="left" ><a  href="/user/getUserSendMsg?msgNo=${msg.msgNo}" onclick="window.open(this.href, '_blank', 'width=600, height=550'); return false;">${msg.title}</a></td>
+			  <td align="left" ><a  href="/user/getUserSendMsg?msgNo=${msg.msgNo}" onclick="window.open(this.href, '_blank', 'width=600, height=650'); return false;">${msg.title}</a></td>
 			  
 			   <td align="left">${msg.regDate}</td>
 			   <td align="left">
