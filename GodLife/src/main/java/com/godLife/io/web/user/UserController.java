@@ -1018,7 +1018,7 @@ public class UserController {
       
    }
    
-   //레드카드 소멸쿠폰 사용 
+   //레드카드 소멸쿠폰 사용 (값이 계쏙 안바뀜) 
    @GetMapping("updateUserRedCouponCount")
    public String updateUserRedCouponCount(HttpSession session, Model model) throws Exception{
       
@@ -1065,10 +1065,6 @@ public class UserController {
       
       
       
-      
-   }
-   
-   
    
    //신고유저 목록조회 
    
@@ -1091,7 +1087,7 @@ public class UserController {
    
    
    
-   
+}
    
    
    
