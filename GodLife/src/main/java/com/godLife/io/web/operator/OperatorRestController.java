@@ -57,4 +57,15 @@ public class OperatorRestController {
 		return operatorNoticeFaqs;
 	}
 
+	@RequestMapping( value="operatorRest/addOperatorJoinRoullEvent", method=RequestMethod.POST )
+	public OperatorJoinEvent addOperatorJoinRoullEvent( @ModelAttribute("operatorJoinEvent") OperatorJoinEvent operatorJoinEvent ) throws Exception{
+		
+		System.out.println("/operator/json/addOperatorJoinEvent : POST");
+		System.out.println("@@@@@operatorFaqs :"+operatorJoinEvent);
+		OperatorJoinEvent operatorEvent = operatorService.addOperatorJoinRoullEvent(operatorJoinEvent);
+		System.out.println("@@@@@operatorFaqs Success:"+operatorJoinEvent);
+		//Business Logic
+		return operatorJoinEvent;
+	}
+	
 }

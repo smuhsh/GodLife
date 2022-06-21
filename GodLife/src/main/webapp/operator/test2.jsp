@@ -21,21 +21,10 @@
         <!-- Bootstrap Dropdown Hover JS -->
         <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
-        
         <style>
        	  .container {
 	            padding-top : 150px;
         	}
-        	.arrow{    
-				left: 50%;
-			    position: sticky;
-			    z-index: 1;
-				width: 0;
-				height: 0;
-				border-top: 60px solid purple;/* 화살표 */
-				border-left: 10px solid transparent;
-				border-right: 10px solid transparent;
-			}
         
             @font-face {
                 font-family: 'GmarketSansMedium';
@@ -218,7 +207,7 @@
             }
 
             #popup_gift {
-                width: 900px;
+                width: 475px;
                 height: 505px;
                 top: 120px;
             }
@@ -240,7 +229,7 @@
 
             .popup .close {
                 display: inline-block;
-                width: 900px;
+                width: 150px;
                 hegiht: 50px;
                 line-height: 50px;
                 color: #fff;
@@ -248,7 +237,6 @@
                 margin: 30px 0 0;
             }
         </style>
-        
         <script type="text/javascript">
             $(document).ready(function() {
                 var gift;
@@ -270,7 +258,6 @@
                         ease: Sine.easeOut
                     });
                     console.log("gift 숫자 : " + (gift + 1) + "rotationPos" + rotationPos);
-                    console.log("당첨 포인트 : " + (gift + 1) + "rotationPos" + rotationPos);
                 }
 
                 var rotationPos = new Array(60,120,180,240,300,360);
@@ -281,43 +268,17 @@
                     },
                     ease: Linear.easeNone
                 });
-                
                 function endGame() {
-                    var copImg = "/images/uploadFiles/gift/" + (gift + 1) + ".png";
+                    var copImg = "http://img.babathe.com/upload/specialDisplay/htmlImage/2019/test/coupon" + (gift + 1) + ".png";
                     console.log("이미지 : " + copImg);
 
                     $("#popup_gift .lottery_present").text(function() {
-                        return "축하드립니다." + present[gift] + " 포인트" + " 당첨 되셨습니다.";
+                        return "축하드립니다." + present[gift] + " 룰렛숫장" + (gift + 1) + " 당첨 되셨습니다.";
                     });
                     $('<img  src="' + copImg + '" />').prependTo("#popup_gift .lottery_present");
                     setTimeout(function() {
                         openPopup("popup_gift");
                     }, 1000);
-
-                    
-        			$.ajax( 
-        					{
-        						url : "/operator/operatorRest/addOperatorJoinRoullEvent?rewardPoint="+present[gift] ,
-        						method : "POST",
-        	                       dataType : "json",
-        	                       headers : {
-        	                          "Accept" : "application/json",
-        	                          "Content-Type" : "application/json"
-        	                       },
-        	                       success : function(JSONData , status) {
-        	                      
-       	                           $("#popup_gift .lottery_present").text(function() {
-       	                               return "축하드립니다." + present[gift] + " 포인트" + " 당첨 되셨습니다.";
-       	                           });
-       	                           $('<img  src="' + copImg + '" />').prependTo("#popup_gift .lottery_present");
-       	                           setTimeout(function() {
-       	                               openPopup("popup_gift");
-       	                           }, 1000);
-
-        	                     }
-        					});                    
-                    
-                    
                 }
 
                 $(".popup .btn").on("click", function() {
@@ -351,7 +312,8 @@
             $(function() {
                 var clicked = 0;
                 for (i = 1; i < 7; i++) {
-                    var pictures = "/images/uploadFiles/gift/" + i + ".png";
+                    // 상품쪽 이미지는 신경 안쓰셔도 됩니다!! 책임님!!!
+                    var pictures = "http://img.babathe.com/upload/specialDisplay/htmlImage/2019/test/coupon" + i + ".png";
                     $(".board_on").append('<img  src="' + pictures + '" />');
                 }
 
@@ -365,49 +327,21 @@
                     clicked++
                 });
             })
-            
-            function fncAddPointPurchasePoint() {
-		      var productNo = $('input[name="productNo"]:checked').val();
-		      var payOpt = $('input[name="payOpt"]:checked').val();
-		      var useStatus = $("input[name='useStatus']").val();
-		      var useDetail = $("input[name='useDetail']").val();
-			  var point = $("input[name='point']").val();
-		      
-		      alert(payOpt + " : payOpt   " + productNo + ": productNo   "
-		            + useStatus + ":useStatus  " + useDetail + ":useDetail  "+point+":point" );
-		      $("form").attr("method", "POST").attr("action",
-		            "/point/addPointPurchaseProduct").submit()
-		   }
-
-           /* 
-           window.onload = function(){
-            	document.getElementById("gift").value;
-            	alert(gift);
-            };
-            */
-            
         </script>
-        
 	<body bgcolor="#ffffff" text="#000000">
 		<jsp:include page="/layout/toolbar.jsp" />	
 		<div class="container">
 			<div class="page-header text-info">
 		       <h3>룰렛 이벤트</h3>
 		</div>
-		        <input type="hidden" name="gift" id="gift"
-                        value="{{ form.gift.value|default_if_none:'' }}">
-		
-		<div class="arrow"></div>
         <div id="wrap">
             <div id="gameContainer">
-                <div class="board_start join">도전</div>
+                <div class="board_start join">시작버튼</div>
                 <div class="board_on obj"></div>
             </div>
             <div id="popup_gift" class="popup">
                 <div class="lottery_present"></div>
-                <center>
-	                <a href="javascript:;" class="close">확인</a>
-                </center>
+                <a href="javascript:;" class="close">닫기 </a>
             </div>
         </div>
     </body>
