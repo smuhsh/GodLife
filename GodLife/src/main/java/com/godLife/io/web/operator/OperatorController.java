@@ -483,14 +483,42 @@ public class OperatorController {
 //		return "forward:/operator/getOperatorJoinEvent.jsp";
 //	}
 	@RequestMapping(value="getOperatorJoinDayEvent", method=RequestMethod.GET)
-	public String getOperatorJoinDayEvent( @RequestParam("eventNo") int eventNo , Model model ) throws Exception {
+	public String getOperatorJoinDayEvent( @RequestParam("eventNo") int eventNo,@RequestParam("userEmail") String userEmail , Model model  ) throws Exception {
 		
 		System.out.println("/operator/getOperatorJoinDayEvent : GET");
 		//Business Logic
-		OperatorJoinEvent operatorJoinEvent = operatorService.getOperatorJoinDayEvent(eventNo);
-		// Connect Model and View 
-		model.addAttribute("operatorJoinEvent", operatorJoinEvent);		
+		
+		User user = new User();
+		user.setUserEmail(userEmail);
+		
+		if(user.getUserEmail().equals(null)) {
+			System.out.println("이메일 빈칸");
+			OperatorJoinEvent operatorJoinEvent = operatorService.getOperatorJoinDayEvent(eventNo);
+			model.addAttribute("operatorJoinEvent", operatorJoinEvent);	
+			return "forward:/operator/getOperatorJoinDayEvent.jsp";
+			
+		}else if(!user.getUserEmail().equals(null)) {
+			System.out.println("로그인");
+		OperatorJoinEvent operatorJoinEvent = new OperatorJoinEvent();
+		operatorJoinEvent.setEventNo(eventNo);
+		operatorJoinEvent.setUserEmail(user.getUserEmail());
+		
+		Map<String,Object>map=operatorService.getOperatorJoinDayEventUser(operatorJoinEvent);
+		System.out.println("맵 operatorJoinEvent"+map.get("operatorJoinEvent"));
+		System.out.println("맵 totalCount"+map.get("totalCount"));
+	
+		
+		model.addAttribute("operatorJoinEvent", map.get("operatorJoinEvent"));
+		model.addAttribute("totalCount", (Integer)map.get("totalCount"));
+		model.addAttribute("totalCountPlus", (Integer)map.get("totalCount")+1);
+		model.addAttribute("user", user);
+		System.out.println("model: "+model);
 		return "forward:/operator/getOperatorJoinDayEvent.jsp";
+		}
+		
+		return null;
+		
+
 	}
 	@RequestMapping(value="getOperatorJoinRoullEvent", method=RequestMethod.GET)
 	public String getOperatorJoinRoullEvent( @RequestParam("eventNo") int eventNo , Model model ) throws Exception {
