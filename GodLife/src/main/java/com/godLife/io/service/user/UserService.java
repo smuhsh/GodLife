@@ -127,6 +127,14 @@ public interface UserService {
     // 보낸 쪽지 목록조회 *
     public Map<String, Object> getSendMsgList(Search search, String sendEmail) throws Exception ;
     
+    //쪽지보낼때 유효성 검사(블랙리스트는 쪽지못보내게) 
+    public int checkMsgBlack(String userEmail, String targetEmail);
+    
+    
+    
+    
+    
+    
     
     //================일대일 문의 ======================================
     
@@ -151,9 +159,22 @@ public interface UserService {
     
   //================신고 ======================================
     
-    // 신고 등록 
-    public void addReport(Report report) throws Exception ;
+    // 쪽지 신고 등록 
+    public void addMsgReport(Report report) throws Exception ;
 
+    //신고 유저 목록조회(관리자) 
+    
+    //레드카드 발급, 제거 
+    public void updateRedCard(User user) throws Exception; 
+    
+    
+    
+    
+    
+    
+    
+    //============================================================================
+    
     // 병문오빠 추가건 
     public void updateUserTotalPoint(User user) throws Exception;
     
@@ -164,10 +185,6 @@ public interface UserService {
     
   	
   	
-    //신고 유저 목록조회(관리자) 
-    
-    //레드카드 발급, 제거 
-    public void updateRedCard(User user) throws Exception; 
     
     
 	

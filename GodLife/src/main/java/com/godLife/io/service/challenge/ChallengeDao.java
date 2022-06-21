@@ -30,15 +30,13 @@ public interface ChallengeDao {
 	
 	public CertiImg getChallengeCertiImg(int certiImgNo);
 	
-	public Map<String,Object> getChallengeReview(Map<String,Object> map);
-	
 	public void addChallengeReview(Review review);
 	
 	public void updateChallengeReview(Review review);
 	
 	public void deleteChallengeReview(int reviewNo);
 	
-	public List<Review> getChallengeCommentList(int certiImgNo);
+	public List<Review> getChallengeCommentList(Map<String,Object> map);
 	
 	public void deleteChallengeCertiImg(Map<String,Object> map);
 	
@@ -52,6 +50,7 @@ public interface ChallengeDao {
 	
 	public Map<String, Object> getChallengeListFriend(Map<String,Object> map);
 	
+	public List<Review> getChallengeMoreCommentList(Map<String,Object> map);
 	
 	
 	

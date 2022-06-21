@@ -162,9 +162,9 @@ color:blue;
 	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	$(function() {
 		    var role=$("input[name='role']").val();
-		    if(role=='adin'){
+		    if(role=='2'){
 	     $( ".images" ).on("click" , function() {
-	    	 self.location ="/product/getProductVoucher?productNo="+$(this).attr("productNo");
+	    	 self.location ="/product/getProductCoupon?productNo="+$(this).attr("productNo");
 	     });
 		    }
 	});
@@ -227,6 +227,13 @@ color:blue;
 
       <!--  화면구성 div Start /////////////////////////////////////-->
       <br><br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
       <div class="container">
 
          <!-- 상품 이미지 위쪽 /////////////////////////////////////-->
@@ -237,7 +244,12 @@ color:blue;
 
        	    <div class="col-md-6 text-right"> 
 				<br/>
-            	<button type="button" class="btn btn-primary addP">신규 쿠폰 상품 등록</button> 
+				<br>
+			    <br>
+			    <br>
+			    <c:if test="${sessionScope.user.role == '2'}">
+            		<button type="button" class="btn btn-primary addP">신규 쿠폰 상품 등록</button>
+            	</c:if>  
 	        </div>
          </div>
 		<!-- 상품 이미지 시작 /////////////////////////////////////-->
@@ -250,7 +262,7 @@ color:blue;
                
                   <div>
                   		
-                     <img  src="../images/uploadFiles/${product.productImg}"  class="images" productNo="${ product.productNo }"
+                     <img  src="/resources/images/uploadFiles/${product.productImg}"  class="images" productNo="${ product.productNo }"
                         onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
                       
                     <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->

@@ -248,10 +248,12 @@ $(function() {
     //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
    $(function() { 
 	   $( ".images" ).on("click" , function() {
-	    	 self.location ="/product/getProductVoucher?productNo="+$(this).attr("productNo");
+		   <c:if test="${sessionScope.user.role == '2'}">
+	    	 self.location ="/product/getProductPoint?productNo="+$(this).attr("productNo");
+	       </c:if>
 	     });
    });
-//============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
+//============= productName 에 상품정보보기 Ajax이용 (관리자용)  Event  처리(Click) =============
    $(function(){
       $( ".productName" ).on("click", function() {
          var productNo = $(this).data("value");
@@ -300,28 +302,39 @@ $(function() {
 </head>
 
 <body>
+<!-- ToolBar Start /////////////////////////////////////-->
 <jsp:include page="/layout/toolbar.jsp" />
+ <!-- ToolBar End /////////////////////////////////////-->
    <form class="form-horizontal">
-      <!-- ToolBar Start /////////////////////////////////////-->
-      
-      <!-- ToolBar End /////////////////////////////////////-->
-
+   		<br>
+   		<br>
+   		<br>
+   		<br>
+   		<br>
+   		<br>
+   		<br>
+   		<br>
       <!--  화면구성 div Start /////////////////////////////////////-->
       <div class="container">
 
       <!-- 상품 이미지 위쪽 /////////////////////////////////////-->
          <div class="row" style="height: 150px; width: 1400px;">
          
-         
-            <div class="col-md-6 text-right">
+         	<div class="col-md-3"></div>
+            <div class="col-md-4" align="center">
                <h1 class="text-primary font-weight-bold" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">포인트 상품 전체목록</h1>
             </div>
-
-              <div class="col-md-6 text-right"> 
-            <br/>
-               <button type="button" class="btn btn-primary addP">신규 포인트 상품 등록</button> 
-           </div>
-
+			<div class="col-md-5"></div>
+			<br>
+			<br>
+			 <div class="col-md-5" ></div> 
+              <div class="col-md-3" align="center"> 
+              <br>
+	            	<c:if test="${sessionScope.user.role == '2'}">
+	               		<button type="button" class="btn btn-primary addP">신규 포인트 상품 등록</button>
+	              	</c:if> 
+           	  </div>
+			 <div class="col-md-4"></div> 
             
          </div>
         

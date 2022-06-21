@@ -5,363 +5,411 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
         <title>룰렛 이벤트</title>
-        <style></style>
-    </head>
-    <style>
-		.container {
-			display: grid;
-			min-height: 100%;
-			align-content: center;
-			justify-content: center;
-		}
-		
-		#roullete {
-			width: 400px;
-			height: 400px;
-			border-radius: 50%;
-			background: white;
-			border: 3px solid black;
-			position: relative;
-		}
-		
-		.panel {
-			position: absolute;
-			width: 400px;
-			height: 400px;
-			border-radius: 50%;
-			-webkit-clip-path: polygon(0% 0%, 50% 50%, 0% 50%, 0% 0%);
-			clip-path: polygon(0% 0%, 50% 50%, 0% 50%, 0% 0%);
-		}
-		
-		.txt {
-			font-size: 24px;
-			width: 260px;
-			height: 260px;
-			position: absolute;
-			top: 30px;
-			left: 30px;
-			text-align: center;
-			transform: rotate(-67deg);
-		}
-		
-		.colorBox{
-			width: 20px;
-			height: 20px;
-			float: left;
-			margin: 1px 1px 0px 0px;
-			cursor: pointer;
-		}
-		.showColorBox{
-			float: left;
-			margin: 1px 1px 0px 0px;
-			text-align: center;
-		}
-		.popup { 
-			position: fixed; 
-			left: 0; 
-			top: 0; 
-			width: 100%; 
-			height: 100%; 
-			background-color: rgba(0, 0, 0, 0.5); 
-			opacity: 0; 
-			visibility: hidden; 
-			transform: scale(1.1); 
-			transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s; 
-     	} 
-     	
-		.popup-content { 
-			position: absolute; 
-			top: 50%; 
-			left: 50%; 
-			transform: translate(-50%, -50%); 
-			background-color: white; 
-			padding: 1rem 1.5rem; 
-			border-radius: 0.5rem; 
-		}
-		.btnArea {
-    		float: right;
-	    }
-	    .btnArea input {
-    		background-color: #1aa2c0;
-			border: none;
-		    height: 32px;
-		    line-height: 1;
-		    padding-left: 15px;
-		    padding-right: 15px;
-		    color: #ffffff
-	    }
-		.show-popup { 
-			opacity: 1; 
-			z-index:5;
-			visibility: visible; 
-			transform: scale(1.0); 
-			transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s; 
-		}
-		#addDiv{
-					position: absolute;
-		}
-		.arrow{    
-			left: 50%;
-		    position: sticky;
-		    z-index: 1;
-			width: 0;
-			height: 0;
-			border-top: 30px solid purple;/* 화살표 */
-			border-left: 10px solid transparent;
-			border-right: 10px solid transparent;
-		}
-		#copyright{
-			font-size: 7px;
-		}
-		
-		table {
-		    border-collapse: separate;
-		    border-spacing: 1px;
-		    text-align: center;
-		    line-height: 1.5;
-		    margin: 20px 10px;
-		}
-		table th {
-		    padding: 10px;
-		    font-weight: bold;
-		    vertical-align: top;
-		    color: #fff;
-		    background: #ce4869 ;
-		}
-		table td {
-		    padding: 10px;
-		    vertical-align: top;
-		    border-bottom: 1px solid #ccc;
-		    background: #eee;
-		}
-    </style>
-    <script type="text/javascript">
-
-		window.onload = function(){
-			initRoulette();
-		}
-		
-    	function initRoulette(){
-    		setRoulettePanel();
-    		initAddPop();
-    		
-        	document.getElementById("roullete").addEventListener("animationstart", function(e) {
-        	    console.log("시작");
-        	}, false);
-
-        	document.getElementById("roullete").addEventListener("animationend", function(e) {
-        	    console.log("종료");
-        	}, false);
-    	}
-
-    	function triggerAddPop(){
-    		document.querySelector(".popup").classList.toggle("show-popup");
-    	}
-    	function openAddPop(){
-    		document.getElementById("btnArea").innerHTML = '<input type="button" id="cancelBtn" value="CANCEL" onclick="triggerAddPop();"><input type="button" id="addBtn" value="ADD" onclick="clickAddBtn();">';
-    		
-   			document.getElementById("addText").value = "";
-   			document.getElementById("fontColor").value = "";
-   			document.getElementById("color").value = "";
-   			document.getElementById("colorTypeBg").checked = "checked"
-    		
-    		document.querySelector(".popup").classList.toggle("show-popup"); 
-    	}
-    	
-    	function openUpdatePop(index){
-    		document.getElementById("btnArea").innerHTML = '<input type="button" id="cancelBtn" value="CANCEL" onclick="triggerAddPop();"><input type="button" id="saveBtn" value="SAVE" onclick="clickUpdateBtn('+index+');">';
-    		
-			var target = document.getElementById("panelInfo"+index);
-			document.getElementById("addText").value = target.innerHTML;
-			document.getElementById("fontColor").value = target.style.color;
-			document.getElementById("color").value = target.style.background;;
-			document.getElementById("colorTypeBg").checked = "checked"	
-	    	document.querySelector(".popup").classList.toggle("show-popup"); 
-    	}
-    	
-    	function initAddPop(){
-			//2차원 배열 파레트 데이터
-			var pallet = [["#FF0000", "#FF5E00", "#FFBB00", "#FFE400", "#ABF200", "#1DDB16", "#00D8FF", "#0054FF", "#0100FF", "#5F00FF", "#FF00DD", "#FF007F", "#000000", "#FFFFFF"],
-			              ["#FFD8D8", "#FAE0D4", "#FAECC5", "#FAF4C0", "#E4F7BA", "#CEFBC9", "#D4F4FA", "#D9E5FF", "#DAD9FF", "#E8D9FF", "#FFD9FA", "#FFD9EC", "#F6F6F6", "#EAEAEA"],
-			              ["#FFA7A7", "#FFC19E", "#FFE08C", "#FAED7D", "#CEF279", "#B7F0B1", "#B2EBF4", "#B2CCFF", "#B5B2FF", "#D1B2FF", "#FFB2F5", "#FFB2D9", "#D5D5D5", "#BDBDBD"],
-			              ["#F15F5F", "#F29661", "#F2CB61", "#E5D85C", "#BCE55C", "#86E57F", "#5CD1E5", "#6799FF", "#6B66FF", "#A566FF", "#F361DC", "#F361A6", "#A6A6A6", "#8C8C8C"],
-			              ["#CC3D3D", "#CC723D", "#CCA63D", "#C4B73B", "#9FC93C", "#47C83E", "#3DB7CC", "#4374D9", "#4641D9", "#8041D9", "#D941C5", "#D9418C", "#747474", "#5D5D5D"],
-			              ["#980000", "#993800", "#997000", "#998A00", "#6B9900", "#2F9D27", "#008299", "#003399", "#050099", "#3F0099", "#990085", "#99004C", "#4C4C4C", "#353535"],
-			              ["#670000", "#662500", "#664B00", "#665C00", "#476600", "#22741C", "#005766", "#002266", "#030066", "#2A0066", "#660058", "#660033", "#212121", "#191919"]];
-			var tag = "";
-			for(i=0; i<pallet.length; i++){
-				for(j=0; j<pallet[i].length; j++){
-					tag += "<div id="+pallet[i][j]+" class='colorBox' onclick='colorSet(this)'></div>";
-				}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--   jQuery , Bootstrap CDN  -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- Bootstrap Dropdown Hover CSS -->
+        <link href="/css/animate.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+        <!-- Bootstrap Dropdown Hover JS -->
+        <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+        
+        <style>
+       	  .container {
+	            padding-top : 150px;
+        	}
+        	.arrow{    
+				left: 50%;
+			    position: sticky;
+			    z-index: 1;
+				width: 0;
+				height: 0;
+				border-top: 60px solid purple;/* 화살표 */
+				border-left: 10px solid transparent;
+				border-right: 10px solid transparent;
 			}
-			//파레트 파싱
-			document.getElementById("palletBox").innerHTML = tag;
+        
+            @font-face {
+                font-family: 'GmarketSansMedium';
+                src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+                font-weight: normal;
+                font-style: normal;
+            }
 
-			//색상 입히기
-			var colorBox = document.getElementsByClassName("colorBox");
-			for(i=0; i<colorBox.length; i++){
-				colorBox[i].style.background = colorBox[i].id;
-			}
-		}
-    	
-    	function setRoulettePanel(){
-    		var panelArr =  document.querySelectorAll(".panel")
-    		let panelArrSize = panelArr.length;
-    		let rotate = 360 / panelArrSize;
-    		
-    		var i = 0
-    		var panelRotate = 0;
-    		var panelInfoTbody = [];
-    		while ( i < panelArrSize){
-    			panelRotate = panelRotate + rotate; 
-    			panelArr[i].style.transform = "rotate("+panelRotate+"deg)";
-    			i = i + 1;
-    			panelInfoTbody.push("<tr><td id=\"panelInfo"+i+"\" style=\"background:"+panelArr[i-1].style.background+"; color:"+panelArr[i-1].style.color+"\">"+panelArr[i-1].innerText+"</td>");
-    			panelInfoTbody.push("<td><button onclick=\"openUpdatePop('"+i+"');\">수정</button></td></tr>");
-    			
-    		}
-    		panelInfoTbody.push("<tr><td colspan=\"2\"><button class=\"addBtn\" onclick=\"openAddPop('add');\">ADD</button></td></tr>");
-    		document.getElementById("panelInfoTbody").innerHTML = panelInfoTbody.join('');
-    	}
-    	
-    	function clickAddBtn(){
-    		var roullete = document.getElementById("roullete");
-    		let size = document.querySelectorAll(".panel").length+1;
-    		let addPanel = document.createElement("div");
-    		var panelText = document.getElementById("addText").value;
-    		
-    		addPanel.setAttribute("class", "panel panel_" + size);
-    		addPanel.innerHTML = "<strong class=\"txt\">"+panelText+"</strong>";
+            #wrap {
+                background-color: #ffffff;
+                position: relative;
+                overflow: hidden;
+            }
 
-    		addPanel.style.background = document.getElementById("color").value;
-    		addPanel.style.color = document.getElementById("fontColor").value;
-    		
-    		roullete.appendChild(addPanel);
-    		roullete.setAttribute("class", "eq" + size);
-    		setRoulettePanel();
-    		document.querySelector(".popup").classList.toggle("show-popup"); 
-    	}
-    	
-    	function clickUpdateBtn(index){
-    		let targetPanel = document.querySelector(".panel_" + index);
-    		var panelText = document.getElementById("addText").value;
-    		
-    		targetPanel.innerHTML = "<strong class=\"txt\">"+panelText+"</strong>";
+            #wrap #gameContainer {
+                width: 508px;
+                height: 671px;
+                text-align: center;
+                position: relative;
+                margin: 0px auto;
+            }
 
-    		targetPanel.style.background = document.getElementById("color").value;
-    		targetPanel.style.color = document.getElementById("fontColor").value;
-    		
-    		setRoulettePanel();
-    		document.querySelector(".popup").classList.toggle("show-popup"); 
-    	}
-    	
-    	function clickStartBtn() {
-    		
-    		document.getElementById("roullete").style.animation = "";
-    		var randomRotate = (Math.random() * 3000) + 1000;
-    		var randomAnimation = (Math.random() * 7000) + 2000;
-    		
-    		//document.getElementById("roullete").style.animation = "rotation 7s forwards ease-in-out";
-    		document.getElementById("roullete").animate([
-    		    { transform: "rotate(0deg)" },{ transform: "rotate("+randomRotate + "deg)" }
-    	      ], 
-    	      {
-    			fill: 'forwards',
-    		    duration: randomAnimation,
-    		    easing: 'ease-in-out'
-    		   }
-    		);         
-    		
-		}
+            #wrap #gameContainer h1 {
+            }
 
-    	function colorSet(target){
-    		var colorType = document.querySelector('input[name="colorType"]:checked').value;
-    		if(colorType == "font"){
-    			document.getElementById("fontColor").value=target.id;
-        		document.getElementById("showColorBox").style.color = target.id;
-    		} else {
-    			document.getElementById("color").value=target.id;
-        		document.getElementById("showColorBox").style.background = target.id;
-    		}
-		}
-    </script>
-    
-    <body>
-    	<div class="container"> 
-    		<header class="header">
-    			<h1 class="title">Roulette</h1>
-    		</header>
-    		<div class="arrow"></div>
-    		<div class="eq8" id="roullete">
-				<div class="panel panel_1" style="background: #00D8FF;"><strong class="txt">1</strong></div>
-				<div class="panel panel_2" style="background: #F2CB61;"><strong class="txt">2</strong></div>
-				<div class="panel panel_3" style="background: #FAECC5;"><strong class="txt">3</strong></div>
-				<div class="panel panel_4" style="background: #665C00;"><strong class="txt">4</strong></div>
-				<div class="panel panel_5" style="background: #476600;"><strong class="txt">5</strong></div>
-				<div class="panel panel_6" style="background: #2F9D27;"><strong class="txt">6</strong></div>
-				<div class="panel panel_7" style="background: #003399;"><strong class="txt">7</strong></div>
-				<div class="panel panel_8" style="background: #6B66FF;"><strong class="txt">8</strong></div>
-			</div>
-			<button class="startBtn" onclick="clickStartBtn();">start</button>
+            #wrap #gameContainer .obj {
+                position: absolute;
+            }
 
-			<div id="addDiv">
- 				<table id="panelInfo">
- 					<thead>
- 						<tr><th>Contents</th><th></th></tr>
- 					</thead>
-					<tbody id="panelInfoTbody">
-					</tbody>
-				</table>
-			</div>
+            #wrap #gameContainer .board_start {
+                padding: 10px;
+                background: #bfff00;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 150px;
+                border: 1px solid #000;
+                color: #000080;
+                background: #bfff00;
+                text-align: center;
+                vertical-align: middle;
+                font-weight: bold;
+                position: absolute;
+                left: 165px;
+                top: 210px;
+                z-index: 9;
+                width: 150px;
+                border-radius: 100px;
+            }
 
+            #wrap #gameContainer .board_start img {
+                width: 100%;
+            }
 
+            #wrap #gameContainer .board_bg {
+                width: 508px;
+                height: 508px;
+                top: 40px;
+                left: 0px;
+                z-index: 2;
+            }
+
+            #wrap #gameContainer .board_bg img {
+                width: 100%;
+            }
+
+            #wrap #gameContainer .board_on {
+                width: 508px;
+                height: 508px;
+                top: 40px;
+                left: 0px;
+                z-index: 3;
+                background-image: url('//img.babathe.com/upload/specialDisplay/htmlImage/2019/test/roulette_circle_bg.png');
+                background-size: 508px;
+            }
+
+            #wrap #gameContainer .board_on img {
+                position: absolute;
+                width: 100px;
+                top: 115px;
+                height: 100px;
+            }
+
+            #wrap #gameContainer .board_on img:nth-child(1) {
+                left: 55px;
+                transform: rotate( -60deg );
+                top: 120px;
+            }
+
+            #wrap #gameContainer .board_on img:nth-child(2) {
+                left: 62px;
+                transform: rotate( -113deg );
+                top: 286px;
+            }
+
+            #wrap #gameContainer .board_on img:nth-child(3) {
+                left: 208px;
+                top: 372px;
+                transform: rotate(-180deg);
+            }
+
+            #wrap #gameContainer .board_on img:nth-child(4) {
+                left: 351px;
+                top: 286px;
+                transform: rotate(-245deg);
+            }
+
+            #wrap #gameContainer .board_on img:nth-child(5) {
+                left: 351px;
+                top: 125px;
+                transform: rotate(-292deg);
+            }
+
+            #wrap #gameContainer .board_on img:nth-child(6) {
+                left: 205px;
+                top: 42px;
+                transform: rotate(5deg);
+            }
+
+            #wrap #gameContainer .obj.board_arrow {
+                width: 90px;
+                height: 105px;
+                top: 0px;
+                left: 195px;
+                z-index: 5;
+            }
+
+            #wrap #gameContainer .char1 {
+                width: 259px;
+                height: 246px;
+                top: 400px;
+                left: 90px;
+                z-index: 1;
+            }
+
+            #wrap #gameContainer .char2 {
+                width: 175px;
+                height: 198px;
+                top: 449px;
+                left: 600px;
+                z-index: 1;
+            }
+
+            #wrap #gameContainer .char3 {
+                width: 112px;
+                height: 108px;
+                top: 540px;
+                left: 550px;
+                z-index: 3;
+            }
+
+            #wrap #gameContainer .txt1 {
+                width: 420px;
+                height: 30px;
+                bottom: 20px;
+                left: 260px;
+                z-index: 3;
+            }
+
+            .popup {
+                display: none;
+                position: fixed;
+                left: 50%;
+                z-index: 99999;
+                text-align: center;
+                background: #fff;
+                font-size: 20px;
+                color: #000;
+            }
+
+            #fade {
+                display: none;
+                background: #000;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                opacity: .60;
+                z-index: 9999;
+            }
+
+            #popup_gift {
+                width: 900px;
+                height: 505px;
+                top: 120px;
+            }
+
+            #popup_gift .lottery_present {
+                text-align: center;
+            }
+
+            #popup_gift .lottery_present img {
+                display: block;
+                margin: 50px auto 30px;
+            }
+
+            #popup_fail {
+                width: 475px;
+                height: 505px;
+                top: 120px;
+            }
+
+            .popup .close {
+                display: inline-block;
+                width: 900px;
+                hegiht: 50px;
+                line-height: 50px;
+                color: #fff;
+                background: #333;
+                margin: 30px 0 0;
+            }
+        </style>
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var gift;
+                var present = [1000, 1000, 1000, 3000, 5000, 10000]
+
+                iniGame = function(num) {
+                    gift = num;
+                    TweenLite.killTweensOf($(".board_on"));
+                    TweenLite.to($(".board_on"), 0, {
+                        css: {
+                            rotation: rotationPos[gift]
+                        }
+                    });
+                    TweenLite.from($(".board_on"), 5, {
+                        css: {
+                            rotation: -3000
+                        },
+                        onComplete: endGame,
+                        ease: Sine.easeOut
+                    });
+                    console.log("gift 숫자 : " + (gift + 1) + "rotationPos" + rotationPos);
+                    console.log("당첨 포인트 : " + (gift + 1) + "rotationPos" + rotationPos);
+                }
+
+                var rotationPos = new Array(60,120,180,240,300,360);
+
+                TweenLite.to($(".board_on"), 360, {
+                    css: {
+                        rotation: -4000
+                    },
+                    ease: Linear.easeNone
+                });
+                
+                function endGame() {
+                    var copImg = "/images/uploadFiles/gift/" + (gift + 1) + ".png";
+                    console.log("이미지 : " + copImg);
+
+                    $("#popup_gift .lottery_present").text(function() {
+                        return "축하드립니다." + present[gift] + " 포인트" + " 당첨 되셨습니다.";
+                    });
+                    $('<img  src="' + copImg + '" />').prependTo("#popup_gift .lottery_present");
+                    setTimeout(function() {
+                        openPopup("popup_gift");
+                    }, 1000);
+
+                    
+        			$.ajax( 
+        					{
+        						url : "/operator/operatorRest/addOperatorJoinRoullEvent?rewardPoint="+present[gift] ,
+        						method : "POST",
+        	                       dataType : "json",
+        	                       headers : {
+        	                          "Accept" : "application/json",
+        	                          "Content-Type" : "application/json"
+        	                       },
+        	                       success : function(JSONData , status) {
+        	                      
+       	                           $("#popup_gift .lottery_present").text(function() {
+       	                               return "축하드립니다." + present[gift] + " 포인트" + " 당첨 되셨습니다.";
+       	                           });
+       	                           $('<img  src="' + copImg + '" />').prependTo("#popup_gift .lottery_present");
+       	                           setTimeout(function() {
+       	                               openPopup("popup_gift");
+       	                           }, 1000);
+
+        	                     }
+        					});                    
+                    
+                    
+                }
+
+                $(".popup .btn").on("click", function() {
+                    location.reload();
+                });
+                function openPopup(id) {
+                    closePopup();
+                    $('.popup').slideUp(0);
+                    var popupid = id
+                    $('body').append('<div id="fade"></div>');
+                    $('#fade').css({
+                        'filter': 'alpha(opacity=60)'
+                    }).fadeIn(300);
+                    var popuptopmargin = ($('#' + popupid).height()) / 2;
+                    var popupleftmargin = ($('#' + popupid).width()) / 2;
+                    $('#' + popupid).css({
+                        'margin-left': -popupleftmargin
+                    });
+                    $('#' + popupid).slideDown(500);
+                }
+                function closePopup() {
+                    $('#fade').fadeOut(300, function() {// $(".player").html('');
+                    });
+                    $('.popup').slideUp(400);
+                    return false
+                }
+                $(".close").click(closePopup);
+
+            });
+
+            $(function() {
+                var clicked = 0;
+                for (i = 1; i < 7; i++) {
+                    var pictures = "/images/uploadFiles/gift/" + i + ".png";
+                    $(".board_on").append('<img  src="' + pictures + '" />');
+                }
+
+                $(".join").on("mousedown", function() {
+                    if (clicked <= 0) {
+                        iniGame(Math.floor(Math.random() * 6));
+                    } else if (clicked >= 1) {
+                        event.preventDefault();
+                        alert("내일 다시 참여해주세요.");
+                    }
+                    clicked++
+                });
+            })
+            
+            function fncAddPointPurchasePoint() {
+		      var productNo = $('input[name="productNo"]:checked').val();
+		      var payOpt = $('input[name="payOpt"]:checked').val();
+		      var useStatus = $("input[name='useStatus']").val();
+		      var useDetail = $("input[name='useDetail']").val();
+			  var point = $("input[name='point']").val();
+		      
+		      alert(payOpt + " : payOpt   " + productNo + ": productNo   "
+		            + useStatus + ":useStatus  " + useDetail + ":useDetail  "+point+":point" );
+		      $("form").attr("method", "POST").attr("action",
+		            "/point/addPointPurchaseProduct").submit()
+		   }
+
+           /* 
+           window.onload = function(){
+            	document.getElementById("gift").value;
+            	alert(gift);
+            };
+            */
+            
+        </script>
+        
+	<body bgcolor="#ffffff" text="#000000">
+		<jsp:include page="/layout/toolbar.jsp" />	
+		<div class="container">
+			<div class="page-header text-info">
+		       <h3>룰렛 이벤트</h3>
+		</div>
+		        <input type="hidden" name="gift" id="gift"
+                        value="{{ form.gift.value|default_if_none:'' }}">
+		
+		<div class="arrow"></div>
+        <div id="wrap">
+            <div id="gameContainer">
+                <div class="board_start join">도전</div>
+                <div class="board_on obj"></div>
+            </div>
+            <div id="popup_gift" class="popup">
+                <div class="lottery_present"></div>
+                <center>
+	                <a href="javascript:;" class="close">확인</a>
+                </center>
+            </div>
         </div>
-        
-        <!-- 롤렛 패널 수정 팝업  -->
-		<div class="popup"> 
-			<div class="popup-content"> 
-				<h1 class="title">panel edit</h1>
-				<table>
-					<tbody>
-					<tr>
-						<th><label for="addText">TEXT</label></th>
-						<td><input type="text" id="addText"></td>
-					</tr>
-					<tr>
-						<th><label for="showColorBox">COLOR</label></th>
-						<td class="showColorBox" id="showColorBox">
-							TEXT
-						</td>
-					</tr>
-					
-					<tr>
-						<td>
-							<input type="radio" id="colorTypeBg" name="colorType" value="background" checked="checked">
-							<label for="colorTypeBg">background</label>
-							<br/>
-							<input type="radio" id="colorTypeFont" name="colorType" value="font">
-							<label for="colorTypeFont">font</label>
-						</td>
-						<td>
-							<div id="palletBox" class="pallet"></div>
-							<input type="hidden" id="fontColor">
-							<input type="hidden" id="color">
-						</td>
-					</tr>
-					 
-					</tbody>
-					
-				</table>
-				
-		         <div class="btnArea" id="btnArea">
-		         	<input type="button" id="cancelBtn" value="CANCEL" onclick="triggerAddPop();">
-					<input type="button" id="addBtn" value="ADD" onclick="clickAddBtn();">
-					<input type="button" id="saveBtn" value="SAVE" onclick="clickUpdateBtn();">
-		         </div>
-	         </div>
-	     </div>
-        
     </body>
 </html>
+

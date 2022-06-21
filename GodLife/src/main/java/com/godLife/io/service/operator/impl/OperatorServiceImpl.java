@@ -46,9 +46,14 @@ public class OperatorServiceImpl implements OperatorService{
 	public void addOperatorJoinDayEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		operatorDao.addOperatorJoinDayEvent(operatorJoinEvent);
 	}
-	public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+	public OperatorJoinEvent addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		operatorDao.addOperatorJoinRoullEvent(operatorJoinEvent);
+		return operatorJoinEvent;
 	}
+//	public OperatorJoinEvent addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+//		operatorDao.addOperatorJoinRoullEvent(operatorJoinEvent);
+//		return operatorJoinEvent;
+//	}	
 	
 	public void addOperatorReward(OperatorReward operatorReward) throws Exception {
 		operatorDao.addOperatorReward(operatorReward);

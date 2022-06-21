@@ -13,7 +13,8 @@ public interface OperatorService {
 	
 	public void addOperatorEvents(OperatorEvents operatorEvents ) throws Exception;
 	public void addOperatorJoinDayEvent(OperatorJoinEvent operatorJoinEvent ) throws Exception;
-	public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent ) throws Exception;
+	//public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent ) throws Exception;
+	public OperatorJoinEvent addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent ) throws Exception;
 	public void addOperatorReward(OperatorReward operatorReward ) throws Exception;
 	//public void addOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs ) throws Exception;
 	public void addOperatorNotice(OperatorNoticeFaqs operatorNotice ) throws Exception;
