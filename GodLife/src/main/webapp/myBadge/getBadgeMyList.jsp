@@ -129,8 +129,8 @@
 	//============= images 에 배지 상세 정보(관리자 모드/수정 삭제로 들어가기)  Event  처리(Click) =============
 	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	$(function() { 
-	     $( ".images" ).on("click" , function() {
-	    	 self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
+	     $( "button.btn.btn-default.allList" ).on("click" , function() {
+	    	 self.location ="/myBadge/getBadgeAllList.jsp";
 	     });
 	});
 
@@ -197,6 +197,9 @@
 		</div>
 		<br>
 		<br>
+			<div class="row">
+				<a class="btn btn-default allList" href="/badge/getBadgeList" role="button">배지 전체목록 조회</a>
+			</div>
 		<br>
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 Start-->
 			<div class="row">
@@ -226,54 +229,66 @@
 		<!-- 활동 배지 -->
 		<div class="row">
 		<!-- 배지 act count 1 이상일때 나오게 하기 if문 거는 곳 -->
+
 		
-		
-			<c:set var="i" value="0"/>
-			  <c:forEach var="myBadge" items="${list}">
+		<c:set var="i" value="0"/>
+			  <c:forEach var="myBadge" items="${list1}">
             	<c:set var="i" value="${ i+1 }" />      
             	 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 Start -->
             	 <div class="col-md-3" style="height: auto; width: auto;" align="center">
             	 <!-- Grade가 0일때 Default 배경이미지  -->
 	            	<c:if test="${myBadge.actCount == 0 }">
 						  <div class="backdefault">
-						  	<img badgeNo="${ myBadge.badgeNo }"   class="images" 
-						  		  src="/images/uploadFiles/${badge.badgeImg }"
-				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+						  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+						  		  src="/images/uploadFiles/${myBadge.badge.badgeImg }"
+				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>   
 				         </div>
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         활동 횟수량 : ${myBadge.actCount}
 			         </c:if>
+			     
 			    <!-- Grade가 1일때 동색 배경이미지  -->
 	            	<c:if test="${ myBadge.actCount > 0 && myBadge.actCount < 11 }">
 					  <div class="backbronze">
-					  	<img badgeNo="${ myBadge.badgeNo }"   class="images" 
-					  		  src="/images/uploadFiles/${badge.badgeImg }"
+					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+					  		  src="/images/uploadFiles/${myBadge.badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         활동 횟수량 : ${myBadge.actCount}
 		        <!-- Grade가 2일때 은색 배경이미지  -->
 			         </c:if>
 			         <c:if test="${myBadge.actCount > 10 && myBadge.actCount < 21}">
 					  <div class="backsilver">
-					  	<img badgeNo="${ myBadge.badgeNo }"   class="images" 
-					  		  src="/images/uploadFiles/${badge.badgeImg }"
+					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+					  		  src="/images/uploadFiles/${myBadge.badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			                  
 			         </div>
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         활동 횟수량 : ${myBadge.actCount}
 			         </c:if>
 		         <!-- Grade가 3일때 금색 배경이미지  -->
 			         <c:if test="${myBadge.actCount > 20 }">
 					  <div class="backgold">
-					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
-					  		  src="../images/uploadFiles/${badge.badgeImg }"
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  		  src="/images/uploadFiles/${myBadge.badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			                  
 			         </div>
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         활동 횟수량 : ${myBadge.actCount}
 			         </c:if>
 		         <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start //Ajax나오게 하려면 data-value가 필요 -->   
-		               <i  type ="hidden" class="myBadgeABDetail" id="${badge.badgeNo}" style="font-size:15px;" 
-		               		data-value="${ badge.badgeNo }" 
+		               <i  type ="hidden" class="myBadgeDetailIB" id="${myBadge.badge.badgeImg }" style="font-size:15px;" 
+		               		data-value="${ myBadge.badgeNo }" 
 		               		title="Click : 배지정보 확인" 
-		               		value="${badge.badgeNo}" >
-		               		${badge.badgeName}
+		               		value="${myBadge.badgeNo}" >
+
 		               </i>
 		          <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
-		               <input type="hidden" value="${badge.badgeNo}" >
+		               <input type="hidden" value="${myBadge.badgeNo}" >
+		               <input type="hidden" name="userEmail" value="${user.userEmail}" />
 				  </div>
 				 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 End -->
 			  </c:forEach>
@@ -308,52 +323,62 @@
 		<!-- 배지 act count 1 이상일때 나오게 하기 if문 거는 곳 -->
 		
 		
-			<c:set var="i" value="0"/>
-			  <c:forEach var="myBadge" items="${list}">
+		<c:set var="i" value="0"/>
+			  <c:forEach var="myBadge" items="${list2}">
             	<c:set var="i" value="${ i+1 }" />      
             	 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 Start -->
             	 <div class="col-md-3" style="height: auto; width: auto;" align="center">
             	 <!-- Grade가 0일때 Default 배경이미지  -->
 	            	<c:if test="${myBadge.actCount == 0 }">
 						  <div class="backdefault">
-						  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-						  		  src="/images/uploadFiles/${badge.badgeImg }"
+						  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+						  		  src="/images/uploadFiles/${myBadge.badge.badgeImg }"
 				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 				         </div>
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         활동 횟수량 : ${myBadge.actCount}
 			         </c:if>
+			     
 			    <!-- Grade가 1일때 동색 배경이미지  -->
 	            	<c:if test="${ myBadge.actCount > 0 && myBadge.actCount < 11 }">
 					  <div class="backbronze">
-					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="/images/uploadFiles/${badge.badgeImg }"
+					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+					  		  src="/images/uploadFiles/${myBadge.badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         활동 횟수량 : ${myBadge.actCount}
 		        <!-- Grade가 2일때 은색 배경이미지  -->
 			         </c:if>
 			         <c:if test="${myBadge.actCount > 10 && myBadge.actCount < 21}">
 					  <div class="backsilver">
-					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="/images/uploadFiles/${badge.badgeImg }"
+					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+					  		  src="/images/uploadFiles/${myBadge.badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         활동 횟수량 : ${myBadge.actCount}
 			         </c:if>
 		         <!-- Grade가 3일때 금색 배경이미지  -->
 			         <c:if test="${myBadge.actCount > 20 }">
 					  <div class="backgold">
 					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="../images/uploadFiles/${badge.badgeImg }"
+					  		  src="/images/uploadFiles/${myBadge.badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         활동 횟수량 : ${myBadge.actCount}
 			         </c:if>
 		         <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start //Ajax나오게 하려면 data-value가 필요 -->   
-		               <i  type ="hidden" class="myBadgeIBDetail" id="${badge.badgeNo}" style="font-size:15px;" 
-		               		data-value="${ badge.badgeNo }" 
+		               <i  type ="hidden" class="myBadgeDetailIB" id="${myBadge.badge.badgeImg }" style="font-size:15px;" 
+		               		data-value="${ myBadge.badgeNo }" 
 		               		title="Click : 배지정보 확인" 
-		               		value="${badge.badgeNo}" >
-		               		${badge.badgeName}
+		               		value="${myBadge.badgeNo}" >
+
 		               </i>
 		          <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
-		               <input type="hidden" value="${badge.badgeNo}" >
+		               <input type="hidden" value="${myBadge.badgeNo}" >
+		               <input type="hidden" name="userEmail" value="${user.userEmail}" />
 				  </div>
 				 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 End -->
 			  </c:forEach>

@@ -631,7 +631,7 @@ public class ChallengeController {
 		
 		challengeService.addChallengeCertiImg(certiImg);
 		
-		return "redirect:/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
+		return "/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
 	}
 	
 	

@@ -274,7 +274,7 @@ public class ChallengeRestController {
 		
 		System.out.println(certiImgNo+"번 인증이미지 댓글");
 		for(Review comment : commentList) {
-			System.out.println(comment.getNick()+":"+comment.getComment());
+			System.out.println(comment.getReviewNo()+":"+comment.getNick()+":"+comment.getComment());
 		}
 		
 		return commentList;

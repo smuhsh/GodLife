@@ -17,7 +17,13 @@ import com.godLife.io.common.Search;
 public interface UserService {
 	
 	
-	public String getAccessToken (String authorize_code);
+	// 카카오 토큰 받기
+	public String getKaKaoAccessToken(String authorize_code) throws Exception ;
+	
+	//카카오 정보 받아오기
+	public HashMap<String, Object> getKakoUserInfo(String access_Token) throws Exception ;
+	
+	public int  getUserKakao(User user) throws Exception ;
 
 	// 회원가입 *
 	public void addUser(User user) throws Exception;
@@ -89,13 +95,16 @@ public interface UserService {
 	public void deleteFriendRequest(FriendBlack friendBlack) throws Exception ;
 	
 	//친구 삭제 
-	public void deleteFriend(FriendBlack friendBlack) throws Exception ;
+	public void deleteFriend(int friendBlackNo) throws Exception ;
+	
+	//블랙리스트 삭제
+    public void deleteBlack(int friendBlackNo) throws Exception ;
 	
 	// 친구신청 중복검사
-	public int isAlreadyAppliedFriend(String userEmail, String targetEmail);
+	public int checkFriend(String userEmail, String targetEmail);
 	
-	
-	
+	// 블랙리스트 신청 중복검사
+    public int checkBlack(String userEmail, String targetEmail);
 	
 	
 	//================쪽지 ======================================

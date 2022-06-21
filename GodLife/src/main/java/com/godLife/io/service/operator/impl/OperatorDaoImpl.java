@@ -41,7 +41,15 @@ public class OperatorDaoImpl implements OperatorDao{
 		sqlSession.insert("OperatorMapper.addOperatorEvents", operatorEvents);		
 	}
 	
-	public void addOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+//	public void addOperatorJoinEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+//		//sqlSession.insert("OperatorJoinEventMapper.addOperatorJoinEvent",operatorJoinEvent);
+//		sqlSession.insert("OperatorMapper.addOperatorJoinEvent", operatorJoinEvent);
+//	}
+	public void addOperatorJoinDayEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+		//sqlSession.insert("OperatorJoinEventMapper.addOperatorJoinEvent",operatorJoinEvent);
+		sqlSession.insert("OperatorMapper.addOperatorJoinEvent", operatorJoinEvent);
+	}
+	public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		//sqlSession.insert("OperatorJoinEventMapper.addOperatorJoinEvent",operatorJoinEvent);
 		sqlSession.insert("OperatorMapper.addOperatorJoinEvent", operatorJoinEvent);
 	}
@@ -72,9 +80,16 @@ public class OperatorDaoImpl implements OperatorDao{
 	//public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception {
 	//return sqlSession.selectOne("OperatorJoinEventMapper.getOperatorJoinEvent", userEmail);
 	//}
-	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
-		//return sqlSession.selectOne("OperatorJoinEventMapper.getOperatorJoinEvent", joinEventNo);
-		return sqlSession.selectOne("OperatorMapper.getOperatorJoinEvent", joinEventNo);
+//	public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception {
+//		//return sqlSession.selectOne("OperatorJoinEventMapper.getOperatorJoinEvent", joinEventNo);
+//		return sqlSession.selectOne("OperatorMapper.getOperatorJoinEvent", joinEventNo);
+//	}
+	public OperatorJoinEvent getOperatorJoinDayEvent(int joinEventNo) throws Exception {
+		System.out.println("@@@@@@@@@@@ getOperatorJoinDayEvent"+joinEventNo);
+		return sqlSession.selectOne("OperatorMapper.getOperatorJoinDayEvent", joinEventNo);
+	}
+	public OperatorJoinEvent getOperatorJoinRoullEvent(int joinEventNo) throws Exception {
+		return sqlSession.selectOne("OperatorMapper.getOperatorJoinRoullEvent", joinEventNo);
 	}
 	
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception {

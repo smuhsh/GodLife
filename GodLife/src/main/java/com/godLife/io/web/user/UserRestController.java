@@ -48,7 +48,30 @@ public class UserRestController {
 			return cnt;
 	}
 	
-
+	
+//	//친구중복검사 체크 (레스트안쓰고 컨트롤러에서 다 처리해버림)... 
+//	@RequestMapping( value="json/checkFriend", method=RequestMethod.POST)
+//	public int checkFriend( //@RequestParam("userEmail") String userEmail,
+//							@RequestParam("targetEmail") String targetEmail, 
+//							HttpSession session) throws Exception{
+//			
+//		System.out.println("친구중복검사 체크 시작");
+//		 User user = (User)session.getAttribute("user");
+//		 String userEmail = user.getUserEmail();
+//		 
+//			int cnt = userService.checkFriend(userEmail, targetEmail);
+//			
+//			System.out.println("여기까지 제발와라...."+cnt);
+//			
+//			return cnt;
+//	}
+//	
+	//블랙리스트 중복검사 체크 
+	
+	
+	
+	
+	
 
 }
 	

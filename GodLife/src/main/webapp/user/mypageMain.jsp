@@ -11,12 +11,11 @@
    width: 170px;
    float: left;
    margin-top: 260px;
-   margin-left:350px;
+   margin-left: 350px;
    border-top: 1px solid #d4d7da;
+
 }
 </style>
-
-
 
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -29,7 +28,7 @@
       <ul>
          <li id="managerMainChart" style="text-align: left;"><a href="/user/getUser?userEmail=${sessionScope.user.userEmail}" class="link_lnb">개인정보 조회 및 수정</a></li>
          <li id="managerMainCalender" style="text-align: left;"><a href="/point/getPointPurchaseList" class="link_lnb">포인트 이용내역</a></li>
-         <li id="managerMainCalender" style="text-align: left;"><a href="/myBadge/getBadgeMyList" class="link_lnb">보유 배지</a></li>
+         <li id="managerMainCalender" style="text-align: left;"><a href="/myBadge/getBadgeMyList?userEmail=${sessionScope.user.userEmail}" class="link_lnb">보유 배지</a></li>
          <li id="managerMainCalender" style="text-align: left;"><a href="/user/listFriend?userEmail=${sessionScope.user.userEmail}" class="link_lnb">친구 관리</a></li>
          <li id="managerMainCalender" style="text-align: left;"><a href="/user/listFriendRequest?targetEmail=${sessionScope.user.userEmail}" class="link_lnb">친구요청 관리</a></li>
          <li id="managerMainCalender" style="text-align: left;"><a href="/user/listBlack?userEmail=${sessionScope.user.userEmail}" class="link_lnb">블랙리스트 관리</a></li>
@@ -50,8 +49,8 @@
       <strong><span class="ico_admin"></span> <span class="txt_lnb">쪽지 관리</span></strong>
       <ul>
          <li id="managerSaleboard" style="text-align: left;"><a href="/user/addUserMsg?sendEmail=${sessionScope.user.userEmail}" class="link_lnb">쪽지 쓰기</a></li>
-         <li id="managerFreeboard" style="text-align: left;"><a href="링크" class="link_lnb">받은 쪽지함</a></li>
-         <li id="managerReviewboard" style="text-align: left;"><a href="링크" class="link_lnb">보낸 쪽지함</a></li>
+         <li id="managerFreeboard" style="text-align: left;"><a href="/user/listUserRecvMsg?recvEmail=${sessionScope.user.userEmail}"  class="link_lnb">받은 쪽지함</a></li>
+         <li id="managerReviewboard" style="text-align: left;"><a href="/user/listUserSendMsg?sendEmail=${sessionScope.user.userEmail}" class="link_lnb">보낸 쪽지함</a></li>
       </ul>
    </li>
    

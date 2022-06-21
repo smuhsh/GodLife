@@ -154,6 +154,13 @@
 					var pw=$("input[name='pwd']").val();
 					var pw_confirm=$("input[name='pwd2']").val();
 					var name=$("input[name='nick']").val();
+					var successPhoneCkt = $(".successPhoneChk").text();
+					console.log(   "successPhoneCkt" + successPhoneCkt ) ; 
+		
+				if(     successPhoneCkt != '인증번호가 일치합니다.'   ){
+					alert("인증번호를 확인해 주세요 ");
+					return;
+							}
 					
 					if(id == null || id.length <1){
 						alert("이메일은 반드시 입력하셔야 합니다.");
@@ -181,6 +188,8 @@
 						alert("휴대폰번호를 정확히 입력해 주세요");
 						return;
 					}
+					
+			
 					
 					$("form").attr("method" , "POST").attr("action" , "/user/addUser").submit();
 				}
