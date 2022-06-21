@@ -159,14 +159,14 @@ color:blue;
 	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	$(function() {
 		    var role=$("input[name='role']").val();
-		    if(role=='adin'){
+		    if(role=='2'){
 	     $( ".images" ).on("click" , function() {
 	    	 self.location ="/product/getProductVoucher?productNo="+$(this).attr("productNo");
 	     });
 		    }
 	});
-	     
-//============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
+
+//============= productName 에 상품정보보기 Ajax이용 (관리자용)  Event  처리(Click) =============
 	$(function(){
 
 		$( ".productName" ).on("click", function() {
@@ -218,11 +218,18 @@ color:blue;
 </head>
 
 <body>
+<!-- ToolBar Start /////////////////////////////////////-->
+<jsp:include page="/layout/toolbar.jsp" />
+<!-- ToolBar End /////////////////////////////////////-->
    <form class="form-horizontal">
-      <!-- ToolBar Start /////////////////////////////////////-->
-      <jsp:include page="/layout/toolbar.jsp" />
-      <!-- ToolBar End /////////////////////////////////////-->
-
+      	<br>
+   		<br>
+   		<br>
+   		<br>
+   		<br>
+   		<br>
+   		<br>
+   		<br>
       <!--  화면구성 div Start /////////////////////////////////////-->
       <br><br>
       <div class="container">
@@ -232,12 +239,15 @@ color:blue;
             <div class="col-md-6 text-right">
                <h2 class="text-primary font-weight-bold" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">상품권 상품 전체목록</h2>
          	</div>
-
-         	 <div class="col-md-6 text-right"> 
+			<br>
+			<br>			
+			<br>
+			 <div class="col-md-8" ></div> 
+              <div class="col-md-3" align="center"> 
 				<br/>
-				<c:if test="${user.role=='admin'}"><button type="button" class="btn btn-primary addP">신규 상품권 상품 등록</button> </c:if>
-            	
+				<c:if test="${sessionScope.user.role == '2'}"><button type="button" class="btn btn-primary addP">신규 상품권 상품 등록</button> </c:if>
 	         </div>
+	         <div class="col-md-1"></div> 
          </div>
 		<!-- 상품 이미지 시작 /////////////////////////////////////-->
 		<div class="row">
@@ -249,9 +259,9 @@ color:blue;
                
                   <div>
                   		
-                     <img  src="../images/uploadFiles/${product.productImg}"  class="images" productNo="${ product.productNo }"
+                     <img  src="/resources/images/uploadFiles/${product.productImg}"  class="images" productNo="${ product.productNo }"
                         onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"><br/>
-                      
+
                     <!--   <div class="productName" id="productName" data-value="${ product.productNo }" title="Click : 상품정보 확인">${ product.productName }</div> -->
                      <div></div>
   

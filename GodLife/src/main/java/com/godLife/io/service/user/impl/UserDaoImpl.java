@@ -181,7 +181,7 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("FriendBlackMapper.checkFriend", map);
 	}
 	
-	// 친구신청 중복검사
+	// 블랙리스트신청 중복검사
 	public int checkBlack(Map<String, String> map) {
 		return sqlSession.selectOne("FriendBlackMapper.checkBlack", map);
 	}
@@ -238,6 +238,11 @@ public class UserDaoImpl implements UserDao{
 		   return map;
 	}
 	
+	
+	// 친구신청 중복검사
+		public int checkMsgBlack(Map<String, String> map) {
+			return sqlSession.selectOne("MsgMapper.checkMsgBlack", map);
+		}
 
 	public void updateUserTotalPoint(User user) throws Exception{
 		sqlSession.update("UserMapper.updateUserTotalPoint", user);
@@ -284,8 +289,9 @@ public class UserDaoImpl implements UserDao{
 	
 	//================신고등록================================================
 	
-	public void addReport(Report report) throws Exception {
-		sqlSession.insert("ReportMapper.addReport", report);
+	//쪽지 신고등록
+	public void addMsgReport(Report report) throws Exception {
+		sqlSession.insert("ReportMapper.addMsgReport", report);
 	}
 	
 	

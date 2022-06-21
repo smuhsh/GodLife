@@ -27,6 +27,7 @@ public interface OperatorDao {
 	//public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception;
 	//public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception;
 	public OperatorJoinEvent getOperatorJoinDayEvent(int joinEventNo) throws Exception;
+	public OperatorJoinEvent getOperatorJoinDayEventUser(OperatorJoinEvent operatorJoinEvent) throws Exception;
 	public OperatorJoinEvent getOperatorJoinRoullEvent(int joinEventNo) throws Exception;
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception;
 	//public OperatorNoticeFaqs getOperatorNoticeFaqs(int noticeFaqNo) throws Exception;
@@ -66,5 +67,5 @@ public interface OperatorDao {
 	//public int getOperatorNoticeFaqsTotalCount(Search search) throws Exception ;
 	public int getOperatorNoticeTotalCount(Search search) throws Exception ;
 	public int getOperatorFaqsTotalCount(Search search) throws Exception ;
-	
+	public int getOperatorJoinDayEventUserToTal(OperatorJoinEvent operatorJoinEvent) throws Exception;
 }

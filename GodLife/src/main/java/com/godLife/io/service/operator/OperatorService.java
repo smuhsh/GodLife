@@ -23,6 +23,7 @@ public interface OperatorService {
 	public OperatorEvents getOperatorEvents(int eventNo) throws Exception;
 	//public OperatorJoinEvent getOperatorJoinEvent(int joinEventNo) throws Exception;
 	public OperatorJoinEvent getOperatorJoinDayEvent(int joinEventNo) throws Exception;
+	public Map<String , Object> getOperatorJoinDayEventUser(OperatorJoinEvent operatorJoinEvent) throws Exception;
 	public OperatorJoinEvent getOperatorJoinRoullEvent(int joinEventNo) throws Exception;
 	//public OperatorJoinEvent getOperatorJoinEvent(String userEmail) throws Exception;
 	public OperatorReward getOperatorReward(int rewardNo) throws Exception;

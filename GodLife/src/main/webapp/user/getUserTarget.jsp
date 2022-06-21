@@ -38,7 +38,7 @@ height : 200px;
 float : center;
 }
 
-#writeBtn, #writeBtn1, #writeBtn2, #myBtn{
+#writeBtn, #writeBtn1, #writeBtn2, #myBtn, #writeBtn5{
 width : 140px;
 height : 40px;
 }
@@ -166,62 +166,62 @@ $(function() {
 	});	
 	
 	
-	
 	   //==>"받는사람 이메일" 있는지 없는지 검사 
 	
 	function checkUserEmail(){
-     var userEmail = $('#recvEmail').val(); //id값이 "id"인 입력란의 값을 저장
-     
-     $.ajax({
-     	 url: '/user/json/checkUserEmail', //Controller에서 요청 받을 주소
-         type:'post', //POST 방식으로 전달
-         data:{userEmail:userEmail},
-    
-         success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
-             if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 디비에 없으니까 보낼수없는 이메일  
-                 $('.id_ok').css("display","inline-block"); 
-                 $('.id_already').css("display", "none");
-                 //alert("해당 이메일은 존재하지 않습니다.");
-             } else { // cnt가 1일 경우 -> 이미 존재하는 이메일이니까 보낼수있음
-                 $('.id_already').css("display","inline-block");
-                 $('.id_ok').css("display", "none");
-                 //alert("이메일을 다시 입력해주세요");
-             }
-         },
-         error:function(){
-             alert("에러입니다");
-         }
-     });
-     };
+        var userEmail = $('#recvEmail').val(); //id값이 "id"인 입력란의 값을 저장
+        
+        $.ajax({
+        	 url: '/user/json/checkUserEmail', //Controller에서 요청 받을 주소
+            type:'post', //POST 방식으로 전달
+            data:{userEmail:userEmail},
+       
+            success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
+                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 디비에 없으니까 보낼수없는 이메일  
+                    $('.id_ok').css("display","inline-block"); 
+                    $('.id_already').css("display", "none");
+                    //alert("해당 이메일은 존재하지 않습니다.");
+                } else { // cnt가 1일 경우 -> 이미 존재하는 이메일이니까 보낼수있음
+                    $('.id_already').css("display","inline-block");
+                    $('.id_ok').css("display", "none");
+                    //alert("이메일을 다시 입력해주세요");
+                }
+            },
+            error:function(){
+                alert("에러입니다");
+            }
+        });
+        };
 	
 	
 		//============= "쪽지보내기"  Event 연결 =============
-	 $(function() {
-		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		$( "#writeBtn" ).on("click" , function() {
-			fncAddUserMsg();
-		});
-	});	
-	
-	function fncAddUserMsg() {
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "#writeBtn5" ).on("click" , function() {
+				fncAddUserMsg();
+			});
+		});	
 		
-		var recvEmail=$("input[name='recvEmail']").val();
-		var name=$("input[name='title']").val();
-		
-		if(recvEmail == null || recvEmail.length <1){
-			alert("이메일은  반드시 입력하셔야 합니다.");
-			return;
+		function fncAddUserMsg() {
+			
+			var name=$("input[name='title']").val();
+			var ok= $.trim($('.id_ok').text());
+			//console.log("이거제발나와...."+ok);
+			//alert("이거나오니...."+ok);
+			
+			
+			if(ok == '해당 이메일은 존재하지 않습니다.'){
+				alert("이메일을 다시 확인해주세요");
+				return;
+			}
+			
+			if(name == null || name.length <1){
+				alert("제목은  반드시 입력하셔야 합니다.");
+				return;
+			}
+			
+			$("form").attr("method" , "POST").attr("action" , "/user/addUserMsg").submit();
 		}
-		
-		if(name == null || name.length <1){
-			alert("제목은  반드시 입력하셔야 합니다.");
-			return;
-		}
-		
-		
-		$("form").attr("method" , "POST").attr("action" , "/user/addUserMsg").submit();
-		alert("전송이 완료되었습니다")
-	}
 	
 	
 	//============= "내용 글자수 검사" =============
@@ -307,9 +307,7 @@ $(function() {
 					
 					<!-- 챌린지랑 배지 관련 넣어야함 -->
 					
-					
 					</table>
-	
 	
 				<div id="formSubmit" class="form_footer">
 					<div id="checkDiv" class="checkDiv"></div>
@@ -317,7 +315,7 @@ $(function() {
 					<button type="button" class="btn active btn_join" id="writeBtn1">블랙리스트 등록</button>
 					  <button type="button" class="btn active btn_join" id="myBtn">쪽지 보내기</button>
 					  
-					  <!-- 모달 시작 -->
+					  <!-------------- 쪾지보내기 모달 시작------------------------------- -->
 					 
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -339,8 +337,8 @@ $(function() {
 				<tr class="fst">
 						<th>이메일</th>
 						<td>
-							<input type="text" class="form-control" id="recvEmail" name="recvEmail" placeholder="이메일" oninput = "checkUserEmail()" >
-							<span id="helpBlock" class="id_ok">해당 이메일은 존재하지 않습니다. </span>
+							<input type="text" class="form-control" id="recvEmail" name="recvEmail" value = "${user.userEmail}"  placeholder="${user.userEmail}" oninput = "checkUserEmail()"  readonly/>
+							<!-- <span id="helpBlock" class="id_ok">해당 이메일은 존재하지 않습니다. </span>-->
 			 				 <span id="helpBlock" class="id_already"></span>
 						</td>
 					</tr>
@@ -365,7 +363,7 @@ $(function() {
 	
 				<div id="formSubmit" class="form_footer">
 					<div id="checkDiv" class="checkDiv"></div>
-					<button type="button"  class="btn active btn_join" id="writeBtn">전송</button>
+					<button type="button"  class="btn active btn_join" id="writeBtn5">전송</button>
 				</div>
 			</form>
 		</div>
@@ -377,7 +375,7 @@ $(function() {
     </div>
     
     
-    <!-- 모달끝 -->
+    <!------------------모달끝------------------------------------------------- ----->
 					
 					
 					

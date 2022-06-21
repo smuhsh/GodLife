@@ -1,5 +1,7 @@
 package com.godLife.io.web.operator;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -38,6 +40,10 @@ public class OperatorRestController {
 	@Autowired
 	@Qualifier("operatorServiceImpl")
 	private OperatorService operatorService;
+	
+	@Autowired
+	@Qualifier("pointServiceImpl")
+	private PointService pointService;
 		
 	public OperatorRestController(){
 		System.out.println(this.getClass());
@@ -55,6 +61,41 @@ public class OperatorRestController {
 		//return operatorService.getOperatorFaqs(noticeFaqNo);
 		//return operatorService.getOperatorFaqs(title);
 		return operatorNoticeFaqs;
+	}
+	
+	@RequestMapping(value="operatorRest/addOperatorJoinDayEvent", method=RequestMethod.GET)
+	public OperatorJoinEvent addOperatorJoinDayEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map) throws Exception {
+		
+		System.out.println("operatorRest/addOperatorJoinDayEvent : GET");
+		//Business Logic
+		
+		User user = (User)session.getAttribute("user");
+		
+		operatorJoinEvent.setUserEmail(user.getUserEmail());
+		
+		System.out.println("Rest addJoinDay "+operatorJoinEvent);
+		operatorService.addOperatorJoinDayEvent(operatorJoinEvent);
+		System.out.println("join success");
+		
+		Point point = new Point();
+		
+		if(operatorJoinEvent.getEventNo()==1) {
+			point.setUseStatus("1");
+			point.setPoint(operatorJoinEvent.getRewardPoint());
+			point.setUseDetail("6");
+			
+			map.put("user", user);
+			map.put("point", point);
+			
+			pointService.addPointPurchase(map);
+		}
+		
+		System.out.println("oper@@@@@@@@@ : "+ operatorJoinEvent);
+		
+
+		
+		
+		return operatorJoinEvent;
 	}
 
 	@RequestMapping( value="operatorRest/addOperatorJoinRoullEvent", method=RequestMethod.POST )
