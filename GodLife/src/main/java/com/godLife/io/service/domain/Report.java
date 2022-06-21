@@ -21,7 +21,6 @@ public class Report {
 	public Report() {
 	}
 
-	//Method
 	public int getReportNo() {
 		return reportNo;
 	}
@@ -95,15 +94,13 @@ public class Report {
 	}
 
 	
-	
-	
 	@Override
 	public String toString() {
 		return "Report [reportNo=" + reportNo + ", reporterEmail=" + reporterEmail + ", targetEmail=" + targetEmail
 				+ ", reason=" + reason + ", regDate=" + regDate + ", reportPlace=" + reportPlace + ", certiImgNO="
 				+ certiImgNO + ", commentNo=" + commentNo + ", msgNo=" + msgNo + "]";
 	}
-	
+
 	
 
 }

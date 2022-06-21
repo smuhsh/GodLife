@@ -47,7 +47,7 @@ public class OperatorDaoImpl implements OperatorDao{
 //	}
 	public void addOperatorJoinDayEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		//sqlSession.insert("OperatorJoinEventMapper.addOperatorJoinEvent",operatorJoinEvent);
-		sqlSession.insert("OperatorMapper.addOperatorJoinEvent", operatorJoinEvent);
+		sqlSession.insert("OperatorMapper.addOperatorJoinDayEvent", operatorJoinEvent);
 	}
 	public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		//sqlSession.insert("OperatorJoinEventMapper.addOperatorJoinEvent",operatorJoinEvent);
@@ -88,6 +88,12 @@ public class OperatorDaoImpl implements OperatorDao{
 		System.out.println("@@@@@@@@@@@ getOperatorJoinDayEvent"+joinEventNo);
 		return sqlSession.selectOne("OperatorMapper.getOperatorJoinDayEvent", joinEventNo);
 	}
+	
+	public OperatorJoinEvent getOperatorJoinDayEventUser(OperatorJoinEvent operatorJoinEvent) throws Exception {
+		System.out.println("DaoImpl getOperatorJoinDayEventUser 시작 : "+operatorJoinEvent);
+		return sqlSession.selectOne("OperatorMapper.getOperatorJoinDayEventUser", operatorJoinEvent);
+	}
+	
 	public OperatorJoinEvent getOperatorJoinRoullEvent(int joinEventNo) throws Exception {
 		return sqlSession.selectOne("OperatorMapper.getOperatorJoinRoullEvent", joinEventNo);
 	}
@@ -286,6 +292,8 @@ public class OperatorDaoImpl implements OperatorDao{
 		return sqlSession.selectOne("OperatorMapper.getOperatorFaqsTotalCount");
 	}
 
-
+	public int getOperatorJoinDayEventUserToTal(OperatorJoinEvent operatorJoinEvent) throws Exception {
+		return sqlSession.selectOne("OperatorMapper.getOperatorJoinDayEventUserToTal",operatorJoinEvent);
+	}
 
 }

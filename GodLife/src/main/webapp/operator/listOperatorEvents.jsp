@@ -120,6 +120,7 @@
 
 			  <td align="left">${ operatorEvents.eventTitle }</td>
 			  <td align="left">${ operatorEvents.thumbnailImg }</td>
+			  <td img src = "../images/uploadFiles/${operatorEvents.thumbnailImg}"/></td>
 			  <td align="left">${ operatorEvents.regDate }</td>
 			  <td align="left">
 			  <input type="hidden" value="${operatorEvents.eventNo}">
