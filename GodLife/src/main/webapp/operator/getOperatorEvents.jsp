@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="EUC-KR">
-	<title>공지사항 내용조회</title>
+	<title>이벤트 내용조회</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
@@ -60,7 +60,7 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 		<div class="page-header text-info">
-	       <h3>공지사항</h3>
+	       <h3>이벤트</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -89,7 +89,7 @@
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">공지사항</td>
+					<td width="93%" class="ct_ttl01">이벤트</td>
 					<td width="20%" align="right">&nbsp;</td>
 				</tr>
 			</table>
@@ -107,7 +107,7 @@
 	<tr>
 		<td width="104" class="ct_write">번호</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${operatorNotice.noticeFaqNo}</td>
+		<td class="ct_write01">${operatorEvents.eventNo}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -115,7 +115,7 @@
 	<tr>
 		<td width="104" class="ct_write">제목</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${operatorNotice.title}</td>
+		<td class="ct_write01">${operatorEvents.eventTitle}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -123,7 +123,7 @@
 	<tr>
 		<td width="104" class="ct_write">내용</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${operatorNotice.detail}</td>
+		<td class="ct_write01">${operatorEvents.detail}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -131,12 +131,12 @@
 	<tr>
 		<td width="104" class="ct_write">이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><img src = "../images/uploadFiles/${operatorNotice.img}"/></td>
+		<td class="ct_write01"><img src = "../images/uploadFiles/${operatorEvents.thumbnailImg}"/></td>
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">등록일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${operatorNotice.regDate}</td>
+		<td class="ct_write01">${operatorEvents.regDate}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>

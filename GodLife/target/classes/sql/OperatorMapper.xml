@@ -144,6 +144,24 @@
             AND j.join_event_no = r.reward_no
 	 </select>
 	 
+	 <select 	id="getOperatorJoinDayEventUser"	parameterType="operatorJoinEvent" resultMap="operatorJoinEventSelectMap">
+        SELECT rank.reg_date reg_date,rank.user_email user_email,rank.event_no event_no,rank.reward_point reward_point
+        FROM(SELECT join_event_no , user_email , event_no , reward_point , reg_date
+        	FROM  join_event 
+        	WHERE event_no = #{eventNo}
+        	AND user_email=#{userEmail}
+        	ORDER BY reg_date DESC)rank
+       WHERE ROWNUM &lt; 2
+	 </select>
+	 
+	  <select 	id="getOperatorJoinDayEventUserToTal"	parameterType="operatorJoinEvent" resultType="int">
+        SELECT COUNT(*)
+        FROM(SELECT join_event_no , user_email , event_no , reward_point , reg_date
+        	FROM  join_event 
+        	WHERE event_no = #{eventNo}
+        	AND user_email=#{userEmail})
+	 </select>
+	 
 	 <select 	id="getOperatorJoinRoullEvent"	parameterType="int" resultMap="operatorJoinEventSelectMap">
         SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
         FROM reward r, join_event j

@@ -200,7 +200,7 @@ div#menu-bar{
             </a> 
                <ul class="all_category_item" id="all_category_item">
                
-                     <li><a href="/operator/getOperatorJoinDayEvent?eventNo=1">매일출석</a></li>
+                     <li><a href="/operator/getOperatorJoinDayEvent?eventNo=1&userEmail=${sessionScope.user.userEmail}">매일출석</a></li>
                      <li><a href="/operator/getOperatorJoinRoullEvent?eventNo=2">룰렛 이벤트</a></li>
                </ul>
             </li>

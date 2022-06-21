@@ -421,19 +421,19 @@ public class ChallengeServiceTest {
 	}
 	
 	
-	@Test
-	public void getChallengeCommentList() {
+//	@Test
+//	public void getChallengeCommentList() {
+//		
+//		int certiImgNo = 10070; // 댓글 목록을 가져올 인증이미지번호
+//		
+//		List<Review> commentList = challengeService.getChallengeCommentList(certiImgNo);
+//		
+//		System.out.println(certiImgNo+"번 인증이미지 댓글");
+//		for(Review comment : commentList) {
+//			System.out.println(comment.getNick()+":"+comment.getComment());
+//		}
 		
-		int certiImgNo = 10070; // 댓글 목록을 가져올 인증이미지번호
-		
-		List<Review> commentList = challengeService.getChallengeCommentList(certiImgNo);
-		
-		System.out.println(certiImgNo+"번 인증이미지 댓글");
-		for(Review comment : commentList) {
-			System.out.println(comment.getNick()+":"+comment.getComment());
-		}
-		
-	}
+//	}
 	
 	//@Test
 	public void updateChallengeReview() {
