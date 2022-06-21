@@ -354,16 +354,7 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		CertiImg certiImg = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImg",certiImgNo);
 		return certiImg;
 	}
-	
-	@Override
-	public Map<String,Object> getChallengeReview(Map<String,Object> map) {
-		
-		int totalCount=sqlSession.selectOne("ChallengeMapper.getChallengeReview",map);
-		map.put("totalCount", totalCount);
-		return map;
-	}
-	
-	
+
 	@Override
 	public void addChallengeReview(Review review) {
 		
@@ -396,8 +387,8 @@ public class ChallengeDaoImpl implements ChallengeDao {
 	}
 
 	@Override
-	public List<Review> getChallengeCommentList(int certiImgNo) {
-		List<Review> commentList = sqlSession.selectList("ChallengeMapper.getChallengeCommentList",certiImgNo);
+	public List<Review> getChallengeCommentList(Map<String,Object> map) {
+		List<Review> commentList = sqlSession.selectList("ChallengeMapper.getChallengeCommentList",map);
 		return commentList;
 	}
 
@@ -488,6 +479,14 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		map.put("totalCount", totalCount);
 		map.put("list", list);
 		return map;
+	}
+
+	@Override
+	public List<Review> getChallengeMoreCommentList(Map<String, Object> map) {
+		
+		List<Review> commentList = sqlSession.selectList("ChallengeMapper.getChallengeMoreCommentList",map);
+		return commentList;
+		
 	}
 
 	

@@ -191,7 +191,7 @@
 
 		    <label for="badgeImg" class="col-sm-offset-2 col-sm-2 control-label">배지이미지</label>
 		    <div class="col-sm-2">
-		    	<img  badgeNo="${ badge.badgeNo }" width="360" height="340" src="../images/uploadFiles/${badge.badgeImg}" alt="..." 
+		    	<img  badgeNo="${ badge.badgeNo }" width="360" height="340" src="/resources/images/uploadFiles/${badge.badgeImg}" alt="..." 
 					onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
 					<input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
 		    </div>
@@ -251,21 +251,21 @@
 		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 150; width: 180px; ">
 		    	Bronze Badge<br>
 		    	활동 횟수량 : 1 ~ 10
-		    	<img src="/images/uploadFiles/BronzeBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    	<img src="/resources/images/uploadFiles/BronzeBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
 		    </div>
 
 		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 150; width: 180px;">
 		    	Silver Badge<br>
 		    	활동 횟수량 : 11 ~ 20
-		    	<img src="/images/uploadFiles/SilverBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    	<img src="/resources/images/uploadFiles/SilverBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
 		    </div>
 			    
 		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 150; width: 180px;">
 		    	Gold Badge<br>
 		    	활동 횟수량 : 21 ~ 
-		    	<img src="/images/uploadFiles/GoldBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    	<img src="/resources/images/uploadFiles/GoldBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
 		    </div>
 		

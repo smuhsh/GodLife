@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.MyBadge;
+import com.godLife.io.service.domain.User;
 import com.godLife.io.service.mybadge.MyBadgeService;
 
 
@@ -71,23 +72,23 @@ import com.godLife.io.service.mybadge.MyBadgeService;
 //
 //	}
 //	
-//	 //@Test
+//	 @Test
 //	 public void testUpdateBadgeMyActCount() throws Exception{
 //		 
 //		MyBadge myBadge = new MyBadge();
-//
+//		User user = new User();
 //
 //		myBadge.setUserEmail("user05@io.com");
-//		myBadge.setBadgeNo(10008);
+//		myBadge.setBadgeNo(10000);
 //		myBadge.setActCount(1);
 //		
 //		
-//		myBadgeService.updateBadgeMyActCount(myBadge);	
+//		myBadgeService.updateBadgeMyActCount(myBadge, user);	
 //		//console check
 //		System.out.println(myBadge);		
 //		
 //		Assert.assertEquals("user05@io.com", myBadge.getUserEmail());
-//		Assert.assertEquals(10008, myBadge.getMyBadgeNo());
+//		Assert.assertEquals(10000, myBadge.getMyBadgeNo());
 //		Assert.assertEquals(1, myBadge.getActCount());
 //
 //	 }

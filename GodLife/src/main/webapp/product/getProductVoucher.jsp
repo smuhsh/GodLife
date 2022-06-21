@@ -35,7 +35,6 @@
 		
  		body {
 
-            background-color: #708090 ;
 		    font-weight: bold; 
 		    font-family: 'oneMobile';
         }
@@ -85,7 +84,14 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
-	
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
@@ -96,7 +102,7 @@
 <!-- 이미지 미리 보기 -->	
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 " ><strong>상품이미지</strong></div>
-			<img  productNo="${ product.productNo }" width="400" height="400" src="../images/uploadFiles/${product.productImg}" alt="..." 
+			<img  productNo="${ product.productNo }" width="400" height="400" src="/resources/images/uploadFiles/${product.productImg}" alt="..." 
 					onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
 		<hr/>
 <!-- 이미지 미리 보기 -->
@@ -121,7 +127,7 @@
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 " ><strong>상품상세정보</strong></div>
 			<div class="col-xs-8 col-md-4">
-				<textarea cols="50" rows="10" readonly="readOnly" placeholder="Disabled" style="background-color: #708090;" >${product.productDetail}</textarea>
+				<textarea cols="50" rows="10" readonly="readOnly" placeholder="Disabled" >${product.productDetail}</textarea>
 			</div>
 		</div>
 		

@@ -126,7 +126,7 @@ $(function() {
 		  <div class="form-group">
 		    <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
 		    <div class="col-sm-4">
-		    	<img  productNo="${ product.productNo }" width="400" height="400" src="../images/uploadFiles/${product.productImg}" alt="..." 
+		    	<img  productNo="${ product.productNo }" width="400" height="400" src="/resources/images/uploadFiles/${product.productImg}" alt="..." 
 					onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
 					<input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
 			<hr/>

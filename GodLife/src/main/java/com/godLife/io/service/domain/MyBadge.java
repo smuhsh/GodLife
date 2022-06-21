@@ -10,6 +10,8 @@ public class MyBadge {
 	private int badgeNo;
 	private int actCount;
 	private Badge badge;
+
+	
 	//리스트에서 2가지로 구분 하기 위해 넣음 0 : 활동배지, 1 : 관심사 배지
 	
 
@@ -46,12 +48,13 @@ public class MyBadge {
 	public void setBadge(Badge badge) {
 		this.badge = badge;
 	}
-	
 	@Override
 	public String toString() {
 		return "MyBadge [myBadgeNo=" + myBadgeNo + ", userEmail=" + userEmail + ", badgeNo=" + badgeNo + ", actCount="
 				+ actCount + ", badge=" + badge + "]";
 	}
+
+
 
 	
 

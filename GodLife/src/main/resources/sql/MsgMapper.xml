@@ -145,18 +145,21 @@
 	 </select>
 	 
 	 
-	 
-	 
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-
-	
-	 
+	 	<!-- 쪽지 블랙리스트 서로 한명이라도되어있으면... 못보내게.. -->
+	<select  id="checkMsgBlack"  parameterType="map"	 resultType="int">
+		SELECT COUNT(*) FROM (  
+		SELECT *
+	  	FROM friend_blacks 
+		WHERE user_email = #{userEmail}
+		AND target_email = #{targetEmail}
+		AND f_b_status ='2' 
+        UNION
+        SELECT *
+	  	FROM friend_blacks 
+		WHERE user_email = #{targetEmail}
+		AND target_email = #{userEmail}
+		AND f_b_status ='2')
+	 </select>
 	 
 	 
 </mapper>

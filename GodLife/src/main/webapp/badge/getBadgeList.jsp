@@ -55,6 +55,23 @@
 			    font-family: 'oneMobile';
 			    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
 			}
+
+#fromCenter { 
+  color: #000;
+  display:inline-block; 
+  margin:0;
+  text-transform:uppercase; }
+  
+#fromCenter:after {
+  display:block;
+  content: '';
+  border-bottom: solid 3px #ea2129;  
+  transform: scaleX(0);  
+  transition: transform 250ms ease-in-out;
+}
+#fromCenter:hover:after { transform: scaleX(1); }
+
+
 	
 	
 	body {
@@ -84,7 +101,7 @@
 	.backdefault{
 	width: 180px;
 	height: 180px;
-	background-image: url("/images/uploadFiles/DefaultBackGround.PNG");
+	background-image: url("/resources/images/uploadFiles/DefaultBackGround.PNG");
 	align-items:center;
 	display: flex;
 	 justify-content:center;
@@ -92,7 +109,7 @@
 	.backbronze{
 	width: 180px;
 	height: 180px;
-	background-image: url("/images/uploadFiles/badgeBronze.jpg");
+	background-image: url("/resources/images/uploadFiles/badgeBronze.jpg");
 	align-items:center;
 	display: flex;
 	 justify-content:center;
@@ -100,7 +117,7 @@
 	.backsilver{
 	width: 180px;
 	height: 180px;
-	background-image: url("/images/uploadFiles/badgeSilver.jpg");
+	background-image: url("/resources/images/uploadFiles/badgeSilver.jpg");
 	align-items:center;
 	display: flex;
 	 justify-content:center;
@@ -108,7 +125,7 @@
 	.backgold{
 	width: 180px;
 	height: 180px;
-	background-image: url("/images/uploadFiles/badgeGold.jpg");
+	background-image: url("/resources/images/uploadFiles/badgeGold.jpg");
 	align-items:center;
 	display: flex;
 	 justify-content:center;
@@ -134,6 +151,15 @@
 			});
 	});    	
 
+	 $(function() {
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 $( "button.btn.btn-success.getBadgeMyList" ).on("click" , function() {
+				self.location = "/myBadge/getBadgeMyList"
+			});
+	});    	
+
+	
+	
 	//============= images 에 배지 상세 정보(관리자 모드/수정 삭제로 들어가기)  Event  처리(Click) =============
 	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 	$(function() { 
@@ -142,14 +168,6 @@
 	     });
 	});
 
-	//============= 배지 이미지 클릭 시 상세 정보 페이지로 이동(관리자 모드)  Event  처리(Click) =============
-	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$(function() { 
-	     $( ".images" ).on("click" , function() {
-	    	 self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
-	     });
-	});	 
-	 
 	 
 	 
 	 
@@ -208,18 +226,34 @@
 		<br>
 		<br>
 		<div class="row" style="font-size:30px;">
-		  <h2 class="col-md-12" align="center" style="font-size: larger;">배지 전체 목록 (관리자 모드)</h2>			
+			<c:if test="${sessionScope.user.role == '1'}">
+				<div class="col-md-3" ></div>
+				  <h2 class="col-md-6" id="fromCenter" align="center" style="font-size: larger;">전체 배지 목록 상세 조회</h2>
+				<div class="col-md-3" ></div>	
+			</c:if>
+			<c:if test="${sessionScope.user.role == '2'}">
+				<div class="col-md-3" ></div>
+				  <h2 class="col-md-6" id="fromCenter" align="center" style="font-size: larger;">전체 배지 목록 (관리자 모드)</h2>
+				<div class="col-md-3" ></div>		
+			</c:if>
 		</div>
 		<br>
-			<div class="col-md-12 text-right">
-				<button type="button" class="btn btn-primary addB">신규 배지 등록</button> 
-			</div>
+			<c:if test="${sessionScope.user.role == '2'}">
+				<div class="col-md-12 text-right">
+					<button type="button" class="btn btn-primary addB">신규 배지 등록</button> 
+				</div>
+			</c:if>
 		<br>
+			<div class="row">
+				<c:if test="${sessionScope.user.role == '1'}">
+					<button class="btn btn-success getBadgeMyList" type="button">나의 보유 배지목록으로 되돌아가기</button>
+				</c:if>
+			</div>
 		<br>
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 Start-->
 			<div class="row">
-				<img src="/images/크립토펑크.png" style="width:800px;" alt="..." class="img-thumbnail"><br>
-				CrytoPunk(크립토 펑크) 배지를 수집하세요.
+				<img src="/resources/images/uploadFiles/크립토펑크.PNG" style="width:800px;" alt="..." class="img-thumbnail"><br>
+				<div class="col-md-4" id="fromCenter" >CrytoPunk(크립토 펑크) 배지를 수집하세요.</div>
 			</div>
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 End -->	
 		<br><br><br>
@@ -253,9 +287,9 @@
             	 <div class="col-md-3" style="height: auto; width: auto;" align="center">
             	 <!-- Grade가 0일때 Default 배경이미지  -->
 	            	<c:if test="${badge.actCount == 0 }">
-						  <div class="backdefault">
+						  <div class="backdefault" >
 						  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-						  		  src="/images/uploadFiles/${badge.badgeImg }"
+						  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 				         </div>
 			         </c:if>
@@ -263,7 +297,7 @@
 	            	<c:if test="${ badge.actCount > 0 && badge.actCount < 11 }">
 					  <div class="backbronze">
 					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="/images/uploadFiles/${badge.badgeImg }"
+					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
 		        <!-- Grade가 2일때 은색 배경이미지  -->
@@ -271,7 +305,7 @@
 			         <c:if test="${badge.actCount > 10 && badge.actCount < 21}">
 					  <div class="backsilver">
 					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="/images/uploadFiles/${badge.badgeImg }"
+					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
 			         </c:if>
@@ -279,7 +313,7 @@
 			         <c:if test="${badge.actCount > 20 }">
 					  <div class="backgold">
 					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="../images/uploadFiles/${badge.badgeImg }"
+					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
 			         </c:if>
@@ -288,7 +322,9 @@
 		               		data-value="${ badge.badgeNo }" 
 		               		title="Click : 배지정보 확인" 
 		               		value="${badge.badgeNo}" >
+		               		<div id="fromCenter">
 		               		${badge.badgeName}
+		               		</div>
 		               </i>
 		          <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
 		               <input type="hidden" value="${badge.badgeNo}" >
@@ -335,7 +371,7 @@
 	            	<c:if test="${badge.actCount == 0 }">
 						  <div class="backdefault">
 						  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-						  		  src="/images/uploadFiles/${badge.badgeImg }"
+						  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 				         </div>
 			         </c:if>
@@ -343,15 +379,15 @@
 	            	<c:if test="${ badge.actCount > 0 && badge.actCount < 11 }">
 					  <div class="backbronze">
 					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="/images/uploadFiles/${badge.badgeImg }"
+					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
 		        <!-- Grade가 2일때 은색 배경이미지  -->
 			         </c:if>
 			         <c:if test="${badge.actCount > 10 && badge.actCount < 21}">
-					  <div class="backsilver">
+					  <div class="backsilver" >
 					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="/images/uploadFiles/${badge.badgeImg }"
+					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
 			         </c:if>
@@ -359,7 +395,7 @@
 			         <c:if test="${badge.actCount > 20 }">
 					  <div class="backgold">
 					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
-					  		  src="../images/uploadFiles/${badge.badgeImg }"
+					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
 			         </c:if>
@@ -368,7 +404,9 @@
 		               		data-value="${ badge.badgeNo }" 
 		               		title="Click : 배지정보 확인" 
 		               		value="${badge.badgeNo}" >
+		               		<div id="fromCenter">
 		               		${badge.badgeName}
+		               		</div>
 		               </i>
 		          <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
 		               <input type="hidden" value="${badge.badgeNo}" >
