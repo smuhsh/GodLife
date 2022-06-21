@@ -79,6 +79,16 @@ public class OperatorServiceImpl implements OperatorService{
 		System.out.println("@@@@@@@@@@@ getOperatorJoinDayEvent"+joinEventNo);
 		return operatorDao.getOperatorJoinDayEvent(joinEventNo);
 	}
+	public Map<String , Object> getOperatorJoinDayEventUser(OperatorJoinEvent operatorJoinEvent) throws Exception {
+		System.out.println("@@@@@@@@@@@ getOperatorJoinDayEventUser 시작 :"+operatorJoinEvent);
+		Map<String,Object> map = new HashMap<String,Object>();
+		int totalCount = operatorDao.getOperatorJoinDayEventUserToTal(operatorJoinEvent);
+		map.put("operatorJoinEvent", operatorDao.getOperatorJoinDayEventUser(operatorJoinEvent));
+		map.put("totalCount",totalCount);
+		System.out.println("serviceImpl getOperatorJoinDayEventUser 종료 map"+map);
+		return map;
+	}
+	
 	public OperatorJoinEvent getOperatorJoinRoullEvent(int joinEventNo) throws Exception {
 		return operatorDao.getOperatorJoinRoullEvent(joinEventNo);
 	}
