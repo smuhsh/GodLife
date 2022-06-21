@@ -49,6 +49,11 @@ img#profile{
 }
 .like-dislike{
 	display:flex;
+	position:relative;
+	left:650px;
+	bottom:130px;
+	
+	
 }
 #like{
 	padding-right: 20px;
@@ -68,12 +73,6 @@ img#profile{
 	width:150px;
 	height:50px;
 	border-radius: 30px 30px 30px 30px;
-	align-items: center;
-    display: flex;
-    justify-content: center;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top : 10px;
 }
 .glyphicon glyphicon-thumbs-up{
 	font-size:30px;
@@ -82,10 +81,13 @@ img#profile{
 .glyphicon glyphicon-thumbs-down{
 	font-size:30px;
 }
-#comment-btn{
+#comment-btn-open{
 	width:700px;
 }
 
+#comment-btn-close{
+	width:700px;
+}
 
 
 #comments{
@@ -113,4 +115,32 @@ a.comment-update{
 a.comment-delete{
 	text-decoration: none;
         	color:black;
+}
+td.nick-comment{
+	width:560px;
+}
+
+.text-comment{
+	
+	width:546px;
+	height:80px;
+	resize:none;
+	white-space: pre-wrap;
+	border: none;
+	overflow:visible;
+	
+}
+#update-comt{
+	width:546px;
+	height:80px;
+	resize:none;
+	white-space: pre-wrap;
+	overflow:visible;
+	
+}
+#comment-input-btn{
+	
+	position:relative;
+	bottom:20px;
+	
 }
