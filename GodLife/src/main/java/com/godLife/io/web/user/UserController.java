@@ -49,6 +49,7 @@ import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
 import com.godLife.io.service.domain.OneInq;
+import com.godLife.io.service.domain.Report;
 import com.godLife.io.service.domain.User;
 
 import com.godLife.io.service.user.UserService;
@@ -127,12 +128,10 @@ public class UserController {
 
      }
      
-     @PostMapping( value="addUserKaKao") // 테스트완료 
+     @PostMapping( value="addUserKaKao") 
      public String addUserKaKao( @ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
     	 
     	 System.out.println(" addUserKaKao :: 에온 user  "+user);
-    	 
-    	 
     	 
     	 user.setPwd("12345");
     	 user.setJoinPath("2");
@@ -181,9 +180,10 @@ public class UserController {
       // 계정정지 상태 (이거안됨...왜안될까...)
       if(dbUser.getAccountStatus() == "2") {
          model.addAttribute("msg", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다.");
-         model.addAttribute("url", "/user/loginView.jsp"); // 해당 메세지 알러트창으로 어떻게?
+         model.addAttribute("url", "/user/loginView.jsp"); 
          return "alert.jsp"; 
       }
+      
       
       // 일치할경우(로그인성공)
       if( user.getPwd().equals(dbUser.getPwd())){
@@ -559,7 +559,7 @@ public class UserController {
       if(checkFriend > 0) {
     	  
          //이미 친구라면 (개수가 1일때 이미 친구상태, 0일때 친구 아님) 
-         model.addAttribute("msg", "이미 친구로 등록된 상태입니다."); 
+         model.addAttribute("msg", "이미 친구로 등록된 유저입니다. 친구 목록조회에서 확인부탁드립니다."); 
          model.addAttribute("url", "/user/listFriend?userEmail="+user.getUserEmail());
          return "alert.jsp";
          
@@ -598,7 +598,7 @@ public class UserController {
       if(checkBlack > 0) {
     	  
          //이미 블랙리스트라면 (개수가 1일때 이미 블랙리스트상태, 0일때 블랙리스트 아님) 
-         model.addAttribute("msg", "이미 블랙리스트로 등록된 상태입니다."); 
+         model.addAttribute("msg", "이미 블랙리스트로 등록된 상태입니다. 블랙리스트 목록조회에서 확인바랍니다."); 
          model.addAttribute("url", "/user/listBlack?userEmail="+user.getUserEmail());
          return "alert.jsp";
          
@@ -671,6 +671,7 @@ public class UserController {
   		return "redirect:/user/listFriend?userEmail="+user.getUserEmail(); //내 친구 목록조회로 이동 
   	}
    
+   
    @RequestMapping(value = "deleteUserBlack") // 블랙리스트목록에서 선택삭제
  	public String deleteUserBlack(@RequestParam("checkList") int[] reviewList, HttpSession session) throws Exception {
 
@@ -700,6 +701,7 @@ public class UserController {
    
    @PostMapping( value="addUserMsg") 
    public String addMsg( @ModelAttribute("msg") Msg msg, 
+		   				@RequestParam("recvEmail") String recvEmail,
                     Model model, HttpSession session) throws Exception {
 
       System.out.println("쪽지보내기 : POST");
@@ -707,16 +709,32 @@ public class UserController {
       User user = (User)session.getAttribute("user");
       msg.setSendEmail(user.getUserEmail());    // 보내는사람 세션으로 박아버리기
       
-     //model.addAttribute("msg", msg);
+      // 블랙리스트에게 보내는거 방지 
+      int checkMsgBlack = userService.checkMsgBlack(user.getUserEmail(), recvEmail);
+
+      System.out.println("개수!!!!!!뭐야!!!!!@@@"+checkMsgBlack);
       
-      //Business Logic
-      userService.addMsg(msg);
+      if(checkMsgBlack > 0) {
+    	  
+    	  //블랙리스트 관계(내가 등록했거나, 상대가 등록했거나) 쪽지 못보냄... 
+    	  model.addAttribute("msg", "블랙리스트 관계는 쪽지를 주고받을 수 없습니다.");
+    	  model.addAttribute("url", "/user/addUserMsg?sendEmail="+user.getUserEmail());
+    	  return "alert.jsp";
       
-      return "forward:/user/listUserSendMsg?sendEmail="+user.getUserEmail(); // 보낸 쪽지 목록으로 이동 
+      }else {
+    	  
+    	  //블랙리스트 관계아니니까.. 쪽지 보낼 수 있따...
+    	  userService.addMsg(msg);
+    	  model.addAttribute("msg", "쪽지가 성공적으로 전송되었습니다. 보낸쪽지함에서 확인 가능합니다.");
+    	  model.addAttribute("url", "/user/listUserSendMsg?sendEmail="+user.getUserEmail()); // 보낸쪽지함으로이동 
+    	  return "alert.jsp";
+      }
+      
    }
    
    
-   //쪽지 답장 답장 띄우는 것만 일단 
+   
+   //쪽지 답장 답장 띄우는 것만 일단 목록에서... 
    @GetMapping( value="addUserMsgReply") 
    public String addUserMsgReply( @ModelAttribute("msg") Msg msg,
 		   						
@@ -730,7 +748,6 @@ public class UserController {
       System.out.println("쪽지 보내는사람은?"+user.getUserEmail());
       System.out.println("쪽지 받는사람은?" + msg.getSendEmail());
       
-      
      model.addAttribute("msg", msg);
       
       //Business Logic
@@ -738,12 +755,10 @@ public class UserController {
       return "forward:/user/addUserMsgReply.jsp"; // 답장 보낼수있는 화면으로 이동 
    }
    
+   
+   
+   
    // 쪽지 답장보내기 post
-   
-   
-   
-   
-   
    
    @GetMapping( value="getUserRecvMsg")
    public String getMsg( @RequestParam("msgNo") int msgNo , Model model ) throws Exception {
@@ -804,7 +819,6 @@ public class UserController {
   		User user = (User)session.getAttribute("user");
   		return "redirect:/user/listUserSendMsg?sendEmail="+user.getUserEmail(); 
   	}
-   
    
    
    //받은 쪽지 목록조회
@@ -981,26 +995,78 @@ public class UserController {
    
    ////////////////////////////////신고 관리/////////////////////////////////////////////////////////
    
+   //신고등록 
+   @PostMapping( value="addMsgReport") // 완료 (닉네임으로 하면안됨...) 
+   public String addMsgReport( @ModelAttribute("report") Report report,  
+		   					Model model, HttpSession session) throws Exception {
+	   						   
+      System.out.println("쪽지 신고등록 시작");
+      
+      User user = (User)session.getAttribute("user");
+      
+      report.setReporterEmail(user.getUserEmail()); // 신고자 세션으로 박아버리기 
+      
+      System.out.println("@@@@데이터 잘나오니..."+report);
+      
+      //Business Logic
+      userService.addMsgReport(report);
+      
+      model.addAttribute("msg", "신고 접수가 완료되었습니다.");
+      model.addAttribute("url","/user/listUserRecvMsg?recvEmail="+user.getUserEmail()); // 받은 쪽지함으로 이동... 
+      
+      return "alert.jsp";
+      
+   }
+   
    //레드카드 소멸쿠폰 사용 
    @GetMapping("updateUserRedCouponCount")
-   public String updateUserRedCouponCount(HttpSession session) throws Exception{
+   public String updateUserRedCouponCount(HttpSession session, Model model) throws Exception{
       
-      System.out.println("updateUserRedCouponCount : GET");
+      System.out.println("쿠폰사용... ");
       
       User user = (User)session.getAttribute("user");
       System.out.println("유저 : "+user);
       
-      int redCoupon = user.getRedCouponCount() - 1;
+      //레드카드 쿠폰 개수가 0개일때 
+      if(user.getRedCouponCount() < 1) {
+    	  
+    	  model.addAttribute("msg", "레드카드 쿠폰 개수를 확인해주세요");
+          model.addAttribute("url","/user/getUser?userEmail="+user.getUserEmail()); // 다시 본인 상세조회로 이동  
+          
+          return "alert.jsp";
+      }
       
-        System.out.println("redCoupon : " + redCoupon);
-        
-        user.setRedCardCount(redCoupon);
-        userService.updateUserRedCouponCount(user);
-        
-        return "forward:/user/getUser.jsp"; // 쿠폰쓰고 다시 본인 상세조회로 포워드?리다이렉트?? 
+      //레드카드 개수가 0개일때 
+      if(user.getRedCardCount() < 1) {
+    	  
+    	  model.addAttribute("msg", "보유한 레드카드가 없습니다.");
+          model.addAttribute("url","/user/getUser?userEmail="+user.getUserEmail()); // 다시 본인 상세조회로 이동  
+          
+          return "alert.jsp";
+    	  
+      }else{
+    	  
+          userService.updateUserRedCouponCount(user);
+          
+          int redCoupon = user.getRedCouponCount()-1;
+          System.out.println("레드카드쿠폰개수 : " + redCoupon);
+          user.setRedCardCount(redCoupon); // 레드카드쿠폰개수 한개뺸걸로 박아버리기...  
+          
+          int redcardCount = user.getRedCardCount()-1;
+          System.out.println("레드카드개수나와라..."+redcardCount);
+          user.setRedCardCount(redcardCount); //레드카드개수도 한개뺀걸로 박아버리기
+          
+          model.addAttribute("msg", "쿠폰 사용이 완료되었습니다.");
+          model.addAttribute("url","/user/getUser?userEmail="+user.getUserEmail()); // 다시 본인 상세조회로 이동  
+          
+          return "alert.jsp";
+    	  
+      }
+      
+      
+      
+      
    }
-   
-   
    
    
    

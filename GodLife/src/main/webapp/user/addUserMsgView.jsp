@@ -13,12 +13,15 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
+	<!-- CSS , JS -->
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
 <!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
-   	
-<!-- 왼쪽 레이아웃 삽입-->
-<jsp:include page="/user/mypageMain.jsp" />
 
 <!-- CSS-->
 <link rel="stylesheet" href="/css/getUser.css" />
@@ -78,9 +81,12 @@ float : center;
 
 </style>
 
+
+<script src="javascript/data.js"></script>
 <!--  자바스크립트 -->
 <script type="text/javascript">
-		
+
+
 		   //==>"받는사람 이메일" 있는지 없는지 검사 
 		
 		function checkUserEmail(){
@@ -107,7 +113,25 @@ float : center;
 	            }
 	        });
 	        };
-		
+	        
+	        //===========이메일 오토컴플릿 구현====================
+	        	
+	        	$(function () {	//화면 로딩후 시작
+	        		var searchSource = ["admin@io.com", "chilee4650@naver.com", "kimhoyam@hotmail.com", "lllll@naver.ocm", "lovejuf@naver.com",
+	        										"tndkdml@gmail.com","user01@io.com","user02@io.com","user03@io.com","user04@io.com","user05@io.com" ]; // 배열 형태로 
+
+	        			$("#recvEmail").autocomplete({  //오토 컴플릿트 시작
+				source: searchSource,	// source는 data.js파일 내부의 List 배열 > 일단 이거 보류.. 먹히지않음.. 
+				focus : function(event, ui) { // 방향키로 자동완성단어 선택 가능하게 만들어줌	
+					return false;
+				},
+				minLength: 1,// 최소 글자수
+				delay: 100,	//autocomplete 딜레이 시간(ms)
+				//disabled: true, //자동완성 기능 끄기
+			});
+		});
+	        
+	        
 		
 			//============= "쪽지보내기"  Event 연결 =============
 		 $(function() {
@@ -121,6 +145,9 @@ float : center;
 			
 			var recvEmail=$("input[name='recvEmail']").val();
 			var name=$("input[name='title']").val();
+			var ok= $.trim($('.id_ok').text());
+			//console.log("이거제발나와...."+ok);
+			alert("이거나오니...."+ok);
 			
 			if(recvEmail == null || recvEmail.length <1){
 				alert("이메일은  반드시 입력하셔야 합니다.");
@@ -132,9 +159,12 @@ float : center;
 				return;
 			}
 			
+			if(ok == '해당 이메일은 존재하지 않습니다.'){
+				alert("이메일을 다시 확인해주세요");
+				return;
+			}
 			
 			$("form").attr("method" , "POST").attr("action" , "/user/addUserMsg").submit();
-			alert("전송이 완료되었습니다")
 		}
 		
 		
@@ -168,6 +198,10 @@ float : center;
 <title>쪽지 보내기</title>
 </head>
 <body>
+
+<!-- 왼쪽 레이아웃 삽입-->
+	<jsp:include page="/user/mypageMain.jsp" />
+
 	<div class="page_aticle">
 		<div class="type_form getUser" id="getUser">
 			<form id="form" name="frmMember" >
@@ -182,7 +216,7 @@ float : center;
 						<th>이메일</th>
 						<td>
 							<input type="text" class="form-control" id="recvEmail" name="recvEmail" placeholder="이메일" oninput = "checkUserEmail()" >
-							<span id="helpBlock" class="id_ok">해당 이메일은 존재하지 않습니다. </span>
+							<span id="helpBlock" class="id_ok">해당 이메일은 존재하지 않습니다.</span>
 			 				 <span id="helpBlock" class="id_already"></span>
 						</td>
 					</tr>

@@ -36,13 +36,6 @@
   <!-- jQuery UI toolTip »ç¿ë JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
-  
-  <!-- »ó´Ü¹Ù»ðÀÔ -->
-	<jsp:include page="/layout/toolbar.jsp" />
-	<!-- ¿ÞÂÊ ·¹ÀÌ¾Æ¿ô »ðÀÔ-->
-	<jsp:include page="/user/mypageMain.jsp" />
-	
-	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	
@@ -85,6 +78,13 @@
             
     </style>
     
+    
+    <!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolbar.jsp" />
+   	<!-- ToolBar End /////////////////////////////////////-->
+   	
+<!-- ¿ÞÂÊ ·¹ÀÌ¾Æ¿ô »ðÀÔ-->
+<jsp:include page="/user/mypageMain.jsp" />
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
@@ -132,7 +132,6 @@
 </head>
 
 <body>
-	
 	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
 	
 	<div class="container" id="container" >

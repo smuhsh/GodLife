@@ -32,7 +32,6 @@
    
  		body {
 
-            background-color: #708090 ;
 		    font-weight: bold; 
 		    font-family: 'oneMobile';
         }
@@ -122,7 +121,14 @@
    <!-- ToolBar Start /////////////////////////////////////-->
    <jsp:include page="/layout/toolbar.jsp" />
    <!-- ToolBar End /////////////////////////////////////-->
-
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
    <!--  화면구성 div Start /////////////////////////////////////-->
    <div class="container">
 
@@ -148,7 +154,7 @@
 		 <div class="form-group">
             <label for="productImg" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>            
             <div class="col-sm-4">
-            <img  productNo="${ product.productNo }" width="400" height="400" src="../images/uploadFiles/${product.productImg}" alt="..." 
+            <img  productNo="${ product.productNo }" width="400" height="400" src="/resources/images/uploadFiles/${product.productImg}" alt="..." 
 					onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'"/>
 			    <input type="file" class="form-control" id="imageUpload" multiple="multiple" name="imageUpload">
             </div>
@@ -192,8 +198,8 @@
 
          <div class="form-group">
             <div class="col-sm-offset-4  col-sm-4 text-center">
-               <button type="button" class="btn btn-primary update">수 &nbsp;정</button>
-               <button type="button" class="btn btn-primary delete">삭 &nbsp;제</button>
+               <button type="button" class="btn btn-primary update">수정완료</button>
+               <button type="button" class="btn btn-primary delete">삭 제</button>
                <a class="btn btn-primary btn" href="#" role="button">내용리셋</a>
                <button type="button" class="btn btn-primary back">이전페이지로 돌아가기</button>          
             </div>

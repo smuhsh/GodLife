@@ -62,7 +62,6 @@ float : center;
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $("#writeBtn1" ).on("click" , function() {
-				alert("쿠폰사용이 완료되었습니다.")
 				 $("form").attr("method" , "GET").attr("action" , "/user/updateUserRedCouponCount").submit();
 				});
 		});
