@@ -56,7 +56,8 @@ public interface OperatorDao {
 	//DELETE
 	public void deleteOperatorEvents(OperatorEvents operatorEvents) throws Exception;
 	//public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
-	public void deleteOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception;
+	//public void deleteOperatorNotice(OperatorNoticeFaqs noticeFaqNo) throws Exception;
+	public void deleteOperatorNotice(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
 	public void deleteOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception;
 	
 	// Page All Row(totalCount)  return

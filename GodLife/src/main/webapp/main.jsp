@@ -64,9 +64,26 @@
 			  <div class="carousel-inner" role="listbox">
 			    
 			    <div class="item active">
-			     <img src="/resources/images/uploadFiles/temp.jpg" 
-				      onerror="this.src='https://dummyimage.com/2000x260/404040/bababa.gif'"
-				      class="img-responsive center-block">
+				    <a href="/operator/getOperatorJoinDayEvent?eventNo=1&userEmail=${sessionScope.user.userEmail}" >
+				     <img src="/images/uploadFiles/operatorDayEvent(2).png" alt="First slide" 
+					      onerror="this.src='https://dummyimage.com/2000x260/404040/bababa.gif'"
+					      class="img-responsive center-block">
+					</a>
+				</div>
+				<div class="item">
+				    <a href="/operator/getOperatorJoinRoullEvent?eventNo=2&userEmail=${sessionScope.user.userEmail}" >
+				     <img src="/images/uploadFiles/operatorRoullEvent(3).png" alt="Second slide" 
+					      onerror="this.src='https://dummyimage.com/2000x260/404040/bababa.gif'"
+					      class="img-responsive center-block">
+					</a>
+				</div>
+				<div class="item">
+				    <a href="/operator/getOperatorJoinDayEvent?eventNo=1&userEmail=${sessionScope.user.userEmail}" >
+				     <img src="/images/uploadFiles/operatorNewEvent.png" alt="Third slide" 
+					      onerror="this.src='https://dummyimage.com/2000x260/404040/bababa.gif'"
+					      class="img-responsive center-block">
+					</a>
+				</div>
 			      <div class="carousel-caption">
 			      </div>
 			    </div>
