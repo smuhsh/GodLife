@@ -220,8 +220,8 @@ div#menu-bar{
             </a> 
                <ul class="all_category_item" id="all_category_item">
 
-                  <li><a href="링크">회원 전체목록</a></li>
-                    <li><a href="링크">신고관리</a></li>
+                  <li><a href="/user/listUser">회원 전체목록</a></li>
+                    <li><a href="/user/listUserReport">신고관리</a></li>
                   <li><a class="링크">챌린지관리</a></li>
                   <li><a class="링크">인증이미지 게시글관리</a></li>
                   <li><a class="링크"> 개설한 챌린지관리</a></li>
@@ -231,7 +231,6 @@ div#menu-bar{
                   <li><a href="/badge/getBadgeList">배지 관리</a></li>
                   <li><a href="/operator/listOperatorEvent.jsp">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
-                  <li><a class="링크">일대일문의 관리</a></li>
                   <li><a href="/operator/listOperatorNotice">공지사항 관리</a></li>
                   <li><a href="/operator/listOperatorFaqs">FAQ 관리</a></li>
                </ul>
@@ -241,7 +240,6 @@ div#menu-bar{
       </div>
       </div>
    </div>
-
 
 
    

@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,7 +52,7 @@
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listUserReport").submit();
 		}
 		
 		//============= "검색"  Event  처리 =============	
@@ -72,10 +74,9 @@
 						
 			//==> userEmail LINK Event End User 에게 보일수 있도록 
 			//$( "td:nth-child(2)" ).css("color" , "black");
-			
 		});	
 		
-
+			
 	</script>
 	
 </head>
@@ -90,9 +91,10 @@
 	<div class="container">
 	
 	<div class="head_aticle" align="center" id = "head_aticle">
-	      <h2 class="tit" style="color: #333;">회원 목록조회(관리자용)</h2>
+	      <h2 class="tit" style="color: #333;">신고 회원 목록조회(관리자용)</h2>
 	    </div>
 	    
+	    <br></br>
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
 	    
@@ -109,7 +111,8 @@
 				    <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원 이메일</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>관심사</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>신고 개수</option>
+						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>레드카드 개수</option>
 					</select>
 				  </div>
 				  
@@ -132,17 +135,18 @@
 		
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
-			<br></br>
+		<br></br>
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped">
       
-        <thead>
+       <thead>
           <tr>
-            <th align="center">No</th>
-            <th align="left" >회원 이메일</th>
-            <th align="left">닉네임</th>
-            <th align="left">가입날짜</th>
-            <th align="left">관심사</th>
+          <th align="center" width="10%">No</th>
+            <th align="left" width="30%">회원 이메일</th>
+            <th align="left" width="10%" >닉네임</th>
+            <th align="left" width="30%" >가입날짜</th>
+            <th align="left" width="10%" >레드카드 개수</th>
+            <th align="left" width="10%" >신고 개수</th>
           </tr>
         </thead>
        
@@ -153,10 +157,11 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${user.userEmail}</td>
+			  <td align="left" >${user.userEmail}</td>
 			  <td align="left">${user.nick}</td>
 			  <td align="left">${user.regDate}</td>
-			   <td align="left">${user.categName}</td>
+			   <td align="left">${user.redCardCount}</td>
+			   <td align="left"><a  href="/user/getUserReport?targetEmail=${user.userEmail}">${user.rc}</a></td>
 			  <td align="left">
 			  	<input type="hidden" value="${user.userEmail}">
 			  </td>

@@ -161,11 +161,18 @@ public interface UserService {
     
     // 쪽지 신고 등록 
     public void addMsgReport(Report report) throws Exception ;
-
+    
+    //쪽지 신고 중복방지 
+    public int checkMsgReport(String reporterEmail, String targetEmail, int MsgNo);
+    
     //신고 유저 목록조회(관리자) 
+  	public Map<String , Object> getUserReportList(Search search) throws Exception;
     
     //레드카드 발급, 제거 
     public void updateRedCard(User user) throws Exception; 
+    
+    //신고 유저 상세 목록조회(관리자) 
+    public Map<String, Object> getUserReport(Search search, String targetEmail) throws Exception ;
     
     
     

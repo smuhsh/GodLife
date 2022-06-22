@@ -133,7 +133,7 @@ float : center;
 					<tr class="reportCount">
 						<th>신고 보유 개수</th>
 						<td>
-								<input type="text" value=""  name="reportCount" id="reportCount" placeholder="${user.reportCount}"  readonly/>
+								<input type="text" value=""  name="rc" id="rc" placeholder="${user.rc}"  readonly/>
 						</td>
 					</tr>
 					
@@ -154,7 +154,7 @@ float : center;
 					<button type="button" class="btn active btn_join" id="writeBtn">수정하러가기</button>
 				</div>
 			</form>
-		</div>z
+		</div>
 		
 		
 		
