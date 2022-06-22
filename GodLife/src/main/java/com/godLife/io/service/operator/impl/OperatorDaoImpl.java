@@ -51,7 +51,7 @@ public class OperatorDaoImpl implements OperatorDao{
 	}
 	public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		//sqlSession.insert("OperatorJoinEventMapper.addOperatorJoinEvent",operatorJoinEvent);
-		sqlSession.insert("OperatorMapper.addOperatorJoinEvent", operatorJoinEvent);
+		sqlSession.insert("OperatorMapper.addOperatorJoinRoullEvent", operatorJoinEvent);
 	}
 	
 	public void addOperatorReward(OperatorReward operatorReward) throws Exception {
@@ -251,9 +251,9 @@ public class OperatorDaoImpl implements OperatorDao{
 //		//sqlSession.delete("OperatorNoticeFaqsMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
 //		sqlSession.delete("OperatorMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
 //	}
-	public void deleteOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception {
+	public void deleteOperatorNotice(OperatorNoticeFaqs noticeFaqNo) throws Exception {
 		//sqlSession.delete("OperatorNoticeFaqsMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
-		sqlSession.delete("OperatorMapper.deleteOperatorNotice",operatorNotice);								
+		sqlSession.delete("OperatorMapper.deleteOperatorNotice",noticeFaqNo);								
 	}
 	public void deleteOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception {
 		//sqlSession.delete("OperatorNoticeFaqsMapper.deleteOperatorNoticeFaqs",operatorNoticeFaqs);								
