@@ -35,8 +35,8 @@
 		
 		 $(function() {
 			 $( "td.ct_btn01:contains('수정')" ).on("click" , function() {
-				//self.location = "/operator/updateOperatorNotice?noticeFaqNo=${NoticeFaqs.noticeFaqNo}"
-				self.location = "/operator/updateOperatorNotice.jsp"
+				self.location = "/operator/updateOperatorNotice?noticeFaqNo=${operatorNoticeFaqs.noticeFaqNo}"
+				//self.location = "/operator/updateOperatorNotice.jsp"
 			});
 			
 			$( "td.ct_btn01:contains('목록')" ).on("click" , function() {

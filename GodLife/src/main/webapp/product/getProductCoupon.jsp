@@ -28,16 +28,9 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-@font-face {
-		    font-family: 'oneMobile';
-		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
-		}	
-		
- 		body {
-
-		    font-weight: bold; 
-		    font-family: 'oneMobile';
-        }
+	body{
+		font-weight : 600;
+	}	
         
           
 		textarea {
@@ -45,7 +38,6 @@
 		    height: 6.25em;
 		    border: none;
 		    resize: none;
-		    font-family: 'oneMobile';
 		  }        
         
         
@@ -96,7 +88,7 @@
 	<div class="container">
 	
 		<div class="page-header">
-	       <h3 class=" text-info" style="color:#000000; font-weight: bold; font-family:impact;">쿠폰상품상세조회</h3>
+	       <h3 class=" text-info" style="color:#000000; ">쿠폰상품상세조회</h3>
 	    </div>
 	    
 <!-- 이미지 미리 보기 -->	

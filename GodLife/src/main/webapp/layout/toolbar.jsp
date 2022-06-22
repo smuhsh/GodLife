@@ -163,16 +163,17 @@ div#menu-bar{
                
                
 
-               <li class="sign_in_item">   
-                                    
-                   <c:if test="${user.userEmail != null && user.userEmail !=\"\" && user.joinPath == '1'}">
-                   <a href="/user/logout">로그아웃</a>
-                   </c:if>
+               <li class="sign_in_item">
+               		               
+		           <c:if test="${user.userEmail != null && user.userEmail !=\"\" && user.joinPath == '1'}">
+		           <a href="/user/logout">로그아웃</a>
+ 		           </c:if>
                
-                   <c:if test="${user.userEmail != null && user.userEmail !=\"\" && user.joinPath != '1'}">
-                   <a href="https://kauth.kakao.com/oauth/logout?client_id=6d708d50985428b8450271c1e7e98b04&logout_redirect_uri=http://localhost:8080/user/logout">로그아웃</a>
-                  </c:if>
                   
+		           <c:if test="${user.userEmail != null && user.userEmail !=\"\" && user.joinPath != '1'}">
+		           <a href="https://kauth.kakao.com/oauth/logout?client_id=6d708d50985428b8450271c1e7e98b04&logout_redirect_uri=http://localhost:8080/user/logout">로그아웃</a>
+		          </c:if>
+		            
               </li>
                
           
@@ -217,7 +218,7 @@ div#menu-bar{
                <ul class="all_category_item" id="all_category_item">
                
                      <li><a href="/operator/getOperatorJoinDayEvent?eventNo=1&userEmail=${sessionScope.user.userEmail}">매일출석</a></li>
-                     <li><a href="/operator/getOperatorJoinRoullEvent?eventNo=2">룰렛 이벤트</a></li>
+                     <li><a href="/operator/getOperatorJoinRoullEvent?eventNo=2&userEmail=${sessionScope.user.userEmail}">룰렛 이벤트</a></li>
                </ul>
             </li>
                
@@ -236,8 +237,8 @@ div#menu-bar{
             </a> 
                <ul class="all_category_item" id="all_category_item">
 
-                  <li><a href="링크">회원 전체목록</a></li>
-                    <li><a href="링크">신고관리</a></li>
+                  <li><a href="/user/listUser">회원 전체목록</a></li>
+                    <li><a href="/user/listUserReport">신고관리</a></li>
                   <li><a class="링크">챌린지관리</a></li>
                   <li><a class="링크">인증이미지 게시글관리</a></li>
                   <li><a class="링크"> 개설한 챌린지관리</a></li>
@@ -245,9 +246,8 @@ div#menu-bar{
                   <li><a href="/product/getProductVoucherList">상품권 관리</a></li>
                   <li><a href="/product/getProductCouponList">쿠폰 관리</a></li>
                   <li><a href="/badge/getBadgeList">배지 관리</a></li>
-                  <li><a href="/operator/listOperatorEvent.jsp">이벤트 관리</a></li>
+                  <li><a href="/operator/listOperatorEvents">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
-                  <li><a class="링크">일대일문의 관리</a></li>
                   <li><a href="/operator/listOperatorNotice">공지사항 관리</a></li>
                   <li><a href="/operator/listOperatorFaqs">FAQ 관리</a></li>
                </ul>
@@ -261,10 +261,10 @@ div#menu-bar{
         <!--  화면구성 div End /////////////////////////////////////-->
 
 <div class="modal fade donationModal" tabindex="-1" role="dialog" aria-labelledby="LargeModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-fullsize">
-      <div class="modal-content modal-fullsize">
-      </div>
-   </div>
+	<div class="modal-dialog modal-fullsize">
+		<div class="modal-content modal-fullsize">
+		</div>
+	</div>
 </div>
 
    

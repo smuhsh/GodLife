@@ -14,13 +14,6 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-   	
-<!-- 왼쪽 레이아웃 삽입-->
-<jsp:include page="/user/mypageMain.jsp" />
-
 <!-- CSS-->
 <link rel="stylesheet" href="/css/getUser.css" />
 
@@ -201,6 +194,11 @@ float : center;
 <title>개인정보 수정</title>
 </head>
 <body>
+
+<!-- 왼쪽 레이아웃 삽입-->
+	<jsp:include page="/user/mypageMain.jsp" />
+	
+	
 	<div class="page_aticle">
 		<div class="type_form getUser" id="getUser">
 			<form id="form" name="frmMember"  encType="multipart/form-data" >

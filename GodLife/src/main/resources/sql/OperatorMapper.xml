@@ -35,6 +35,7 @@
 	
 	<!-- NoticeFaqs -->	
 	<resultMap id="operatorNoticeFaqsSelectMap" type="operatorNoticeFaqs">
+	<!--  <resultMap id="operatorNoticeFaqsSelectMap" type="operatorNoticeFaqs">-->
 		<result property="noticeFaqNo" 			column="notice_faq_no" 		jdbcType="INTEGER"/>
 		<result property="userEmail"			column="user_email" 		jdbcType="VARCHAR" />
 		<result property="status" 				column="status" 			jdbcType="VARCHAR" />
@@ -403,7 +404,7 @@
 	 </update>
 
 	 <!-- SQL : DELETE -->
-	 <delete	id="deleteOperatorFaqs"	parameterType="operatorNoticeFaqs" >
+	 <delete	id="deleteOperatorFaqs"	parameterType="int" >
 	   	DELETE notice_faqs
 		WHERE notice_faq_no = #{noticeFaqNo}
 	 </delete>

@@ -66,7 +66,7 @@ public class PointDaoImpl implements PointDao {
 			user.setTotalPoint(sumPoint);
 
 			System.out.println("map : "+map);
-			System.out.println("point : "+ point);
+			System.out.println("@@PointDaoimpl point : "+ point);
 			sqlSession.insert("PointMapper.addPointPurchase", point);
 			userService.updateUserTotalPoint(user);
 
@@ -164,8 +164,8 @@ public class PointDaoImpl implements PointDao {
 				
 			user.setTotalPoint(sumPoint);
 			userService.updateUserTotalPoint(user);
-			System.out.println("map : "+map);
-			System.out.println("point : "+ point);
+			System.out.println("poin daoimp map : "+map);
+			System.out.println("point daoimp point : "+ point);
 			sqlSession.insert("PointMapper.addPointPurchase", point);
 		} else {
 			System.out.println("Error");
@@ -206,6 +206,23 @@ public class PointDaoImpl implements PointDao {
 	}
 
 	@Override
+	public Map<String, Object> getPointPurchasePointList(Search search, User user) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String userEmail=user.getUserEmail();
+		map.put("endRowNum",  search.getEndRowNum()+"" );
+		map.put("startRowNum",  search.getStartRowNum()+"" );
+		map.put("userEmail",userEmail);
+		System.out.println("@@@@dao Search : "+search);
+		map.put("search", search);
+		List<Point> list = sqlSession.selectList("PointMapper.getPointPurchasePointList", map);
+		map.put("list", list);
+		
+		return map;
+	}
+	
+	
+	@Override
 	public Map<String, Object> getPointPurchaseDonationList(Search search, User user) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -240,6 +257,18 @@ public class PointDaoImpl implements PointDao {
 		System.out.println("@@@@dao Search : "+search);
 		map.put("search", search);
 		return sqlSession.selectOne("PointMapper.getTotalCount", map);
+	}
+	
+	@Override
+	public int getPointTotalCount(Search search,User user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String userEmail=user.getUserEmail();
+		map.put("endRowNum",  search.getEndRowNum()+"" );
+		map.put("startRowNum",  search.getStartRowNum()+"" );
+		map.put("userEmail",userEmail);
+		System.out.println("@@@@dao Search : "+search);
+		map.put("search", search);
+		return sqlSession.selectOne("PointMapper.getPointTotalCount", map);
 	}
 	
 	@Override

@@ -460,9 +460,40 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	
+	// 쪽지 신고 중복방지
+	public int checkMsgReport(String reporterEmail, String targetEmail, int msgNo) {
+		Map<String, String> map = new HashMap<>();
+		map.put("reporterEmail", reporterEmail);
+		map.put("targetEmail", targetEmail);
+		map.put("msgNo", Integer.toString(msgNo));
+		
+		int checkMsgReport = userDao.checkMsgReport(map);
+		
+		return checkMsgReport;
+	}
 	
 	
+	//신고회원 목록조회(관리자) 
+	public Map<String , Object > getUserReportList(Search search) throws Exception {
+		List<User> list= userDao.getUserReportList(search);
+		int totalCount = userDao.getUserReportTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		return map;
+	}
+	
+	//신고회원 상세목록조회 (목록에서 목록...) 
+	public Map<String , Object > getUserReport(Search search, String targetEmail) throws Exception {
+		int totalCount = userDao.getUserSendMsgTotalCount(search, targetEmail); // 변경하기 
 
+		Map<String, Object> map = userDao.getUserReport(search, targetEmail);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+	
 	public void updateUserTotalPoint(User user) throws Exception{
 		userDao.updateUserTotalPoint(user);
 	}

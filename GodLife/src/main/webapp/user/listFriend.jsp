@@ -79,13 +79,6 @@
     </style>
     
     
-    <!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-   	
-<!-- ¿ÞÂÊ ·¹ÀÌ¾Æ¿ô »ðÀÔ-->
-<jsp:include page="/user/mypageMain.jsp" />
-    
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
@@ -132,6 +125,10 @@
 </head>
 
 <body>
+
+<!-- ¿ÞÂÊ ·¹ÀÌ¾Æ¿ô »ðÀÔ-->
+<jsp:include page="/user/mypageMain.jsp" />
+
 	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
 	
 	<div class="container" id="container" >

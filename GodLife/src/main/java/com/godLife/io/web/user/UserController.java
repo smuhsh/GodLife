@@ -1,66 +1,38 @@
 package com.godLife.io.web.user;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
-import org.apache.maven.doxia.module.fml.model.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.godLife.io.service.user.UserService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
+import com.godLife.io.service.domain.MyBadge;
 import com.godLife.io.service.domain.OneInq;
 import com.godLife.io.service.domain.Report;
 import com.godLife.io.service.domain.User;
-
+import com.godLife.io.service.mybadge.MyBadgeService;
 import com.godLife.io.service.user.UserService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.godLife.io.common.Page;
-import com.godLife.io.common.Search;
-import com.godLife.io.service.domain.FriendBlack;
-import com.godLife.io.service.domain.Msg;
-import com.godLife.io.service.domain.OneInq;
-import com.godLife.io.service.domain.User;
 
 //==> 회원관리 Controller
 @Controller
@@ -71,6 +43,13 @@ public class UserController {
    @Autowired
    @Qualifier("userServiceImpl")
    private UserService userService;
+   
+   ///배지 추가를 위한 Injection//////////////////
+   @Autowired
+   @Qualifier("myBadgeServiceImpl")
+   private MyBadgeService myBadgeService;
+   ///배지 추가를 위한 Injection//////////////////
+   
    //setter Method 구현 않음
       
    public UserController(){
@@ -85,6 +64,7 @@ public class UserController {
      @Resource(name="uploadPath")
        String uploadPath;
    
+     
    ////////////////////////////////회원관리/////////////////////////////////////////////////////////
    
      //카카오 로그인 
@@ -169,21 +149,19 @@ public class UserController {
       
       System.out.println("getUser 결과 : "+dbUser);
       
-      //아이디가 없을 경우(알러트창,, 드디어성공) 
+      //아이디가 없을 경우
       if(dbUser == null){
          model.addAttribute("msg", "아이디 및 비밀번호가 일치하지 않습니다."); // 해당 메세지 알러트창으로 어떻게?
          model.addAttribute("url", "/user/loginView.jsp"); // 메세지 알러트창 
          return "alert.jsp"; 
       }
       
-      
-      // 계정정지 상태 (이거안됨...왜안될까...)
-      if(dbUser.getAccountStatus() == "2") {
-         model.addAttribute("msg", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다.");
+      // 레드카드 개수 3개일떄 계정정지상태... 
+      if(dbUser.getRedCardCount() == 3) {
+         model.addAttribute("msg", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다. 고객센터로 문의바랍니다.");
          model.addAttribute("url", "/user/loginView.jsp"); 
          return "alert.jsp"; 
       }
-      
       
       // 일치할경우(로그인성공)
       if( user.getPwd().equals(dbUser.getPwd())){
@@ -225,15 +203,22 @@ public class UserController {
    
    
    @PostMapping( value="addUser") // 완료 
-   public String addUser( @ModelAttribute("user") User user, Model model) throws Exception {
+   public String addUser( @ModelAttribute("user") User user, MyBadge myBadge , Model model) throws Exception {
 
       System.out.println("/user/addUser : POST");
       
       //Business Logic
       userService.addUser(user);
+      
+      //가입환영 배지를 위한 추가 부분, parameter에 mybadge부분도 추가//////////////////////////////////////
+      myBadge.setBadgeNo(10000);
+      myBadge.setUserEmail(user.getUserEmail());
+      myBadgeService.updateBadgeMyActCount(myBadge);
+      //가입환영 배지를 위한 추가 부분////////////////////////////////////////////////////////////////////////////
+      
+ 	  user.setJoinPath("1");
       model.addAttribute("msg", "GodLife에 가입해주셔서 감사합니다.");
       model.addAttribute("url","/user/loginView.jsp");
-      
       return "alert.jsp";
       
       //return "redirect:/user/loginView.jsp"; // 회원가입하면 로그인페이지로 이동 
@@ -328,7 +313,7 @@ public class UserController {
     }
    
     
-   @RequestMapping( value="listUser" )  // 테스트완료, 매퍼에서 서치검색어 like로 바꾸기 
+   @RequestMapping( value="listUser" )  // 관리자용 회원전체목록 
    public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
       
       
@@ -367,7 +352,7 @@ public class UserController {
       
       md.addAttribute("userEmail", userService.findUserEmail(response, phone));
       
-      return "forward:/user/getUserEmail.jsp";
+      return "forward:/user/getUserEmail.jsp"; // 이메일 뭔지 보여주는 창으로 이동 
    }
    
    
@@ -616,7 +601,7 @@ public class UserController {
    
    //친구 요청 수락 (친구요청 목록조회에서)  // 완료 
    @RequestMapping( value="updateAccStatus")
-   public String updateAccStatus( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
+   public String updateAccStatus( @ModelAttribute("friendBlack") FriendBlack friendBlack , MyBadge myBadge, 
                            @RequestParam("userEmail") String userEmail,
                            Model model , HttpSession session) throws Exception{
       
@@ -626,6 +611,21 @@ public class UserController {
       
       User user = (User)session.getAttribute("user");
       
+    //친구야 배지를 위한 추가 부분, parameter에 mybadge부분도 추가////////////////////////////////////////////////////////////
+      System.out.println("userEmail : "+friendBlack.getUserEmail());
+      System.out.println("targetEmail : "+friendBlack.getTargetEmail());
+      
+      String targetEmail=friendBlack.getTargetEmail();
+      String badgeUserEmail=friendBlack.getUserEmail();
+
+      myBadge.setBadgeNo(10001);
+      myBadge.setUserEmail(targetEmail);
+      myBadgeService.updateBadgeMyActCount(myBadge);
+
+      myBadge.setBadgeNo(10001);
+      myBadge.setUserEmail(badgeUserEmail);
+      myBadgeService.updateBadgeMyActCount(myBadge);
+      //친구야 배지를 위한 추가 부분////////////////////////////////////////////////////////////
       model.addAttribute("msg", "친구 수락이 완료되었습니다. 친구 목록조회에서 확인가능합니다."); 
       model.addAttribute("url", "/user/listFriendRequest?targetEmail="+user.getUserEmail());
       return "alert.jsp";
@@ -995,9 +995,11 @@ public class UserController {
    
    ////////////////////////////////신고 관리/////////////////////////////////////////////////////////
    
-   //신고등록 
+   //쪽지 신고등록 
    @PostMapping( value="addMsgReport") // 완료 (닉네임으로 하면안됨...) 
    public String addMsgReport( @ModelAttribute("report") Report report,  
+		   					   @RequestParam("targetEmail") String targetEmail, 
+		   					   @RequestParam("msgNo") int msgNo,
 		   					Model model, HttpSession session) throws Exception {
 	   						   
       System.out.println("쪽지 신고등록 시작");
@@ -1008,17 +1010,29 @@ public class UserController {
       
       System.out.println("@@@@데이터 잘나오니..."+report);
       
-      //Business Logic
-      userService.addMsgReport(report);
+      //쪽지 신고 중복방지 
+      int checkMsgReport = userService.checkMsgReport(user.getUserEmail(), targetEmail, msgNo);
       
-      model.addAttribute("msg", "신고 접수가 완료되었습니다.");
-      model.addAttribute("url","/user/listUserRecvMsg?recvEmail="+user.getUserEmail()); // 받은 쪽지함으로 이동... 
+      System.out.println("개수@@@::"+checkMsgReport);
       
-      return "alert.jsp";
-      
+      if(checkMsgReport > 0) {
+    	  
+    	  //이미 같은 쪽지번호에 대상이메일을 신고했다는 거니까.. 신고 안되게 
+    	  model.addAttribute("msg", "이미 신고접수가 완료되었습니다.");
+    	  model.addAttribute("url", "/user/getUserRecvMsg?msgNo="+msgNo);
+    	  return "alert.jsp";
+     
+      }else { //신고가능 
+    	   
+          userService.addMsgReport(report);
+          model.addAttribute("msg", "신고 접수가 완료되었습니다.");
+          model.addAttribute("url","/user/getUserRecvMsg?msgNo="+msgNo);  
+          return "alert.jsp";
+      }
+ 
    }
    
-   //레드카드 소멸쿠폰 사용 
+   //레드카드 소멸쿠폰 사용 (값이 계쏙 안바뀜) 
    @GetMapping("updateUserRedCouponCount")
    public String updateUserRedCouponCount(HttpSession session, Model model) throws Exception{
       
@@ -1048,13 +1062,13 @@ public class UserController {
     	  
           userService.updateUserRedCouponCount(user);
           
-          int redCoupon = user.getRedCouponCount()-1;
-          System.out.println("레드카드쿠폰개수 : " + redCoupon);
-          user.setRedCardCount(redCoupon); // 레드카드쿠폰개수 한개뺸걸로 박아버리기...  
+          int redCouponCount = user.getRedCouponCount()-1;
+          System.out.println("레드카드쿠폰개수 : " + redCouponCount);
+          user.setRedCardCount(redCouponCount); // 레드카드쿠폰개수 한개뺸걸로 박아버리기...  
           
-          int redcardCount = user.getRedCardCount()-1;
-          System.out.println("레드카드개수나와라..."+redcardCount);
-          user.setRedCardCount(redcardCount); //레드카드개수도 한개뺀걸로 박아버리기
+          int redCardCount = user.getRedCardCount()-1;
+          System.out.println("레드카드개수나와라..."+redCardCount);
+          user.setRedCardCount(redCardCount); //레드카드개수도 한개뺀걸로 박아버리기
           
           model.addAttribute("msg", "쿠폰 사용이 완료되었습니다.");
           model.addAttribute("url","/user/getUser?userEmail="+user.getUserEmail()); // 다시 본인 상세조회로 이동  
@@ -1062,17 +1076,76 @@ public class UserController {
           return "alert.jsp";
     	  
       }
-      
-      
-      
-      
    }
    
-   
-   
+      
    //신고유저 목록조회 
+  @RequestMapping( value="listUserReport" ) 
+  public String listUserReport( @ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception{
+     
+     System.out.println("신고 유저 목록조회 시작 ");
+     
+     if(search.getCurrentPage() ==0 ){
+        search.setCurrentPage(1);
+     }
+     search.setPageSize(pageSize);
+     
+     // Business logic 수행
+     Map<String , Object> map=userService.getUserReportList(search);
+     
+     Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+     System.out.println(resultPage);
+     
+     // Model 과 View 연결
+     model.addAttribute("list", map.get("list"));
+     model.addAttribute("resultPage", resultPage);
+     model.addAttribute("search", search);
+     
+     return "forward:/user/listUserReport.jsp"; // 신고 유저 목록조회로 이동 (관리자용) 
+  }
+  
+  //신고 유저 상세목록조회 
+  @RequestMapping( value="getUserReport") 
+  public String getUserReport( @ModelAttribute("search") Search search, 
+		  					   @RequestParam("targetEmail") String targetEmail, Model model, HttpServletRequest request) throws Exception{
+     
+     System.out.println("신고 유저 상세목록조회 시작 ");
+     
+     if(search.getCurrentPage() ==0 ){
+        search.setCurrentPage(1);
+     }
+     search.setPageSize(pageSize);
+     
+     // Business logic 수행
+     Map<String , Object> map=userService.getUserReport(search, targetEmail);
+     
+     Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+     System.out.println(resultPage);
+     
+     // Model 과 View 연결
+     model.addAttribute("list", map.get("list"));
+     model.addAttribute("resultPage", resultPage);
+     model.addAttribute("search", search);
+     
+     return "forward:/user/getUserReport.jsp"; // 신고 유저 상세목록조회로 이동  
+  }
+  
+  
    
-   //레드카드발급 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  //레드카드발급
+  
+  
+  
    
    //계정정지 
    
@@ -1091,6 +1164,7 @@ public class UserController {
    
    
    
+}
    
    
    
@@ -1108,6 +1182,4 @@ public class UserController {
    
    
    
-   
-}   
    

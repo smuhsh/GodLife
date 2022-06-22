@@ -19,9 +19,6 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
 
 <!-- CSS-->
 <link rel="stylesheet" href="/css/getUser.css" />
@@ -86,6 +83,8 @@ float : center;
 <!--  자바스크립트 -->
 <script type="text/javascript">
 
+var checkEmail = 0;
+
 
 		   //==>"받는사람 이메일" 있는지 없는지 검사 
 		
@@ -101,11 +100,13 @@ float : center;
 	                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 디비에 없으니까 보낼수없는 이메일  
 	                    $('.id_ok').css("display","inline-block"); 
 	                    $('.id_already').css("display", "none");
+	                    checkEmail =1;
 	                    //alert("해당 이메일은 존재하지 않습니다.");
 	                } else { // cnt가 1일 경우 -> 이미 존재하는 이메일이니까 보낼수있음
 	                    $('.id_already').css("display","inline-block");
 	                    $('.id_ok').css("display", "none");
 	                    //alert("이메일을 다시 입력해주세요");
+	                    checkEmail = 0;
 	                }
 	            },
 	            error:function(){
@@ -140,14 +141,21 @@ float : center;
 				fncAddUserMsg();
 			});
 		});	
+			
 		
 		function fncAddUserMsg() {
 			
 			var recvEmail=$("input[name='recvEmail']").val();
 			var name=$("input[name='title']").val();
-			var ok= $.trim($('.id_ok').text());
+			//var ok= $.trim($('.id_ok').text());
 			//console.log("이거제발나와...."+ok);
-			alert("이거나오니...."+ok);
+			//alert("이거나오니...."+ok);
+			
+			
+			if(checkEmail != 0){
+				alert("이메일을 다시 확인해주세요");
+				return;
+			}
 			
 			if(recvEmail == null || recvEmail.length <1){
 				alert("이메일은  반드시 입력하셔야 합니다.");
@@ -159,10 +167,12 @@ float : center;
 				return;
 			}
 			
+			/*
 			if(ok == '해당 이메일은 존재하지 않습니다.'){
 				alert("이메일을 다시 확인해주세요");
 				return;
 			}
+			*/
 			
 			$("form").attr("method" , "POST").attr("action" , "/user/addUserMsg").submit();
 		}

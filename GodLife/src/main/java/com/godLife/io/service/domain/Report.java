@@ -2,7 +2,7 @@ package com.godLife.io.service.domain;
 
 import java.sql.Date;
 
-//==>�Ű� �𵨸�(�߻�ȭ/ĸ��ȭ)�� Bean
+//==>신고관리
 public class Report {
 	
 	//Field
@@ -16,6 +16,8 @@ public class Report {
 	private int certiImgNO;
 	private int commentNo;
 	private int msgNo;
+	
+	private String nick; // 닉네임가져오기위해서 추가 
 	
 	//Constructor
 	public Report() {
@@ -93,14 +95,19 @@ public class Report {
 		this.msgNo = msgNo;
 	}
 
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 	
 	@Override
 	public String toString() {
 		return "Report [reportNo=" + reportNo + ", reporterEmail=" + reporterEmail + ", targetEmail=" + targetEmail
 				+ ", reason=" + reason + ", regDate=" + regDate + ", reportPlace=" + reportPlace + ", certiImgNO="
-				+ certiImgNO + ", commentNo=" + commentNo + ", msgNo=" + msgNo + "]";
+				+ certiImgNO + ", commentNo=" + commentNo + ", msgNo=" + msgNo + ", nick=" + nick + "]";
 	}
-
-	
 
 }
