@@ -12,49 +12,30 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script
-   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- Bootstrap Dropdown Hover CSS -->
-<link href="/css/animate.min.css" rel="stylesheet">
-<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-<!-- Bootstrap Dropdown Hover JS -->
-<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-<!-- jQuery UI toolTip 사용 CSS-->
-<link rel="stylesheet"
-   href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<!-- jQuery UI toolTip 사용 JS-->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<!-- CDN(Content Delivery Network) 호스트 사용 -->
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<!--  ///////////////////////// CSS ////////////////////////// -->
-
-<!--  ///////////////////////// JavaScript ////////////////////////// -->
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<!--   jQuery , Bootstrap CDN  -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="/resources/css/toolbar2.css" />
+   
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <title>상품 목록조회</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<!-- CDN(Content Delivery Network) 호스트 사용 -->
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<!-- iamport.payment.js -->
-  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
   
 <style>
-	@font-face {
-			    font-family: 'oneMobile';
-			    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
-			}
+	body{
+		font-weight : 600;
+	}	
 
 #fromCenter { 
   color: #000;
@@ -71,20 +52,25 @@
 }
 #fromCenter:hover:after { transform: scaleX(1); }
 
-
-	
-	
-	body {
-
-	   font-weight: bold; 
-	   font-family: 'oneMobile';
+	#dotted {
+	  border: dotted;
 	}
+
+	.col-sm-offset-2 col-sm-1{
+	margin-left: 5; 
+	width: 180px;
+	}
+	
+	 .container{
+    padding-top:220px;
+    }
+
 	
 	fieldset {
 	   width: 400px;
 	   text-align: center;
 	   backgrond-color: white;
-	   font-family: 'oneMobile';
+
 	}
 		
 	.detail {
@@ -93,9 +79,7 @@
 	   width: 380px;
 	   height: auto;
 	   padding-top: 1px;
-	   font-weight: bold; 
-	   font-family:impact;
-	   font-family: 'oneMobile';
+
 	}
 
 	.backdefault{
@@ -162,19 +146,20 @@
 	
 	//============= images 에 배지 상세 정보(관리자 모드/수정 삭제로 들어가기)  Event  처리(Click) =============
 	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	$(function() { 
-	     $( ".images" ).on("click" , function() {
-	    	 self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
-	     });
-	});
-
-	 
-	 
-	 
-	//============= productName 에 상품정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
+	
+	 if(sessionScope.user.role == '2'){
+		
+		 $(function() { 
+		     $( ".images" ).on("click" , function() {
+		    	 self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
+		     });
+		});
+	 }
+	 if(sessionScope.user.role == '1'){
+	//============= 배지 이미지 클릭시 배지 정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
 	$(function(){
-		$( ".badgeDetail" ).on("click", function() {
-			var productNo = $(this).data("value");
+		$( ".images" ).on("click", function() {
+			var badgeNo = $(this).data("value");
 
 			 $.ajax( 
 	                 {
@@ -190,21 +175,20 @@
 	                    	
 	                       const displayDetail = 
 	                    	   `<div class="row">
-		                         	<div class="detail">상품 명 :&nbsp \${JSONData.BadgeName} </div>
-		                         	<div class="detail">상품 상세정보: <br/> \${JSONData.BadgeDetail} </div>
+		                         	<div class="detail">상품 상세정보: <br/> \${JSONData.badgeDetail} </div>
 	                     		</div>`
 	                       $("div.detail").remove();
-	                       $( "#"+JSONData.productNo+"" ).append(displayDetail);
+	                       $( "i" ).append(displayDetail);
 	                       console.log(JSONData , status);
 	                 }
 	              }); 
 	        });
 		//=========================================================//
-		 //==> prodNo LINK Event End User 에게 보일수 있도록 
-	    $( "div#badgeName" ).css("color" , "red");
-	    $("div#badgeName").css("font-size", "20px");
+		 //==> badgeNo LINK Event End User 에게 보일수 있도록 
+	    $( "div.badgeDetailAB" ).css("color" , "red");
+	    $("div.badgeDetailAB").css("font-size", "20px");
 	});	
-	
+ }
 	
 	</script>
 	
@@ -214,18 +198,20 @@
 
    <form class="form-horizontal" style="margin: 40px;">
       <!-- ToolBar Start /////////////////////////////////////-->
+      <c:if test="${sessionScope.user.role == '2'}">
       <jsp:include page="/layout/toolbar.jsp" />
+      </c:if>
       <!-- ToolBar End /////////////////////////////////////-->
+      
 	  
       <!--  화면구성 div Start /////////////////////////////////////-->
+      <c:if test="${sessionScope.user.role == '1'}">
+      <div class="containerUser" >
+      </c:if>
+      <c:if test="${sessionScope.user.role == '2'}">
       <div class="container" >
-		<br><br><br><br><br><br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<div class="row" style="font-size:30px;">
+      </c:if>
+		<div class="row" style="font-size:30px;" >
 			<c:if test="${sessionScope.user.role == '1'}">
 				<div class="col-md-3" ></div>
 				  <h2 class="col-md-6" id="fromCenter" align="center" style="font-size: larger;">전체 배지 목록 상세 조회</h2>
@@ -244,11 +230,6 @@
 				</div>
 			</c:if>
 		<br>
-			<div class="row">
-				<c:if test="${sessionScope.user.role == '1'}">
-					<button class="btn btn-success getBadgeMyList" type="button">나의 보유 배지목록으로 되돌아가기</button>
-				</c:if>
-			</div>
 		<br>
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 Start-->
 			<div class="row">
@@ -256,21 +237,45 @@
 				<div class="col-md-4" id="fromCenter" >CrytoPunk(크립토 펑크) 배지를 수집하세요.</div>
 			</div>
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 End -->	
-		<br><br><br>
+		<br>
+		<br>
+		<!-- 배지 등급 이미지 설명 입력 Start -->	
+		<div class="row" id="dotted" style="width: 807.5px;">
+				<div class="row" 
+					style="width: 800px;padding-left: 20px;border-right-width: 600px;padding-right: 600px;"
+				 	id="fromCenter">
+					활동 횟수량에 따른 등급 변화 
+				</div>
+			<br>	
+		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 5; width: 180px; ">
+		    	Bronze Badge<br>
+		    	활동 횟수량 : 1 ~ 10
+		    	<img src="/resources/images/uploadFiles/BronzeBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
+		    </div>
+
+		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 30; width: 180px;">
+		    	Silver Badge<br>
+		    	활동 횟수량 : 11 ~ 20
+		    	<img src="/resources/images/uploadFiles/SilverBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
+		    </div>
+			    
+		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 30; width: 180px;">
+		    	Gold Badge<br>
+		    	활동 횟수량 : 21 ~ 
+		    	<img src="/resources/images/uploadFiles/GoldBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
+		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
+		    </div>
+		</div>	
+		<!-- 배지 등급 이미지 설명 입력 end -->		
+		<br>
+		<br>
 		<!-- 활동 배지 Collapse로 설명 구현 Start -->
-			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+			<button class="btn btn-success" type="button">
 			  활동 배지
 			</button>
-			<div class="collapse" id="collapseExample1">
-			  <div class="well">
-			   활동 배지획득을 위한 방법은 아래와 같습니다. <br>
-			   1) 가입완료			: 회원 가입시 획득 가능 					(가입시 한번 획득 가능) <br>
-			   2) 친구야			: 친구 요청, 상대의 요청 수락 후 획득 가능 	(친구추가완료 = 활동 횟수량 +1) <br>
-			   3) 챌린지100%달성	: 챌린지 100%달성 후 획득 가능 			(챌린지100%완료 = 활동 횟수량 +1) <br>
-			   4) 인증왕			: 챌린지 진행 중, 인증사진 업로드시 획득 가능 	(챌린지 인증사진 업로드 = 활동 횟수량 +1) <br>
-			   5) 레벨배지			: 챌린지 참가 후, 챌린지 완료 시 획득 가능 	(챌린지 완료 = 활동 횟수량 +1)
-			  </div>
-			</div>
+
 		<!-- 활동 배지 Collapse로 설명 구현 End -->
 		<br>
 		<br>
@@ -318,7 +323,7 @@
 			         </div>
 			         </c:if>
 		         <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start //Ajax나오게 하려면 data-value가 필요 -->   
-		               <i  type ="hidden" class="badgeDetailAB" id="${badge.badgeNo}" style="font-size:15px;" 
+		               <i  type ="button" class="badgeDetailAB" id="${badge.badgeNo}" style="font-size:15px;" 
 		               		data-value="${ badge.badgeNo }" 
 		               		title="Click : 배지정보 확인" 
 		               		value="${badge.badgeNo}" >
@@ -340,19 +345,10 @@
 		<br>
 		<br>
 		<!-- 관심사 배지 Collapse로 설명 구현 Start -->
-			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+			<button class="btn btn-success" type="button">
 			  관심사 배지
 			</button>
-			<div class="collapse" id="collapseExample2">
-			  <div class="well">
-			   관심사 배지획득을 위한 방법은 아래와 같습니다. <br>
-			   1) 운동왕			: 운동 관심사, 챌린지 완료시 획득 가능		(해당 관심사 챌린지 완료 = 활동 횟수량 +1) <br>
-			   2) 척척박사			: 공부 관심사, 챌린지 완료시 획득 가능		(해당 관심사 챌린지 완료 = 활동 횟수량 +1) <br>
-			   3) 생활의달인		: 생활 관심사, 챌린지 완료시 획득 가능		(해당 관심사 챌린지 완료 = 활동 횟수량 +1) <br>
-			   4) 식샤를합시다		: 식습관 관심사, 챌린지 완료시 획득 가능		(해당 관심사 챌린지 완료 = 활동 횟수량 +1) <br>
-			   5) 즐거운인생		: 취미 관심사, 챌린지 완료시 획득 가능		(해당 관심사 챌린지 완료 = 활동 횟수량 +1)
-			  </div>
-			</div>
+			
 		<!-- 활동 배지 Collapse로 설명 구현 End -->
 		<br>
 		<br>
@@ -400,7 +396,7 @@
 			         </div>
 			         </c:if>
 		         <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start //Ajax나오게 하려면 data-value가 필요 -->   
-		               <i  type ="hidden" class="badgeDetailIB" id="${badge.badgeNo}" style="font-size:15px;" 
+		               <i  class="glyphicon glyphicon-search" id="${badge.badgeNo}" style="font-size:15px;" 
 		               		data-value="${ badge.badgeNo }" 
 		               		title="Click : 배지정보 확인" 
 		               		value="${badge.badgeNo}" >
@@ -416,11 +412,7 @@
 		</div>
 		<br>
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+
 
          <!--  화면구성 div End /////////////////////////////////////-->
 

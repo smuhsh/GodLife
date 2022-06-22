@@ -60,7 +60,7 @@ public class MyBadgeDaoImpl implements MyBadgeDao{
 		map.put("endRowNum",  search.getEndRowNum()+"" );
 		map.put("startRowNum",  search.getStartRowNum()+"" );
 		map.put("userEmail", userEmail);
-		map.put("badgeNAme", badgeName);
+		map.put("badgeName", badgeName);
 		System.out.println("@@@@myBadgeDaoImpl Search : "+search);
 		map.put("search", search);
 		List<MyBadge> list1 = sqlSession.selectList("MyBadgeMapper.getBadgeMyABList", map);
@@ -73,7 +73,7 @@ public class MyBadgeDaoImpl implements MyBadgeDao{
 	}
 ///////////////////////////////////////	
 	// 내 배지 활동 횟수량 증가
-	public void updateBadgeMyActCount(MyBadge myBadge, User user) throws Exception{
+	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception{
 		sqlSession.update("MyBadgeMapper.updateBadgeMyActCount", myBadge);
 	}
 	
