@@ -1061,6 +1061,9 @@
 	 
 	 </select>
 	 
+	 
+	 
+	 
 	 <!-- ////////// select //////////// -->
 	 
 	 
@@ -1075,6 +1078,12 @@
 	 	</if>
 	 	<if test="status == 2">
 	 		dislike_count = dislike_count + 1
+	 	</if>
+	 	<if test="status == 3">
+	 		like_count = like_count - 1
+	 	</if>
+	 	<if test="status == 4">
+	 		dislike_count = dislike_count - 1
 	 	</if>
 	 	WHERE certi_img_no = #{certiImgNo}
 	 </update>
@@ -1187,6 +1196,55 @@
 				
 	 </select>
 	 
+	 
+	 <select id="getChallengeReviewLikeAndDislike" parameterType="java.util.Map" resultMap="ReviewSelectMap">
+	 
+		SELECT
+		review.certi_Img_no,
+		review.status
+	 	FROM
+	 	(
+		 	SELECT
+		 	certi_img_no,
+		 	status,
+		 	user_email
+		 	FROM
+		 	reviews
+		 	<where>
+		 		<foreach item="certiImg" collection="certiImgList">
+		 			OR certi_img_no = #{certiImg.certiImgNo}
+		 		</foreach>
+		 	</where>
+	 	)review
+	 	WHERE NOT review.status = '0'
+	 	AND user_email = #{user.userEmail}
+	 
+	 </select>
+	 
+	 
+	 <select id="getChallengeLikeDisLike" parameterType="java.util.Map" resultMap="ReviewSelectMap">
+	 		SELECT
+		 	certi_img_no,
+		 	status,
+		 	user_email
+		 	FROM
+		 	reviews
+		 	WHERE certi_img_no = #{certiImgNo}
+		 	AND user_email = #{user.userEmail}
+		 	AND NOT status = '0'
+	 </select>
+	 
+	 
+	 <select id="getDeleteReviewNo" parameterType="java.util.Map" resultType="int">
+	 	SELECT
+	 	review_no
+	 	FROM
+	 	reviews
+	 	WHERE user_email = #{user.userEmail}
+	 	AND certi_img_no = #{review.certiImgNo}
+	 	AND NOT status = '0'
+	 	
+	 </select>
 	 <!-- ////////// select //////////// -->
 	 
 	 

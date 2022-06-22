@@ -1,66 +1,38 @@
 package com.godLife.io.web.user;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
-import org.apache.maven.doxia.module.fml.model.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.godLife.io.service.user.UserService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
+import com.godLife.io.service.domain.MyBadge;
 import com.godLife.io.service.domain.OneInq;
 import com.godLife.io.service.domain.Report;
 import com.godLife.io.service.domain.User;
-
+import com.godLife.io.service.mybadge.MyBadgeService;
 import com.godLife.io.service.user.UserService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.godLife.io.common.Page;
-import com.godLife.io.common.Search;
-import com.godLife.io.service.domain.FriendBlack;
-import com.godLife.io.service.domain.Msg;
-import com.godLife.io.service.domain.OneInq;
-import com.godLife.io.service.domain.User;
 
 //==> 회원관리 Controller
 @Controller
@@ -71,6 +43,13 @@ public class UserController {
    @Autowired
    @Qualifier("userServiceImpl")
    private UserService userService;
+   
+   ///배지 추가를 위한 Injection//////////////////
+   @Autowired
+   @Qualifier("myBadgeServiceImpl")
+   private MyBadgeService myBadgeService;
+   ///배지 추가를 위한 Injection//////////////////
+   
    //setter Method 구현 않음
       
    public UserController(){
@@ -224,16 +203,22 @@ public class UserController {
    
    
    @PostMapping( value="addUser") // 완료 
-   public String addUser( @ModelAttribute("user") User user, Model model) throws Exception {
+   public String addUser( @ModelAttribute("user") User user, MyBadge myBadge , Model model) throws Exception {
 
       System.out.println("/user/addUser : POST");
       
       //Business Logic
       userService.addUser(user);
+      
+      //가입환영 배지를 위한 추가 부분, parameter에 mybadge부분도 추가//////////////////////////////////////
+      myBadge.setBadgeNo(10000);
+      myBadge.setUserEmail(user.getUserEmail());
+      myBadgeService.updateBadgeMyActCount(myBadge);
+      //가입환영 배지를 위한 추가 부분////////////////////////////////////////////////////////////////////////////
+      
  	  user.setJoinPath("1");
       model.addAttribute("msg", "GodLife에 가입해주셔서 감사합니다.");
       model.addAttribute("url","/user/loginView.jsp");
-      
       return "alert.jsp";
       
       //return "redirect:/user/loginView.jsp"; // 회원가입하면 로그인페이지로 이동 
@@ -616,7 +601,7 @@ public class UserController {
    
    //친구 요청 수락 (친구요청 목록조회에서)  // 완료 
    @RequestMapping( value="updateAccStatus")
-   public String updateAccStatus( @ModelAttribute("friendBlack") FriendBlack friendBlack , 
+   public String updateAccStatus( @ModelAttribute("friendBlack") FriendBlack friendBlack , MyBadge myBadge, 
                            @RequestParam("userEmail") String userEmail,
                            Model model , HttpSession session) throws Exception{
       
@@ -626,6 +611,21 @@ public class UserController {
       
       User user = (User)session.getAttribute("user");
       
+    //친구야 배지를 위한 추가 부분, parameter에 mybadge부분도 추가////////////////////////////////////////////////////////////
+      System.out.println("userEmail : "+friendBlack.getUserEmail());
+      System.out.println("targetEmail : "+friendBlack.getTargetEmail());
+      
+      String targetEmail=friendBlack.getTargetEmail();
+      String badgeUserEmail=friendBlack.getUserEmail();
+
+      myBadge.setBadgeNo(10001);
+      myBadge.setUserEmail(targetEmail);
+      myBadgeService.updateBadgeMyActCount(myBadge);
+
+      myBadge.setBadgeNo(10001);
+      myBadge.setUserEmail(badgeUserEmail);
+      myBadgeService.updateBadgeMyActCount(myBadge);
+      //친구야 배지를 위한 추가 부분////////////////////////////////////////////////////////////
       model.addAttribute("msg", "친구 수락이 완료되었습니다. 친구 목록조회에서 확인가능합니다."); 
       model.addAttribute("url", "/user/listFriendRequest?targetEmail="+user.getUserEmail());
       return "alert.jsp";

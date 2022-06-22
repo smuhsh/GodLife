@@ -21,7 +21,7 @@ public interface MyBadgeDao {
 	public Map<String, Object> getBadgeMyList(Search search, User user, Badge badge) throws Exception ;
 
 	// 내 배지 활동 횟수량 증가
-	public void updateBadgeMyActCount(MyBadge myBadge, User user) throws Exception ;	
+	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception ;	
 	
 	
 /////////////////////////////////////////////////////////////

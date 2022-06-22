@@ -5,41 +5,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
-   
-   <!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-   <!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-   
-   <!-- Bootstrap Dropdown Hover CSS -->
+<!--   jQuery , Bootstrap CDN  -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="/resources/css/toolbar2.css" />
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
    <!--  ///////////////////////// CSS ////////////////////////// -->
    <style>
-@font-face {
-		    font-family: 'oneMobile';
-		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
-		}
-	
-	
- 		body {
-
-		    font-weight: bold; 
-		    font-family: 'oneMobile';
-        }
+	body{
+		font-weight : 600;
+	}	
         
         body > div.container{
         	border: 3px;
             margin-top: 10px;
-            font-family: 'oneMobile';
         }
 
 		textarea {
@@ -47,7 +37,6 @@
 		    height: 6.25em;
 		    border: none;
 		    resize: none;
-		    font-family: 'oneMobile';
 		    
 		  }           
 
@@ -143,7 +132,7 @@
 	<br><br><br><br><br><br>
 	<div class="container">
 	
-		<h2 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">배지 수정 및 삭제</h2>
+		<h2 class="bg-dark text-center" style="color:#000000; ">배지 수정 및 삭제</h2>
 		<br><br>
 		
 		<!-- form Start /////////////////////////////////////-->

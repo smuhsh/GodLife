@@ -64,7 +64,7 @@ public class OperatorRestController {
 	}
 	
 	@RequestMapping(value="operatorRest/addOperatorJoinDayEvent", method=RequestMethod.GET)
-	public OperatorJoinEvent addOperatorJoinDayEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map) throws Exception {
+	public OperatorJoinEvent addOperatorJoinDayEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map,Point point) throws Exception {
 		
 		System.out.println("operatorRest/addOperatorJoinDayEvent : GET");
 		//Business Logic
@@ -77,34 +77,66 @@ public class OperatorRestController {
 		operatorService.addOperatorJoinDayEvent(operatorJoinEvent);
 		System.out.println("join success");
 		
-		Point point = new Point();
-		
-		if(operatorJoinEvent.getEventNo()==1) {
-			point.setUseStatus("1");
-			point.setPoint(operatorJoinEvent.getRewardPoint());
-			point.setUseDetail("6");
-			
-			map.put("user", user);
-			map.put("point", point);
-			
-			pointService.addPointPurchase(map);
-		}
+		int eventpoint=operatorJoinEvent.getRewardPoint();
+
+        point.setUseStatus("1");
+        point.setPoint(eventpoint);
+        point.setUseDetail("6");
+        point.setUserEmail(user.getUserEmail());
+  
+        map.put("point", point);
+        map.put("user", user);
+        pointService.addPointPurchase(map);
 		
 		System.out.println("oper@@@@@@@@@ : "+ operatorJoinEvent);
-		
-
-		
 		
 		return operatorJoinEvent;
 	}
 
 	@RequestMapping( value="operatorRest/addOperatorJoinRoullEvent", method=RequestMethod.POST )
-	public OperatorJoinEvent addOperatorJoinRoullEvent( @ModelAttribute("operatorJoinEvent") OperatorJoinEvent operatorJoinEvent ) throws Exception{
+	//public OperatorJoinEvent addOperatorJoinRoullEvent( @ModelAttribute("operatorJoinEvent") OperatorJoinEvent operatorJoinEvent,Map<String,Object> map,HttpSession session ) throws Exception{
+	public OperatorJoinEvent addOperatorJoinRoullEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session, Map<String,Object> map ) throws Exception{
 		
-		System.out.println("/operator/json/addOperatorJoinEvent : POST");
+		System.out.println("/operator/json/addOperatorJoinRoullEvent : POST");
 		System.out.println("@@@@@operatorFaqs :"+operatorJoinEvent);
-		OperatorJoinEvent operatorEvent = operatorService.addOperatorJoinRoullEvent(operatorJoinEvent);
+		
+		Point point = new Point();
+		
+		User user = (User)session.getAttribute("user");
+		
+		point.setUseStatus("2");
+		point.setPoint(1000);
+		point.setUseDetail("5");
+		point.setUserEmail(user.getUserEmail());
+		
+		map.put("user", user);
+		map.put("point", point);
+		
+		pointService.addPointPurchase(map);
+		
+		System.out.println("참가비용 지불 완료");
+		
+	
+		int eventpoint=operatorJoinEvent.getRewardPoint();
+		point.setUseStatus("1");
+		point.setPoint(eventpoint);
+		point.setUseDetail("6");
+		point.setUserEmail(user.getUserEmail());
+		
+		map.put("user", user);
+		map.put("point", point);
+		pointService.addPointPurchase(map);
+		
+		System.out.println("보상받기 완료");
+		
+		operatorJoinEvent.setUserEmail(user.getUserEmail());
+		operatorJoinEvent.setEventNo(2);
+		operatorService.addOperatorJoinRoullEvent(operatorJoinEvent);
+		
 		System.out.println("@@@@@operatorFaqs Success:"+operatorJoinEvent);
+		
+		//operatorService.addOperatorJoinRoullEvent(operatorJoinEvent);
+		
 		//Business Logic
 		return operatorJoinEvent;
 	}

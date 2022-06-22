@@ -8,44 +8,33 @@
 	
 <head>
 	<meta charset="UTF-8">
-	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+<!--   jQuery , Bootstrap CDN  -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
+	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="/resources/css/toolbar2.css" />
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-@font-face {
-		    font-family: 'oneMobile';
-		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype');
-		}	
-		
- 		body {
-
-		    font-weight: bold; 
-		    font-family: 'oneMobile';
-        }
-        
+ 	body{
+		font-weight : 600;
+	}	       
           
 		textarea {
 		    width: 100%;
 		    height: 6.25em;
 		    border: none;
 		    resize: none;
-		    font-family: 'oneMobile';
 		  }        
         
         
@@ -92,7 +81,7 @@
 	<br><br><br><br><br><br>
 	<div class="container">
 	
-		<h2 class="bg-dark text-center" style="color:#000000; font-weight: bold; font-family: 'oneMobile';">배지 상세 정보</h2>
+		<h2 class="bg-dark text-center" style="color:#000000; ">배지 상세 정보</h2>
 		<br><br><br>
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal" style="border-color: black;">
@@ -162,7 +151,7 @@
 		</div>
 		</div>	
 		<!-- 배지배경 Collapse로 설명 구현 End -->
-
+		<!-- 배지 등급 이미지 설명 입력 Start -->	
 		    <div class="col-sm-offset-2 col-sm-1" style="margin-left: 20; width: 180px; ">
 		    	Bronze Badge<br>
 		    	활동 횟수량 : 1 ~ 10
@@ -182,10 +171,8 @@
 		    	활동 횟수량 : 21 ~ 
 		    	<img src="/resources/images/uploadFiles/GoldBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
-		    </div>
-
-		
-<!-- 배지 등급 이미지 입력 End -->			    
+		    </div>	
+		<!-- 배지 등급 이미지 설명 입력 end -->				    
 
 
 

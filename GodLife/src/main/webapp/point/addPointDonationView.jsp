@@ -27,7 +27,7 @@
 <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 
 <style>
-.container {
+.donationContainer {
    background-image: url("/resources/images/uploadFiles/donation.jpg");
    padding-top: 220px;
    
@@ -60,6 +60,10 @@ label {
 table {
    background-color: #ffffff;
    opacity: 0.6;
+}
+#medalImg{
+width:20px;
+height: 20px;
 }
 </style>
 
@@ -105,10 +109,8 @@ table {
 
 <body bgcolor="#ffffff" text="#000000">
 
-
-      <jsp:include page="/layout/toolbar.jsp" />
       <form class="form-horizontal">
-      <div class="container" >
+      <div class="donationContainer" >
       <div class="form-group"></div>
       <div class="form-group" id="top">
          <label for="inputEmail3" class="col-sm-2 control-label">Donation
@@ -137,7 +139,7 @@ table {
                <c:forEach var="point" items="${list }">
                   <c:set var="i" value="${i+1 }" />
                   <tr>
-                     <td><img src="/resources/images/uploadFiles/메달${i}.png" width=20px>${i}위</td>
+                     <td><img src="/resources/images/uploadFiles/메달${i}.png" id="medalImg">${i}위</td>
                      <td>${point.nick}</td>
                      <td></td>
                      <td>${point.point}</td>

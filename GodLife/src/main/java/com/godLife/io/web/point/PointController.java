@@ -138,6 +138,38 @@ public class PointController {
 
 		return "forward:/point/listPointPurchase.jsp";
 	}
+	
+	@RequestMapping(value = "getPointPurchasePointList")
+	public String getPointPurchasePointList(@ModelAttribute("search") Search search, Model model,
+			HttpSession session) throws Exception {
+
+		System.out.println("/point/getPointPurchasePointList : GET / POST");
+
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		System.out.println("@@@@Search "+search);
+		User user = (User) session.getAttribute("user");
+		String userEmail = user.getUserEmail();
+		System.out.println("session userEmail : " + userEmail);
+
+		Map<String, Object> map = pointService.getPointPurchasePointList(search, user);
+
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		System.out.println(resultPage);
+
+		List<Object> list = (List<Object>) map.get("list");
+		System.out.println(list);
+
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		System.out.println("model :" + model);
+
+		return "forward:/point/listPointPurchasePoint.jsp";
+	}
 
 	@RequestMapping(value = "getPointPurchaseVoucherList")
 	public String getPointPurchaseVoucherList(@ModelAttribute("search") Search search, Model model,

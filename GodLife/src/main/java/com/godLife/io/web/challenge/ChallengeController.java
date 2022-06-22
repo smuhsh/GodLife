@@ -333,10 +333,12 @@ public class ChallengeController {
 		List<JoinChallenger> joinChallengerList = 
 				challengeService.getChallengeJoinerList(challenge.getChallengeNo());
 		
+		JoinChallenger joinChallenger = challengeService.getChallengeJoiner(map);
 		
 		
 		User hostUser = userService.getUser(challenge.getHostEmail());
 		model.addAttribute("joinChallengerList",joinChallengerList);
+		model.addAttribute("joinChallenger",joinChallenger);
 		model.addAttribute("challenge",challenge);
 		model.addAttribute("hostUser",hostUser);
 		model.addAttribute("user",user);
@@ -501,7 +503,7 @@ public class ChallengeController {
 		
 		model.addAttribute("challenge",challenge);
 		
-		return "/challenge/getChallenge.jsp";
+		return "redirect:/challenge/getChallenge?challengeNo="+challenge.getChallengeNo();
 	}
 	
 	
@@ -631,7 +633,7 @@ public class ChallengeController {
 		
 		challengeService.addChallengeCertiImg(certiImg);
 		
-		return "/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
+		return "redirect:/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
 	}
 	
 	
@@ -689,10 +691,26 @@ public class ChallengeController {
 	
 	
 	@RequestMapping(value="addChallengeReward",method=RequestMethod.POST)
-	public String addChallengeReward() {
+	public String addChallengeReward(@ModelAttribute JoinChallenger joinChallenger) {
 		
-		return null;
+		if(joinChallenger.getChallengePercent() == 100) {
+			
+		}else if(joinChallenger.getChallengePercent() >= 90){
+			
+		}else if(joinChallenger.getChallengePercent() >= 80){
+			
+		}else if(joinChallenger.getChallengePercent() >= 70){
+			
+		}else if(joinChallenger.getChallengePercent() >= 60){
+			
+		}
+		
+		
+		
+		return "redirect:/challenge/getChallenge?challengeNo="+joinChallenger.getChallengeNo();
 	}
+	
+	
 	
 	///////////Scheduled////////////////////
 	
@@ -742,5 +760,29 @@ public class ChallengeController {
 		map.put("status", "2");
 			
 		challengeService.updateChallengeStatus(map);
+	}
+	
+	/////////////////////////////////////////////////////
+	@RequestMapping(value="getChallengeCertiImg", method=RequestMethod.GET)
+	public String getChallengeCertiImg(@RequestParam int certiImgNo,Model model,HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		CertiImg certiImg = challengeService.getChallengeCertiImg(certiImgNo);
+		System.out.println("인증이미지 상세 조회");
+		System.out.println(certiImg);
+		
+		model.addAttribute("certiImg", certiImg);
+		model.addAttribute("user", user);
+		return "forward:/challenge/getChallengeCertiImg.jsp";
+	}
+	
+	@RequestMapping(value="deleteChallengeCertiImg", method=RequestMethod.POST)
+	public String deleteChallengeCertiImg(@ModelAttribute CertiImg certiImg,Model model,Map<String,Object> map) {
+		int certiImgNo = certiImg.getCertiImgNo();
+		System.out.println("@@certiImgNo : "+certiImgNo);
+		map.put("certiImgNo", certiImgNo);
+		challengeService.deleteChallengeCertiImg(map);
+		System.out.println("삭제");
+		
+		return "redirect:/";
 	}
 }

@@ -83,8 +83,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 
 	@Override
-	public CertiImg getChallengeCertiImg(int certiImgNo) {
-		return challengeDao.getChallengeCertiImg(certiImgNo);
+	public CertiImg getChallengeCertiImg(Map<String,Object> map) {
+		return challengeDao.getChallengeCertiImg(map);
 	}
 
 
@@ -152,6 +152,13 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public List<Review> getChallengeMoreCommentList(Map<String, Object> map) {
 		return challengeDao.getChallengeMoreCommentList(map);
+	}
+
+
+	@Override
+	public void deleteChallengeReviewLike(Map<String, Object> map) {
+		challengeDao.deleteChallengeReviewLike(map);
+		
 	}
 
 

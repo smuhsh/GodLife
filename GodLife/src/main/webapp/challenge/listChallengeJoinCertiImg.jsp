@@ -132,9 +132,7 @@
 		<p id="header">${joinChallenger.joinNick }님의 인증 이미지 목록조회</p>
 	</c:if>
 	<p id="percent">달성률 : ${joinChallenger.challengePercent } %</p>
-	<c:if test="${opt == 'my' }">
-		<button type="button" id="coupon" class="btn btn-default abc">인증이미지 대처 쿠폰 사용</button>
-	</c:if>
+	
 </div>
 <div>
   <div class="col-md-1"></div>

@@ -28,7 +28,7 @@ public interface ChallengeDao {
 	
 	public Map<String,Object> getChallengeCertiImgList(Map<String,Object> map);
 	
-	public CertiImg getChallengeCertiImg(int certiImgNo);
+	public CertiImg getChallengeCertiImg(Map<String,Object> map);
 	
 	public void addChallengeReview(Review review);
 	
@@ -52,6 +52,7 @@ public interface ChallengeDao {
 	
 	public List<Review> getChallengeMoreCommentList(Map<String,Object> map);
 	
+	public void deleteChallengeReviewLike(Map<String,Object> map);
 	
 	
 }

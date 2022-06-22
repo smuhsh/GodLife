@@ -28,7 +28,7 @@ public interface ChallengeService {
 	
 	public Map<String,Object> getChallengeCertiImgList(Map<String,Object> map);
 	
-	public CertiImg getChallengeCertiImg(int certiImgNo);
+	public CertiImg getChallengeCertiImg(Map<String,Object> map);
 	
 	public void addChallengeReview(Review review);
 	
@@ -51,5 +51,7 @@ public interface ChallengeService {
 	public Map<String, Object> getChallengeListFriend(Map<String,Object> map);
 	
 	public List<Review> getChallengeMoreCommentList(Map<String,Object> map);
+	
+	public void deleteChallengeReviewLike(Map<String,Object> map);
 
 }

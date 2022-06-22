@@ -93,7 +93,8 @@ public class MyBadgeController {
 		String userEmail = user.getUserEmail();
 		
 		String badgeImg = badge.getBadgeImg();
-		System.out.println("session userEmail : " + badgeImg);
+		System.out.println("session badgeImg : " + badgeImg);
+		System.out.println("session  : " + userEmail);
 		
 		
 		Map<String , Object> map = myBadgeService.getBadgeMyList(search, user, badge);
@@ -120,6 +121,4 @@ public class MyBadgeController {
 		return "forward:/myBadge/getBadgeMyList.jsp";
 	}
 
-	
-	
 }

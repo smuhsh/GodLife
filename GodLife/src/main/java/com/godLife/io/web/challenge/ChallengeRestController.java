@@ -401,4 +401,94 @@ public class ChallengeRestController {
 		
 		return commentList;
 	}
+	
+	
+	@RequestMapping(value="addChallengeReviewLike",method=RequestMethod.POST)
+	public CertiImg addChallengeReviewLike(@RequestBody Review review,
+										   HttpSession session,
+										   CertiImg certiImg,
+										   Map<String,Object> map) {
+		User user = (User)session.getAttribute("user");
+		review.setEmail(user.getUserEmail());
+		
+		challengeService.addChallengeReview(review);
+		
+		map.put("user", user);
+		map.put("certiImgNo", review.getCertiImgNo());
+		
+		
+		certiImg = challengeService.getChallengeCertiImg(map);
+		
+		System.out.println("certiImg : "+certiImg);
+		
+		return certiImg;
+	}
+	
+	
+	
+	@RequestMapping(value="getChallengeCertiImg",method=RequestMethod.GET)
+	public CertiImg getChallengeCertiImg(@ModelAttribute CertiImg certiImg,
+								 HttpSession session,
+								 Map<String,Object> map) {
+		
+		User user = (User)session.getAttribute("user");
+		
+		System.out.println("CertiImgNo : "+certiImg.getCertiImgNo());
+		
+		map.put("user", user);
+		map.put("certiImgNo", certiImg.getCertiImgNo());
+		
+		certiImg = challengeService.getChallengeCertiImg(map);
+		
+		System.out.println("certiImg : "+certiImg);
+		
+		return certiImg;
+		
+		// 데이터 내려오고 유효성 검사
+	}
+	
+	@RequestMapping(value="deleteChallengeReviewLike",method=RequestMethod.POST)
+	public CertiImg deleteChallengeReviewLike(@RequestBody Review review,
+											  CertiImg certiImg,
+											  HttpSession session,
+											  Map<String,Object> map) {
+		
+		User user = (User)session.getAttribute("user");
+		
+		System.out.println("delete review : "+review);
+		
+		map.put("user", user);
+		map.put("review", review);
+		challengeService.deleteChallengeReviewLike(map);
+		
+		
+		map.put("certiImgNo", review.getCertiImgNo());
+		
+		
+		certiImg = challengeService.getChallengeCertiImg(map);
+		
+		System.out.println("certiImg : "+certiImg);
+		
+		return certiImg;
+	}
+	
+	@RequestMapping(value="addChallengeReviewDislike",method=RequestMethod.POST)
+	public CertiImg addChallengeReviewDislike(@RequestBody Review review,
+											  CertiImg certiImg,
+											  HttpSession session,
+											  Map<String,Object> map) {
+		
+		User user = (User)session.getAttribute("user");
+		review.setEmail(user.getUserEmail());
+		
+		challengeService.addChallengeReview(review);
+		
+		map.put("user", user);
+		map.put("certiImgNo", review.getCertiImgNo());
+		
+		
+		certiImg = challengeService.getChallengeCertiImg(map);
+		
+		return certiImg;
+	}
 }
