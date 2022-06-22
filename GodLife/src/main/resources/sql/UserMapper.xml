@@ -207,7 +207,7 @@
      </update>
      
      
-      <!-- SQL : 신고유저 목록조회(관리자)-->
+     <!-- SQL : 신고유저 목록조회(관리자)-->
 	 <select  id="getUserReportList"  parameterType="map"	resultMap="userSelectMap">
 	  	SELECT 
 	  	*

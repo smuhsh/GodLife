@@ -1131,19 +1131,6 @@ public class UserController {
   }
   
   
-   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  //레드카드발급
-  
   
   
    
