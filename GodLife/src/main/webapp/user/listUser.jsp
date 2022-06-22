@@ -1,18 +1,12 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
 <!DOCTYPE html>
-
-<html lang="ko">
-	
+<html>
 <head>
-	<meta charset="EUC-KR">
+<meta charset="UTF-8">
 	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -29,46 +23,55 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
    
-   <!-- jQuery UI toolTip »ç¿ë CSS-->
+   <!-- jQuery UI toolTip ì‚¬ìš© CSS-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip »ç¿ë JS-->
+  <!-- jQuery UI toolTip ì‚¬ìš© JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	  body {
-            padding-top : 50px;
-        }
+	
+	.container{
+    padding-top:220px;
+    }
+    
+    h2{
+                font-size: 2.3rem;
+                padding-right: 100px;
+                font-weight: bold;
+            }
+    
+	
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-		//=============    °Ë»ö / page µÎ°¡Áö °æ¿ì ¸ğµÎ  Event  Ã³¸® =============	
+		//=============    ê²€ìƒ‰ / page ë‘ê°€ì§€ ê²½ìš° ëª¨ë‘  Event  ì²˜ë¦¬ =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
 		}
 		
-		//============= "°Ë»ö"  Event  Ã³¸® =============	
+		//============= "ê²€ìƒ‰"  Event  ì²˜ë¦¬ =============	
 		 $(function() {
-			 //==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 //==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "button.btn.btn-default" ).on("click" , function() {
 			fncGetList(1);
 			});
 		 });
 		
 		
-		//============= userEmail ¿¡ È¸¿øÁ¤º¸º¸±â  Event  Ã³¸®(Click) =============	
+		//============= userEmail ì— íšŒì›ì •ë³´ë³´ê¸°  Event  ì²˜ë¦¬(Click) =============	
 		 $(function() {
 		
-			//==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "td:nth-child(2)" ).on("click" , function() {
 				 self.location ="/user/getUser?userEmail="+$(this).text().trim();
 			});
 						
-			//==> userEmail LINK Event End User ¿¡°Ô º¸ÀÏ¼ö ÀÖµµ·Ï 
-			$( "td:nth-child(2)" ).css("color" , "green");
+			//==> userEmail LINK Event End User ì—ê²Œ ë³´ì¼ìˆ˜ ìˆë„ë¡ 
+			//$( "td:nth-child(2)" ).css("color" , "black");
 			
 		});	
 		
@@ -82,20 +85,20 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
-	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+   	
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<div class="page-header text-info">
-	       <h3>È¸¿ø¸ñ·ÏÁ¶È¸(°ü¸®ÀÚ¿ë)</h3>
+	<div class="head_aticle" align="center" id = "head_aticle">
+	      <h2 class="tit" style="color: #333;">íšŒì› ëª©ë¡ì¡°íšŒ(ê´€ë¦¬ììš©)</h2>
 	    </div>
 	    
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row">
 	    
 		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
+		    	<p class="text-light">
+		    		ì „ì²´  ${resultPage.totalCount } ê±´ìˆ˜, í˜„ì¬ ${resultPage.currentPage}  í˜ì´ì§€
 		    	</p>
 		    </div>
 		    
@@ -104,39 +107,42 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>È¸¿ø ÀÌ¸ŞÀÏ</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>´Ğ³×ÀÓ</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>íšŒì› ì´ë©”ì¼</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>ë‹‰ë„¤ì„</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>ê´€ì‹¬ì‚¬</option>
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
+				    <label class="sr-only" for="searchKeyword">ê²€ìƒ‰ì–´</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="ê²€ìƒ‰ì–´"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>
 				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
+				  <button type="button" class="btn btn-default">ê²€ìƒ‰</button>
 				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 				</form>
 	    	</div>
 	    	
-		</div>
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	  </div>  	
+	    	
 		
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 		
+			<br></br>
       <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover table-striped" >
+      <table class="table table-hover table-striped">
       
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left" >È¸¿ø ÀÌ¸ŞÀÏ</th>
-            <th align="left">´Ğ³×ÀÓ</th>
-            <th align="left">°¡ÀÔ³¯Â¥</th>
-            <th align="left">°ü½É»ç ¹øÈ£</th>
+            <th align="left" >íšŒì› ì´ë©”ì¼</th>
+            <th align="left">ë‹‰ë„¤ì„</th>
+            <th align="left">ê°€ì…ë‚ ì§œ</th>
+            <th align="left">ê´€ì‹¬ì‚¬</th>
           </tr>
         </thead>
        
@@ -147,10 +153,10 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : È¸¿øÁ¤º¸ È®ÀÎ">${user.userEmail}</td>
+			  <td align="left"  title="Click : íšŒì›ì •ë³´ í™•ì¸">${user.userEmail}</td>
 			  <td align="left">${user.nick}</td>
 			  <td align="left">${user.regDate}</td>
-			   <td align="left">${user.categNo}</td>
+			   <td align="left">${user.categName}</td>
 			  <td align="left">
 			  	<input type="hidden" value="${user.userEmail}">
 			  </td>
@@ -163,7 +169,7 @@
 	  <!--  table End /////////////////////////////////////-->
 	  
  	</div>
- 	<!--  È­¸é±¸¼º div End /////////////////////////////////////-->
+ 	<!--  í™”ë©´êµ¬ì„± div End /////////////////////////////////////-->
  	
  	
  	<!-- PageNavigation Start... -->

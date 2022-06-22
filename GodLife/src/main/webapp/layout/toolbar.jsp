@@ -216,7 +216,7 @@ div#menu-bar{
                <ul class="all_category_item" id="all_category_item">
                
                      <li><a href="/operator/getOperatorJoinDayEvent?eventNo=1&userEmail=${sessionScope.user.userEmail}">매일출석</a></li>
-                     <li><a href="/operator/getOperatorJoinRoullEvent?eventNo=2">룰렛 이벤트</a></li>
+                     <li><a href="/operator/getOperatorJoinRoullEvent?eventNo=2&userEmail=${sessionScope.user.userEmail}">룰렛 이벤트</a></li>
                </ul>
             </li>
                
@@ -235,8 +235,8 @@ div#menu-bar{
             </a> 
                <ul class="all_category_item" id="all_category_item">
 
-                  <li><a href="링크">회원 전체목록</a></li>
-                    <li><a href="링크">신고관리</a></li>
+                  <li><a href="/user/listUser">회원 전체목록</a></li>
+                    <li><a href="/user/listUserReport">신고관리</a></li>
                   <li><a class="링크">챌린지관리</a></li>
                   <li><a class="링크">인증이미지 게시글관리</a></li>
                   <li><a class="링크"> 개설한 챌린지관리</a></li>
@@ -244,9 +244,8 @@ div#menu-bar{
                   <li><a href="/product/getProductVoucherList">상품권 관리</a></li>
                   <li><a href="/product/getProductCouponList">쿠폰 관리</a></li>
                   <li><a href="/badge/getBadgeList">배지 관리</a></li>
-                  <li><a href="/operator/listOperatorEvent.jsp">이벤트 관리</a></li>
+                  <li><a href="/operator/listOperatorEvents">이벤트 관리</a></li>
                   <li><a class="링크">이벤트참여자 관리</a></li>
-                  <li><a class="링크">일대일문의 관리</a></li>
                   <li><a href="/operator/listOperatorNotice">공지사항 관리</a></li>
                   <li><a href="/operator/listOperatorFaqs">FAQ 관리</a></li>
                </ul>

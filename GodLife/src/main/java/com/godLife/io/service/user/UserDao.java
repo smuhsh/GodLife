@@ -140,13 +140,21 @@ public interface UserDao {
     public void updateOneInqComment(OneInq oneInq) throws Exception ;
     
     
-////////////////////////////신고 //////////////////
+////////////////////////////신고 ////////////////////////////////////////////
     
     // 쪽지 신고 등록 
     public void addMsgReport(Report report) throws Exception ;
     
+    //쪽지 신고 중복방지
+    public int checkMsgReport(Map<String, String> map);
     
     //신고 유저 목록조회(관리자) 
+    public List<User> getUserReportList(Search search) throws Exception ;
+    
+    //신고 유저 상세 목록조회(관리자) 
+    public Map<String, Object> getUserReport(Search search, String targetEmail) throws Exception ;
+    
+    
     
     
     
@@ -175,7 +183,7 @@ public interface UserDao {
     
  //========================================================================================   
     
-	// 게시판 Page 처리를 위한 전체Row(totalCount) return, usermapper 
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 유저 전체 목록조회(관리자) 
 	public int getTotalCount(Search search) throws Exception ;
 	
 	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 받은 쪽지 목록조회 
@@ -191,7 +199,9 @@ public interface UserDao {
 	public int getUserBlackListTotalCount(Search search, String userEmail) throws Exception ;
 	
 	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 보낸 쪽지 목록조회 
-		public int getUserSendMsgTotalCount(Search search, String sendEmail) throws Exception ;
-
+	public int getUserSendMsgTotalCount(Search search, String sendEmail) throws Exception ;
+	
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 신고 유저 목록조회(관리자) 
+	public int getUserReportTotalCount(Search search) throws Exception ;
 
 }

@@ -32,8 +32,9 @@
       <result property="badgeName"      column="badge_name"    jdbcType="VARCHAR" />
       <result property="badgeImg"       column="badge_img"       jdbcType="VARCHAR" />
       
+      <result property="rc"       column="rc"       jdbcType="INTEGER" />
+      
    </resultMap>
-   
    
       <!-- SQL : 타유저 상세조회, 로그인 -->
     <select    id="getUserKakao"   parameterType="int"   resultMap="userSelectMap">
@@ -63,17 +64,15 @@
     
     <!-- SQL : 본인정보, 타유저 상세조회, 로그인 -->
     <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
-      SELECT
-      u.user_email, u.pwd, u.nick, u.profile_img, u.phone, u.intro, u.redcard_count, u.reg_date, ca.categ_name, u.total_point, u.red_coupon_count,u.certi_coupon_count, u.account_status,
-      u.total_point, u.role, u.categ_no
-       FROM users u, categs ca,( SELECT count(*) report_count 
-                            FROM users u,reports r 
-                            WHERE u.user_email=r.target_email
-                            and r.target_email= #{userEmail} ) rp
-       WHERE u.categ_no = ca.categ_no 
-       AND u.user_email = #{userEmail}
+		SELECT u.*,
+		c.categ_name,(SELECT COUNT(*) 
+		FROM reports r, users u 
+		WHERE r.target_email = #{userEmail}
+		AND r.target_email = u.user_email) AS rc
+		FROM users u, categs c
+		WHERE u.user_email = #{userEmail}
+		AND u.categ_no = c.categ_no
     </select>
-    
     
    <!-- SQL : 타유저 상세조회, 로그인 -->
     <select    id="getUserTarget"   parameterType="string"   resultMap="userSelectMap">
@@ -108,7 +107,6 @@
     
     
     <!-- SQL : 유저전체 목록조회(관리자) -->
-    
    <select  id="getUserList"  parameterType="search"   resultMap="userSelectMap">
         SELECT 
         *
@@ -116,19 +114,23 @@
                     SELECT 
                     inner_table.* , ROWNUM AS row_seq
                     FROM      (   SELECT 
-                                       *
-                                 FROM users 
-                                 <if test="searchCondition != null">
+                                       u.user_email, u.nick, u.reg_date, c.categ_name
+                                       FROM users u, categs c
+                                     <if test="searchCondition != null">
                                     <where>
+                                    u.categ_no = c.categ_no
                                        <if test="searchCondition == 0 and searchKeyword !='' ">
-                                           user_email = #{searchKeyword}
+                                           AND u.user_email = #{searchKeyword}
                                        </if>
                                        <if test="searchCondition == 1 and searchKeyword !='' ">
-                                           nick = #{searchKeyword}
+                                           AND u.nick = #{searchKeyword}
+                                       </if>
+                                        <if test="searchCondition == 2 and searchKeyword !='' ">
+                                           AND c.categ_name = #{searchKeyword}
                                        </if>
                                     </where>
-                                 </if>
-                                 ORDER BY reg_date ) inner_table
+                                    </if>
+                                 ORDER BY u.reg_date DESC ) inner_table
                   WHERE ROWNUM &lt;= #{endRowNum} )
       WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
     </select>
@@ -203,9 +205,43 @@
              user_email=#{userEmail}
          </where>
      </update>
-    
+     
+     
+      <!-- SQL : 신고유저 목록조회(관리자)-->
+	 <select  id="getUserReportList"  parameterType="map"	resultMap="userSelectMap">
+	  	SELECT 
+	  	*
+	  	FROM (	
+	  					SELECT 
+	  					inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT u.*, a.rc
+											FROM users u,
+											(SELECT u.user_email AS b, COUNT(*) AS rc 
+											FROM reports r ,users u
+											WHERE r.target_email = u.user_email 
+											GROUP BY u.user_email) a
+											WHERE u.user_email = a.b
+											<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				AND u.user_email = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				AND u.nick = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				AND a.rc = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 3 and searchKeyword !='' ">
+										 				AND u.redcard_count = #{searchKeyword}
+													</if>
+											</if>
+											ORDER BY a.rc DESC) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+     
    
-   <!-- SQL : SELECT ROW Count  -->
+   <!-- SQL :유저전체 목록조회 카운트 -->
     <select  id="getTotalCount"  parameterType="search"    resultType="int">
         SELECT COUNT(*)
         FROM(   SELECT user_email , nick 
@@ -223,8 +259,30 @@
     </select>
     
     
-    
-     
-    
+    <!-- SQL : 신고 유저 목록조회 카운트 -->
+    <select  id="getUserReportTotalCount"  parameterType="search"    resultType="int">
+        SELECT COUNT(*)
+        FROM(   SELECT u.user_email, u.nick, u.redcard_count, u.reg_date, a.rc
+											FROM users u,
+											(SELECT u.user_email AS b, COUNT(*) AS rc 
+											FROM reports r ,users u
+											WHERE r.target_email = u.user_email 
+											GROUP BY u.user_email) a
+											WHERE u.user_email = a.b
+											<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				AND u.user_email = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				AND u.nick = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 2 and searchKeyword !='' ">
+										 				AND a.rc = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 3 and searchKeyword !='' ">
+										 				AND u.redcard_count = #{searchKeyword}
+													</if>
+											</if> ) countTable                  
+    </select>
     
 </mapper>

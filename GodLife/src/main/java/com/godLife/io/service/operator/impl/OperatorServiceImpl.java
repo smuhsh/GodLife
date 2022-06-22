@@ -46,9 +46,8 @@ public class OperatorServiceImpl implements OperatorService{
 	public void addOperatorJoinDayEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		operatorDao.addOperatorJoinDayEvent(operatorJoinEvent);
 	}
-	public OperatorJoinEvent addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
+	public void addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 		operatorDao.addOperatorJoinRoullEvent(operatorJoinEvent);
-		return operatorJoinEvent;
 	}
 //	public OperatorJoinEvent addOperatorJoinRoullEvent(OperatorJoinEvent operatorJoinEvent) throws Exception {
 //		operatorDao.addOperatorJoinRoullEvent(operatorJoinEvent);
@@ -216,8 +215,8 @@ public class OperatorServiceImpl implements OperatorService{
 //	public void deleteOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
 //		operatorDao.deleteOperatorNoticeFaqs(operatorNoticeFaqs);
 //	}
-	public void deleteOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception {
-		operatorDao.deleteOperatorNotice(operatorNotice);
+	public void deleteOperatorNotice(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+		operatorDao.deleteOperatorNotice(operatorNoticeFaqs);
 	}
 	public void deleteOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception {
 		operatorDao.deleteOperatorFaqs(operatorFaqs);

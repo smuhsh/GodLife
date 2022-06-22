@@ -36,9 +36,6 @@
   <!-- jQuery UI toolTip »ç¿ë JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
-  
-  <!-- »ó´Ü¹Ù»ðÀÔ -->
-	<jsp:include page="/layout/toolbar.jsp" />
 	
 	<!-- ¿ÞÂÊ ·¹ÀÌ¾Æ¿ô »ðÀÔ-->
 		<jsp:include page="/user/mypageMain.jsp" />

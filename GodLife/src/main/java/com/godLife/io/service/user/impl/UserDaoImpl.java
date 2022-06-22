@@ -41,9 +41,7 @@ public class UserDaoImpl implements UserDao{
  		return sqlSession.selectOne("UserMapper.getUserKakao", user);
 	}
 
-	
-	
-//아이디 찾기 
+	//아이디 찾기 
 	public String findUserEmail(String phone) throws Exception{
 		return sqlSession.selectOne("UserMapper.findUserEmail", phone);
 	}
@@ -86,7 +84,7 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectList("UserMapper.getUserList", search);
 	}
 	
-
+	
 	
 	
 //	//핸드폰 번호로 아이디, 비번찾기 
@@ -294,6 +292,31 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.insert("ReportMapper.addMsgReport", report);
 	}
 	
+	//쪽지 신고 중복방지 
+	public int checkMsgReport(Map<String, String> map) {
+		return sqlSession.selectOne("ReportMapper.checkMsgReport", map);
+	}
+	
+	//신고회원목록(관리자)
+	public List<User> getUserReportList(Search search) throws Exception {
+		return sqlSession.selectList("UserMapper.getUserReportList", search);
+	}
+	
+	//신고 유저 상세목록조회 
+	public Map<String, Object> getUserReport(Search search, String targetEmail) throws Exception {
+		   
+			Map<String, Object> map=new HashMap<String, Object>();
+		   
+		   map.put("endRowNum",  search.getEndRowNum()+"" );
+		   map.put("startRowNum",  search.getStartRowNum()+"" );
+		   map.put("targetEmail", targetEmail);
+		   
+		   List<Msg> list = sqlSession.selectList("ReportMapper.getUserReport", map);
+		   map.put("list", list);
+		   
+		   return map;
+	}
+	
 	
 	public void updateUserRedCouponCount(User user) throws Exception{
 		System.out.println("userDaoImpl : "+user);
@@ -316,7 +339,7 @@ public class UserDaoImpl implements UserDao{
 	
 	//==========================================================================================================
 	
-	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return. 
+	// 게시판 Page 처리를 위한 전체 Row(totalCount)  (전체유저목록조회 / 관리자용)
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 		}
@@ -375,6 +398,12 @@ public class UserDaoImpl implements UserDao{
 		
 		return sqlSession.selectOne("MsgMapper.getUserSendMsgTotalCount", map);
 		
+		}
+	
+	
+	// 게시판 Page 처리를 위한 전체 Row(totalCount) (신고목록조회 / 관리자용) 
+	public int getUserReportTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("UserMapper.getUserReportTotalCount", search);
 		}
 
 	

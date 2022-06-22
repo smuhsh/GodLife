@@ -43,9 +43,17 @@
 		WHEN MATCHED THEN 
  			UPDATE SET act_count = act_count + 1
 		WHEN NOT MATCHED THEN 
+			<choose> 
+				<when test="badgeNo == 10000">
 			INSERT (my_badge_no, user_email , badge_no , act_count ) 
-			VALUES (seq_my_badge_my_badge_no.nextval , #{userEmail:VARCHAR}, #{badgeNo} , #{actCount} )
-			
+			VALUES	(seq_my_badge_my_badge_no.nextval , #{userEmail:VARCHAR}, #{badgeNo} , 31)
+				</when>
+				
+				<otherwise>
+			INSERT (my_badge_no, user_email , badge_no , act_count ) 
+			VALUES	(seq_my_badge_my_badge_no.nextval , #{userEmail:VARCHAR}, #{badgeNo} ,1)
+				</otherwise>
+			</choose>
 	</update>
 
 

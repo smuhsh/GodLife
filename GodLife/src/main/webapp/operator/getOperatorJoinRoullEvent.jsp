@@ -250,7 +250,41 @@
         </style>
         
         <script type="text/javascript">
-            $(document).ready(function() {
+
+        /*
+        $(function)(){
+        	$(document).on("click",function(){
+        		if($("input[name='userEmail']").val()==""){
+					alert("로그인 후 이용해주세요.")
+        			location.href="/user/login";
+        		}
+        		else{
+					if(dateString ==$("input[name='regDate']").val()){
+						alert("오늘은 이미 이벤트에 참여하셨습니다.")
+					}else{
+
+					
+					}
+        		}
+        	
+        	}
+        });
+        */
+        /*
+        function logCheck(){
+	        if($("input[name='userEmail']").val()==""){
+				alert("로그인 후 이용해주세요.")
+				location.href="/user/login";
+			}
+			else{
+				if(dateString ==$("input[name='regDate']").val()){
+					alert("오늘은 이미 참여하셨습니다.")
+			}
+		}
+        */
+			
+			
+        $(document).ready(function() {
                 var gift;
                 var present = [1000, 1000, 1000, 3000, 5000, 10000]
 
@@ -269,7 +303,7 @@
                         onComplete: endGame,
                         ease: Sine.easeOut
                     });
-                    console.log("gift 숫자 : " + (gift + 1) + "rotationPos" + rotationPos);
+                    //console.log("gift 숫자 : " + (gift + 1) + "rotationPos" + rotationPos);
                     console.log("당첨 포인트 : " + (gift + 1) + "rotationPos" + rotationPos);
                 }
 
@@ -297,7 +331,7 @@
                     
         			$.ajax( 
         					{
-        						url : "/operator/operatorRest/addOperatorJoinRoullEvent?rewardPoint="+present[gift] ,
+        						url : "/operator/operatorRest/addOperatorJoinRoullEvent?eventNo=2&rewardPoint="+present[gift] ,
         						method : "POST",
         	                       dataType : "json",
         	                       headers : {
@@ -390,10 +424,23 @@
         
 	<body bgcolor="#ffffff" text="#000000">
 		<jsp:include page="/layout/toolbar.jsp" />	
+		<!--
 		<div class="container">
 			<div class="page-header text-info">
 		       <h3>룰렛 이벤트</h3>
+		</div>-->
+		<div class="container"><br></br><br></br>
+			<center>
+			<div class="row">
+			<div class="col-md-4"></div>
+		 	<div class="col-md-4" id="title"><div class="text-info">
+		       <h3>룰렛 이벤트</h3>
+		    </div></div>
+		  	<div class="col-md-4"></div>
+			</div>
+			</center>
 		</div>
+		
 		        <input type="hidden" name="gift" id="gift"
                         value="{{ form.gift.value|default_if_none:'' }}">
 		
@@ -410,6 +457,9 @@
                 </center>
             </div>
         </div>
+		<input type="hidden" name="userEmail" value="${user.userEmail}">
+		<input type="hidden" name="regDate" value="${operatorJoinEvent.regDate}">
+        
     </body>
 </html>
 
