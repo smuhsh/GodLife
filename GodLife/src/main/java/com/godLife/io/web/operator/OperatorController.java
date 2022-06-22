@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
@@ -26,6 +27,7 @@ import com.godLife.io.service.domain.OperatorNoticeFaqs;
 import com.godLife.io.service.domain.OperatorJoinEvent;
 import com.godLife.io.service.domain.OperatorReward;
 import com.godLife.io.service.domain.Point;
+import com.godLife.io.service.domain.Product;
 import com.godLife.io.service.domain.User;
 import com.godLife.io.service.operator.OperatorService;
 import com.godLife.io.service.point.PointService;
@@ -184,9 +186,47 @@ public class OperatorController {
 		OperatorNoticeFaqs operatorNotice = operatorService.getOperatorNotice(noticeFaqNo);
 		// Connect Model and View 
 		model.addAttribute("operatorNotice", operatorNotice);
-		return "forward:/operator/updateOperatorNotice.jsp";
+		return "forward:/operator/getOperatorNotice.jsp";
 	}
 	
+	@RequestMapping (value = "deleteOperatorNotice", method=RequestMethod.POST)
+	public String deleteOperatorNotice( @ModelAttribute("operatorNoticeFaqs") OperatorNoticeFaqs operatorNoticeFaqs , Model model ) throws Exception {
+		System.out.println("/operator/deleteOperatorNotice : POST");
+		//Business Logic
+		operatorService.deleteOperatorNotice(operatorNoticeFaqs);
+		
+		System.out.println("@@@@@@@@@@@@@@@@@deleteOperatorNotice"+operatorNoticeFaqs);
+		
+		return "forward:/operator/listOperatorNotice";
+	}
+
+	
+	//이미지 업로드
+//	@RequestMapping( value="updateOperatorNotice", method=RequestMethod.POST )
+//	public String updateOperatorNotice( @ModelAttribute("noticeFaqNo") OperatorNoticeFaqs operatorNoticeFaqs , Model model , HttpSession session,
+//									   @RequestParam ("imageUpload" )  MultipartFile file) throws Exception{
+//
+//		System.out.println("/operator/updateOperatorNotice : POST");
+//		
+//		String fileName = file.getOriginalFilename();
+//
+//		fileName =  uploadFile(fileName, file.getBytes());   // 파일 이름 중복 제거 
+//		
+//		operatorNoticeFaqs.setImg(fileName);
+//		
+//		//Business Logic
+//		operatorService.updateOperatorNotice(operatorNoticeFaqs);
+//
+//		return "forward:/product/getProductCouponList?productNo="+operatorNoticeFaqs.getNoticeFaqNo();
+//	}
+	
+	
+	
+	private String uploadFile(String fileName, byte[] bytes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@RequestMapping(value="updateOperatorNotice", method=RequestMethod.POST)
 	public String updateOperatorNotice( @ModelAttribute("operator") OperatorNoticeFaqs operatorNotice , Model model , HttpSession session) throws Exception{
 		
@@ -304,7 +344,8 @@ public class OperatorController {
 		if(sessionId.equals(operatorFaqs.getNoticeFaqNo())){
 			session.setAttribute("operator", operatorFaqs);
 		}
-		return "redirect:/operator/getOperatorFaqs?NoticeFaqNo="+operatorFaqs.getNoticeFaqNo();
+		//return "redirect:/operator/getOperatorFaqs?NoticeFaqNo="+operatorFaqs.getNoticeFaqNo();
+		return "forward:/operator/updateOperatorFaqs.jsp";
 	}
 	
 	@RequestMapping( value="listOperatorFaqs" )
@@ -445,7 +486,7 @@ public class OperatorController {
 		
 		Point point = new Point();
 		
-		if(operatorJoinEvent.getEventNo()==2) {
+	
 			point.setUseStatus("2");
 			point.setPoint(1000);
 			point.setUseDetail("5");
@@ -454,7 +495,7 @@ public class OperatorController {
 			map.put("point", point);
 			
 			pointService.addPointPurchase(map);
-		}
+		
 		
 		System.out.println("oper@@@@@@@@@ : "+ operatorJoinEvent);
 		
@@ -469,7 +510,7 @@ public class OperatorController {
 		pointService.addPointPurchase(map);
 		
 		
-		return "forward:/operator/addOperatorJoinRoullEvent.jsp";
+		return "forward:/operator/addOperatorJoinRoullEvent";
 	}
 	
 //	@RequestMapping(value="getOperatorJoinEvent", method=RequestMethod.GET)

@@ -7,14 +7,11 @@
 
 <style>
 
-#side{ 
-   width: 170px;
-   float: left;
-   margin-top: 260px;
-   margin-left: 350px;
-   border-top: 1px solid #d4d7da;
-
+#please{
+position:absolute;
 }
+
+
 </style>
 
 <meta charset="UTF-8">
@@ -22,7 +19,7 @@
 </head>
 <body>
 <div id="side">
-<ul class="list_lnb">
+<ul class="list_lnb" id="please">
    <li class="lnb_admin2" >
       <strong><span class="ico_admin"></span> <span class="txt_lnb">회원관리</span></strong>
       <ul>
@@ -36,7 +33,7 @@
    </li>
    
    <li class="lnb_admin1">
-      <strong><span class="ico_admin"></span> <span class="txt_lnb">챌린저 관리</span></strong>
+      <strong><span class="ico_admin"></span> <span class="txt_lnb">챌린지 관리</span></strong>
       <ul>
          <li id="managerSaleboard" style="text-align: left;"><a href="/challenge/listChallenge?challengeListOpt=add" class="link_lnb">등록한 챌린지 목록</a></li>
          <li id="managerFreeboard" style="text-align: left;"><a href="/challenge/listChallenge?challengeListOpt=join" class="link_lnb">참여한 챌린지 목록</a></li>
@@ -55,12 +52,10 @@
    </li>
    
       <li class="lnb_admin4">
-      <strong><span class="ico_admin"></span> <span class="txt_lnb">고객센터 관리</span></strong>
+      <strong><span class="ico_admin"></span> <span class="txt_lnb">고객센터</span></strong>
       <ul>
           <li id="managerNotice" style="text-align: left;"><a href="/operator/listOperatorNotice" class="link_lnb">공지사항</a></li>
          <li id="managerServiceQuestion" style="text-align: left;"><a href="/operator/listOperatorFaqs" class="link_lnb">FAQ</a></li>
-         <li id="managerServiceInquire" style="text-align: left;"><a href="링크" class="link_lnb">1:1 문의</a></li>
-         <li id="managerReport" style="text-align: left;"><a href="링크" class="link_lnb">신고게시판 관리</a></li>
       </ul>
    </li>
 </ul>

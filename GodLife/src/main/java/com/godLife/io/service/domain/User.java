@@ -19,6 +19,8 @@ public class User {
 	private int totalPoint;
 	private String joinPath;
 	
+	private int rc; // 서브쿼리 때문에 신고보유개수 여기다가 넣어줌 
+	
 	//아래 추가 
 	private String categName;
 	
@@ -177,6 +179,16 @@ public class User {
 	}
 
 
+	public int getRc() {
+		return rc;
+	}
+
+
+	public void setRc(int rc) {
+		this.rc = rc;
+	}
+
+
 	public String getCategName() {
 		return categName;
 	}
@@ -252,15 +264,11 @@ public class User {
 		return "User [userEmail=" + userEmail + ", pwd=" + pwd + ", role=" + role + ", nick=" + nick + ", regDate="
 				+ regDate + ", categNo=" + categNo + ", profileImg=" + profileImg + ", intro=" + intro + ", phone="
 				+ phone + ", redCardCount=" + redCardCount + ", accountStatus=" + accountStatus + ", reportCount="
-				+ reportCount + ", totalPoint=" + totalPoint + ", joinPath=" + joinPath + ", categName=" + categName
-				+ ", redCouponCount=" + redCouponCount + ", certiCouponCount=" + certiCouponCount + ", challengeTitle="
-				+ challengeTitle + ", certiImg=" + certiImg + ", badgeName=" + badgeName + ", badgeImg=" + badgeImg
-				+ "]";
+				+ reportCount + ", totalPoint=" + totalPoint + ", joinPath=" + joinPath + ", rc=" + rc + ", categName="
+				+ categName + ", redCouponCount=" + redCouponCount + ", certiCouponCount=" + certiCouponCount
+				+ ", challengeTitle=" + challengeTitle + ", certiImg=" + certiImg + ", badgeName=" + badgeName
+				+ ", badgeImg=" + badgeImg + "]";
 	}
-	
-	
-	
-	
 
 	
 
