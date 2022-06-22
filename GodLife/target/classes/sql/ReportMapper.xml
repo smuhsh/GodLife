@@ -20,8 +20,8 @@
 		
 		<!-- 추가 -->
 		<result property="nick" 	column="nick" 		jdbcType="VARCHAR" />
+		
 	</resultMap>
-	
 	
 	<!-- SQL : 인증이미지 신고 등록-->
 	<insert 	id="addCertiImgReport"		parameterType="report" >
@@ -39,7 +39,6 @@
 	 					#{reason : CHAR}, SYSDATE, '2',  #{commentNo : INTEGER})
 	 </insert>
 	 
-	 
 	 <!-- SQL : 쪽지 신고 등록-->
 	<insert 	id="addMsgReport"		parameterType="report" >
 	 	INSERT
@@ -47,39 +46,49 @@
 	 	VALUES (SEQ_REPORTS_REPORT_NO.NEXTVAL, #{reporterEmail : VARCHAR}, #{targetEmail : VARCHAR}, 
 	 					#{reason : CHAR}, SYSDATE, '3', #{msgNo : INTEGER})
 	 </insert>
-	 
-	 
-	 <!-- SQL : 신고유저 목록조회(관리자)-->
-	 
-	 <select  id="getReportList"  parameterType="map"	resultMap="reportSelectMap">
-	  	SELECT 
-	  	*
-	  	FROM (	
-	  					SELECT 
-	  					inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	select u.user_email, u.nick, u.reg_date, a.ra
-											from users u,( select u.user_email as b, count(*) as ra from reports r , users u 
-											where r.target_email = u.user_email 
-											group by u.user_email ) a
-											where u.user_email = a.b
-	  										
-											<if test="searchCondition != null">
-												<where>
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				u.user_email = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				u.nick = #{searchKeyword}
-													</if>
-													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				u.reg_date = #{searchKeyword}
-													</if>
-												</where>
-											</if>
-											ORDER BY a.ra ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+
+	  <!-- SQL : 쪽지 신고 중복방지 -->
+	  <select  id="checkMsgReport"  parameterType="map"	 resultType="int">
+		SELECT COUNT(*) FROM reports 
+		WHERE reporter_email = #{reporterEmail}
+		AND target_email = #{targetEmail}
+		AND msg_no =  #{msgNo}
 	 </select>
+	  
+	  <!-- SQL : 인증이미지 신고 중복방지 -->
+	  <select  id="checkCertiImgReport"  parameterType="map"	 resultType="int">
+		SELECT COUNT(*) FROM reports 
+		WHERE reporter_email = #{reporterEmail}
+		AND target_email = #{targetEmail}
+		AND certi_img_no =  #{certiImgNo}
+	 </select>
+	 
+	 <!-- SQL : 인증이미지 댓글 신고 중복방지 -->
+	 <select  id="checkcommentNoReport"  parameterType="map"	 resultType="int">
+		SELECT COUNT(*) FROM reports 
+		WHERE reporter_email = #{reporterEmail}
+		AND target_email = #{targetEmail}
+		AND comment_no =  #{commentNo}
+	 </select>
+	 
+	 
+	<!-- SQL : 신고유저 상세목록조회(한명한명씩 상세로 )-->
+   <select  id="getUserReport"  parameterType="map"   resultMap="reportSelectMap">
+        SELECT 
+        *
+        FROM (   
+                    SELECT 
+                    inner_table.* , ROWNUM AS row_seq
+                    FROM      (   SELECT 
+                                       r.*
+                                       FROM reports  r
+                                       WHERE target_email = #{targetEmail}
+                                 ) inner_table
+                  WHERE ROWNUM &lt;= #{endRowNum} )
+      WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+    </select>
+	 	
+	 	
 	 
 	 
 </mapper>

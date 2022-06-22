@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -47,10 +49,11 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
+	/*
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listUserReport").submit();
 		}
 		
 		//============= "검색"  Event  처리 =============	
@@ -61,7 +64,10 @@
 			});
 		 });
 		
+		*/
 		
+		
+		/*
 		//============= userEmail 에 회원정보보기  Event  처리(Click) =============	
 		 $(function() {
 		
@@ -72,10 +78,11 @@
 						
 			//==> userEmail LINK Event End User 에게 보일수 있도록 
 			//$( "td:nth-child(2)" ).css("color" , "black");
-			
 		});	
 		
-
+		*/
+		
+			
 	</script>
 	
 </head>
@@ -90,9 +97,10 @@
 	<div class="container">
 	
 	<div class="head_aticle" align="center" id = "head_aticle">
-	      <h2 class="tit" style="color: #333;">회원 목록조회(관리자용)</h2>
+	      <h2 class="tit" style="color: #333;">신고 회원 상세 목록조회(관리자용)</h2>
 	    </div>
 	    
+	    <br></br>
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
 	    
@@ -105,11 +113,13 @@
 		    <div class="col-md-6 text-right">
 			    <form class="form-inline" name="detailForm">
 			    
+			    <!--  
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>회원 이메일</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>관심사</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>신고 개수</option>
+						<option value="3"  ${ ! empty search.searchCondition && search.searchCondition==3 ? "selected" : "" }>레드카드 개수</option>
 					</select>
 				  </div>
 				  
@@ -117,9 +127,9 @@
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				  </div>
+				  </div>-->
 				  
-				  <button type="button" class="btn btn-default">검색</button>
+				  <button type="button" class="btn btn-default">레드카드 발급</button>
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
@@ -132,34 +142,77 @@
 		
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
-			<br></br>
+		<br></br>
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped">
       
-        <thead>
+       <thead>
           <tr>
-            <th align="center">No</th>
-            <th align="left" >회원 이메일</th>
-            <th align="left">닉네임</th>
-            <th align="left">가입날짜</th>
-            <th align="left">관심사</th>
+          <!-- <th align="left" >신고번호</th>-->
+            <th align="left" >신고자</th>
+            <!--  <th align="left" >대상</th> -->
+             <th align="left" >날짜</th>
+            <th align="left" >사유</th>
+            <th align="left" >유형</th>
+            <th align="left" >인증이미지</th>
+            <th align="left" >댓글</th>
+             <th align="left" >쪽지</th>
           </tr>
         </thead>
        
 		<tbody>
 		
 		  <c:set var="i" value="0" />
-		  <c:forEach var="user" items="${list}">
+		  <c:forEach var="report" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${user.userEmail}</td>
-			  <td align="left">${user.nick}</td>
-			  <td align="left">${user.regDate}</td>
-			   <td align="left">${user.categName}</td>
+			 <!-- <td align="center">${ i }</td>--> 
+			<!--  <td align="center" >${report.reportNo}</td>-->
+			  <td align="left" >${report.reporterEmail}</td>
+			  <!-- <td align="left">${report.targetEmail}</td>-->
+			    <td align="left">${report.regDate}</td>
 			  <td align="left">
-			  	<input type="hidden" value="${user.userEmail}">
+			  
+			   <c:if test = "${report.reason.trim() == '1'}">
+			  욕설
+			  </c:if>
+			  <c:if test = "${report.reason.trim() == '2'}">
+			  광고
+			  </c:if>
+			  <c:if test = "${report.reason.trim() == '3'}">
+			  사기
+			  </c:if>
+			  <c:if test = "${report.reason.trim() == '4'}">
+			  음란물
+			  </c:if>
+			   <c:if test = "${report.reason.trim() == '5'}">
+			  도배
+			  </c:if>
+			  
 			  </td>
+			  
+			   <td align="left">
+			   <c:if test = "${report.reportPlace.trim() == '1'}">
+			  인증이미지
+			  </c:if>
+			  <c:if test = "${report.reportPlace.trim() == '2'}">
+			  댓글
+			  </c:if>
+			  <c:if test = "${report.reportPlace.trim() == '3'}">
+			  쪽지
+			  </c:if>
+			 </td>
+			   
+			   <td align="left">${report.certiImgNO}
+			   </td>
+			   
+			   <td align="left">${report.commentNo}</td>
+			   <td align="left"><a  href="/user/getUserRecvMsg?msgNo=${report.msgNo}">${report.msgNo}</a></td>
+			  
+			  <td align="left">
+			  	<input type="hidden" value="${report.targetEmail}">
+			  </td>
+			  
 			</tr>
           </c:forEach>
         
