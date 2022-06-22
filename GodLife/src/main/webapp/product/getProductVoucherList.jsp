@@ -124,7 +124,13 @@ color:blue;
       var productNo = $('input[name="productNo"]:checked').val();
       var useStatus = $("input[name='useStatus']").val();
       var useDetail = $("input[name='useDetail']").val();
-
+      var totalPoint = $("input[name='totalPoint']").val();
+      var point = $("input[name='point']").val();
+      alert("totalPoint" + totalPoint);
+      if (totalPoint < point ){
+         alert("소지한 포인트가 부족합니다");
+         return;
+      }
       alert( productNo + ": productNo   "
             + useStatus + ":useStatus  " + useDetail + ":useDetail");
       $("form").attr("method", "POST").attr("action",
@@ -307,6 +313,7 @@ color:blue;
                <div class="col-sm-offset-2 col-sm-10">
                   <input type="hidden" name="userEmail" value="${user.userEmail}" />
                   <input type="hidden" name="role" value="${user.role}" />
+                  <input type="hidden" name="totalPoint" value="${user.totalPoint}" />
                   <input type="hidden" name="useStatus" value="2" /> <input
                      type="hidden" name="useDetail" value="9" />
                </div>

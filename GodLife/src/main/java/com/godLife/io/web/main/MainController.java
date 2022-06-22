@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.godLife.io.common.Search;
 import com.godLife.io.service.challenge.ChallengeService;
+import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.User;
 
@@ -85,9 +86,18 @@ public class MainController {
 		}
 		//친구가 등록한 챌린지 목록 준비 끝
 		
+		//베스트 인증 이미지 목록
+		
+		search.setSearchCondition("2");//0 신규 1 인기
+		map = challengeService.getChallengeCertiImgList(map);
+		List<CertiImg> bestCertiImgList = (List<CertiImg>)map.get("certiImgList");
+		//베스트 인증 이미지 목록 준비끝
+		
+		System.out.println("bestCert : "+ bestCertiImgList);
 		System.out.println("메인");
 		model.addAttribute("bestChallengeList",bestChallengeList);
 		model.addAttribute("newChallengeList",newChallengeList);
+		model.addAttribute("bestCertiImgList", bestCertiImgList);
 		
 		
 		return "/main.jsp";

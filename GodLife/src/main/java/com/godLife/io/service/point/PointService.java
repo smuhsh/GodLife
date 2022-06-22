@@ -13,6 +13,8 @@ public interface PointService {
 	public void addPointPurchase(Map<String,Object> map) throws Exception;
 	
 	public Map<String,Object> getPointPurchaseList(Search search,User user) throws Exception;
+	
+	public Map<String,Object> getPointPurchasePointList(Search search,User user) throws Exception;
 
 	public Map<String,Object> getPointPurchaseVoucherList(Search search,User user) throws Exception;
 	

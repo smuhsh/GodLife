@@ -268,42 +268,22 @@
    		
    		<div class="challenge-list" id="best-challenge">
 			<div class="c-header">
-	   			<p class="search-title">인기 인증 이미지</p>
+	   			<p class="search-title">Best 인기 인증 이미지</p>
 	   			<a href="/challenge/listChallengeCertiImg">
 	   				<p class="more-view">더 보기</p>
 	   			</a>
    			</div>
 			 <div class="slider">
-			 <c:forEach var="challenge" items="${friendChallengeList}">
+			 <c:forEach var="certiImg" items="${bestCertiImgList}">
 		      <div>
 		      		<div class="col-sm-6 col-md-4">
-				    <div class="thumbnail">
+				  
 				    <div id="imgArea">
-				      <a id="img" href="/challenge/getChallenge?challengeNo=${challenge.challengeNo }">
-				      <img style="width:230px; height:230px;" src="/resources/images/uploadFiles/${challenge.challengeThumbnailImg }" 
+				      <a id="img" href="/challenge/getChallengeCertiImg?certiImgNo=${certiImg.certiImgNo }">
+				      <img style="width:230px; height:230px;" src="/resources/images/uploadFiles/${certiImg.certiImg }" 
 				      onerror="this.src='https://dummyimage.com/230x230/1af0d4/000000.gif'">
 				      </a>
-				      	<div id="startEndDate">
-				      			<p>기간 : ${challenge.startDate} ~ ${challenge.endDate }</p>
-				      	</div>
 				      </div>
-				      <div class="caption">
-					       <h4 id="title">${challenge.challengeTitle }</h4>
-					       <h5 id="joinCount">참여자 수 : (${challenge.joinCount })</h5>
-					       <h5 class="info">Host : ${challenge.hostNick }</h5>
-					       <h5 class="info" id="categ">관심사 : ${challenge.challengeCategName }</h5>
-					       <c:if test="${challenge.challengeStatus == 0}">
-					       		<h5 class="status">상태 : 시작전</h5>
-					       </c:if>
-					       <c:if test="${challenge.challengeStatus == 1}">
-					       		<h5 class="status">상태 : 진행중</h5>
-					       </c:if>
-					       <c:if test="${challenge.challengeStatus == 2}">
-					       		<h5 class="status">상태 : 종료</h5>
-					       </c:if>
-					       <h5 id="regDate">등록일 : ${challenge.challengeRegDate }</h5>
-				      </div>
-				    </div>
 				  </div>
 		      </div>
 		      </c:forEach>

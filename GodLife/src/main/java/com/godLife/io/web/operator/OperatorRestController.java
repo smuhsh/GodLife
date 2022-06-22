@@ -64,7 +64,7 @@ public class OperatorRestController {
 	}
 	
 	@RequestMapping(value="operatorRest/addOperatorJoinDayEvent", method=RequestMethod.GET)
-	public OperatorJoinEvent addOperatorJoinDayEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map) throws Exception {
+	public OperatorJoinEvent addOperatorJoinDayEvent(@ModelAttribute("operator") OperatorJoinEvent operatorJoinEvent, HttpSession session,Map<String,Object> map,Point point) throws Exception {
 		
 		System.out.println("operatorRest/addOperatorJoinDayEvent : GET");
 		//Business Logic
@@ -77,19 +77,17 @@ public class OperatorRestController {
 		operatorService.addOperatorJoinDayEvent(operatorJoinEvent);
 		System.out.println("join success");
 		
-		Point point = new Point();
-		
-		if(operatorJoinEvent.getEventNo()==1) {
+		int eventpoint=operatorJoinEvent.getRewardPoint();
+
 			point.setUseStatus("1");
-			point.setPoint(operatorJoinEvent.getRewardPoint());
+			point.setPoint(eventpoint);
 			point.setUseDetail("6");
-			
-			map.put("user", user);
+			point.setUserEmail(user.getUserEmail());
+	
 			map.put("point", point);
-			
+			map.put("user", user);
 			pointService.addPointPurchase(map);
-		}
-		
+			
 		System.out.println("oper@@@@@@@@@ : "+ operatorJoinEvent);
 		
 

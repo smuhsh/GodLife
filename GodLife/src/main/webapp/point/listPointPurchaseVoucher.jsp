@@ -104,7 +104,7 @@ $(function(){
 		    	</p>
 		    </div>
 		    <div class="col-md-6 text-right">
-		    <a href="/point/getPointPurchaseList">포인트 이용내역</a> &nbsp; &nbsp;<a href="/point/getPointPurchaseDonationList" class="link_lnb">기부 내역</a>
+		    <a href="/point/getPointPurchaseList">포인트 이용내역</a> &nbsp; &nbsp;<a href="/point/getPointPurchasePointList" class="link_lnb">포인트 충전내역</a> &nbsp; &nbsp;<a href="/point/getPointPurchaseDonationList" class="link_lnb">기부 내역</a>
 		    <br>
 		    <div class="input-group">
 				  <div class="form-group">

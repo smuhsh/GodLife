@@ -170,14 +170,17 @@
 				</div>
 			</div>
 			</c:forEach>
-			<c:forEach var ="i" begin ="${totalCountPlus}" end="28">
+			<c:forEach var ="i" begin ="${totalCountPlus}" end="28" varStatus="status">
 			<div class="col-md-1" id="box100">
 				<div class="point100">
-				
 					<div id="button${i}">
+					<c:if test="${status.first }">
 					<button type="button" class="btn btn-info" id="day${i}" data-param="${i}">${i}일차</button>
+					</c:if>
+					<c:if test="${!status.first }">
+					<button type="button" id="successbutton" class="btn btn-danger" >${i}일차</button>
+					</c:if>
 					</div>
-		
 					<div class="successday${i}">
 					<c:if test="${i==14 || i==28}">
 					<img src="/resources/images/10000point.png" class="img-rounded" id="day${i}img">

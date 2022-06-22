@@ -74,8 +74,23 @@
 font-family: 'S-CoreDream-4Regular';
 font-size:15px;
 }
-.menuDiv{
-
+.modal {
+        text-align: center;
+}
+ .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+        }
+        
+        .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+}
+.modal-dialog.modal-fullsize {
+width:1000px;
 }
 /*
 .header{
@@ -116,13 +131,13 @@ div#menu-bar{
       <div align="center" class="header_bar">
          <ul class="member_items">
          
-            <c:if test="${user.userEmail== null}">
+            <c:if test="${user.userEmail== null || user.userEmail==\"\"}">
                <li class="sign_up_item"><a href="/user/addUser">회원가입</a></li>
                <li class="sign_in_item"><a href="/user/login">로그인</a></li>
             </c:if>
 
 
-            <c:if test="${user.userEmail != null}">
+            <c:if test="${user.userEmail != null && user.userEmail !=\"\"}">
                 <img src="/images/uploadFiles/${sessionScope.user.profileImg}" id="profileImg"> &nbsp; <div id="profile">닉네임 : ${sessionScope.user.nick }<br>포인트 : ${sessionScope.user.totalPoint }</div>
                <br>
                 <li class="service_center_item">
@@ -133,7 +148,7 @@ div#menu-bar{
                   <li><a href="/product/getProductPointList">포인트 구매</a></li>
                   <li><a href="/product/getProductVoucherList">상품권 구매</a></li>
                   <li><a href="/product/getProductCouponList">쿠폰 구매</a></li>
-                  <li><a href="/point/addPointDonationView">기부하기</a></li>
+                  <li data-toggle="modal" href="/point/addPointDonationView" data-target=".donationModal" id="openmodal">기부하기</li>
                   
                   </ul>
                   </li>
@@ -141,25 +156,25 @@ div#menu-bar{
                   </c:if>
                
                
-               <c:if test="${user.userEmail != null}">
+               <c:if test="${user.userEmail != null && user.userEmail !=\"\"}">
                <li class="sign_in_item"><a href="/challenge/addChallengeTos.jsp">챌린지 생성</a></li>
             </c:if>
                
                
-               <c:if test="${user.userEmail != null}">
+
                <li class="sign_in_item">   
                		               
-		             <c:if test="${user.joinPath == '1'}">
+		             <c:if test="${user.userEmail != null && user.userEmail !=\"\" && user.joinPath == '1'}">
 		             <a href="/user/logout">로그아웃</a>
  		            </c:if>
                
-		             <c:if test="${user.joinPath != '1'}">
+		             <c:if test="${user.userEmail != null && user.userEmail !=\"\" && user.joinPath != '1'}">
 		             <a href="https://kauth.kakao.com/oauth/logout?client_id=6d708d50985428b8450271c1e7e98b04&logout_redirect_uri=http://localhost:8080/user/logout">로그아웃</a>
 		            </c:if>
 		            
               </li>
                
-            </c:if>
+          
             
        
             
@@ -242,7 +257,14 @@ div#menu-bar{
       </div>
    </div>
 
+        <!--  화면구성 div End /////////////////////////////////////-->
 
+<div class="modal fade donationModal" tabindex="-1" role="dialog" aria-labelledby="LargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-fullsize">
+		<div class="modal-content modal-fullsize">
+		</div>
+	</div>
+</div>
 
    
 </body>

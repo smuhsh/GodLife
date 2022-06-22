@@ -13,6 +13,8 @@ public interface PointDao {
 	public void addPointPurchase(Map<String,Object> map) throws Exception;
 	
 	public Map<String,Object> getPointPurchaseList(Search search,User user) throws Exception;
+	
+	public Map<String,Object> getPointPurchasePointList(Search search,User user) throws Exception;
 
 	public Map<String,Object> getPointPurchaseVoucherList(Search search,User user) throws Exception;
 	
@@ -21,6 +23,8 @@ public interface PointDao {
 	public Map<String,Object> getPointPurchaseDonationRank(Point point) throws Exception;
 	
 	public int getTotalCount(Search search,User user);
+	
+	public int getPointTotalCount(Search search,User user);
 	
 	public int getVoucherTotalCount(Search search,User user);
 	
