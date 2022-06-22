@@ -386,20 +386,20 @@ public class ChallengeServiceTest {
 		
 	}
 	
-	//@Test
-	public void getChallengeCertiImg() {
-		
-		int certiImgNo = 10028; // 인증이미지 번호
-		
-		CertiImg certiImg = challengeService.getChallengeCertiImg(certiImgNo);
-		
-		System.out.println("인증이미지 상세 조회");
-		System.out.println(certiImg);
-		
-		// 댓글은 ajax사용
-		// 상세 조회 하려는 인증이미지 번호를 사용하여 ajax로 댓글을 불러올 예정이다.
-		
-	}
+//	//@Test
+//	public void getChallengeCertiImg() {
+//		
+//		int certiImgNo = 10028; // 인증이미지 번호
+//		
+//		CertiImg certiImg = challengeService.getChallengeCertiImg(certiImgNo);
+//		
+//		System.out.println("인증이미지 상세 조회");
+//		System.out.println(certiImg);
+//		
+//		// 댓글은 ajax사용
+//		// 상세 조회 하려는 인증이미지 번호를 사용하여 ajax로 댓글을 불러올 예정이다.
+//		
+//	}
 	
 	
 	//@Test

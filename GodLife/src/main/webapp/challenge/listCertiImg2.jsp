@@ -68,26 +68,23 @@ crossorigin="anonymous"></script>
                               "<p class=\"font-size\">관심사 : "+this.categName+"<p>"+
                               "</div>"+
                               "<div id=\"bord\"></div>"+
-                              "<div class=\"like-dislike\" id=\"review"+this.certiImgNo+"\">";
+                              "<div class=\"like-dislike\">";
                               if(this.likeAndDislikeFlag == 1){
-                            	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+this.certiImgNo+"\" style=\"color:#75bdff; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
+                            	  displayView = displayView + "<p class=\"like-dislike-model\" style=\"color:#75bdff\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
                             	  "&nbsp;"+
                             	  "<p class=\"font-size\" id=\"like\" style=\"color:#75bdff\" >"+this.like+"<p>";
                               }else if(this.likeAndDislikeFlag != 1){
-                            	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+this.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
+                            	  displayView = displayView + "<p class=\"like-dislike-model\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
                             	  "&nbsp;"+
                             	  "<p class=\"font-size\" id=\"like\" >"+this.like+"<p>";
                               }
-                              if(this.likeAndDislikeFlag == 2){
-                            	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+this.certiImgNo+"\" style=\"color:#ff6e63; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-                                  "&nbsp;"+
-                                  "<p class=\"font-size\" id=\"dislike\" style=\"color:#ff6e63\">"+this.dislike+"<p>";
-                              }else if(this.likeAndDislikeFlag != 2){
-                            	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+this.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-                                  "&nbsp;"+
-                                  "<p class=\"font-size\" id=\"dislike\">"+this.dislike+"<p>";
-                              }
-                              displayView = displayView +"</div>"+
+                              "<p class=\"like-dislike-model\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
+                              "&nbsp;"+
+                              "<p class=\"font-size\" id=\"like\">"+this.like+"<p>"+
+                              "<p class=\"like-dislike-model\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
+                              "&nbsp;"+
+                              "<p class=\"font-size\" id=\"dislike\">"+this.dislike+"<p>"+
+                              "</div>"+
                               "<center id=\"com-btn"+this.certiImgNo+"\">"+
                               "<button type=\"button\" id=\"comment-btn-open\"class=\"btn btn-default\" data-param = \""+this.certiImgNo+"\">댓글 펼치기/접기</button>"+
                               "</center>"+
@@ -107,223 +104,7 @@ crossorigin="anonymous"></script>
              })
            });
          
-      
-        $(function(){
-        	$(document).on("click","#dislike-btn",function(){
-        		var certiImgNo = $(this).data("param");
-        		console.log(certiImgNo);
-        		
-        		$.ajax({
-        			url:"/challenge/challengeRest/getChallengeCertiImg?certiImgNo="+certiImgNo,
-        			method:"GET",
-        			dataType:"json",
-        			headers:{
-        				"Accept":"application/json",
-        				"content-Type":"application/json"
-        			},
-        			success:function(JSONData){
-        				if(JSONData.likeAndDislikeFlag == 1){
-        					alert("이미 좋아요를 하셨습니다.");
-        					return;
-        				}else if(JSONData.likeAndDislikeFlag == 2){
-        					
-        					$.ajax({
-        						url:"/challenge/challengeRest/deleteChallengeReviewLike",
-        						method:"POST",
-        						dataType:"json",
-        						headers:{
-        							"Accept":"application/json",
-        							"Content-Type":"application/json"
-        						},
-        						data:JSON.stringify({
-        							certiImgNo:certiImgNo,
-        							status:"4"
-        						}),
-        						success:function(JSONData){
-        							$("#review"+certiImgNo+" > p").remove();
-        	        				var displayView = "";
-        	        				console.log(JSONData.like);
-        	        				if(JSONData.likeAndDislikeFlag == 1){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"color:#75bdff; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
-        	                      	  "&nbsp;"+
-        	                      	  "<p class=\"font-size\" id=\"like\" style=\"color:#75bdff\" >"+JSONData.like+"<p>";
-        	                        }else if(JSONData.likeAndDislikeFlag != 1){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
-        	                      	  "&nbsp;"+
-        	                      	  "<p class=\"font-size\" id=\"like\" >"+JSONData.like+"<p>";
-        	                        }
-        	                        if(JSONData.likeAndDislikeFlag == 2){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"color:#ff6e63; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-        	                            "&nbsp;"+
-        	                            "<p class=\"font-size\" id=\"dislike\" style=\"color:#ff6e63\">"+JSONData.dislike+"<p>";
-        	                        }else if(JSONData.likeAndDislikeFlag != 2){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-        	                            "&nbsp;"+
-        	                            "<p class=\"font-size\" id=\"dislike\">"+JSONData.dislike+"<p>";
-        	                        }
-        	                        
-        	                        $("#review"+certiImgNo).html(displayView);
-        						}
-        					});
-        					
-        				}else if(JSONData.likeAndDislikeFlag == null){
-        					$.ajax({
-        	        			url:"/challenge/challengeRest/addChallengeReviewDislike",
-        	        			method:"POST",
-        	        			dataType:"json",
-        	        			headers:{
-        	        				"Accept":"application/json",
-        	        				"content-Type":"application/json"
-        	        			},
-        	        			data:JSON.stringify({
-        	        				certiImgNo:certiImgNo,
-        	        				status:"2"
-        	        			}),
-        	        			success:function(JSONData){
-        	        				$("#review"+certiImgNo+" > p").remove();
-        	        				var displayView = "";
-        	        				console.log(JSONData.like);
-        	        				if(JSONData.likeAndDislikeFlag == 1){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"color:#75bdff; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
-        	                      	  "&nbsp;"+
-        	                      	  "<p class=\"font-size\" id=\"like\" style=\"color:#75bdff\" >"+JSONData.like+"<p>";
-        	                        }else if(JSONData.likeAndDislikeFlag != 1){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
-        	                      	  "&nbsp;"+
-        	                      	  "<p class=\"font-size\" id=\"like\" >"+JSONData.like+"<p>";
-        	                        }
-        	                        if(JSONData.likeAndDislikeFlag == 2){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"color:#ff6e63; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-        	                            "&nbsp;"+
-        	                            "<p class=\"font-size\" id=\"dislike\" style=\"color:#ff6e63\">"+JSONData.dislike+"<p>";
-        	                        }else if(JSONData.likeAndDislikeFlag != 2){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-        	                            "&nbsp;"+
-        	                            "<p class=\"font-size\" id=\"dislike\">"+JSONData.dislike+"<p>";
-        	                        }
-        	                        
-        	                        $("#review"+certiImgNo).html(displayView);
-        	        			}
-        	        		});
-        				}
-        			}
-        		});
-        	});
-        });
-      
-      
-      
-      
-        $(function(){
-        	$(document).on("click","#like-btn",function(){
-        		var certiImgNo = $(this).data("param");
-        		console.log(certiImgNo);
-        		
-        		
-        		$.ajax({
-        			url:"/challenge/challengeRest/getChallengeCertiImg?certiImgNo="+certiImgNo,
-        			method:"GET",
-        			dataType:"json",
-        			headers:{
-        				"Accept":"application/json",
-        				"content-Type":"application/json"
-        			},
-        			success:function(JSONData){
-        				if(JSONData.likeAndDislikeFlag == 1){
-        					$.ajax({
-        						url:"/challenge/challengeRest/deleteChallengeReviewLike",
-        						method:"POST",
-        						dataType:"json",
-        						headers:{
-        							"Accept":"application/json",
-        							"Content-Type":"application/json"
-        						},
-        						data:JSON.stringify({
-        							certiImgNo:certiImgNo,
-        							status:"3"
-        						}),
-        						success:function(JSONData){
-        							$("#review"+certiImgNo+" > p").remove();
-        	        				var displayView = "";
-        	        				console.log(JSONData.like);
-        	        				if(JSONData.likeAndDislikeFlag == 1){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"color:#75bdff; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
-        	                      	  "&nbsp;"+
-        	                      	  "<p class=\"font-size\" id=\"like\" style=\"color:#75bdff\" >"+JSONData.like+"<p>";
-        	                        }else if(JSONData.likeAndDislikeFlag != 1){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
-        	                      	  "&nbsp;"+
-        	                      	  "<p class=\"font-size\" id=\"like\" >"+JSONData.like+"<p>";
-        	                        }
-        	                        if(JSONData.likeAndDislikeFlag == 2){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"color:#ff6e63; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-        	                            "&nbsp;"+
-        	                            "<p class=\"font-size\" id=\"dislike\" style=\"color:#ff6e63\">"+JSONData.dislike+"<p>";
-        	                        }else if(JSONData.likeAndDislikeFlag != 2){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-        	                            "&nbsp;"+
-        	                            "<p class=\"font-size\" id=\"dislike\">"+JSONData.dislike+"<p>";
-        	                        }
-        	                        
-        	                        $("#review"+certiImgNo).html(displayView);
-        						}
-        					});
-        					
-        					
-        				}else if(JSONData.likeAndDislikeFlag == 2){
-        					alert("이미 싫어요를 하셨습니다.");
-        					return;
-        				}else if(JSONData.likeAndDislikeFlag == null){
-        					
-        					$.ajax({
-        	        			url:"/challenge/challengeRest/addChallengeReviewLike",
-        	        			method:"POST",
-        	        			dataType:"json",
-        	        			headers:{
-        	        				"Accept":"application/json",
-        	        				"content-Type":"application/json"
-        	        			},
-        	        			data:JSON.stringify({
-        	        				certiImgNo:certiImgNo,
-        	        				status:"1"
-        	        			}),
-        	        			success:function(JSONData){
-        	        				$("#review"+certiImgNo+" > p").remove();
-        	        				var displayView = "";
-        	        				console.log(JSONData.like);
-        	        				if(JSONData.likeAndDislikeFlag == 1){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"color:#75bdff; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
-        	                      	  "&nbsp;"+
-        	                      	  "<p class=\"font-size\" id=\"like\" style=\"color:#75bdff\" >"+JSONData.like+"<p>";
-        	                        }else if(JSONData.likeAndDislikeFlag != 1){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
-        	                      	  "&nbsp;"+
-        	                      	  "<p class=\"font-size\" id=\"like\" >"+JSONData.like+"<p>";
-        	                        }
-        	                        if(JSONData.likeAndDislikeFlag == 2){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"color:#ff6e63; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-        	                            "&nbsp;"+
-        	                            "<p class=\"font-size\" id=\"dislike\" style=\"color:#ff6e63\">"+JSONData.dislike+"<p>";
-        	                        }else if(JSONData.likeAndDislikeFlag != 2){
-        	                      	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+JSONData.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
-        	                            "&nbsp;"+
-        	                            "<p class=\"font-size\" id=\"dislike\">"+JSONData.dislike+"<p>";
-        	                        }
-        	                        
-        	                        $("#review"+certiImgNo).html(displayView);
-        	        			}
-        	        		});
-        				}
-        			}
-        		});
-        		
-        		
-        		
-        		
-        	});
-        });
-      	
-      
+         
          $(function(){
             
             $(document).on("click","#comment-btn-close",function(){
@@ -666,8 +447,6 @@ crossorigin="anonymous"></script>
                
             });
             
- //////////////////////////////////////////////////////////////////////////////////////////
-         
          
 </script>
 
@@ -709,27 +488,27 @@ crossorigin="anonymous"></script>
                    </div>
                    <div id="bord"></div>
                    <div id="review">
-                      <div class="like-dislike" id="review${certiImg.certiImgNo }">
+                      <div class="like-dislike">
                       	 <c:if test="${certiImg.likeAndDislikeFlag == 1}">
-	                      	 <p class="like-dislike-model" id="like-btn" data-param="${certiImg.certiImgNo }" style="color:#75bdff; cursor:pointer;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></p>
+	                      	 <p class="like-dislike-model" style="color:#75bdff"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></p>
 	                         &nbsp;
-	                      	 <p class="font-size" id="like" style="color:#75bdff;">${certiImg.like }<p>
+	                      	 <p class="font-size" id="like" style="color:#75bdff">${certiImg.like }<p>
                       	 </c:if>
                       	 
                       	 <c:if test="${certiImg.likeAndDislikeFlag != 1}">
-	                      	 <p class="like-dislike-model" id="like-btn" data-param="${certiImg.certiImgNo }" style="cursor:pointer;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></p>
+	                      	 <p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></p>
 	                         &nbsp;
 	                      	 <p class="font-size" id="like" >${certiImg.like }<p>
                       	 </c:if>
                          
                          <c:if test="${certiImg.likeAndDislikeFlag == 2}">
-	                         <p class="like-dislike-model" id="dislike-btn" data-param="${certiImg.certiImgNo }" style="color:#ff6e63; cursor:pointer;"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></p>
+	                         <p class="like-dislike-model" style="color:#ff6e63"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></p>
 	                         &nbsp;
-	                         <p class="font-size" id="dislike" style="color:#ff6e63;">${certiImg.dislike }<p>
+	                         <p class="font-size" id="dislike" style="color:#ff6e63">${certiImg.dislike }<p>
                          </c:if>
                         
                          <c:if test="${certiImg.likeAndDislikeFlag != 2}">
-                         	 <p class="like-dislike-model" id="dislike-btn" data-param="${certiImg.certiImgNo }" style="cursor:pointer;"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></p>
+                         	<p class="like-dislike-model"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></p>
 	                         &nbsp;
 	                         <p class="font-size" id="dislike">${certiImg.dislike }<p>
                          </c:if>

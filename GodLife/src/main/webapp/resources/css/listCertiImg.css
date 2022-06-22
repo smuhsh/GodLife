@@ -64,6 +64,11 @@ img#profile{
 }
 
 
+#like-model{
+	color:#75bdff;
+}
+
+
 #bord{
 	position:relative;
 	left:630px;
@@ -116,6 +121,9 @@ a.comment-delete{
 	text-decoration: none;
         	color:black;
 }
+
+
+
 td.nick-comment{
 	width:560px;
 }

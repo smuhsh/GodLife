@@ -117,6 +117,28 @@
 		});
 		
 		
+		$(function(){
+			$("#reward").on("click",function(){
+				console.log(1);
+				if(window.confirm("보상을 받겠습니까?")){
+					
+				 	if(${joinChallenger.challengeRewardFlag != 1}){
+				 		if(${joinChallenger.challengePercent < 60}){
+							alert("달성률이 60% 보다 낮다면 보상을 획득하실 수 없습니다.");
+							return;
+						}
+						
+						alert("보상을 획득했습니다.");
+						$("form[name='reward']").attr("method","POST")
+						.attr("action","/challenge/addChallengeReward").submit();
+				 	}else{
+				 		alert("이미 보상을 획득 하셨습니다.");
+				 	}
+						
+				}
+				
+			});
+		});
 		
 		
 		
@@ -257,6 +279,10 @@
 		</div>
 	
 </form>
+<form name="reward">
+	<input type="hidden" name="challengePercent" value="${joinChallenger.challengePercent }" >
+	<input type="hidden" name="challengeNo" value="${joinChallenger.challengeNo }" >
+</form>
 </body>
 <script type="text/javascript">
 
@@ -264,17 +290,43 @@ Kakao.init('46b01871c9b671c1fdd5d67fc7998a96');
 console.log(Kakao.isInitialized());
 
 Kakao.Link.createDefaultButton({
-	  container: '#kakao-link-btn',
-	  objectType: 'text',
-	  text:
-	    '기본 템플릿으로 제공되는 텍스트 템플릿은 텍스트를 최대 200자까지 표시할 수 있습니다. 텍스트 템플릿은 텍스트 영역과 하나의 기본 버튼을 가집니다. 임의의 버튼을 설정할 수도 있습니다. 여러 장의 이미지, 프로필 정보 등 보다 확장된 형태의 카카오톡 공유는 다른 템플릿을 이용해 보낼 수 있습니다.',
-	  link: {
-	    mobileWebUrl:
-	      'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
-	    webUrl:
-	      'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
-	  },
+     container: '#kakao-link-btn',
+objectType: 'feed',
+content: {
+  title: '${challenge.challengeTitle }',
+  description: '#${challenge.challengeCategName }',
+  imageUrl:
+    'http://192.168.0.16:8080/resources/images/uploadFiles/${challenge.challengeThumbnailImg }',
+    link: {
+       mobileWebUrl:
+         'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+       webUrl:
+         'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+     },
+   },
+   social: {
+     likeCount: ${challenge.joinCount },
+   },
+   buttons: [
+     {
+       title: '웹으로 보기',
+       link: {
+          mobileWebUrl:
+            'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+          webUrl:
+            'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+        },
+     },
+     {
+       title: '앱으로 보기',
+       link: {
+          mobileWebUrl:
+            'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+          webUrl:
+            'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+        },
+     },
+   ]
 });
-
 </script>
 </html>

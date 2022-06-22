@@ -332,13 +332,37 @@ public class ChallengeDaoImpl implements ChallengeDao {
 				List<CertiImg> certiImgList = 
 						sqlSession.selectList("ChallengeMapper.getChallengeCertiImgList",map);
 				
-				int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImgListCount",map);
 				map.put("certiImgList", certiImgList);
+				
+				List<Review> likeAndDislikeList =
+						sqlSession.selectList("ChallengeMapper.getChallengeReviewLikeAndDislike",map);
+				System.out.println("likeAndDislike : "+likeAndDislikeList);
+				
+				List<CertiImg> resultCertiImgList = new ArrayList<CertiImg>();
+				
+		   retry:for(int i=0; i<certiImgList.size(); i++) {
+					for(int j=0; j<likeAndDislikeList.size();j++) {
+						if(certiImgList.get(i).getCertiImgNo() == 
+								likeAndDislikeList.get(j).getCertiImgNo()) {
+							certiImgList.get(i).setLikeAndDislikeFlag(likeAndDislikeList.get(j).getStatus());
+							resultCertiImgList.add(certiImgList.get(i));
+							continue retry;
+						}
+					}
+					
+					resultCertiImgList.add(certiImgList.get(i));
+				}
+				
+				
+				
+				int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImgListCount",map);
+				map.put("certiImgList", resultCertiImgList);
 				map.put("totalCount", totalCount);
+				//
 		}else {
 				List<CertiImg> certiImgList = 
 					sqlSession.selectList("ChallengeMapper.getChallengeCertiImgList",map);
-			
+				System.out.println("비로그인");
 				int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImgListCount",map);
 				map.put("certiImgList", certiImgList);
 				map.put("totalCount", totalCount);
@@ -350,8 +374,22 @@ public class ChallengeDaoImpl implements ChallengeDao {
 	}
 
 	@Override
-	public CertiImg getChallengeCertiImg(int certiImgNo) {
-		CertiImg certiImg = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImg",certiImgNo);
+	public CertiImg getChallengeCertiImg(Map<String,Object> map) {
+		int certiImgNo = (Integer)map.get("certiImgNo");
+		User user = (User)map.get("user");
+		CertiImg certiImg = new CertiImg();
+		Review review = new Review();
+		if(user != null) {
+			certiImg = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImg",certiImgNo);
+			review = sqlSession.selectOne("ChallengeMapper.getChallengeLikeDisLike",map);
+			System.out.println("Review : "+review);
+			if(review != null) {
+				certiImg.setLikeAndDislikeFlag(review.getStatus());	
+			}
+		}else {
+			certiImg = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImg",certiImgNo);
+		}
+		
 		return certiImg;
 	}
 
@@ -487,6 +525,17 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		List<Review> commentList = sqlSession.selectList("ChallengeMapper.getChallengeMoreCommentList",map);
 		return commentList;
 		
+	}
+
+	@Override
+	public void deleteChallengeReviewLike(Map<String, Object> map) {
+		int reviewNo = sqlSession.selectOne("ChallengeMapper.getDeleteReviewNo",map);
+		System.out.println("reviewNo : "+reviewNo);
+		map.put("reviewNo", reviewNo);
+		sqlSession.delete("ChallengeMapper.deleteChallengeReview",map);
+		Review review = (Review)map.get("review");
+		System.out.println("DAO review : "+review );
+		sqlSession.update("ChallengeMapper.updateCertiImgLikeAndDislike",review);
 	}
 
 	

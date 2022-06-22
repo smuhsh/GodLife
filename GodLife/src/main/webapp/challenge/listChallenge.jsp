@@ -241,9 +241,9 @@
 			  </div>
 		</div>
 		</div>
-		<div class="container">
-			<jsp:include page="../common/pageNavigator_new.jsp"/>
-		</div>
+		
+		<jsp:include page="../common/pageNavigator_new.jsp"/>
+		
 	</div>
 	<input type="hidden" id="currentPage" name="currentPage" value=""/>
 	

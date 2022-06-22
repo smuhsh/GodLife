@@ -333,10 +333,12 @@ public class ChallengeController {
 		List<JoinChallenger> joinChallengerList = 
 				challengeService.getChallengeJoinerList(challenge.getChallengeNo());
 		
+		JoinChallenger joinChallenger = challengeService.getChallengeJoiner(map);
 		
 		
 		User hostUser = userService.getUser(challenge.getHostEmail());
 		model.addAttribute("joinChallengerList",joinChallengerList);
+		model.addAttribute("joinChallenger",joinChallenger);
 		model.addAttribute("challenge",challenge);
 		model.addAttribute("hostUser",hostUser);
 		model.addAttribute("user",user);
@@ -501,7 +503,7 @@ public class ChallengeController {
 		
 		model.addAttribute("challenge",challenge);
 		
-		return "/challenge/getChallenge.jsp";
+		return "redirect:/challenge/getChallenge?challengeNo="+challenge.getChallengeNo();
 	}
 	
 	
@@ -631,7 +633,7 @@ public class ChallengeController {
 		
 		challengeService.addChallengeCertiImg(certiImg);
 		
-		return "/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
+		return "redirect:/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
 	}
 	
 	
@@ -689,10 +691,26 @@ public class ChallengeController {
 	
 	
 	@RequestMapping(value="addChallengeReward",method=RequestMethod.POST)
-	public String addChallengeReward() {
+	public String addChallengeReward(@ModelAttribute JoinChallenger joinChallenger) {
 		
-		return null;
+		if(joinChallenger.getChallengePercent() == 100) {
+			
+		}else if(joinChallenger.getChallengePercent() >= 90){
+			
+		}else if(joinChallenger.getChallengePercent() >= 80){
+			
+		}else if(joinChallenger.getChallengePercent() >= 70){
+			
+		}else if(joinChallenger.getChallengePercent() >= 60){
+			
+		}
+		
+		
+		
+		return "redirect:/challenge/getChallenge?challengeNo="+joinChallenger.getChallengeNo();
 	}
+	
+	
 	
 	///////////Scheduled////////////////////
 	
