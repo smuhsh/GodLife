@@ -270,7 +270,7 @@ content: {
   title: '${challenge.challengeTitle }',
   description: '#${challenge.challengeCategName }',
   imageUrl:
-    "http://192.168.0.16:8080/resources/images/uploadFiles/${challenge.challengeThumbnailImg }",
+    'http://192.168.0.16:8080/resources/images/uploadFiles/${challenge.challengeThumbnailImg }',
     link: {
 	    mobileWebUrl:
 	      'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
