@@ -99,6 +99,10 @@
 
 <body>
 	   	
+	   		<!-- ToolBar Start /////////////////////////////////////-->
+			<jsp:include page="/layout/toolbar.jsp" />
+   			<!-- ToolBar End /////////////////////////////////////-->
+	   	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
@@ -135,7 +139,7 @@
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>-->
 				  
-				<button type="button" class="btn active btn_join" id="writeBtn1" style="float: right;  margin-right: 10px;">레드카드 발급</button>
+				<!-- <button type="button" class="btn active btn_join" id="writeBtn1" style="float: right;  margin-right: 10px;">레드카드 발급</button>-->
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>

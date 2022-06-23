@@ -161,7 +161,7 @@
 			  <td align="left">${user.nick}</td>
 			  <td align="left">${user.regDate}</td>
 			   <td align="left">${user.redCardCount}</td>
-			   <td align="left"><a  href="/user/getUserReport?targetEmail=${user.userEmail}" onclick="window.open(this.href, '_blank', 'width=1000, height=950'); return false;">${user.rc}</a></td>
+			   <td align="left"><a  href="/user/getUserReport?targetEmail=${user.userEmail}">${user.rc}</a></td>
 			  <td align="left">
 			  	<input type="hidden" value="${user.userEmail}">
 			  </td>

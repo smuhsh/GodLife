@@ -139,7 +139,7 @@ div#menu-bar{
 
 
             <c:if test="${user.userEmail != null && user.userEmail !=\"\"}">
-                <img src="/images/uploadFiles/${sessionScope.user.profileImg}" id="profileImg"> &nbsp; <div id="profile">닉네임 : ${sessionScope.user.nick }<br>포인트 : ${sessionScope.user.totalPoint }</div>
+                <img src="/images/uploadFiles/${sessionScope.user.profileImg}"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';"    id="profileImg"> &nbsp; <div id="profile">닉네임 : ${sessionScope.user.nick }<br>포인트 : ${sessionScope.user.totalPoint }</div>
                <br>
                 <li class="service_center_item">
                <a class="service_center"> 마이페이지</a>

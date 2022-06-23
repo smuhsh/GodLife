@@ -1,18 +1,15 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <!DOCTYPE html>
-
-<html lang="ko">
-	
+<html>
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -31,18 +28,15 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
    
-   <!-- jQuery UI toolTip »ç¿ë CSS-->
+   <!-- jQuery UI toolTip ì‚¬ìš© CSS-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip »ç¿ë JS-->
+  <!-- jQuery UI toolTip ì‚¬ìš© JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	
-		#container{
-		padding-top : 130px;
-		}
-	 
+			 
         h2{
                 font-size: 2.3rem;
                 padding-right: 100px;
@@ -52,8 +46,9 @@
             padding-top : 80px;
             }
             
-            #container{
+            .container{
             padding-left: 250px;
+            padding-top : 130px;
             }
             
             #caption{
@@ -73,8 +68,6 @@
 	      margin-left: 380px;
            }
            */
-           
-            
             
     </style>
     
@@ -82,22 +75,22 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-		//=============    °Ë»ö / page µÎ°¡Áö °æ¿ì ¸ğµÎ  Event  Ã³¸® =============	
+		//=============    ê²€ìƒ‰ / page ë‘ê°€ì§€ ê²½ìš° ëª¨ë‘  Event  ì²˜ë¦¬ =============	
 		function fncGetList(currentPage) {
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "POST").attr("action" , "/user/listFriend?userEmail=${user.userEmail}").submit();
 		}
 		
-		//============= "°Ë»ö"  Event  Ã³¸® =============	
+		//============= "ê²€ìƒ‰"  Event  ì²˜ë¦¬ =============	
 		 $(function() {
-			 //==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 //==> DOM Object GET 3ê°€ì§€ ë°©ë²• ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "button.btn.btn-default" ).on("click" , function() {
 			fncGetList(1);
 			});
 		 });
 		
 		
-		//=============  ¼±ÅÃ »èÁ¦Ã³¸® =============
+		//=============  ì„ íƒ ì‚­ì œì²˜ë¦¬ =============
 		
 		 $(function() {
 				
@@ -106,15 +99,15 @@
 					var checkCount = $("input[name='deleteCheck']:checked").length;
 				    var array = new Array();
 					$("input[name='deleteCheck']:checked").each(function() {
-						array.push($(this).attr('id'));  <!-- ¹è¿­ÀÇ ³¡¿¡ ¿ä¼Ò¸¦ Ãß°¡  -->
+						array.push($(this).attr('id'));  <!-- ë°°ì—´ì˜ ëì— ìš”ì†Œë¥¼ ì¶”ê°€  -->
 				    });
 					
 					//Debug..
 					if(checkCount != 0) {
-						alert(checkCount+"¸íÀÇ Ä£±¸¸¦ »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?")
+						alert(checkCount+"ëª…ì˜ ì¹œêµ¬ë¥¼ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?")
 						self.location = "/user/deleteUserFriend?checkList="+array;
 					} else {
-						alert("¼±ÅÃµÈ Ä£±¸°¡ ¾ø½À´Ï´Ù.")						
+						alert("ì„ íƒëœ ì¹œêµ¬ê°€ ì—†ìŠµë‹ˆë‹¤.")						
 					}
 				});
 			});
@@ -126,24 +119,24 @@
 
 <body>
 
-<!-- ¿ŞÂÊ ·¹ÀÌ¾Æ¿ô »ğÀÔ-->
+<!-- ì™¼ìª½ ë ˆì´ì•„ì›ƒ ì‚½ì…-->
 <jsp:include page="/user/mypageMain.jsp" />
 
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
 	
-	<div class="container" id="container" >
+	<div class="container" >
 	
 		<div class="head_aticle" align="center" id = "head_aticle">
-	      <h2 class="tit" style="color: #333;">³ªÀÇ Ä£±¸ ¸ñ·ÏÁ¶È¸</h2>
+	      <h2 class="tit" style="color: #333;">ë‚˜ì˜ ì¹œêµ¬ ëª©ë¡ì¡°íšŒ</h2>
 	    </div>
 	    <br></br>
 	    
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row" id="myFollowForm" >
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-secondary" >
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
+		    		ì „ì²´  ${resultPage.totalCount } ê±´ìˆ˜, í˜„ì¬ ${resultPage.currentPage}  í˜ì´ì§€
 		    	</p>
 		    </div>
 		    
@@ -152,46 +145,48 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>´Ğ³×ÀÓ</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>ì´ë©”ì¼</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>ë‹‰ë„¤ì„</option>
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
+				    <label class="sr-only" for="searchKeyword">ê²€ìƒ‰ì–´</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="ê²€ìƒ‰ì–´"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>
 				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>
-				  <button type="button" class="btn btn-default" id="writeBtn1">¼±ÅÃ»èÁ¦</button>
+				  <button type="button" class="btn btn-default">ê²€ìƒ‰</button>
+				  <button type="button" class="btn btn-default" id="writeBtn1">ì„ íƒì‚­ì œ</button>
 				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 				</form>
 	    
-	    	
+	    	</div>
 		</div>
 		
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 		
       <!--  table Start /////////////////////////////////////-->
       		<br></br>
       		
-      		<!-- 
+      		
        <table class="table table-hover table-striped" >
       
+      <!--  
         <thead>
         <tr class="bg-light">
           <th scope="col" width="10%"></th>
-          <th scope="col" width="20%">´Ğ³×ÀÓ</th>
-          <th scope="col" width="40%" >Á¦¸ñ</th>
-          <th scope="col" width="20%">³¯Â¥</th>
+          <th scope="col" width="20%">ë‹‰ë„¤ì„</th>
+          <th scope="col" width="40%" >ì œëª©</th>
+          <th scope="col" width="20%">ë‚ ì§œ</th>
         </tr>
       </thead>
+       	
        
-		<tbody>	
-		-->	
+		<tbody>	-->	
       		
       		 <c:set var="i" value="0" />
 	   <c:forEach var="friendBlack" items="${list}">
@@ -205,7 +200,7 @@
        onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';" style= "width:200; height:200px;"> 
      
          <div class="caption"  id = "rego">
-           <h3>´Ğ³×ÀÓ  :${friendBlack.nick}</h3>
+           <h3>ë‹‰ë„¤ì„  :${friendBlack.nick}</h3>
           <h3><a  href="/user/getUserTarget?userEmail=${friendBlack.userEmail}">${friendBlack.userEmail }</a></h3>
             
             <input type="hidden" value="${friendBlack.friendBlackNo}">
@@ -219,17 +214,14 @@
 
 	</c:forEach>	
 	
-	    <!-- </tbody>
+	 <!-- </tbody> -->
 	     
-	           </table>--> 
-
+	        </table>
+<!--  table End /////////////////////////////////////-->
+	  
 </div>
-
-	</div>
-	
-	
-		
-		
+	<!--  í™”ë©´êµ¬ì„± div End /////////////////////////////////////-->
+ 	
  	
  	<!-- PageNavigation Start... -->
 	<jsp:include page="../common/pageNavigator_new.jsp"/>

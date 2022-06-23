@@ -63,10 +63,9 @@
 	
 	<!-- 파일 경로  -->
 	<bean id="uploadPath" class="java.lang.String">
-    <constructor-arg value="C:\Users\bitcamp\git\GodLife\GodLife\src\main\webapp\resources\images\uploadFiles\"/>
-   </bean>			
-				
-				
+    <constructor-arg value="C:\Users\bitcamp\git\GodLife\GodLife\src\main\webapp\images\uploadFiles\"/>
+   </bean>		
+   
 	
 	<!--	
 		■ / 형식의 Mapping 은 모든(정적,동적 자원) 요청시 처리책임

@@ -40,15 +40,12 @@ public interface UserDao {
 	//비밀번호 찾기 
 	public int findUserPwd(Map<String, String> map) throws Exception;
 	
-	
-	
-	
+
 //	// 핸드폰번호로 아이디, 비번찾기  
 //	public User findUserPhone(String phone) throws Exception;
 //	
 //	// 이메일로 비번찾기  
 //	public User findUserEmail(String userEmail)throws Exception;
-	
 	
 	// 유저상세조회
 	
@@ -56,7 +53,9 @@ public interface UserDao {
 	public int checkUserEmail(String userEmail) throws Exception;
 	// 닉네임 중복체크
 	public int checkNick(String nick) throws Exception;
-
+	
+	//핸드폰 중복체크 
+	public int checkPhone(String phone) throws Exception;
 	
 	////////////////////////////친구,블랙리스트 관리//////////////////
 	
@@ -202,6 +201,9 @@ public interface UserDao {
 	public int getUserSendMsgTotalCount(Search search, String sendEmail) throws Exception ;
 	
 	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 신고 유저 목록조회(관리자) 
-	public int getUserReportTotalCount(Search search) throws Exception ;
+	public int getUserReportListTotalCount(Search search) throws Exception ;
+	
+	// 게시판 Page 처리를 위한 전체Row(totalCount) return, 신고 유저 상세목록조회(관리자) 
+	public int getUserReportTotalCount(Search search, String targetEmail) throws Exception ;
 
 }

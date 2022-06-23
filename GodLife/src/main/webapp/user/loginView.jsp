@@ -40,7 +40,7 @@
 				
 				<a class = "p-2"  
                                    href = "https://kauth.kakao.com/oauth/authorize?client_id=6d708d50985428b8450271c1e7e98b04&redirect_uri=http://localhost:8080/user/kakaoLogin&response_type=code">
-                                  <img id = "kakao"  src = "/images/uploadFiles/kakao_login_medium_narrow.png"></a>
+                                  <img id = "kakao"  src = "/images/uploadFiles/카카오 로그인.png"></a>
 			</div>
 		</div>
 	</div>

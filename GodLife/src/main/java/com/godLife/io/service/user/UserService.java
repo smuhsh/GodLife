@@ -43,6 +43,7 @@ public interface UserService {
 	//아이디 찾기 
 	public String findUserEmail(HttpServletResponse response, String phone) throws Exception;
 	
+	
 //	// 핸드폰번호로 아이디, 비번찾기  *
 //	public User findUserPhone(String phone) throws Exception;
 //	
@@ -53,19 +54,14 @@ public interface UserService {
 	public int findUserPwd(String phone, String userEmail)throws Exception;
 	
 
-	
-	
-	
-	
-	
-		
     // 유저상세조회 > 쿼리 아직 완성 x
 	
 	// id 중복체크
 	public int checkUserEmail(String userEmail) throws Exception;
 	// 닉네임 중복체크
 	public int checkNick(String nick) throws Exception;
-	
+	//핸드폰 중복체크 
+	public int checkPhone(String phone) throws Exception;
 	
 	//인증문자 
 	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) throws Exception;

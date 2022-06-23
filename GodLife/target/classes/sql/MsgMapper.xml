@@ -57,19 +57,18 @@
 	  					FROM		(	SELECT 
 	  					                   u.nick, m.*
 											FROM msgs m, users u  
-											<where>
+											WHERE
 											m.send_email = u.user_email
-											AND  m.recv_email = #{recvEmail}
-												<if test="searchCondition != null">
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-									 				AND u.nick = #{searchKeyword} 
+											AND m.recv_email = #{recvEmail}
+											<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+									 				AND u.nick = #{search.searchKeyword} 
 												</if>
-												<if test="searchCondition == 1 and searchKeyword !='' ">
-									 				AND m.title = #{searchKeyword}
+												<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+									 				AND m.title LIKE '%'||#{search.searchKeyword}||'%'
 												</if>
-												</if>
-											</where>
-											ORDER BY m.reg_date ) inner_table
+											</if>
+											ORDER BY m.reg_date DESC ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
@@ -85,18 +84,17 @@
 	  					FROM		(	SELECT 
 	  					                   u.nick, m.*
 											FROM msgs m, users u  
-											<where>
+											where
 											m.recv_email = u.user_email
 											AND  m.send_email = #{sendEmail}
-												<if test="searchCondition != null">
-													<if test="searchCondition == 0 and searchKeyword !='' ">
-									 				AND u.nick = #{searchKeyword} 
+												<if test="search.searchCondition != null">
+													<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+									 				AND u.nick = #{search.searchKeyword} 
 												</if>
-												<if test="searchCondition == 1 and searchKeyword !='' ">
-									 				AND m.title = #{searchKeyword}
+												<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+									 				AND m.title LIKE '%'||#{search.searchKeyword}||'%'
 												</if>
-												</if>
-											</where>
+											</if>
 											ORDER BY m.reg_date ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 

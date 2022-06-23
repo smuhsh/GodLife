@@ -50,7 +50,7 @@ public class UserController {
    private MyBadgeService myBadgeService;
    ///배지 추가를 위한 Injection//////////////////
    
-   //setter Method 구현 않음
+ 
       
    public UserController(){
       System.out.println(this.getClass());
@@ -61,8 +61,8 @@ public class UserController {
    @Value("#{commonProperties['pageSize']}")
    int pageSize;
    
-     @Resource(name="uploadPath")
-       String uploadPath;
+   @Resource(name="uploadPath")
+    String uploadPath;
    
      
    ////////////////////////////////회원관리/////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ public class UserController {
      }
      
      @PostMapping( value="addUserKaKao") 
-     public String addUserKaKao( @ModelAttribute("user") User user, Model model, HttpSession session) throws Exception {
+     public String addUserKaKao( @ModelAttribute("user") User user, Model model, HttpSession session, MyBadge myBadge) throws Exception {
     	 
     	 System.out.println(" addUserKaKao :: 에온 user  "+user);
     	 
@@ -118,14 +118,20 @@ public class UserController {
         //Business Logic
         userService.addUser(user);
         
-        user = userService.getUser(user.getUserEmail());
-   	 System.out.println(" getUser :: 에온 user  "+user);
-
-     session.setAttribute("user", user);
+        //가입환영 배지를 위한 추가 부분, parameter에 mybadge부분도 추가//////////////////////////////////////
+        myBadge.setBadgeNo(10000);
+        myBadge.setUserEmail(user.getUserEmail());
+        myBadgeService.updateBadgeMyActCount(myBadge);
+        //가입환영 배지를 위한 추가 부분////////////////////////////////////////////////////////////////////////////
         
-        System.out.println("/user/addUser : POST   끝");
-
-        return "/";
+		 user = userService.getUser(user.getUserEmail());
+		 System.out.println(" getUser :: 에온 user  "+user);
+		
+		 session.setAttribute("user", user);
+	    
+	    System.out.println("/user/addUser : POST   끝");
+	
+	    return "/";
      }   
      
      
@@ -156,7 +162,7 @@ public class UserController {
          return "alert.jsp"; 
       }
       
-      // 레드카드 개수 3개일떄 계정정지상태... 
+      // 레드카드 개수 3개일떄 계정정지상태로 로그인 못함...  
       if(dbUser.getRedCardCount() == 3) {
          model.addAttribute("msg", "레드카드 3장이상으로 계정정지 상태이며, 로그인할 수 없습니다. 고객센터로 문의바랍니다.");
          model.addAttribute("url", "/user/loginView.jsp"); 
@@ -402,14 +408,19 @@ public class UserController {
          System.out.println("@@@updatepwd start user :" +user);
          userService.updatePwd(user);
          
+         model.addAttribute("msg", "비밀번호가 수정되었습니다.");
+         model.addAttribute("url", "/user/loginView.jsp"); // 비밀번호가 수정되고 다시 로그인페이지로 이동... 
+         
+         return "alert.jsp";
          
 //         String sessionId=((User)session.getAttribute("user")).getUserEmail();
 //         if(sessionId.equals(user.getUserEmail())){
 //            session.setAttribute("user", user);
 //         }
          
-         return "redirect:/user/loginView.jsp";// 비밀번호가 변경되고 로그인페이지로 이동 
+         //return "redirect:/user/loginView.jsp";// 비밀번호가 변경되고 로그인페이지로 이동 
    }
+   
    
    //coolSms api 사용
    @GetMapping(value = "phoneCheck") // 테스트완료 
@@ -423,9 +434,6 @@ public class UserController {
    }
    
    ///////////////////////////////마이페이지/////////////////////////////////////////////////////////
-   
-   
-   
    
    ////////////////////////////////친구, 블랙리스트 관리/////////////////////////////////////////////////////////
    
@@ -556,7 +564,6 @@ public class UserController {
       model.addAttribute("msg", "친구 요청이 완료되었습니다. 요청이 수락되면 친구 목록조회에서 확인할 수 있습니다."); 
       model.addAttribute("url", "/user/getUserTarget?userEmail="+friendBlack.getTargetEmail());
       return "alert.jsp";
-      
    }
    
    
@@ -626,6 +633,7 @@ public class UserController {
       myBadge.setUserEmail(badgeUserEmail);
       myBadgeService.updateBadgeMyActCount(myBadge);
       //친구야 배지를 위한 추가 부분////////////////////////////////////////////////////////////
+      
       model.addAttribute("msg", "친구 수락이 완료되었습니다. 친구 목록조회에서 확인가능합니다."); 
       model.addAttribute("url", "/user/listFriendRequest?targetEmail="+user.getUserEmail());
       return "alert.jsp";
@@ -824,12 +832,12 @@ public class UserController {
    //받은 쪽지 목록조회
    @RequestMapping( value = "listUserRecvMsg")
    public String listRecvMsg (@ModelAttribute("search") Search search, 
-                        //@RequestParam("recvEmail")String recvEmail, 
+                        //@RequestParam("recvEmail")String recvEmail,
                         HttpSession session,
                         Model model, HttpServletRequest request)throws Exception{
       
-      System.out.println("listRecvMsg : GET / POST");
-      
+	   
+	   System.out.println("나와랏!!!");
       if(search.getCurrentPage() ==0 ){
          search.setCurrentPage(1);
       }
@@ -840,9 +848,12 @@ public class UserController {
       
       // Business logic 수행
       Map<String , Object> map=userService.getRecvMsgList(search, recvEmail);
-      
+      System.out.println("나와랏2222!!!");
       Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
       System.out.println(resultPage);
+
+      System.out.println("나와랏!!!"+search.getSearchKeyword());
+      System.out.println("컨디션!!!"+search.getSearchCondition());
       
       // Model 과 View 연결
       model.addAttribute("list", map.get("list"));

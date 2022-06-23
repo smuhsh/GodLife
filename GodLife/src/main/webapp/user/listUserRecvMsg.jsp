@@ -1,18 +1,14 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
 <!DOCTYPE html>
 
-<html lang="ko">
-	
+<html>
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -31,14 +27,11 @@
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
    
-   <!-- jQuery UI toolTip »ç¿ë CSS-->
+   <!-- jQuery UI toolTip ì‚¬ìš© CSS-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip »ç¿ë JS-->
+  <!-- jQuery UI toolTip ì‚¬ìš© JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
-	
-	<!-- ¿ŞÂÊ ·¹ÀÌ¾Æ¿ô »ğÀÔ-->
-		<jsp:include page="/user/mypageMain.jsp" />
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -52,10 +45,12 @@
             padding-top : 80px;
             }
             
-            #container{
+            
+            .container{
             padding-left: 250px;
             padding-top : 130px;
             }
+            
             
             #caption{
             font-size: 15px;
@@ -70,22 +65,22 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-		//=============    °Ë»ö / page µÎ°¡Áö °æ¿ì ¸ğµÎ  Event  Ã³¸® =============	
+		//=============    ê²€ìƒ‰ / page ë‘ê°€ì§€ ê²½ìš° ëª¨ë‘  Event  ì²˜ë¦¬ =============	
+			
 		function fncGetList(currentPage) {
+			//alert("ê²€ìƒ‰");
 			$("#currentPage").val(currentPage)
-			$("form").attr("method" , "POST").attr("action" , "/user/listUserRecvMsg?").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/listUserRecvMsg").submit();
 		}
 		
-		//============= "°Ë»ö"  Event  Ã³¸® =============	
-		 $(function() {
-			 //==> DOM Object GET 3°¡Áö ¹æ¹ı ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "button.btn.btn-default" ).on("click" , function() {
-			fncGetList(1);
-			});
-		 });
+		//============= "ê²€ìƒ‰"  Event  ì²˜ë¦¬ =============	
+		$(function(){
+				$("button:contains('ê²€ìƒ‰')").on("click",function(){
+					fncGetList(1);
+				});
+		});
 		
-		//=============  ¼±ÅÃ »èÁ¦Ã³¸® =============
-			
+		//=============  ì„ íƒ ì‚­ì œì²˜ë¦¬ =============
 		 $(function() {
 				
 				$("#writeBtn1").on("click" , function() {
@@ -93,15 +88,15 @@
 					var checkCount = $("input[name='deleteCheck']:checked").length;
 				    var array = new Array();
 					$("input[name='deleteCheck']:checked").each(function() {
-						array.push($(this).attr('id'));  <!-- ¹è¿­ÀÇ ³¡¿¡ ¿ä¼Ò¸¦ Ãß°¡  -->
+						array.push($(this).attr('id'));  <!-- ë°°ì—´ì˜ ëì— ìš”ì†Œë¥¼ ì¶”ê°€  -->
 				    });
 					
 					//Debug..
 					if(checkCount != 0) {
-						alert(checkCount+"°³ÀÇ ÂÊÁö¸¦ »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?")
+						alert(checkCount+"ê°œì˜ ìª½ì§€ë¥¼ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?")
 						self.location = "/user/deleteUserRecvMsg?checkList="+array;
 					} else {
-						alert("¼±ÅÃµÈ ÂÊÁö°¡ ¾ø½À´Ï´Ù.")						
+						alert("ì„ íƒëœ ìª½ì§€ê°€ ì—†ìŠµë‹ˆë‹¤.")						
 					}
 				});
 			});
@@ -112,25 +107,27 @@
 </head>
 
 <body>
-	
-	<!--  È­¸é±¸¼º div Start /////////////////////////////////////-->
 
-	<div class="container" id="container" >
+<!-- ì™¼ìª½ ë ˆì´ì•„ì›ƒ ì‚½ì…-->
+		<jsp:include page="/user/mypageMain.jsp" />
+	
+	<!--  í™”ë©´êµ¬ì„± div Start /////////////////////////////////////-->
+	<div class="container">
 	
 		<div class="head_aticle" align="center" id = "head_aticle">
-	      <h2 class="tit" style="color: #333;">¹ŞÀº ÂÊÁöÇÔ</h2>
-	      
-	      <button type="button" class="btn active btn_join" id="writeBtn1" style="float: right;  margin-right: 10px;">¼±ÅÃ»èÁ¦</button>
-	      <!-- <button type="button" class="btn active btn_join" id="writeBtn" style="float: right;  margin-right: 10px;">´äÀå</button>-->
+	      <h2 class="tit" style="color: #333;">ë°›ì€ ìª½ì§€í•¨</h2>
+	   
+	      <!-- <button type="button" class="btn active btn_join" id="writeBtn" style="float: right;  margin-right: 10px;">ë‹µì¥</button>-->
 	    </div>
 	    
+	    
 	    <br></br>
-	    <!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+	    <!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 	    <div class="row" >
 	    
 		    <div class="col-md-6 text-left">
 		    	<p class="text-secondary" >
-		    		ÀüÃ¼  ${resultPage.totalCount } °Ç¼ö, ÇöÀç ${resultPage.currentPage}  ÆäÀÌÁö
+		    		ì „ì²´  ${resultPage.totalCount } ê±´ìˆ˜, í˜„ì¬ ${resultPage.currentPage}  í˜ì´ì§€
 		    	</p>
 		    </div>
 		    
@@ -138,42 +135,43 @@
 		    <div class="col-md-6 text-right">
 			    <form class="form-inline" name="detailForm">
 			    
-			 <!--  
+			  
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>´Ğ³×ÀÓ</option>
+						<option value="0" ${search.searchCondition == "0" ? "selected" : ""}>ë‹‰ë„¤ì„</option>
+						<option value="1" ${search.searchCondition == "1" ? "selected" : ""}>ì œëª©</option>
 					</select>
 				  </div>
 				  
 				
 				  <div class="form-group">
-				    <label class="sr-only" for="searchKeyword">°Ë»ö¾î</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="°Ë»ö¾î"
+				    <label class="sr-only" for="searchKeyword">ê²€ìƒ‰ì–´</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="ê²€ìƒ‰ì–´"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div> 
 				  
-				  <button type="button" class="btn btn-default">°Ë»ö</button>-->
+				   <button type="button" class="btn btn-default" id="search">ê²€ìƒ‰</button>
+				   <button type="button" class="btn btn-default" id="writeBtn1" style="float: right;  margin-right: 10px;">ì„ íƒì‚­ì œ</button>
 				  
-				  
-				  
-				  <!-- PageNavigation ¼±ÅÃ ÆäÀÌÁö °ªÀ» º¸³»´Â ºÎºĞ -->
+				  <!-- PageNavigation ì„ íƒ í˜ì´ì§€ ê°’ì„ ë³´ë‚´ëŠ” ë¶€ë¶„ -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
 				</form>
 	    
 	    	
 		</div>
-		<!-- table À§ÂÊ °Ë»ö Start /////////////////////////////////////-->
+			</div>
+		<!-- table ìœ„ìª½ ê²€ìƒ‰ Start /////////////////////////////////////-->
 		
-		<br></br>
+
       <table class="table table-hover table-striped" >
       
         <thead>
         <tr class="bg-light">
           <th scope="col" width="10%"></th>
-          <th scope="col" width="20%">´Ğ³×ÀÓ</th>
-          <th scope="col" width="40%" >Á¦¸ñ</th>
-          <th scope="col" width="20%">³¯Â¥</th>
+          <th scope="col" width="20%">ë‹‰ë„¤ì„</th>
+          <th scope="col" width="40%" >ì œëª©</th>
+          <th scope="col" width="20%">ë‚ ì§œ</th>
         </tr>
       </thead>
        
@@ -202,8 +200,7 @@
 	  <!--  table End /////////////////////////////////////-->
 	  
  	</div>
- 	</div>
- 	<!--  È­¸é±¸¼º div End /////////////////////////////////////-->
+ 	<!--  í™”ë©´êµ¬ì„± div End /////////////////////////////////////-->
  	
  	
  	<!-- PageNavigation Start... -->

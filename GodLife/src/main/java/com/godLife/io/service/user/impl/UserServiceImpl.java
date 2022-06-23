@@ -189,6 +189,14 @@ public class UserServiceImpl implements UserService{
 		return cnt;
 	}
 	
+	//핸드폰 중복체크 
+	public int checkPhone(String phone) throws Exception {
+		int cnt = userDao.checkPhone(phone);
+		System.out.println("cnt: " + cnt);
+		return cnt;
+	}
+	
+	
 	// 아이디찾기 
 	public String findUserEmail(HttpServletResponse response, String phone) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
@@ -476,7 +484,7 @@ public class UserServiceImpl implements UserService{
 	//신고회원 목록조회(관리자) 
 	public Map<String , Object > getUserReportList(Search search) throws Exception {
 		List<User> list= userDao.getUserReportList(search);
-		int totalCount = userDao.getUserReportTotalCount(search);
+		int totalCount = userDao.getUserReportListTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
@@ -484,15 +492,19 @@ public class UserServiceImpl implements UserService{
 		return map;
 	}
 	
+	
+	
 	//신고회원 상세목록조회 (목록에서 목록...) 
 	public Map<String , Object > getUserReport(Search search, String targetEmail) throws Exception {
-		int totalCount = userDao.getUserSendMsgTotalCount(search, targetEmail); // 변경하기 
-
+		int totalCount = userDao.getUserReportTotalCount(search, targetEmail); 
+		
 		Map<String, Object> map = userDao.getUserReport(search, targetEmail);
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
 	}
+	
+	
 	
 	public void updateUserTotalPoint(User user) throws Exception{
 		userDao.updateUserTotalPoint(user);

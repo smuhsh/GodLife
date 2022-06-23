@@ -66,9 +66,9 @@
     <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
 		SELECT u.*,
 		c.categ_name,(SELECT COUNT(*) 
-		FROM reports r, users u 
-		WHERE r.target_email = #{userEmail}
-		AND r.target_email = u.user_email) AS rc
+								FROM reports r, users u 
+								WHERE r.target_email = #{userEmail}
+								AND r.target_email = u.user_email) AS rc
 		FROM users u, categs c
 		WHERE u.user_email = #{userEmail}
 		AND u.categ_no = c.categ_no
@@ -165,6 +165,14 @@
 		FROM users
 		WHERE nick= #{nick}
 	</select>
+	
+	<!-- 핸드폰 중복체크 -->
+	 <select id="checkPhone" resultType="integer">
+		SELECT COUNT(*)
+		FROM users
+		WHERE phone= #{phone}
+	</select>
+	
     
      <!-- SQL : 레드카드 발급, 제거 -->
     <update   id="updateRedCard"   parameterType="user" >
@@ -260,7 +268,7 @@
     
     
     <!-- SQL : 신고 유저 목록조회 카운트 -->
-    <select  id="getUserReportTotalCount"  parameterType="search"    resultType="int">
+    <select  id="getUserReportListTotalCount"  parameterType="search"    resultType="int">
         SELECT COUNT(*)
         FROM(   SELECT u.user_email, u.nick, u.redcard_count, u.reg_date, a.rc
 											FROM users u,
