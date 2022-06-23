@@ -39,6 +39,16 @@
 	width :1270px;
 	height:320px;
 	}
+	.header_bar {
+    width: 100%;
+    margin: 0 auto;
+	/*display: flex;
+	justify-content: space-between;
+	text-align: center;*/
+    position: absolute;
+ right: 200px;
+    bottom: 1px;
+}
    	</style>
    	<script type="text/javascript">
    	$( document ).ready( function() {
