@@ -33,20 +33,42 @@
     </style>
 	<script type="text/javascript">
 		
-		 $(function() {
-			 $( "td.ct_btn01:contains('수정')" ).on("click" , function() {
-				self.location = "/operator/updateOperatorNotice?noticeFaqNo=${operatorNoticeFaqs.noticeFaqNo}"
+		 //$(function() {
+			 //$( "td.ct_btn01:contains('수정')" ).on("click" , function() {
+				//self.location = "/operator/updateOperatorNotice?noticeFaqNo=${operatorNoticeFaqs.noticeFaqNo}"
 				//self.location = "/operator/updateOperatorNotice.jsp"
-			});
+			//});
 			
-			$( "td.ct_btn01:contains('목록')" ).on("click" , function() {
-				history.go(-1);
-			});
+			//$( "td.ct_btn01:contains('목록')" ).on("click" , function() {
+				//history.go(-1);
+			//});
 			
 			//$( "td.ct_btn01:contains('삭제')" ).on("click" , function() {
 			//	self.location = "/operator/deleteOperatorNotice?noticeFaqNo=${NoticeFaqs.noticeFaqNo}
 			//});
+		//});
+		 	//============= 확인 Event  처리 =============	
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "button.btn.btn-primary.getList" ).on("click" , function() {
+				history.go(-1);
+				});
 		});
+
+		 
+			//============= 수정 Event  처리 =============	
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( "button.btn.btn-primary.update" ).on("click" , function() {
+				 var noticeFaqNo =${operatorNotice.noticeFaqNo};
+				 
+					self.location = "/operator/updateOperatorNotice?noticeFaqNo="+noticeFaqNo
+				});
+		});
+		 
+		 
+		 
+		 
 	</script>
 	
 </head>
@@ -150,7 +172,8 @@
 
 		<table border="0" cellspacing="0" cellpadding="0">
 			<tr>
-		
+
+<!--  		
 				<td width="17" height="23">
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
@@ -160,8 +183,10 @@
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23">
 				</td>
-				<td width="30"></td>	
-				
+				<td width="30"></td>	-->
+
+
+				<!--  
 				<td width="17" height="23">
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
@@ -172,7 +197,7 @@
 					<img src="/images/ct_btnbg03.gif" width="14" height="23">
 				</td>
 				<td width="30"></td>
-				
+				-->
 				
 				<!--  <td width="17" height="23">
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
@@ -182,9 +207,17 @@
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23">-->
-				</td>
 			</tr>
 		</table>
+				<div class="form-group">
+			<div class="row">
+		  		<div class="col-md-12 text-center ">
+		  			<button type="button" class="btn btn-primary update">수정</button>
+		  			<button type="button" class="btn btn-primary getList">목록</button>
+		  		</div>
+			</div>		
+		</div>
+		
 
 		</td>
 	</tr>

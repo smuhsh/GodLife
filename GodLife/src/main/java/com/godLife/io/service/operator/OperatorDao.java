@@ -50,8 +50,8 @@ public interface OperatorDao {
 	public void updateOperatorDayReward(OperatorReward operatorDayReward, OperatorJoinEvent user) throws Exception;
 	public void updateOperatorRoullReward(OperatorReward operatorRoullReward) throws Exception;
 	//public void updateOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
-	public void updateOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception;
-	public void updateOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception;
+	public void updateOperatorNotice(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
+	public void updateOperatorFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception;
 	
 	//DELETE
 	public void deleteOperatorEvents(OperatorEvents operatorEvents) throws Exception;
