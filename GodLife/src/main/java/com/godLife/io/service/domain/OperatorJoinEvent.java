@@ -66,13 +66,13 @@ public class OperatorJoinEvent {
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
-	public OperatorJoinEvent(int joinEventNo, String userEmail, int eventNo, Date regDate, int rewardPoint) {
-		super();
-		this.joinEventNo = joinEventNo;
-		this.userEmail = userEmail;
-		this.eventNo = eventNo;
-		this.regDate = regDate;
-		this.rewardPoint = rewardPoint;
-	}
+//	public OperatorJoinEvent(int joinEventNo, String userEmail, int eventNo, Date regDate, int rewardPoint) {
+//		super();
+//		this.joinEventNo = joinEventNo;
+//		this.userEmail = userEmail;
+//		this.eventNo = eventNo;
+//		this.regDate = regDate;
+//		this.rewardPoint = rewardPoint;
+//	}
 	
 }

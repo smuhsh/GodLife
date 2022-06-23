@@ -77,13 +77,6 @@
 					      class="img-responsive center-block">
 					</a>
 				</div>
-				<div class="item">
-				    <a href="/operator/getOperatorJoinDayEvent?eventNo=1&userEmail=${sessionScope.user.userEmail}" >
-				     <img src="/images/uploadFiles/operatorNewEvent.png" alt="Third slide" 
-					      onerror="this.src='https://dummyimage.com/2000x260/404040/bababa.gif'"
-					      class="img-responsive center-block">
-					</a>
-				</div>
 			      <div class="carousel-caption">
 			      </div>
 			    </div>

@@ -181,14 +181,33 @@ public class OperatorController {
 	@RequestMapping(value="updateOperatorNotice", method=RequestMethod.GET)
 	public String updateOperatorNotice( @RequestParam("noticeFaqNo") int noticeFaqNo , Model model ) throws Exception{
 		
-		System.out.println("/update/updateOperatorNotice : GET");
+		System.out.println("/operator/updateOperatorNotice : GET");
 		//Business Logic
-		OperatorNoticeFaqs operatorNotice = operatorService.getOperatorNotice(noticeFaqNo);
+		OperatorNoticeFaqs operatorNoticeFaqs = operatorService.getOperatorNotice(noticeFaqNo);
 		// Connect Model and View 
-		model.addAttribute("operatorNotice", operatorNotice);
-		return "forward:/operator/getOperatorNotice.jsp";
+		model.addAttribute("operatorNoticeFaqs", operatorNoticeFaqs);
+		return "forward:/operator/updateOperatorNotice.jsp";
 	}
-	
+	//@RequestMapping(value="updateOperatorNotice", method=RequestMethod.POST)
+	@RequestMapping(value="updateOperatorNotice", method=RequestMethod.POST)
+	public String updateOperatorNotice( @ModelAttribute("operatorNoticeFaqs") OperatorNoticeFaqs operatorNoticeFaqs , Model model , HttpSession session) throws Exception{
+		
+		System.out.println("/update/updateOperatorNotice : POST");
+		
+//		Integer sessionId=((OperatorNoticeFaqs)session.getAttribute("operatorNoticeFaqs")).getNoticeFaqNo();
+//		if(sessionId.equals(operatorNotice.getNoticeFaqNo())){
+//			session.setAttribute("operatorNoticeFaqs", operatorNotice);
+//		}
+		//return "redirect:/operator/getOperatorNotice?NoticeFaqNo="+operatorNotice.getNoticeFaqNo();
+		//return "forward:/operator/getOperatorNotice.jsp";
+		
+		//Business Logic
+		operatorService.updateOperatorNotice(operatorNoticeFaqs);
+		
+		return "forward:/operator/getOperatorNotice?noticeFaqNo="+operatorNoticeFaqs.getNoticeFaqNo();
+		
+	}
+
 	@RequestMapping (value = "deleteOperatorNotice", method=RequestMethod.POST)
 	public String deleteOperatorNotice( @ModelAttribute("operatorNoticeFaqs") OperatorNoticeFaqs operatorNoticeFaqs , Model model ) throws Exception {
 		System.out.println("/operator/deleteOperatorNotice : POST");
@@ -222,24 +241,11 @@ public class OperatorController {
 	
 	
 	
-	private String uploadFile(String fileName, byte[] bytes) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	private String uploadFile(String fileName, byte[] bytes) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
-	@RequestMapping(value="updateOperatorNotice", method=RequestMethod.POST)
-	public String updateOperatorNotice( @ModelAttribute("operator") OperatorNoticeFaqs operatorNotice , Model model , HttpSession session) throws Exception{
-		
-		System.out.println("/update/updateOperatorNotice : POST");
-		//Business Logic
-		operatorService.updateOperatorNotice(operatorNotice);
-		
-		Integer sessionId=((OperatorNoticeFaqs)session.getAttribute("operator")).getNoticeFaqNo();
-		if(sessionId.equals(operatorNotice.getNoticeFaqNo())){
-			session.setAttribute("operator", operatorNotice);
-		}
-		return "redirect:/operator/getOperatorNotice?NoticeFaqNo="+operatorNotice.getNoticeFaqNo();
-	}
 	
 //	@RequestMapping("/listOperatorNoticeFaqs")
 //	public String listOperatorNoticeFaqs(@ModelAttribute("search") Search search, Model model, @RequestParam(value="menu", required=false) String menu) throws Exception{
@@ -598,9 +604,11 @@ public class OperatorController {
 //		return "forward:/operator/getOperatorJoinEvent";
 //	}
 	
-	@RequestMapping("/listOperatorJoinEvent")
-	public String listOperatorJoinEvent(@ModelAttribute("search") Search search, Model model, @RequestParam(value="status", required=false) String status) throws Exception{
-		System.out.println("/listOperatorJoinEvent");
+	@RequestMapping(value="/listOperatorJoinEvent")
+	//public String listOperatorJoinEvent(@ModelAttribute("search") Search search, Model model, @RequestParam(value="status", required=false) String status) throws Exception{
+	public String listOperatorJoinEvent(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception{
+		
+		System.out.println("/operator/listOperatorJoinEvent: GET / POST");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -616,7 +624,7 @@ public class OperatorController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/operator/listOperatorJoinEvent.jsp?menu=0";
+		return "forward:/operator/listOperatorJoinEvent.jsp";
 		
 	}
 	
