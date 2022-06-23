@@ -87,6 +87,7 @@
 	$(function(){
 		$("button#delete").on("click",function(){
 			var certiImgNo=$(this).data("param");
+			var userEmail = $(this).data("param2");
 			if(window.confirm("인증 이미지 삭제시 달성률에 적용되며.\n"+
 							  "인증 가능한 날짜가 아니면 재 업로드가 불가능합니다.\n"+
 							  "삭제 하시겠습니까?")){
@@ -100,7 +101,8 @@
 					"content-Type":"application/json"
 				},
 				data:JSON.stringify({
-					certiImgNo:certiImgNo
+					certiImgNo:certiImgNo,
+					userEmail:userEmail
 				}),
 				success:function(json,status){
 					if(${opt == 'my'}){
@@ -163,7 +165,8 @@
 				     		</c:if>
 				     		<c:if test="${certiImg.certiImg != 'temp.jpg'}">
 				     			<button type="button" id="delete" class="btn btn-default abc"
-					      		 data-param="${certiImg.certiImgNo }">삭제</button>
+					      		 data-param="${certiImg.certiImgNo }"
+					      		 data-param2="${certiImg.user.userEmail }">삭제</button>
 				     		</c:if>
 				      	</div>
 			      	</center>
@@ -172,7 +175,8 @@
 			      		<c:if test="${sessionScope.user.userEmail == challenge.hostEmail }">
 			      			<c:if test="${certiImg.certiImg != 'temp.jpg'}">
 				     			<button type="button" id="delete" class="btn btn-default abc"
-					      		 data-param="${certiImg.certiImgNo }">삭제</button>
+					      		 data-param="${certiImg.certiImgNo }"
+					      		 data-param2="${certiImg.user.userEmail }">삭제</button>
 				     		</c:if>
 			      		</c:if>
 			      	</c:if>
@@ -180,7 +184,8 @@
 			      		<c:if test="${sessionScope.user.role == 2 }">
 			      			<c:if test="${certiImg.certiImg != 'temp.jpg'}">
 				     			<button type="button" id="delete" class="btn btn-default abc"
-					      		 data-param="${certiImg.certiImgNo }">삭제</button>
+					      		 data-param="${certiImg.certiImgNo }"
+					      		 data-param2="${certiImg.user.userEmail }">삭제</button>
 				     		</c:if>
 			      		</c:if>
 			      	</c:if>

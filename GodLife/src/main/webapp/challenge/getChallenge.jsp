@@ -120,7 +120,9 @@
 		$(function(){
 			$("#reward").on("click",function(){
 				console.log(1);
-				if(window.confirm("보상을 받겠습니까?")){
+				if(window.confirm("달성률에 따른 보상은"+
+								  ${joinChallenger.challengeReward}+"포인트 입니다."+
+								  "\n보상을 받겠습니까?")){
 					
 				 	if(${joinChallenger.challengeRewardFlag != 1}){
 				 		if(${joinChallenger.challengePercent < 60}){
@@ -140,6 +142,20 @@
 			});
 		});
 		
+		$(function(){
+			
+			$("#nick").on("click",function(){
+				var email = $(this).data("param");
+				self.location = "/user/getUserTarget?userEmail="+email;
+			});
+			
+			$("img#profile").on("click",function(){
+				var email = $(this).data("param");
+				console.log("눌렀음"+email);
+				self.location = "/user/getUserTarget?userEmail="+email;
+			});
+			
+		});
 		
 		
 	</script>
@@ -190,9 +206,10 @@
 			        	<div id="left-detail">
 				        	<p>호스트</p>
 				        	<div id="hostArea">
-				        		<img id="profile" src="/resources/images/uploadFiles/${hostUser.profileImg }"
+				        		<img id="profile" style="cursor: pointer;" data-param="${challenge.hostEmail }"
+				        		 src="/resources/images/uploadFiles/${hostUser.profileImg }"
 				        		onerror="this.src='/resources/images/Default-Profile-Picture-Free-PNG-Image.png'">
-				        		<p id="nick">${challenge.hostNick }</p>
+				        		<p id="nick" style="cursor: pointer;" data-param="${challenge.hostEmail }">${challenge.hostNick }</p>
 				        	</div>
 				        	<p id="categ">관심사 : ${challenge.challengeCategName }</p>
 			        	</div>
@@ -282,15 +299,16 @@
 <form name="reward">
 	<input type="hidden" name="challengePercent" value="${joinChallenger.challengePercent }" >
 	<input type="hidden" name="challengeNo" value="${joinChallenger.challengeNo }" >
+	<input type="hidden" name="challengeReward" value="${joinChallenger.challengeReward }" >
 </form>
 </body>
 <script type="text/javascript">
 
-Kakao.init('e7335f87c89936115650c79a74731cde');
+Kakao.init('46b01871c9b671c1fdd5d67fc7998a96');
 console.log(Kakao.isInitialized());
 
 Kakao.Link.createDefaultButton({
-	  container: '#kakao-link-btn',
+     container: '#kakao-link-btn',
 objectType: 'feed',
 content: {
   title: '${challenge.challengeTitle }',
@@ -298,35 +316,35 @@ content: {
   imageUrl:
     'http://192.168.0.16:8080/resources/images/uploadFiles/${challenge.challengeThumbnailImg }',
     link: {
-	    mobileWebUrl:
-	      'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
-	    webUrl:
-	      'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
-	  },
-	},
-	social: {
-	  subscriberCount: ${challenge.joinCount },
-	},
-	buttons: [
-	  {
-	    title: '웹으로 보기',
-	    link: {
-		    mobileWebUrl:
-		      'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
-		    webUrl:
-		      'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
-		  },
-	  },
-	  {
-	    title: '앱으로 보기',
-	    link: {
-		    mobileWebUrl:
-		      'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
-		    webUrl:
-		      'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
-		  },
-	  },
-	]
+       mobileWebUrl:
+         'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+       webUrl:
+         'http://192.168.0.16:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+     },
+   },
+   social: {
+     likeCount: ${challenge.joinCount },
+   },
+   buttons: [
+     {
+       title: '웹으로 보기',
+       link: {
+          mobileWebUrl:
+            'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+          webUrl:
+            'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+        },
+     },
+     {
+       title: '앱으로 보기',
+       link: {
+          mobileWebUrl:
+            'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+          webUrl:
+            'http://192.168.0.31:8080/challenge/getChallenge?challengeNo=${challenge.challengeNo}',
+        },
+     },
+   ]
 });
 </script>
 </html>

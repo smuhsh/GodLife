@@ -538,6 +538,115 @@ public class ChallengeDaoImpl implements ChallengeDao {
 		sqlSession.update("ChallengeMapper.updateCertiImgLikeAndDislike",review);
 	}
 
+	@Override
+	public Map<String, Object> getChallengeRewardElement(JoinChallenger joinChallenger) {
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("joinChallenger", joinChallenger);
+		map.put("sixty", "60");
+		int sixtyCount = sqlSession.selectOne("ChallengeMapper.getChallengeRewardElement",map);
+		map.remove("sixty");
+		map.put("sixtyCount", sixtyCount);
+		
+		map.put("seventy", "70");
+		int seventyCount = sqlSession.selectOne("ChallengeMapper.getChallengeRewardElement",map);
+		map.remove("seventy");
+		map.put("seventyCount", seventyCount);
+		
+		map.put("eighty", "80");
+		int eightyCount = sqlSession.selectOne("ChallengeMapper.getChallengeRewardElement",map);
+		map.remove("eighty");
+		map.put("eightyCount", eightyCount);
+		
+		map.put("ninety", "90");
+		int ninetyCount = sqlSession.selectOne("ChallengeMapper.getChallengeRewardElement",map);
+		map.remove("ninety");
+		map.put("ninetyCount",ninetyCount);
+		
+		map.put("hundred","100");
+		int hundredCount = sqlSession.selectOne("ChallengeMapper.getChallengeRewardElement",map);
+		map.put("hundredCount", hundredCount);
+		
+		map.put("challengeNo",joinChallenger.getChallengeNo());
+		
+		Challenge challenge = sqlSession.selectOne("ChallengeMapper.getChallenge",map);
+		
+		map.put("challenge", challenge);
+		
+		return map;
+	}
+
+	@Override
+	public void updateChallengerewardFlag(JoinChallenger joinChallenger) {
+		sqlSession.update("ChallengeMapper.updateChallengeRewardFlag",joinChallenger);
+		
+	}
+
+	@Override
+	public Map<String,Object> getChallengeMoreCertiImgList(Map<String, Object> map) {
+User user = (User)map.get("user");
+		
+		if(user!=null) {
+			
+				System.out.println("로그인");
+				List<String> black = new ArrayList<String>();
+				
+				List<String> targetEmail = sqlSession.selectList("ChallengeMapper.getFbTarget",map);
+				List<String> userEmail = sqlSession.selectList("ChallengeMapper.getFbUser",map);
+				
+				if(targetEmail != null) {
+					for(int i=0; i<targetEmail.size(); i++) {
+						black.add(targetEmail.get(i));
+					}
+				}
+				if(userEmail != null) {
+					for(int i=0; i<userEmail.size(); i++) {
+						black.add(userEmail.get(i));
+					}
+				}
+				
+				System.out.println("black : "+black);
+				
+				map.put("black", black);
+			
+				List<CertiImg> certiImgList = 
+						sqlSession.selectList("ChallengeMapper.getChallengeMoreCertiImgList",map);
+				
+				map.put("certiImgList", certiImgList);
+				
+				List<Review> likeAndDislikeList =
+						sqlSession.selectList("ChallengeMapper.getChallengeReviewLikeAndDislike",map);
+				System.out.println("likeAndDislike : "+likeAndDislikeList);
+				
+				List<CertiImg> resultCertiImgList = new ArrayList<CertiImg>();
+				
+		   retry:for(int i=0; i<certiImgList.size(); i++) {
+					for(int j=0; j<likeAndDislikeList.size();j++) {
+						if(certiImgList.get(i).getCertiImgNo() == 
+								likeAndDislikeList.get(j).getCertiImgNo()) {
+							certiImgList.get(i).setLikeAndDislikeFlag(likeAndDislikeList.get(j).getStatus());
+							resultCertiImgList.add(certiImgList.get(i));
+							continue retry;
+						}
+					}
+					
+					resultCertiImgList.add(certiImgList.get(i));
+				}
+				
+				
+				
+				int totalCount = sqlSession.selectOne("ChallengeMapper.getChallengeCertiImgListCount",map);
+				map.put("certiImgList", resultCertiImgList);
+				map.put("totalCount", totalCount);
+				//
+		}
+		
+		
+		
+		return map;
+	}
+
 	
 	
 }

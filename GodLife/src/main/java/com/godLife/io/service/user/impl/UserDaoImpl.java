@@ -62,6 +62,11 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("UserMapper.checkNick", nick);
 	}	
 	
+	// 핸드폰 중복체크
+	public int checkPhone(String phone){
+		return sqlSession.selectOne("UserMapper.checkPhone", phone);
+	}	
+	
 	public void addUser(User user) throws Exception {
 		sqlSession.insert("UserMapper.addUser", user);
 	}
@@ -85,19 +90,6 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	
-	
-	
-//	//핸드폰 번호로 아이디, 비번찾기 
-//	public User findUserPhone(String phone) throws Exception {
-//		return sqlSession.selectOne("UserMapper.findUserPhone", phone);
-//	}
-//	
-//	//이메일로 비번찾기 
-//	public User findUserEmail(String userEmail) throws Exception {
-//		return sqlSession.selectOne("UserMapper.findUserEmail", userEmail);
-//	}
-	
-	
 	//================친구, 블랙리스트=================================================
 	
 	
@@ -106,6 +98,7 @@ public class UserDaoImpl implements UserDao{
 		   Map<String, Object> map=new HashMap<String, Object>();
 		   FriendBlack friendBlack = new FriendBlack();
 		   
+		   map.put("search", search);
 		   map.put("endRowNum",  search.getEndRowNum()+"" );
 		   map.put("startRowNum",  search.getStartRowNum()+"" );
 		   map.put("userEmail", userEmail);
@@ -122,6 +115,7 @@ public class UserDaoImpl implements UserDao{
 		   Map<String, Object> map=new HashMap<String, Object>();
 		   FriendBlack friendBlack = new FriendBlack();
 		   
+		   map.put("search", search);
 		   map.put("endRowNum",  search.getEndRowNum()+"" );
 		   map.put("startRowNum",  search.getStartRowNum()+"" );
 		   map.put("userEmail", userEmail);
@@ -209,7 +203,7 @@ public class UserDaoImpl implements UserDao{
 		   Map<String, Object> map=new HashMap<String, Object>();
 		   
 		   Msg msg = new Msg(); 
-		   
+		   map.put("search", search);
 		   map.put("endRowNum",  search.getEndRowNum()+"" );
 		   map.put("startRowNum",  search.getStartRowNum()+"" );
 		   map.put("recvEmail", recvEmail);
@@ -226,6 +220,7 @@ public class UserDaoImpl implements UserDao{
 		   
 		   Msg msg = new Msg(); 
 		   
+		   map.put("search", search);
 		   map.put("endRowNum",  search.getEndRowNum()+"" );
 		   map.put("startRowNum",  search.getStartRowNum()+"" );
 		   map.put("sendEmail", sendEmail);
@@ -236,11 +231,10 @@ public class UserDaoImpl implements UserDao{
 		   return map;
 	}
 	
-	
 	// 친구신청 중복검사
-		public int checkMsgBlack(Map<String, String> map) {
-			return sqlSession.selectOne("MsgMapper.checkMsgBlack", map);
-		}
+	public int checkMsgBlack(Map<String, String> map) {
+		return sqlSession.selectOne("MsgMapper.checkMsgBlack", map);
+	}
 
 	public void updateUserTotalPoint(User user) throws Exception{
 		sqlSession.update("UserMapper.updateUserTotalPoint", user);
@@ -302,6 +296,7 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectList("UserMapper.getUserReportList", search);
 	}
 	
+	
 	//신고 유저 상세목록조회 
 	public Map<String, Object> getUserReport(Search search, String targetEmail) throws Exception {
 		   
@@ -333,8 +328,6 @@ public class UserDaoImpl implements UserDao{
 		System.out.println(user);
 		sqlSession.update("UserMapper.updateRedCard",user);
 	}
-	
-	
 	
 	
 	//==========================================================================================================
@@ -402,8 +395,21 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	// 게시판 Page 처리를 위한 전체 Row(totalCount) (신고목록조회 / 관리자용) 
-	public int getUserReportTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("UserMapper.getUserReportTotalCount", search);
+	public int getUserReportListTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("UserMapper.getUserReportListTotalCount", search);
+		}
+	
+	
+	// 게시판 Page 처리를 위한 전체 Row(totalCount) (신고유저 상세목록조회) 
+	public int getUserReportTotalCount(Search search, String targetEmail) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		
+		map.put("search", search);
+		map.put("targetEmail",targetEmail);
+		
+		return sqlSession.selectOne("ReportMapper.getUserReportTotalCount", map);
+		
 		}
 
 	

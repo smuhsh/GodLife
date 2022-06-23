@@ -49,6 +49,16 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
+	//===============레드카드 발급======================
+	
+	$(function() {
+		 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		$( "writeBtn1" ).on("click" , function() {
+		
+			
+		});
+	 });
+	
 	/*
 		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetList(currentPage) {
@@ -88,11 +98,11 @@
 </head>
 
 <body>
-	
-	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/layout/toolbar.jsp" />
-   	<!-- ToolBar End /////////////////////////////////////-->
-   	
+	   	
+	   		<!-- ToolBar Start /////////////////////////////////////-->
+			<jsp:include page="/layout/toolbar.jsp" />
+   			<!-- ToolBar End /////////////////////////////////////-->
+	   	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
@@ -129,7 +139,7 @@
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
 				  </div>-->
 				  
-				  <button type="button" class="btn btn-default">레드카드 발급</button>
+				<!-- <button type="button" class="btn active btn_join" id="writeBtn1" style="float: right;  margin-right: 10px;">레드카드 발급</button>-->
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
@@ -137,9 +147,6 @@
 				</form>
 	    	</div>
 	    	
-	  </div>  	
-	    	
-		
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
 		<br></br>
@@ -147,16 +154,16 @@
       <table class="table table-hover table-striped">
       
        <thead>
-          <tr>
-          <!-- <th align="left" >신고번호</th>-->
-            <th align="left" >신고자</th>
+       <tr class="bg-light">
+          <th scope="col" width="10%">신고번호</th>
+            <th scope="col" width="20%">신고자</th>
             <!--  <th align="left" >대상</th> -->
-             <th align="left" >날짜</th>
-            <th align="left" >사유</th>
-            <th align="left" >유형</th>
-            <th align="left" >인증이미지</th>
-            <th align="left" >댓글</th>
-             <th align="left" >쪽지</th>
+             <th scope="col" width="20%">날짜</th>
+            <th scope="col" width="10%" >사유</th>
+            <th scope="col" width="10%" >유형</th>
+            <th scope="col" width="10%" >인증이미지</th>
+            <th scope="col" width="10%" >댓글</th>
+             <th scope="col" width="10%" >쪽지</th>
           </tr>
         </thead>
        
@@ -167,7 +174,7 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			 <!-- <td align="center">${ i }</td>--> 
-			<!--  <td align="center" >${report.reportNo}</td>-->
+			<td align="center" >${report.reportNo}</td>
 			  <td align="left" >${report.reporterEmail}</td>
 			  <!-- <td align="left">${report.targetEmail}</td>-->
 			    <td align="left">${report.regDate}</td>
@@ -222,6 +229,7 @@
 	  <!--  table End /////////////////////////////////////-->
 	  
  	</div>
+ 		</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
  	
  	

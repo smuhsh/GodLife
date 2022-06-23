@@ -43,7 +43,7 @@
           slidesToScroll: 1,
           
         } );
-      } );
+      } );;
    	</script>
 	
 </head>
@@ -73,13 +73,6 @@
 				<div class="item">
 				    <a href="/operator/getOperatorJoinRoullEvent?eventNo=2&userEmail=${sessionScope.user.userEmail}" >
 				     <img src="/images/uploadFiles/operatorRoullEvent(3).png" alt="Second slide" 
-					      onerror="this.src='https://dummyimage.com/2000x260/404040/bababa.gif'"
-					      class="img-responsive center-block">
-					</a>
-				</div>
-				<div class="item">
-				    <a href="/operator/getOperatorJoinDayEvent?eventNo=1&userEmail=${sessionScope.user.userEmail}" >
-				     <img src="/images/uploadFiles/operatorNewEvent.png" alt="Third slide" 
 					      onerror="this.src='https://dummyimage.com/2000x260/404040/bababa.gif'"
 					      class="img-responsive center-block">
 					</a>
@@ -286,7 +279,7 @@
    		<div class="challenge-list" id="best-challenge">
 			<div class="c-header">
 	   			<p class="search-title">Best 인기 인증 이미지</p>
-	   			<a href="/challenge/listChallengeCertiImg">
+	   			<a href="/challenge/listChallengeCertiImg?searchCondition=2">
 	   				<p class="more-view">더 보기</p>
 	   			</a>
    			</div>

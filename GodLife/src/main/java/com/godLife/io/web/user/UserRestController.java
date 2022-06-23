@@ -48,7 +48,14 @@ public class UserRestController {
 			return cnt;
 	}
 	
+	// 핸드폰 중복체크
+	@RequestMapping( value="json/checkPhone", method=RequestMethod.POST )
+	public int checkPhone( @RequestParam("phone") String phone) throws Exception{
+			int cnt = userService.checkPhone(phone);
+			return cnt;
+	}
 	
+		
 //	//친구중복검사 체크 (레스트안쓰고 컨트롤러에서 다 처리해버림)... 
 //	@RequestMapping( value="json/checkFriend", method=RequestMethod.POST)
 //	public int checkFriend( //@RequestParam("userEmail") String userEmail,

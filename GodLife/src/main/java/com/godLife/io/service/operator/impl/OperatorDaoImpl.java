@@ -232,13 +232,13 @@ public class OperatorDaoImpl implements OperatorDao{
 //		//sqlSession.update("OperatorNoticeFaqsMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
 //		sqlSession.update("OperatorMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
 //	}
-	public void updateOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception {
+	public void updateOperatorNotice(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
 		//sqlSession.update("OperatorNoticeFaqsMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
-		sqlSession.update("OperatorMapper.updateOperatorNotice",operatorNotice);
+		sqlSession.update("OperatorMapper.updateOperatorNotice",operatorNoticeFaqs);
 	}
-	public void updateOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception {
+	public void updateOperatorFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
 		//sqlSession.update("OperatorNoticeFaqsMapper.updateOperatorNoticeFaqs",operatorNoticeFaqs);
-		sqlSession.update("OperatorMapper.updateOperatorFaqs",operatorFaqs);
+		sqlSession.update("OperatorMapper.updateOperatorFaqs",operatorNoticeFaqs);
 	}
 
 	//Method delete

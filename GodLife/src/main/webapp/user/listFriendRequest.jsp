@@ -37,7 +37,6 @@
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
-  
 	
 	<!-- 왼쪽 레이아웃 삽입-->
 		<jsp:include page="/user/mypageMain.jsp" />
@@ -54,7 +53,7 @@
             padding-top : 80px;
             }
             
-            #container{
+            .container{
             padding-left: 250px;
             padding-top : 130px;
             }
@@ -95,7 +94,7 @@
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 
-	<div class="container" id="container" >
+	<div class="container" >
 	
 		<div class="head_aticle" align="center" id = "head_aticle">
 	      <h2 class="tit" style="color: #333;">친구요청 관리</h2>

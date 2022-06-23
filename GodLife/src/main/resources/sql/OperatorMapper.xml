@@ -93,10 +93,10 @@
 											<if test="searchCondition != null">
 												<where>
 													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				event_no = #{searchKeyword}
+										 				AND event_title = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				event_title = #{searchKeyword}
+										 				AND event_no = #{searchKeyword}
 													</if>
 												</where>
 											</if>
@@ -139,10 +139,9 @@
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getOperatorJoinDayEvent"	parameterType="int" resultMap="operatorJoinEventSelectMap">
-        SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
-        FROM reward r, join_event j
-        WHERE j.join_event_no = #{joinEventNo}
-            AND j.join_event_no = r.reward_no
+        SELECT join_event_no , user_email , event_no , reward_point , reg_date
+        FROM join_event
+        WHERE join_event_no = #{joinEventNo}
 	 </select>
 	 
 	 <select 	id="getOperatorJoinDayEventUser"	parameterType="operatorJoinEvent" resultMap="operatorJoinEventSelectMap">
@@ -164,10 +163,9 @@
 	 </select>
 	 
 	 <select 	id="getOperatorJoinRoullEvent"	parameterType="int" resultMap="operatorJoinEventSelectMap">
-        SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
-        FROM reward r, join_event j
-        WHERE j.join_event_no = #{joinEventNo}
-            AND j.join_event_no = r.reward_no
+        SELECT join_event_no , user_email , event_no , reward_point , reg_date
+        FROM join_event 
+        WHERE join_event_no = #{joinEventNo}
 	 </select>
 	 
 	 <!-- NOT 	USING -->
@@ -175,29 +173,50 @@
 	 <!-- SQL : DELETE -->
 	 
 	<!-- SQL : SELECT LIST -->
+	<!--  
 	<select  id="getOperatorJoinEventList"  parameterType="search"	resultMap="operatorJoinEventSelectMap">
 		SELECT
 			j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 	  					FROM		(	SELECT j.join_event_no , j.user_email , r.event_no , r.reward_point , j.reg_date
 											FROM reward r, join_event j
+											WHERE j.join_event_no = r.reward_no
 											<if test="searchCondition != null">
-												<where>
 													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				j.join_event_no = #{searchKeyword}
+										 				AND r.event_no = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				j.user_email = #{searchKeyword}
+										 				AND j.user_email = #{searchKeyword}
 													</if>
-													AND j.join_event_no = r.reward_no
-												</where>
 											</if>
-											ORDER BY join_event_no ) inner_table
+											ORDER BY j.join_event_no ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} ),join_event j, reward r
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 			AND j.join_event_no = r.reward_no
 			GROUP BY j.join_event_no, j.user_email, r.event_no, r.reward_point, j.reg_date
 			ORDER BY j.join_event_no
+	 </select>
+	-->
+	<!-- 2022-06-23 15:36 shhwang --> 
+	<select  id="getOperatorJoinEventList"  parameterType="search"	resultMap="operatorJoinEventSelectMap">
+		SELECT
+			join_event_no , user_email , event_no , reward_point , reg_date
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT join_event_no , user_email , event_no , reward_point , reg_date
+											FROM join_event	  	
+											<if test="searchCondition != null">
+  											<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				AND event_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				AND user_email = #{searchKeyword}
+													</if>
+											</where>
+											</if>
+											ORDER BY join_event_no ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
 	
 	<!-- SQL : SELECT ROW Count -->	 
@@ -341,10 +360,10 @@
 											<if test="searchCondition != null">
 												<where>
 													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				notice_faq_no = #{searchKeyword}
+										 				AND notice_faq_no = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				title = #{searchKeyword}
+										 				AND title = #{searchKeyword}
 													</if>
 												</where>
 											</if>
@@ -353,6 +372,27 @@
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} --> 
 	 </select>
+	 
+	 <!--  
+	<select  id="getOperatorNoticeList"  parameterType="search"	resultMap="operatorNoticeFaqsSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		( 	SELECT *
+											FROM notice_faqs
+											WHERE status = '0'											
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				AND title = #{searchKeyword}
+													</if>
+												</where>
+											</if>
+											ORDER BY notice_faq_no DESC  ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}  
+	 </select>-->
+	 
+	 
 	
 	<!-- SQL : SELECT ROW Count -->	 
 	 <select  id="getOperatorNoticeTotalCount"  parameterType="search"	 resultType="int">

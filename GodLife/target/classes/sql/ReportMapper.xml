@@ -87,6 +87,18 @@
                   WHERE ROWNUM &lt;= #{endRowNum} )
       WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
     </select>
+    
+     <!-- SQL : 신고 유저 상세 목록조회 카운트 -->
+    <select  id="getUserReportTotalCount"  parameterType="search"    resultType="int">
+        SELECT COUNT(*)
+        FROM(   SELECT 
+                                       r.*
+                                       FROM reports  r
+                                       WHERE target_email = #{targetEmail} ) countTable                  
+    </select>
+	 	
+	 	
+	 	
 	 	
 	 	
 	 

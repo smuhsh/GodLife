@@ -75,6 +75,8 @@ float : center;
 <!--  자바스크립트 -->
 <script type="text/javascript">
 
+var phone22 = 0;
+
 		
 		   //==>"닉네임" 중복검사 Event 처리 및 연결(완료)
 		   
@@ -148,6 +150,31 @@ float : center;
 		
    });	
 		
+			//==>"핸드폰" 중복검사 Event 처리 및 연결(완료)
+			
+			function checkUserPhone(){
+		        var phone = $('#phone').val(); //
+		        
+		        $.ajax({
+		        	 url: '/user/json/checkPhone', //Controller에서 요청 받을 주소
+		            type:'post', //POST 방식으로 전달
+		            data:{phone:phone},
+		       
+		            success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
+		                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 회원가입 가능한 핸드폰번호  
+		                    phone22 = 0; // 1이아니여야 가입가능  
+		                } else { // cnt가 1일 경우 -> 이미 존재하는 핸드폰번호라서 가입 불가능
+		                    phone22 = 1; // 1이아니여야 가입가능  
+		                }
+		            },
+		            error:function(){
+		                alert("에러입니다");
+		            }
+		        });
+		        };
+		
+		
+		
 			//============= "수정하러가기"  Event 연결 =============
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -159,6 +186,8 @@ float : center;
 		function fncUpdateUser() {
 			
 			var name=$("input[name='nick']").val();
+			var successPhoneCkt = $(".successPhoneChk").text();
+			console.log(   "successPhoneCkt" + successPhoneCkt ) ; 
 			
 			if(name == null || name.length <1){
 				alert("닉네임은  반드시 입력하셔야 합니다.");
@@ -170,11 +199,20 @@ float : center;
 				return;
 			}
 			
+			if(phone22 != 0){
+				//alert("@@핸드폰번호 값 뭐나오니...."+phone22)
+				alert("이미 가입된 핸드폰번호입니다. ");
+				return;
+			}
+			
+			  if(successPhoneCkt != '인증번호가 일치합니다.'   ){
+					alert("인증번호가 일치하지 않습니다. ");
+					return;
+							}
+			  
 			$("form").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
 			alert("수정이 완료되었습니다")
 		}
-		
-		
 		
 		//============= "자기소개 글자수 검사" =============
 			
@@ -230,7 +268,7 @@ float : center;
 						<tr class="field_phone">
 						<th>휴대폰</th>
 						<td>
-								<input id="phone" type="text" name="phone" title="전화번호 입력" value = "${user.phone}" placeholder="예) 01011111111" required/>
+								<input id="phone" type="text" name="phone" title="전화번호 입력" value = "${user.phone}" placeholder="예) 01011111111" oninput = "checkUserPhone()" required/>
 									<span id="phoneChk" class="doubleChk">인증번호 보내기</span><br/>
 									<input id="phone2" type="text" name="phone2" title="인증번호 입력" disabled required/>
 									<span id="phoneChk2" class="doubleChk">본인인증</span>

@@ -38,6 +38,15 @@
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "POST").attr("action" , "/operator/listOperatorNotice").submit();	
 		}
+
+		//============= "검색"  Event  처리 =============	
+		 $(function() {
+			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "button.btn.btn-default" ).on("click" , function() {
+			fncGetList(1);
+			});
+		 });
+
 		
 		$(function() {
 
@@ -107,17 +116,30 @@
 				    <!--  
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>번호</option>-->
+					<!--  
 						<option value="0" ${search.orderCondition == 0 ? "selected" : "" }>제목</option>
-						<option value="1" ${search.orderCondition == 1 ? "selected" : ""}>번호</option>
+						<option value="1" ${search.orderCondition == 1 ? "selected" : ""}>번호</option>-->
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>제목</option>
+
 
 					</select>
 				  </div>
 				  
+				  <!--  
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 			    	<input type="text" class="form-control" id="searchKeyword" name="searchKeyword" placeholder="검색어">
 				  </div>			  
-				  <button class="btn btn-default" id="search">검색</button>				  
+				  <button class="btn btn-default" id="search">검색</button>-->				  
+
+				  <div class="form-group">
+				    <label class="sr-only" for="searchKeyword">검색어</label>
+				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				  </div>
+				  
+				  <button type="button" class="btn btn-default">검색</button>
+
 				</form>
 	    	</div>
 	    	
