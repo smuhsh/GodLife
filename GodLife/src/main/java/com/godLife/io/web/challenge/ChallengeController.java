@@ -33,8 +33,10 @@ import com.godLife.io.service.challenge.ChallengeService;
 import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
+import com.godLife.io.service.domain.MyBadge;
 import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.domain.User;
+import com.godLife.io.service.mybadge.MyBadgeService;
 import com.godLife.io.service.point.PointService;
 import com.godLife.io.service.user.UserService;
 
@@ -53,6 +55,10 @@ public class ChallengeController {
 	@Autowired
 	@Qualifier("pointServiceImpl")
 	private PointService pointService;
+	
+	@Autowired
+	@Qualifier("myBadgeServiceImpl")
+	private MyBadgeService myBadgeService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -108,11 +114,13 @@ public class ChallengeController {
 		
 		System.out.println("DB에 등록될 Challenge 정보: "+challenge);
 		
-		challengeService.addChallenge(challenge, joinChallenger);
+		map = challengeService.addChallenge(challenge, joinChallenger);
 		
 		int challengeNo = (Integer)map.get("challengeNo");
 		
-		return "redirect:/";
+		System.out.println("생성후 리턴된 챌린지 번호: "+challengeNo);
+		
+		return "redirect:/challenge/getChallenge?challengeNo="+challengeNo;
 	}
 	
 	@RequestMapping(value = "addChallengeView", method=RequestMethod.POST)
@@ -123,9 +131,10 @@ public class ChallengeController {
 									HttpSession session)throws Exception {
 		
 		//////////////////////////// 파일 업로드 /////////////////////////////////////////
-		
+		//비트
 		String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
-		
+		//집
+		//String path = "C:\\Users\\이현동\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
 		MultipartFile mf = mtfRequest.getFile("thumbnail");
 		
 		if(mf==null) {
@@ -323,7 +332,8 @@ public class ChallengeController {
 							   User user,
 							   HttpSession session,
 							   Map<String,Object> map,
-							   Model model) throws Exception {
+							   Model model,
+							   JoinChallenger joinChallenger) throws Exception {
 		
 		System.out.println("challengeNo : "+challengeNo);
 		user = (User)session.getAttribute("user");
@@ -333,9 +343,38 @@ public class ChallengeController {
 		List<JoinChallenger> joinChallengerList = 
 				challengeService.getChallengeJoinerList(challenge.getChallengeNo());
 		
-		JoinChallenger joinChallenger = challengeService.getChallengeJoiner(map);
 		
 		
+		
+		int reward = 0;
+		if(challenge.getChallengeJoinFlag().equals("1")) {
+			
+			joinChallenger = challengeService.getChallengeJoiner(map);
+			map = challengeService.getChallengeRewardElement(joinChallenger);
+			if(joinChallenger.getChallengePercent() == 100) {
+				int totalPoint = challenge.getJoinPoint()*challenge.getJoinCount();
+				reward = (totalPoint
+						- (
+							(int)(challenge.getJoinPoint()*0.6)*(Integer)map.get("sixtyCount")+
+							(int)(challenge.getJoinPoint()*0.7)*(Integer)map.get("seventyCount")+
+							(int)(challenge.getJoinPoint()*0.8)*(Integer)map.get("eightyCount")+
+							(int)(challenge.getJoinPoint())*(Integer)map.get("ninetyCount")
+							
+								)/(Integer)map.get("hundredCount"));
+				System.out.println("보상 : "+reward);
+			}else if(joinChallenger.getChallengePercent() >= 90){
+				reward = (int)(challenge.getJoinPoint());
+			}else if(joinChallenger.getChallengePercent() >= 80){
+				reward = (int)(challenge.getJoinPoint()*0.8);
+			}else if(joinChallenger.getChallengePercent() >= 70){
+				reward = (int)(challenge.getJoinPoint()*0.7);
+			}else if(joinChallenger.getChallengePercent() >= 60){
+				reward = (int)(challenge.getJoinPoint()*0.6);
+			}
+			
+			
+		}
+		joinChallenger.setChallengeReward(reward);
 		User hostUser = userService.getUser(challenge.getHostEmail());
 		model.addAttribute("joinChallengerList",joinChallengerList);
 		model.addAttribute("joinChallenger",joinChallenger);
@@ -406,9 +445,10 @@ public class ChallengeController {
 			map.put("challengeNo", challenge.getChallengeNo());
 			
 			Challenge deleteChallengeThumbnail = challengeService.getChallenge(map);
-			
+			//비트
 			String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
-			
+			//집
+			//String path = "C:\\Users\\이현동\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
 			File file = new File(path+deleteChallengeThumbnail.getChallengeThumbnailImg());
 			
 			if(file.exists()) {
@@ -608,12 +648,14 @@ public class ChallengeController {
 									   @ModelAttribute Challenge challenge,
 									   MultipartHttpServletRequest mtfRequest,
 									   HttpSession session,
-									   @RequestParam(defaultValue = "general") String status) throws IllegalStateException, IOException {
+									   @RequestParam(defaultValue = "general") String status,
+									   MyBadge myBadge) throws Exception {
 		
 		User user = (User)session.getAttribute("user");
-		
+		//비트
 		String path = "C:\\Users\\bitcamp\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
-		
+		//집
+		//String path = "C:\\Users\\이현동\\git\\GodLife\\GodLife\\src\\main\\webapp\\resources\\images\\uploadFiles\\";
 		MultipartFile mf = mtfRequest.getFile("certiImgFile");
 		
 		String originFileName = mf.getOriginalFilename();
@@ -632,6 +674,10 @@ public class ChallengeController {
 		mf.transferTo(new File(path+certiImg.getCertiImg()));
 		
 		challengeService.addChallengeCertiImg(certiImg);
+		
+		myBadge.setBadgeNo(10003);
+		myBadge.setUserEmail(user.getUserEmail());
+	    myBadgeService.updateBadgeMyActCount(myBadge);
 		
 		return "redirect:/challenge/listChallengeJoinCertiImg?challengeNo="+challenge.getChallengeNo();
 	}
@@ -691,19 +737,72 @@ public class ChallengeController {
 	
 	
 	@RequestMapping(value="addChallengeReward",method=RequestMethod.POST)
-	public String addChallengeReward(@ModelAttribute JoinChallenger joinChallenger) {
+	public String addChallengeReward(@ModelAttribute JoinChallenger joinChallenger,
+									 Map<String,Object> map,
+									 Point point,
+									 HttpSession session,
+									 MyBadge myBadge) throws Exception {
+		
+		
+		User user = (User)session.getAttribute("user");
+		
+		System.out.println("JoinChallenger : "+joinChallenger);
+		
+		map.put("user", user);
+		map.put("challengeNo", joinChallenger.getChallengeNo());
+		
+		Challenge challenge = challengeService.getChallenge(map);
 		
 		if(joinChallenger.getChallengePercent() == 100) {
-			
-		}else if(joinChallenger.getChallengePercent() >= 90){
-			
-		}else if(joinChallenger.getChallengePercent() >= 80){
-			
-		}else if(joinChallenger.getChallengePercent() >= 70){
-			
-		}else if(joinChallenger.getChallengePercent() >= 60){
-			
+			myBadge.setBadgeNo(10002);
+			myBadge.setUserEmail(user.getUserEmail());
+		    myBadgeService.updateBadgeMyActCount(myBadge);
+		    
 		}
+	
+	 	if(challenge.getChallengeCategName().trim().equals("운동")) {
+	    	myBadge.setBadgeNo(10005);
+			myBadge.setUserEmail(user.getUserEmail());
+		    myBadgeService.updateBadgeMyActCount(myBadge);
+	    }else if(challenge.getChallengeCategName().trim().equals("식습관")) {
+	    	myBadge.setBadgeNo(10008);
+			myBadge.setUserEmail(user.getUserEmail());
+		    myBadgeService.updateBadgeMyActCount(myBadge);
+	    }else if(challenge.getChallengeCategName().trim().equals("생활")) {
+	    	myBadge.setBadgeNo(10007);
+			myBadge.setUserEmail(user.getUserEmail());
+		    myBadgeService.updateBadgeMyActCount(myBadge);
+	    }else if(challenge.getChallengeCategName().trim().equals("취미")) {
+	    	myBadge.setBadgeNo(10009);
+			myBadge.setUserEmail(user.getUserEmail());
+		    myBadgeService.updateBadgeMyActCount(myBadge);
+	    }else if(challenge.getChallengeCategName().trim().equals("공부")) {
+	    	myBadge.setBadgeNo(10006);
+			myBadge.setUserEmail(user.getUserEmail());
+		    myBadgeService.updateBadgeMyActCount(myBadge);
+	    }
+	 	
+	 	myBadge.setBadgeNo(10004);
+		myBadge.setUserEmail(user.getUserEmail());
+	    myBadgeService.updateBadgeMyActCount(myBadge);
+	 	
+		point.setUserEmail(user.getUserEmail());
+		
+		point.setUseStatus("1");
+		
+		point.setPoint(joinChallenger.getChallengeReward());
+		
+		point.setUseDetail("4");
+		
+		map.put("user", user);
+		
+		map.put("point", point);
+		
+		pointService.addPointPurchase(map);
+		
+		joinChallenger.setEmail(user.getUserEmail());
+		
+		challengeService.updateChallengerewardFlag(joinChallenger);
 		
 		
 		
@@ -762,7 +861,6 @@ public class ChallengeController {
 		challengeService.updateChallengeStatus(map);
 	}
 	
-	/////////////////////////////////////////////////////
 	@RequestMapping(value="getChallengeCertiImg", method=RequestMethod.GET)
 	   public String getChallengeCertiImg(@RequestParam int certiImgNo
 	                              ,Model model,
@@ -780,8 +878,17 @@ public class ChallengeController {
 	      return "forward:/challenge/getChallengeCertiImg.jsp";
 	   }
 	
-	@RequestMapping(value="deleteChallengeCertiImg", method=RequestMethod.POST)
-	public String deleteChallengeCertiImg(@ModelAttribute CertiImg certiImg,Model model,Map<String,Object> map) {
+	@RequestMapping(value="deleteChallengeCertiImg", method=RequestMethod.POST) // 인증이미지 상세조회에서 삭제
+	public String deleteChallengeCertiImg(@ModelAttribute CertiImg certiImg,
+										  @RequestParam String userEmail,
+										  Model model,
+										  Map<String,Object> map,
+										  MyBadge myBadge) throws Exception {
+		
+		myBadge.setBadgeNo(10003);
+		myBadge.setUserEmail(userEmail);
+		myBadgeService.updateBadgeMyActCountMinus(myBadge);
+		
 		int certiImgNo = certiImg.getCertiImgNo();
 		System.out.println("@@certiImgNo : "+certiImgNo);
 		map.put("certiImgNo", certiImgNo);
@@ -790,4 +897,5 @@ public class ChallengeController {
 		
 		return "redirect:/";
 	}
+
 }

@@ -8,6 +8,8 @@ public class PostObject {
 	private String comment;
 	private String status;
 	private int currentPage;
+	private String certiImgOpt;
+	private String userEmail;
 	public int getCertiImgNo() {
 		return certiImgNo;
 	}
@@ -38,11 +40,29 @@ public class PostObject {
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
+	
+	public String getCertiImgOpt() {
+		return certiImgOpt;
+	}
+	public void setCertiImgOpt(String certiImgOpt) {
+		this.certiImgOpt = certiImgOpt;
+	}
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 	@Override
 	public String toString() {
 		return "PostObject [certiImgNo=" + certiImgNo + ", reviewNo=" + reviewNo + ", comment=" + comment + ", status="
-				+ status + ", currentPage=" + currentPage + "]";
+				+ status + ", currentPage=" + currentPage + ", certiImgOpt=" + certiImgOpt + ", userEmail=" + userEmail
+				+ "]";
 	}
+	
+
+
+	
 	
 	
 	

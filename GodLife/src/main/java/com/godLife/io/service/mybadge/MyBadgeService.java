@@ -22,6 +22,9 @@ public interface MyBadgeService {
 	// 내 배지 활동 횟수량 증가
 	public void updateBadgeMyActCount(MyBadge myBadge) throws Exception ;	
 	
+	// 인증 이미지 제거시 활동 횟수량 감소
+	public void updateBadgeMyActCountMinus(MyBadge myBadge) throws Exception ;	
+	
 	
 	
 }

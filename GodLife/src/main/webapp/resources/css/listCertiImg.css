@@ -5,6 +5,10 @@
 		    src: url('/resources/css/font/ONE Mobile Title.ttf') format('truetype')!important;
 		}
 
+body {
+	overflow-x: hidden;
+}
+
 .container{
 	 font-family: 'oneMobile'!important;
 	 padding-top : 200px;
@@ -28,12 +32,14 @@
 	position:relative;
 	left:10px;
 	top:10px;
+	cursor: pointer;
 	
 }
 img#profile{
         	width:60px;
         	height:60px;
-        	border-radius: 30px 30px 30px 30px
+        	border-radius: 30px 30px 30px 30px;
+        	cursor: pointer;
         }
         
 #user-info{
@@ -151,4 +157,22 @@ td.nick-comment{
 	position:relative;
 	bottom:20px;
 	
+}
+#cerit-img-delete{
+	position:relative;
+	bottom : 120px;
+	left:635px;
+}
+.input-group{
+			display:flex;
+			padding-bottom : 30px;
+			position:relative;
+		}
+#search-opt{
+	position:relative;
+	left:770px;
+}
+#search{
+	height:32px;
+	position:relative;
 }

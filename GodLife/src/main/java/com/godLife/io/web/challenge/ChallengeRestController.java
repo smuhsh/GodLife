@@ -26,9 +26,11 @@ import com.godLife.io.service.challenge.ChallengeService;
 import com.godLife.io.service.domain.CertiImg;
 import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.JoinChallenger;
+import com.godLife.io.service.domain.MyBadge;
 import com.godLife.io.service.domain.Point;
 import com.godLife.io.service.domain.Review;
 import com.godLife.io.service.domain.User;
+import com.godLife.io.service.mybadge.MyBadgeService;
 import com.godLife.io.service.point.PointService;
 import com.godLife.io.service.user.UserService;
 
@@ -49,6 +51,10 @@ public class ChallengeRestController {
 	@Autowired
 	@Qualifier("pointServiceImpl")
 	private PointService pointService;
+	
+	@Autowired
+	@Qualifier("myBadgeServiceImpl")
+	private MyBadgeService myBadgeService;
 	
 	
 	@Value("#{commonProperties['pageUnit']}")
@@ -232,7 +238,24 @@ public class ChallengeRestController {
 	}
 	
 	@RequestMapping(value="deleteChallengeCertiImg",method=RequestMethod.POST)
-	public CertiImg deleteChallengeCertiImg(@RequestBody CertiImg certiImg) {
+	public CertiImg deleteChallengeCertiImg(@RequestBody PostObject postObject,
+										    CertiImg certiImg,
+											MyBadge myBadge,
+											User user) throws Exception {
+		
+		
+		
+		System.out.println("post: "+postObject);
+		
+		certiImg.setUser(user);
+		
+		certiImg.getUser().setUserEmail(postObject.getUserEmail());
+		
+		certiImg.setCertiImgNo(postObject.getCertiImgNo());
+		System.out.println("certiImg : "+certiImg);
+		myBadge.setBadgeNo(10003);
+		myBadge.setUserEmail(certiImg.getUser().getUserEmail());
+		myBadgeService.updateBadgeMyActCountMinus(myBadge);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -490,5 +513,48 @@ public class ChallengeRestController {
 		certiImg = challengeService.getChallengeCertiImg(map);
 		
 		return certiImg;
+	}
+	
+	@RequestMapping(value="deleteChallengeCertiImgList",method=RequestMethod.POST)
+	public List<CertiImg> deleteChallengeCertiImgsList(@RequestBody PostObject postObject,
+													Search search,
+													HttpSession session,
+													Map<String,Object> map,
+													MyBadge myBadge) throws Exception {
+		
+		System.out.println("PostObject : "+postObject);
+		User user = (User)session.getAttribute("user");
+		
+		myBadge.setBadgeNo(10003);
+		myBadge.setUserEmail(user.getUserEmail());
+		myBadgeService.updateBadgeMyActCountMinus(myBadge);
+		
+		
+		search.setCurrentPage(postObject.getCurrentPage());
+		search.setPageSize(pageSize);
+		
+		map.put("certiImgOpt",postObject.getCertiImgOpt());
+		map.put("search", search);
+		map.put("user", user);
+		
+		map.put("certiImgNo", postObject.getCertiImgNo());
+		
+		challengeService.deleteChallengeCertiImg(map);
+		
+		System.out.println("map : "+map);
+		
+		System.out.println("요청 페이지 : "+search.getCurrentPage());
+		
+		if(search.getCurrentPage() >= 2) {
+			map = challengeService.getChallengeMoreCertiImgList(map);
+		}else {
+			map = challengeService.getChallengeCertiImgList(map);
+		}
+		List<CertiImg> certiImgList = (List<CertiImg>)map.get("certiImgList");
+		for(CertiImg certiImg : certiImgList) {
+			System.out.println(certiImg);
+		}
+		
+		return certiImgList;
 	}
 }
