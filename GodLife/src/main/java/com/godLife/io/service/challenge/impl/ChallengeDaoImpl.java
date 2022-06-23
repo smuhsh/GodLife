@@ -648,5 +648,15 @@ User user = (User)map.get("user");
 	}
 
 	
-	
+	@Override
+	public Map<String, Object> getChallengeTargetList(JoinChallenger joinChallenger) {
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		List<Challenge> list3 = sqlSession.selectList("ChallengeMapper.getChallengeTargetList",joinChallenger);
+		
+		map.put("list3",list3);
+		
+		return map;
+	}
 }

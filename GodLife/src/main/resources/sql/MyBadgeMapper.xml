@@ -80,35 +80,45 @@
 	 </select>
 -->
 	<select  id="getBadgeMyABList"  parameterType="map"	resultMap="myBadgeSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT a.my_badge_no, a.user_email, a.badge_no, a.act_count, b.badge_name, b.badge_img, b.badge_detail, b.status 
+	  	SELECT a.my_badge_no, a.user_email, a.badge_no, a.act_count, b.badge_name, b.badge_img, b.badge_detail, b.status 
 										FROM my_badge a 
 										    INNER JOIN badges b 
 										    ON a.badge_no = b.badge_no 
-											WHERE a.user_email = #{ userEmail:VARCHAR }
-
-                                              and status = '0'
-
-										ORDER BY a.my_badge_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+										<where>
+											user_email = #{userEmail}
+											and status = '0'
+										<if test="searchCondition != null">
+											a.badge_no = 10004	
+										</if>
+										</where>
+										ORDER BY a.my_badge_no 
 	 </select>
 
 	<select  id="getBadgeMyIBList"  parameterType="map"	resultMap="myBadgeSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT a.my_badge_no, a.user_email, a.badge_no, a.act_count, b.badge_name, b.badge_img, b.badge_detail, b.status 
+	  	SELECT a.my_badge_no, a.user_email, a.badge_no, a.act_count, b.badge_name, b.badge_img, b.badge_detail, b.status 
 										FROM my_badge a
 										    INNER JOIN badges b
 										    ON a.badge_no = b.badge_no
-											WHERE a.user_email = #{ userEmail:VARCHAR }
-
-                                              and status = '1' 
-
-										ORDER BY a.my_badge_no ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+											WHERE a.user_email = #{userEmail}
+											and status = '1' 
+											
+												<if test="searchCondition == 1">
+													a.badge_no = 10005
+												</if>
+												<if test="searchCondition == 2">
+													a.badge_no = 10006
+												</if>			
+												<if test="searchCondition == 3">
+													a.badge_no = 10007
+												</if>			
+												<if test="searchCondition == 4">
+													a.badge_no = 10008
+												</if>			
+												<if test="searchCondition == 5">
+													a.badge_no = 10009
+												</if>			
+								
+										ORDER BY a.my_badge_no 
 	 </select>
 	
 	 
@@ -124,23 +134,5 @@
 		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="map"	 resultType="int">
-	  	SELECT COUNT(*)
-	  	FROM(	SELECT my_badge_no, badge_no,  user_email , act_count 
-						FROM my_badge 
-						<where>
-						user_email = #{userEmail}
-						<if test="searchCondition != null">
-
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-									my_badge_no LIKE '%${searchKeyword}%'
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-									badge_no LIKE '%${searchKeyword}%'
-								</if>						
-
-						</if>
-						</where> ) countTable						
-	 </select>
 	 
 </mapper>

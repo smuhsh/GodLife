@@ -1379,5 +1379,19 @@
 	 <!-- ////////// delete //////////// -->
 	 
 	 <!--/////////////////////// Reviews ////////////////////// -->
-	 
+	 <!-- moon -->
+	  <select id="getChallengeTargetList" parameterType="joinChallenger" resultMap="ChallengeSelectMap">
+	 		SELECT
+			c.*, ct.categ_name
+			FROM
+				challenges c, join_challenger jc, categs ct
+			<where>
+				c.challenge_no = jc.challenge_no
+				AND ct.categ_no = c.categ_no
+				AND jc.user_email = #{email}
+				AND jc.status = '0'
+				AND c.status = '0'
+			</where>
+			ORDER BY c.reg_date DESC
+	 </select>
 </mapper>

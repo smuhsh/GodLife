@@ -31,8 +31,24 @@
 	
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 	<style>
-	
-	
+	.carousel-control{
+	margin-top:200px;
+	margin-bottom:360px;
+	}
+	.item{
+	width :1270px;
+	height:320px;
+	}
+	.header_bar {
+    width: 100%;
+    margin: 0 auto;
+	/*display: flex;
+	justify-content: space-between;
+	text-align: center;*/
+    position: absolute;
+ right: 200px;
+    bottom: 1px;
+}
    	</style>
    	<script type="text/javascript">
    	$( document ).ready( function() {

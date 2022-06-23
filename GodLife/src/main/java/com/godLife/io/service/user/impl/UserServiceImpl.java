@@ -463,23 +463,34 @@ public class UserServiceImpl implements UserService{
 	//================신고================================================
 	
 	//쪽지 신고등록 
-	public void addMsgReport(Report report) throws Exception {
-		userDao.addMsgReport(report);
+	public void addUserReport(Report report) throws Exception {
+		userDao.addUserReport(report);
 	}
 	
 	
 	// 쪽지 신고 중복방지
-	public int checkMsgReport(String reporterEmail, String targetEmail, int msgNo) {
-		Map<String, String> map = new HashMap<>();
-		map.put("reporterEmail", reporterEmail);
-		map.put("targetEmail", targetEmail);
-		map.put("msgNo", Integer.toString(msgNo));
-		
-		int checkMsgReport = userDao.checkMsgReport(map);
+	public int checkMsgReport(Report report) throws Exception {
+
+		int checkMsgReport = userDao.checkMsgReport(report);
 		
 		return checkMsgReport;
 	}
 	
+	// 인증이미지 신고 중복방지
+	public int checkCertiImgReport(Report report) throws Exception {
+
+		int checkcommentNoReport = userDao.checkCertiImgReport(report);
+		
+		return checkcommentNoReport;
+	}
+		
+	// 댓글 신고 중복방지
+	public int checkCommentReport(Report report) throws Exception {
+
+		int checkCommentReport = userDao.checkCommentReport(report);
+		
+		return checkCommentReport;
+	}
 	
 	//신고회원 목록조회(관리자) 
 	public Map<String , Object > getUserReportList(Search search) throws Exception {
@@ -525,7 +536,9 @@ public class UserServiceImpl implements UserService{
 		userDao.updateRedCard(user);
 	}
 
-	
+	public void updateUserRedCouponCountUse(User user) throws Exception{
+		userDao.updateUserRedCouponCountUse(user);
+	}
 	
 	
 }

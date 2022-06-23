@@ -64,12 +64,8 @@
     
     <!-- SQL : 본인정보, 타유저 상세조회, 로그인 -->
     <select    id="getUser"   parameterType="string"   resultMap="userSelectMap">
-		SELECT u.*,
-		c.categ_name,(SELECT COUNT(*) 
-								FROM reports r, users u 
-								WHERE r.target_email = #{userEmail}
-								AND r.target_email = u.user_email) AS rc
-		FROM users u, categs c
+		SELECT u.*,c.categ_name
+		From users u,categs c
 		WHERE u.user_email = #{userEmail}
 		AND u.categ_no = c.categ_no
     </select>
@@ -178,7 +174,7 @@
     <update   id="updateRedCard"   parameterType="user" >
          UPDATE users u
  		 SET
-         redcard_count = #{redcardCount}
+         redCard_count = #{redCardCount}
          <where>
             user_email=#{userEmail}
          </where>
@@ -222,25 +218,21 @@
 	  	FROM (	
 	  					SELECT 
 	  					inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT u.*, a.rc
-											FROM users u,
-											(SELECT u.user_email AS b, COUNT(*) AS rc 
-											FROM reports r ,users u
-											WHERE r.target_email = u.user_email 
-											GROUP BY u.user_email) a
-											WHERE u.user_email = a.b
+	  					FROM		(	SELECT *
+											FROM users
+
 											<if test="searchCondition != null">
 													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				AND u.user_email = #{searchKeyword}
+										 				WHERE user_email = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				AND u.nick = #{searchKeyword}
+										 				WHERE nick = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 2 and searchKeyword !='' ">
-										 				AND a.rc = #{searchKeyword}
+										 				WHERE report_count = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 3 and searchKeyword !='' ">
-										 				AND u.redcard_count = #{searchKeyword}
+										 				WHERE redcard_count = #{searchKeyword}
 													</if>
 											</if>
 											ORDER BY a.rc DESC) inner_table
@@ -292,5 +284,15 @@
 													</if>
 											</if> ) countTable                  
     </select>
+    
+    <!-- 신고 카운트 증가 -->
+    <update id="updateUserReportCount" parameterType="user" >
+       UPDATE users
+       SET 
+       REPORT_COUNT = #{reportCount}
+          <where>
+           user_email=#{userEmail} 
+         </where>
+     </update>
     
 </mapper>

@@ -118,8 +118,34 @@ div#menu-bar{
     align-items: center;
     display: flex;
     justify-content: center;
-    padding-left: 300px;
+
 }
+.header_bar {
+    width: 100%;
+    margin: 0 auto;
+	/*display: flex;
+	justify-content: space-between;
+	text-align: center;*/
+    position: absolute;
+ right: 200px;
+    bottom: 1px;
+    
+}
+.member_items{
+	    width: 300px;
+}
+
+.menuDiv { /*fixed하면 레이아웃에 문제샘김*/
+	padding-top: 18px;
+	/*position: fixed;*/
+	width: 100%;
+	left: 0;
+	background-color: #fff;
+	left: 0;
+	z-index: 10;
+	
+}
+
 </style>
 
 </head>
@@ -130,6 +156,10 @@ div#menu-bar{
    <div class="header">
 
       <div align="center" class="header_bar">
+      <div class="row">
+      <div class="col-xs-6 col-md-4"></div>
+      <div class="col-xs-6 col-md-4"></div>
+      <div class="col-xs-6 col-md-4">
          <ul class="member_items">
          
             <c:if test="${user.userEmail== null || user.userEmail==\"\"}">
@@ -139,7 +169,8 @@ div#menu-bar{
 
 
             <c:if test="${user.userEmail != null && user.userEmail !=\"\"}">
-                <img src="/images/uploadFiles/${sessionScope.user.profileImg}"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';"    id="profileImg"> &nbsp; <div id="profile">닉네임 : ${sessionScope.user.nick }<br>포인트 : ${sessionScope.user.totalPoint }</div>
+				<img src="/images/uploadFiles/${sessionScope.user.profileImg}"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';"    id="profileImg"> &nbsp; <div id="profile">닉네임 : ${sessionScope.user.nick }<br>포인트 : ${sessionScope.user.totalPoint }</div>
+
                <br>
                 <li class="service_center_item">
                <a class="service_center"> 마이페이지</a>
@@ -153,7 +184,7 @@ div#menu-bar{
                   
                   </ul>
                   </li>
-                    
+                    </div>
                   </c:if>
                
                
@@ -182,6 +213,8 @@ div#menu-bar{
             
 
          </ul>
+         </div>
+         </div>
       </div>
 
       <div class="logo_image">

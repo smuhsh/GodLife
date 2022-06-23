@@ -388,7 +388,7 @@
                     var pictures = "/images/uploadFiles/gift/" + i + ".png";
                     $(".board_on").append('<img  src="' + pictures + '" />');
                 }
-
+				
                 $(".join").on("mousedown", function() {
                     if (clicked <= 0) {
                         iniGame(Math.floor(Math.random() * 6));

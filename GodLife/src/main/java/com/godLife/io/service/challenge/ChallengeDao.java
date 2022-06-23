@@ -62,4 +62,6 @@ public interface ChallengeDao {
 
 	
 	
+	//moon
+		public Map<String,Object> getChallengeTargetList(JoinChallenger joinChallenger);
 }

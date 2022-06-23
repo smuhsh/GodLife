@@ -32,7 +32,7 @@
 	 </insert>
 	
 	<!-- SQL : 인증이미지댓글 신고 등록-->
-	<insert 	id="addCertiImgCommentReport"		parameterType="report" >
+	<insert 	id="addCommentReport"		parameterType="report" >
 	 	INSERT
 	 	INTO reports
 	 	VALUES ( SEQ_REPORTS_REPORT_NO.NEXTVAL, #{reporterEmail : VARCHAR}, #{targetEmail : VARCHAR}, 
@@ -48,7 +48,7 @@
 	 </insert>
 
 	  <!-- SQL : 쪽지 신고 중복방지 -->
-	  <select  id="checkMsgReport"  parameterType="map"	 resultType="int">
+	  <select  id="checkMsgReport"  parameterType="report"	 resultType="int">
 		SELECT COUNT(*) FROM reports 
 		WHERE reporter_email = #{reporterEmail}
 		AND target_email = #{targetEmail}
@@ -64,7 +64,7 @@
 	 </select>
 	 
 	 <!-- SQL : 인증이미지 댓글 신고 중복방지 -->
-	 <select  id="checkcommentNoReport"  parameterType="map"	 resultType="int">
+	 <select  id="checkCommentReport"  parameterType="map"	 resultType="int">
 		SELECT COUNT(*) FROM reports 
 		WHERE reporter_email = #{reporterEmail}
 		AND target_email = #{targetEmail}

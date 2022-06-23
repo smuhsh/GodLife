@@ -297,7 +297,7 @@ $(function() {
 	$(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		$( "#writeBtn18" ).on("click" , function() {
-			$("form").attr("method" , "POST").attr("action" , "/user/addMsgReport").submit();
+			$("form").attr("method" , "POST").attr("action" , "/user/addUserReport").submit();
 		});
 	});	
 
@@ -419,7 +419,7 @@ $(function() {
         
         <div class="page_aticle">
 		<div class="type_form getUser" id="getUser1">
-			<form id="form" name="frmMember" >
+			
 			
 				<div class="field_head">
 					<h3 class="tit">신고</h3>
@@ -474,7 +474,7 @@ $(function() {
 					<div id="checkDiv" class="checkDiv"></div>
 					<button type="button"  class="btn active btn_join" id="writeBtn18">접수</button>
 				</div>
-			</form>
+			
 		</div>
 	</div>
         

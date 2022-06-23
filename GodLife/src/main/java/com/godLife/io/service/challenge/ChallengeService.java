@@ -60,4 +60,6 @@ public interface ChallengeService {
 	
 	public Map<String,Object> getChallengeMoreCertiImgList(Map<String,Object> map);
 
+	//moon
+	public Map<String,Object> getChallengeTargetList(JoinChallenger joinChallenger);
 }
