@@ -57,6 +57,14 @@
 	</update>
 
 
+	<update id="updateBadgeMyActCountMinus" parameterType="myBadge">
+	
+		UPDATE MY_BADGE
+		SET act_count = act_count -1
+		WHERE user_email = #{userEmail:VARCHAR} and badge_no= 10003
+		
+	</update>
+
 <!-- //////////////////////////배지 전체 목록 조회//////////////////////////////////////////////////////  -->
 		 
 	<!-- SQL : SELECT LIST -->

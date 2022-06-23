@@ -30,56 +30,61 @@
 <style>
 	body{
 		font-weight : 600;
+		background-image: url('/resources/images/uploadFiles/VoucherBackGround.gif');
+		background-repeat: no-repeat;
+		background-size: cover;
 	}	
-
-#productName{
-width: 50px;
-height: 30px;
-}
-.cashbutton{
-width: 100px;
-height: 60px;
-}
-.images{
-width:250px;
-height: 250px;
-}
-.container{
-padding-top: 50px;
-}
-
-fieldset {
-   width: 560px;
-   text-align: center;
-   backgrond-color: white;
-
-}
-
-div.box {
-   width: 500px;
-   height: 220px;
-   box-align:center middle;
-   margin: 0;
-   padding: 5px;
-   display: none;
-   background-color: #9edbff;
-
-}
-
-.detail {
-   color : white ;
-   margin : 0;
-   width: 550px;
-   height: auto;
-   padding-top: 1px;
-   background-color: #070719 ;
-   text-align: center;
-   font-size: 22px;
-}
-
-#openmodal{
-color:blue;
-}
+	.images{
+		border-radius: 30px;
+	}
+	#productName{
+	width: 50px;
+	height: 30px;
+	}
+	.cashbutton{
+	width: 100px;
+	height: 60px;
+	}
+	.images{
+	width:250px;
+	height: 250px;
+	}
+	.container{
+	padding-top: 50px;
+	}
+	
+	fieldset {
+	   width: 560px;
+	   text-align: center;
+	   backgrond-color: white;
+	
+	}
+	
+	div.box {
+	   width: 500px;
+	   height: 220px;
+	   box-align:center middle;
+	   margin: 0;
+	   padding: 5px;
+	   display: none;
+	   background-color: #9edbff;
+	
+	}
+	
+	.detail {
+	   color : white ;
+	   margin : 0;
+	   width: 550px;
+	   height: auto;
+	   padding-top: 1px;
+	   background-color: #070719 ;
+	   text-align: center;
+	   font-size: 22px;
+	}
+	
+	#openmodal{
+	color:blue;
+	}
 
 </style>
 
@@ -165,7 +170,7 @@ color:blue;
 	                    success : function(JSONData , status) {
 	                    	
 	                       const displayDetail = 
-	                    	    `<div class="detail">
+	                    	    `<div class="detail" style="border-radius: 10% / 50%;margin-top: 40px;">
                           <br>
    
                                   <div id="first">상품 명 :&nbsp \${JSONData.productName} </div>
@@ -214,7 +219,7 @@ color:blue;
          <!-- 상품 이미지 위쪽 /////////////////////////////////////-->
          <div class="row" style="height: 150px; width: 1400px;">
             <div class="col-md-6 text-right">
-               <h2 class="text-primary" style="color:#000000;">상품권 상품 전체목록</h2>
+               <h1 class="text-primary" style="color: #deb84f;">상품권 상품 전체목록</h1>
          	</div>
 			<br>
 			<br>			
@@ -255,7 +260,7 @@ color:blue;
          <div class="col-md-6">
             <fieldset>
                <hr />
-               <h4>
+               <h4 style="color: #deb84f;">
                <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycash">
                &nbsp&nbsp&nbsp
                <input type="radio" id="pay" name="payOpt" value="1" onclick="showDiv(this);">&nbsp 상품권 설명
@@ -263,7 +268,7 @@ color:blue;
               
             </fieldset>
              <br>
-            <div id="payBox" class="box" >
+            <div id="payBox" class="box" style="border-radius: 25% 10%;padding-left: 40px;display: block;padding-bottom: 5px;padding-top: 0px;height: 225px;width: 505px;">
            <br>
 		상품권 구매 유의사항<br>
 		<br>
@@ -276,7 +281,7 @@ color:blue;
 	</div>
 	<div class="col-md-6">
 	<hr/>
-	<h4>상품 정보</h4> 
+	<h4 style="color: #deb84f;padding-top: 20px;">상품 정보</h4> 
   		<div id="ajax"></div>
  		</div>
             <!-- label Tag 사용 / 미사용의 차이점 : 이름 3을 Click 해보면... -->

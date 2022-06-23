@@ -56,6 +56,11 @@ public class MyBadgeServiceImpl implements MyBadgeService{
 		myBadgeDao.updateBadgeMyActCount(myBadge);
 	}
 
+	public void updateBadgeMyActCountMinus(MyBadge myBadge) throws Exception {
+		System.out.println("mybadge serviceimp myBadge : "+myBadge);
+		
+		myBadgeDao.updateBadgeMyActCountMinus(myBadge);
+	}
 	
 
 	
