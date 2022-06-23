@@ -145,7 +145,7 @@
 <!-- ///////////////////////////////////////////////////// -->
 		<!-- 모달 구현  -->
 			<div class="row">
-				<a class="btn btn-info" data-toggle="modal" href="/badge/getBadgeList" 
+				<a class="btn btn-danger" data-toggle="modal" href="/badge/getBadgeList" 
 						data-target=".badgeListModal" type="button" 
 						id="openmodal" role="button">배지 전체목록 상세 조회 가기</a>		
 			</div>
@@ -155,12 +155,12 @@
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 Start-->
 			<div class="row" >
 				<img src="/resources/images/uploadFiles/크립토펑크.PNG"  style="width:800px;" alt="..." class="img-thumbnail"><br>
-				<div class="col-md-4" id="fromCenter" >CrytoPunk(크립토 펑크) 배지를 수집하세요.</div>
+				<div class="col-md-4" id="fromCenter" style="width: 330px;" >CrytoPunk(크립토 펑크) 배지를 수집하세요.</div>
 			</div>
 		<!-- 배지들이 어떤 의미를 가지는지? 이미지 End -->	
 		<br><br><br>
 		<!-- 활동 배지 Collapse로 설명 구현 Start -->
-				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
+				<button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
 				  활동 배지
 				</button>
 				
@@ -260,7 +260,7 @@
 		<br>
 		<br>
 		<!-- 관심사 배지 Collapse로 설명 구현 Start -->
-			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample4">
+			<button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample4">
 			  관심사 배지
 			</button>
 			<div class="collapse" id="collapseExample4" style="width:800px;">

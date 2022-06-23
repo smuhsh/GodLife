@@ -36,67 +36,70 @@
 <style>
 	body{
 		font-weight : 600;
+		background-image: url('/resources/images/uploadFiles/PointBackGround.gif');
+		background-repeat: no-repeat;
+		background-size: cover;
 	}	
 
-
-
-
-
-#productName{
-width: 50px;
-height: 30px;
-}
-.cashbutton{
-width: 30px;
-height: 40px;
-}
-#cardpay{
-width: 50px;
-height: 30px;
-}
-#kakaopay{
-width: 50px;
-height: 30px;
-}
-
-.container{
-padding-top: 50px;
-}
-
-fieldset {
-   width: 560px;
-   text-align: center;
-   backgrond-color: white;
-
-}
-
-div.box {
-   width: 500px;
-   height: 220px;
-   box-align:center middle;
-   margin: 0;
-   padding: 5px;
-   display: none;
-   background-color: #9edbff;
-
-}
-
-.detail {
-   color : white ;
-   margin : 0;
-   width: 550px;
-   height: auto;
-   padding-top: 1px;
-   background-color: #070719 ;
-
-
-   text-align: center;
-   font-size: 22px;
-}
-
-#openmodal{
-color:blue;
-}
+	.images{
+		border-radius: 30px;
+	}
+	
+	#productName{
+	width: 50px;
+	height: 30px;
+	}
+	.cashbutton{
+	width: 30px;
+	height: 40px;
+	}
+	#cardpay{
+	width: 50px;
+	height: 30px;
+	}
+	#kakaopay{
+	width: 50px;
+	height: 30px;
+	}
+	
+	.container{
+	padding-top: 70px;
+	}
+	
+	fieldset {
+	   width: 560px;
+	   text-align: center;
+	   backgrond-color: white;
+	
+	}
+	
+	div.box {
+	   width: 500px;
+	   height: 220px;
+	   box-align:center middle;
+	   margin: 0;
+	   padding: 5px;
+	   display: none;
+	   background-color: #9edbff;
+	
+	}
+	
+	.detail {
+	   color : white ;
+	   margin : 0;
+	   width: 550px;
+	   height: auto;
+	   padding-top: 1px;
+	   background-color: #070719 ;
+	
+	
+	   text-align: center;
+	   font-size: 22px;
+	}
+	
+	#openmodal{
+	color:blue;
+	}
 
 </style>
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -243,7 +246,7 @@ $(function() {
                           
                           const displayDetail = 
                              `
-                             <div class="detail">
+                             <div class="detail" style="border-radius: 10% / 50%;margin-top: 30px;">
                           <br>
    
                                   <div id="first">상품 명 :&nbsp \${JSONData.productName} </div>
@@ -292,8 +295,8 @@ $(function() {
          <div class="row" style="height: 150px; width: 1400px;">
          
          	<div class="col-md-3"></div>
-	            <div class="col-md-4" align="center">
-	               <h1 class="text-primary">포인트 상품 전체목록</h1>
+	            <div class="col-md-4" align="center" >
+	               <h1 style="color: #ddb542;">포인트 상품 전체목록</h1>
 	            </div>
 			<div class="col-md-5"></div>
 			<br>
@@ -339,7 +342,7 @@ $(function() {
          <div class="col-md-6">
             <fieldset>
                <hr />
-               <h4>결제방식 :&nbsp
+               <h4 style="color: #ddb542;">결제방식 :&nbsp
                <input type="radio" id="pay" name="payOpt" value="1" onclick="showDiv(this);">계좌이체 &nbsp&nbsp&nbsp&nbsp
                <input type="radio" id="card" name="payOpt" value="2" onclick="showDiv(this);" /> 카드결제&nbsp&nbsp<img src="/resources/images/uploadFiles/card.png" id="cardpay"> &nbsp&nbsp&nbsp&nbsp
                <input type="radio" id="kakao" name="payOpt" value="3" onclick="showDiv(this);" /> 카카오페이&nbsp&nbsp<img src="/resources/images/uploadFiles/kakaopay.jpg" id="kakaopay"></button>
@@ -347,7 +350,7 @@ $(function() {
               
             </fieldset>
              <br>
-            <div id="payBox" class="box" >
+            <div id="payBox" class="box" style="border-radius: 25% 10%;padding-left: 60px;display: block;padding-top: 20px;">
             결제방식 : 계좌이체 &nbsp &nbsp<img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycash">
             <br/>
             <br/>
@@ -364,7 +367,7 @@ $(function() {
 
             </div>
             
-            <div id="cardBox" class="box" >
+            <div id="cardBox" class="box" style="border-radius: 25% 10%; padding-left: 60px;" >
             결제방식 : 카드결제 &nbsp &nbsp <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buycard">
 			<br/>
             결제 및 계좌 안내 시 상호명은 GodLife로 표기되니 참고 부탁드립니다.<br><br>
@@ -376,7 +379,7 @@ $(function() {
             결제대행 서비스 이용약관 (주)아임포트
           <br/>
             </div>
-            <div id="kakaoBox" class="box" >
+            <div id="kakaoBox" class="box" style="border-radius: 25% 10%; padding-left: 60px;" >
             결제방식 : 간편결제 &nbsp &nbsp <img src="/resources/images/uploadFiles/buy.png" class="cashbutton" id="buykakao">
             <br/>
             결제 및 계좌 안내 시 상호명은 GodLife로 표기되니 참고 부탁드립니다.<br><br>
@@ -391,7 +394,7 @@ $(function() {
 	</div>
 	<div class="col-md-6">
 	<hr/>
-	<h4>상품 정보</h4> 
+	<h4 style="color: #ddb542;">상품 정보</h4> 
   		<div id="ajax"></div>
  		</div>
 

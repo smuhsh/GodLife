@@ -52,6 +52,9 @@
 }
 #fromCenter:hover:after { transform: scaleX(1); }
 
+
+
+
 	#dotted {
 	  border: dotted;
 	}
@@ -146,50 +149,62 @@
 	
 	//============= images 에 배지 상세 정보(관리자 모드/수정 삭제로 들어가기)  Event  처리(Click) =============
 	 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-	
-	 if(sessionScope.user.role == '2'){
-		
+
 		 $(function() { 
+			 
 		     $( ".images" ).on("click" , function() {
-		    	 self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
-		     });
-		});
-	 }
-	 if(sessionScope.user.role == '1'){
-	//============= 배지 이미지 클릭시 배지 정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
-	$(function(){
-		$( ".images" ).on("click", function() {
-			var badgeNo = $(this).data("value");
+		    	 
+		    	 if(${sessionScope.user.role == '2'}){
+		    		 
+		    	 	self.location ="/badge/getBadge?badgeNo="+$(this).attr("badgeNo");
+		    	 	
+		    	 }
+		    	 if(${sessionScope.user.role == '1'})
+		    	 {
+		    			//============= 배지 이미지 클릭시 배지 정보보기 Ajax이용 (일반 회원용)  Event  처리(Click) =============
+		    					const badgeNo = $(this).data("param");
+		    			
+		    					 $.ajax( 
+		    			                 {
+		    			                    url : "/badge/json/getBadge/"+badgeNo,
+		    			                    method : "GET",
+		    			                    dataType : "json",
+		    			                    headers : {
+		    			                       "Accept" : "application/json",
+		    			                       "Content-Type" : "application/json"
+		    			                    },
 
-			 $.ajax( 
-	                 {
-	                    url : "/badge/json/getBadge/"+badgeNo,
-	                    method : "GET",
-	                    dataType : "json",
-	                    headers : {
-	                       "Accept" : "application/json",
-	                       "Content-Type" : "application/json"
-	                    },
+		    			                    success : function(JSONData , status) {
+		    			                    	$(JSONData).each(function(){
+		    			                       const displayView =
+		    			                    	   
+		    			                    	   "<div class=\"row\" style=\"width: 500px; background-color:#66c871; padding-left: 30px; border-radius: 50% 20% / 10% 40%;\">" +
+		    			                    	   		"<div class=\"detail\" style=\"width: 450px; \"> <b>:: 배지 명 ::</b> <br>" +
+		    			                    	   		"&nbsp&nbsp&nbsp"  + this.badgeName +"<br>" +
+		    			                    	   		
+		    			                    	   		"<br> <b> :: 배지 상세정보 :: </b> <br>" +
+		    			                    	   		 this.badgeDetail +
+		    			                    	   	"</div>"		
 
-	                    success : function(JSONData , status) {
-	                    	
-	                       const displayDetail = 
-	                    	   `<div class="row">
-		                         	<div class="detail">상품 상세정보: <br/> \${JSONData.badgeDetail} </div>
-	                     		</div>`
-	                       $("div.detail").remove();
-	                       $( "i" ).append(displayDetail);
-	                       console.log(JSONData , status);
-	                 }
-	              }); 
-	        });
-		//=========================================================//
-		 //==> badgeNo LINK Event End User 에게 보일수 있도록 
-	    $( "div.badgeDetailAB" ).css("color" , "red");
-	    $("div.badgeDetailAB").css("font-size", "20px");
-	});	
- }
-	
+		    			                       	$("div.detail").remove();
+
+		    			                       $( "#badgeDetail" ).append(displayView);
+		    			                       console.log(JSONData , status);
+		    			                       
+		    			                       $( "div.detail" ).css("color" , "#daffe4");
+
+		    			                       
+		    			                    	})
+		    			                 }
+		    			              }); 
+		    			        }
+
+		    			});	 
+		    	 });	 	
+		    	 	
+	 
+	 
+
 	</script>
 	
 </head>
@@ -240,28 +255,28 @@
 		<br>
 		<br>
 		<!-- 배지 등급 이미지 설명 입력 Start -->	
-		<div class="row" id="dotted" style="width: 807.5px;">
+		<div class="row" id="dotted" style="width: 807.5px; color: #66c871;">
 				<div class="row" 
 					style="width: 800px;padding-left: 20px;border-right-width: 600px;padding-right: 600px;"
 				 	id="fromCenter">
 					활동 횟수량에 따른 등급 변화 
 				</div>
 			<br>	
-		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 5; width: 180px; ">
+		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 5; width: 180px; color:black ">
 		    	Bronze Badge<br>
 		    	활동 횟수량 : 1 ~ 10
 		    	<img src="/resources/images/uploadFiles/BronzeBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
 		    </div>
 
-		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 30; width: 180px;">
+		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 30; width: 180px; color:black">
 		    	Silver Badge<br>
 		    	활동 횟수량 : 11 ~ 20
 		    	<img src="/resources/images/uploadFiles/SilverBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
 		    			onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'">
 		    </div>
 			    
-		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 30; width: 180px;">
+		    <div class="col-sm-offset-1 col-sm-1" style="margin-left: 30; width: 180px; color:black">
 		    	Gold Badge<br>
 		    	활동 횟수량 : 21 ~ 
 		    	<img src="/resources/images/uploadFiles/GoldBadgeBackGround.PNG" alt="..." class="img-rounded" style="width:150px; height:150px;"
@@ -293,7 +308,7 @@
             	 <!-- Grade가 0일때 Default 배경이미지  -->
 	            	<c:if test="${badge.actCount == 0 }">
 						  <div class="backdefault" >
-						  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+						  	<img badgeNo="${ badge.badgeNo }"   class="images" data-param="${ badge.badgeNo }"
 						  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 				         </div>
@@ -301,7 +316,7 @@
 			    <!-- Grade가 1일때 동색 배경이미지  -->
 	            	<c:if test="${ badge.actCount > 0 && badge.actCount < 11 }">
 					  <div class="backbronze">
-					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" data-param="${ badge.badgeNo }"
 					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
@@ -309,7 +324,7 @@
 			         </c:if>
 			         <c:if test="${badge.actCount > 10 && badge.actCount < 21}">
 					  <div class="backsilver">
-					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" data-param="${ badge.badgeNo }"
 					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
@@ -317,20 +332,16 @@
 		         <!-- Grade가 3일때 금색 배경이미지  -->
 			         <c:if test="${badge.actCount > 20 }">
 					  <div class="backgold">
-					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" data-param="${ badge.badgeNo }"
 					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
 			         </c:if>
 		         <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start //Ajax나오게 하려면 data-value가 필요 -->   
-		               <i  type ="button" class="badgeDetailAB" id="${badge.badgeNo}" style="font-size:15px;" 
-		               		data-value="${ badge.badgeNo }" 
-		               		title="Click : 배지정보 확인" 
-		               		value="${badge.badgeNo}" >
 		               		<div id="fromCenter">
 		               		${badge.badgeName}
 		               		</div>
-		               </i>
+
 		          <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
 		               <input type="hidden" value="${badge.badgeNo}" >
 				  </div>
@@ -366,7 +377,7 @@
             	 <!-- Grade가 0일때 Default 배경이미지  -->
 	            	<c:if test="${badge.actCount == 0 }">
 						  <div class="backdefault">
-						  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+						  	<img badgeNo="${ badge.badgeNo }"   class="images" data-param="${ badge.badgeNo }"
 						  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 				         </div>
@@ -374,7 +385,7 @@
 			    <!-- Grade가 1일때 동색 배경이미지  -->
 	            	<c:if test="${ badge.actCount > 0 && badge.actCount < 11 }">
 					  <div class="backbronze">
-					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" data-param="${ badge.badgeNo }"
 					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
@@ -382,7 +393,7 @@
 			         </c:if>
 			         <c:if test="${badge.actCount > 10 && badge.actCount < 21}">
 					  <div class="backsilver" >
-					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" data-param="${ badge.badgeNo }"
 					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
@@ -390,25 +401,28 @@
 		         <!-- Grade가 3일때 금색 배경이미지  -->
 			         <c:if test="${badge.actCount > 20 }">
 					  <div class="backgold">
-					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" data-param="${ badge.badgeNo }"
 					  		  src="/resources/images/uploadFiles/${badge.badgeImg }"
 			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
 			         </div>
 			         </c:if>
 		         <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start //Ajax나오게 하려면 data-value가 필요 -->   
-		               <i  class="glyphicon glyphicon-search" id="${badge.badgeNo}" style="font-size:15px;" 
-		               		data-value="${ badge.badgeNo }" 
-		               		title="Click : 배지정보 확인" 
-		               		value="${badge.badgeNo}" >
 		               		<div id="fromCenter">
 		               		${badge.badgeName}
 		               		</div>
-		               </i>
+
 		          <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
 		               <input type="hidden" value="${badge.badgeNo}" >
 				  </div>
 				 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 End -->
 			  </c:forEach>
+			  <br><br><br><br><br><br><br><br><br><br><br><br><hr/>
+			  
+			  <div class="row">
+				  <div class="col-md-1" >
+				  	<div type="hidden" id="badgeDetail" name="badgeNo" class="badgeDetail" value="${badge.badgeNo}"></div>
+				  </div>
+			  </div>		  
 		</div>
 		<br>
 		<br>
@@ -417,7 +431,6 @@
          <!--  화면구성 div End /////////////////////////////////////-->
 
 		<!--  table End /////////////////////////////////////-->	
-
       </div>
    </form>
 </body>

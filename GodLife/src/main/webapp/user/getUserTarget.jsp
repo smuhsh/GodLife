@@ -315,7 +315,7 @@ $(function() {
 					<button type="button" class="btn active btn_join" id="writeBtn1">블랙리스트 등록</button>
 					  <button type="button" class="btn active btn_join" id="myBtn">쪽지 보내기</button>
 					  
-					  <!-------------- 쪾지보내기 모달 시작------------------------------- -->
+					  <!-------------- 쪽지보내기 모달 시작------------------------------- -->
 					 
     <!-- The Modal -->
     <div id="myModal" class="modal">

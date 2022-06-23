@@ -37,10 +37,20 @@ crossorigin="anonymous"></script>
                $("#pages").remove();
                $("#flat").html(dis);
                   var url;
+                  var certiImgOpt = $("input[name='certiImgOpt']").val();
+                  var orderCondition = $("select[name='orderCondition']").val();
+                  var searchCondition = $("select[name='searchCondition']").val();
                if(${empty certiImgOpt}){
                  url = "/challenge/challengeRest/getChallengeCertiImgList?pageNo="+page;
                }else{
-                 url = "/challenge/challengeRest/getChallengeCertiImgList?pageNo="+page+"&certiImgOpt=my";
+                 url = "/challenge/challengeRest/getChallengeCertiImgList?pageNo="+page+"&certiImgOpt="+certiImgOpt;
+               }
+               
+               if(orderCondition != 0){
+            	   url = url + "&orderCondition="+orderCondition;
+               }
+               if(searchCondition != 3){
+            	   url = url + "&searchCondition="+searchCondition;
                }
                
                   $.ajax({
@@ -56,13 +66,13 @@ crossorigin="anonymous"></script>
                               var user = "${user.userEmail}";
                               console.log(this.certiImg);
                               var displayView = "<div class=\"thumbnail\">"+
-                              "<img style=\"width:700px; height:700px; position:relative; top:30px;\" src=\"/resources/images/uploadFiles/"+this.certiImg+
+                              "<img style=\"width:700px; height:700px; position:relative; top:30px;\"data-param=\""+this.user.userEmail+"\" src=\"/resources/images/uploadFiles/"+this.certiImg+
                               "\" onerror=\"this.src='https://dummyimage.com/700x700/1af0d4/000000.gif'\">"+
                               "<div class=\"caption\">"+
                               "<div id=\"user-info\">"+
                               "<img id=\"profile\" src=\"/resources/images/uploadFiles/"+this.user.profileImg+"\""+
                               "onerror=\"this.src='/resources/images/Default-Profile-Picture-Free-PNG-Image.png'\">"+
-                              "<p id=\"user\">"+this.user.nick+"</p>"+
+                              "<p id=\"user\" data-param=\""+this.user.userEmail+"\">"+this.user.nick+"</p>"+
                               "</div>"+
                               "<div class=\"info\">"+
                               "<p class=\"font-size\">관심사 : "+this.categName+"<p>"+
@@ -87,7 +97,11 @@ crossorigin="anonymous"></script>
                                   "&nbsp;"+
                                   "<p class=\"font-size\" id=\"dislike\">"+this.dislike+"<p>";
                               }
-                              displayView = displayView +"</div>"+
+                              displayView = displayView +"</div>";
+                              if(${!empty certiImgOpt}){
+                            	  displayView = displayView + "<p class=\"font-size\" id=\"cerit-img-delete\" data-param=\""+this.certiImgNo+"\" data-param2=\""+this.user.userEmail+"\" style=\"cursor: pointer;\">[삭제]</p>";
+                              }
+                              displayView = displayView +
                               "<center id=\"com-btn"+this.certiImgNo+"\">"+
                               "<button type=\"button\" id=\"comment-btn-open\"class=\"btn btn-default\" data-param = \""+this.certiImgNo+"\">댓글 펼치기/접기</button>"+
                               "</center>"+
@@ -107,6 +121,88 @@ crossorigin="anonymous"></script>
              })
            });
          
+      
+      	$(function(){
+      		$(document).on("click","#cerit-img-delete",function(){
+      			var certiImgNo = $(this).data("param");
+        		console.log(certiImgNo);
+        		var currentPage = $("input[name='page']").val();
+        		var certiImgOpt = "${certiImgOpt}";
+        		var userEmail = $(this).data("param2");
+        		console.log(certiImgOpt);
+        		$.ajax({
+        			url:"/challenge/challengeRest/deleteChallengeCertiImgList",
+        			method:"POST",
+        			dataType:"json",
+        			headers:{
+        				"Accept":"application/json",
+						"Content-Type":"application/json"
+        			},
+        			data:JSON.stringify({
+        				certiImgNo:certiImgNo,
+        				currentPage:currentPage,
+        				certiImgOpt,certiImgOpt,
+        				userEmail:userEmail
+        			}),
+        			success:function(JSONData){
+                        $(".thumbnail").remove();
+                        var displayView;
+        				$(JSONData).each(function(){
+                            var user = "${user.userEmail}";
+                            console.log(this.certiImg);
+                            displayView = "<div class=\"thumbnail\">"+
+                            "<img style=\"width:700px; height:700px; position:relative; top:30px;\" src=\"/resources/images/uploadFiles/"+this.certiImg+
+                            "\" onerror=\"this.src='https://dummyimage.com/700x700/1af0d4/000000.gif'\">"+
+                            "<div class=\"caption\">"+
+                            "<div id=\"user-info\">"+
+                            "<img id=\"profile\" src=\"/resources/images/uploadFiles/"+this.user.profileImg+"\""+
+                            "onerror=\"this.src='/resources/images/Default-Profile-Picture-Free-PNG-Image.png'\">"+
+                            "<p id=\"user\">"+this.user.nick+"</p>"+
+                            "</div>"+
+                            "<div class=\"info\">"+
+                            "<p class=\"font-size\">관심사 : "+this.categName+"<p>"+
+                            "</div>"+
+                            "<div id=\"bord\"></div>"+
+                            "<div class=\"like-dislike\" id=\"review"+this.certiImgNo+"\">";
+                            if(this.likeAndDislikeFlag == 1){
+                          	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+this.certiImgNo+"\" style=\"color:#75bdff; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
+                          	  "&nbsp;"+
+                          	  "<p class=\"font-size\" id=\"like\" style=\"color:#75bdff\" >"+this.like+"<p>";
+                            }else if(this.likeAndDislikeFlag != 1){
+                          	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"like-btn\" data-param=\""+this.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></p>"+
+                          	  "&nbsp;"+
+                          	  "<p class=\"font-size\" id=\"like\" >"+this.like+"<p>";
+                            }
+                            if(this.likeAndDislikeFlag == 2){
+                          	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+this.certiImgNo+"\" style=\"color:#ff6e63; cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
+                                "&nbsp;"+
+                                "<p class=\"font-size\" id=\"dislike\" style=\"color:#ff6e63\">"+this.dislike+"<p>";
+                            }else if(this.likeAndDislikeFlag != 2){
+                          	  displayView = displayView + "<p class=\"like-dislike-model\" id=\"dislike-btn\" data-param=\""+this.certiImgNo+"\" style=\"cursor:pointer;\"><span class=\"glyphicon glyphicon-thumbs-down\" aria-hidden=\"true\"></span></p>"+
+                                "&nbsp;"+
+                                "<p class=\"font-size\" id=\"dislike\">"+this.dislike+"<p>";
+                            }
+                            displayView = displayView +"</div>";
+                            if(${!empty certiImgOpt}){
+                          	  displayView = displayView + "<p class=\"font-size\" id=\"cerit-img-delete\" data-param=\""+this.certiImgNo+"\" data-param2=\""+this.user.userEmail+"\" style=\"cursor: pointer;\">[삭제]</p>";
+                            }
+                            displayView = displayView +
+                            "<center id=\"com-btn"+this.certiImgNo+"\">"+
+                            "<button type=\"button\" id=\"comment-btn-open\"class=\"btn btn-default\" data-param = \""+this.certiImgNo+"\">댓글 펼치기/접기</button>"+
+                            "</center>"+
+                            "<div id=\"comment"+this.certiImgNo+"\">"+
+                             "<div id=\"comment-list"+this.certiImgNo+"\">"+
+                             "</div>"+
+                              "</div>"+
+                            "</div>"+
+                            "</div>";
+                            $("#infinit-scroll").append(displayView);
+        			})
+        				
+        			}
+        		});
+      		});
+      	});
       
         $(function(){
         	$(document).on("click","#dislike-btn",function(){
@@ -666,6 +762,40 @@ crossorigin="anonymous"></script>
                
             });
             
+         
+         $(function(){
+        	$(document).on("click","#user",function(){
+        		var email = $(this).data("param");
+        		self.location="/user/getUserTarget?userEmail="+email;
+        	});
+        	
+        	$(document).on("click","img#profile",function(){
+        		var email = $(this).data("param");
+        		self.location="/user/getUserTarget?userEmail="+email;
+        	});
+         
+         	
+        	$("button#search").on("click",function(){
+	        	  var orderCondition = $("select[name='orderCondition']").val();
+	              var searchCondition = $("select[name='searchCondition']").val();
+        		  var url;
+        		
+        		  if(${empty certiImgOpt}){
+                    url = "/challenge/listChallengeCertiImg";
+                    url = url + "?orderCondition="+orderCondition;
+      			  	url = url + "&searchCondition="+searchCondition;
+                  }else{
+                    url = "/challenge/listChallengeCertiImg?certiImgOpt="+certiImgOpt;
+                    url = url + "&orderCondition="+orderCondition;
+      			  	url = url + "&searchCondition="+searchCondition;
+                  }
+        		
+        		self.location = url;
+        	});
+         
+         
+         });
+        
  //////////////////////////////////////////////////////////////////////////////////////////
          
          
@@ -676,14 +806,42 @@ crossorigin="anonymous"></script>
 <body>
 <jsp:include page="/layout/toolbar.jsp" />
 
+  <input type="hidden" name="certiImgOpt" value="${certiImgOpt }">
    <div class="container">
-   
+   						
       <div class="page-header">
-        <c:if test="${!empty certiImgOpt }">
+      					<div class="input-group" id="search-opt">
+						  		<div class="form-group">
+								    <select class="form-control" name="orderCondition" >
+								    	<option value="0">관심사</option>
+										<option value="1" ${search.orderCondition == 1 ? "selected" : "" }>운동</option>
+										<option value="2" ${search.orderCondition == 2 ? "selected" : ""}>식습관</option>
+										<option value="3" ${search.orderCondition == 3 ? "selected" : "" }>공부</option>
+										<option value="4" ${search.orderCondition == 4 ? "selected" : ""}>취미</option>
+										<option value="5" ${search.orderCondition == 5 ? "selected" : "" }>생활</option>
+									</select>
+								 </div>
+								  &nbsp;
+							  	<div class="form-group">
+								    <select class="form-control" name="searchCondition" >
+								    	<option value="3">정렬 옵션</option>
+										<option value="1" ${search.searchCondition == "1" ? "selected" : "" }>신규</option>
+										<option value="2" ${search.searchCondition == "2" ? "selected" : ""}>인기</option>
+									</select>
+								 </div>
+								  &nbsp;
+						  		<button class="btn btn-default" id="search">검색</button>
+						 	 </div>
+        <c:if test="${certiImgOpt == 'my' }">
            <p id="header">내가 인증한 이미지 목록</p>
         </c:if>
         <c:if test="${empty certiImgOpt }">
             <p id="header">인증 이미지 목록</p>
+        </c:if>
+        <c:if test="${certiImgOpt != 'my' }">
+            <c:if test="${!empty certiImgOpt }">
+           		 <p id="header">${certiImgOpt}님의 인증이미지</p>
+        	</c:if>
         </c:if>
       </div>
    
@@ -700,9 +858,10 @@ crossorigin="anonymous"></script>
                   onerror="this.src='https://dummyimage.com/700x700/1af0d4/000000.gif'">
                <div class="caption">
                   <div id="user-info">
-                     <img id="profile" src="/resources/images/uploadFiles/${certiImt.user.profileImg }"
+                     <img id="profile" data-param="${certiImg.user.userEmail }"
+                     	src="/resources/images/uploadFiles/${certiImt.user.profileImg }"
                           onerror="this.src='/resources/images/Default-Profile-Picture-Free-PNG-Image.png'">
-                    <p id="user">${certiImg.user.nick }</p>
+                    <p id="user" data-param="${certiImg.user.userEmail }">${certiImg.user.nick }</p>
                  </div>
                    <div class="info">
                       <p class="font-size">관심사 : ${certiImg.categName }<p>
@@ -733,8 +892,10 @@ crossorigin="anonymous"></script>
 	                         &nbsp;
 	                         <p class="font-size" id="dislike">${certiImg.dislike }<p>
                          </c:if>
-                         
                       </div>
+                      	 <c:if test="${certiImgOpt == 'my'}">
+                         	 <p class="font-size" id="cerit-img-delete" data-param="${certiImg.certiImgNo }" data-param2="${certiImg.user.userEmail }" style="cursor: pointer;">[삭제]</p>
+                         </c:if>
                    </div>
                    <center id="com-btn${certiImg.certiImgNo }">
                       <button type="button" id="comment-btn-open" class="btn btn-default" 

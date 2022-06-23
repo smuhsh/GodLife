@@ -77,6 +77,7 @@ $(function() {
 	
   var phone=$("input[name='phone']").val();
   var phone2=$("input[name='phone2']").val();
+  var successPhoneCkt = $(".successPhoneChk").text();
   
   if(phone == null || phone.length < 8){
 	  alert("핸드폰 번호를 다시 확인해주세요.");
@@ -85,8 +86,14 @@ $(function() {
   
   if(phone2 == null || phone2.length < 4){
 	  alert("인증번호를 다시 확인해주세요");
-		return;
+		return;ㄴ
   }
+  
+  if(successPhoneCkt != '인증번호가 일치합니다.'   ){
+	 // alert("@@뭐나오냐..."+successPhoneCkt);
+		alert("인증번호가 일치하지 않습니다. ");
+		return;
+				}
 	
 		$("form").attr("method" , "POST").attr("action" , "/user/findUserEmail").submit();
 	});

@@ -139,7 +139,7 @@ div#menu-bar{
 
 
             <c:if test="${user.userEmail != null && user.userEmail !=\"\"}">
-                <img src="/images/uploadFiles/${sessionScope.user.profileImg}" id="profileImg"> &nbsp; <div id="profile">닉네임 : ${sessionScope.user.nick }<br>포인트 : ${sessionScope.user.totalPoint }</div>
+                <img src="/images/uploadFiles/${sessionScope.user.profileImg}"  onerror="this.onerror=null; this.src='https://via.placeholder.com/240X200?text=No Image';"    id="profileImg"> &nbsp; <div id="profile">닉네임 : ${sessionScope.user.nick }<br>포인트 : ${sessionScope.user.totalPoint }</div>
                <br>
                 <li class="service_center_item">
                <a class="service_center"> 마이페이지</a>
@@ -247,7 +247,7 @@ div#menu-bar{
                   <li><a href="/product/getProductCouponList">쿠폰 관리</a></li>
                   <li><a href="/badge/getBadgeList">배지 관리</a></li>
                   <li><a href="/operator/listOperatorEvents">이벤트 관리</a></li>
-                  <li><a class="링크">이벤트참여자 관리</a></li>
+                  <li><a href="/operator/listOperatorJoinEvent">이벤트참여자 관리</a></li>
                   <li><a href="/operator/listOperatorNotice">공지사항 관리</a></li>
                   <li><a href="/operator/listOperatorFaqs">FAQ 관리</a></li>
                </ul>

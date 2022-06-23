@@ -21,6 +21,18 @@
 
 <script type="text/javascript" >
 
+//==>"이메일" 유효성Check  Event 처리 및 연결
+$(function() {
+	 
+	 $("input[name='userEmail']").on("change" , function() {
+		 var email=$("input[name='userEmail']").val();
+		 if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1) ){ // 이메일형식이 아니니까 가입 x 
+	    	alert("이메일 형식이 아닙니다.");
+			 
+	     }
+	});
+});	
+
 //휴대폰 번호 인증
 $(function(){
 	 
@@ -76,6 +88,10 @@ $(function() {
 var id=$("input[name='userEmail']").val();	
   var phone=$("input[name='phone']").val();
   var phone2=$("input[name='phone2']").val();
+  var successPhoneCkt = $(".successPhoneChk").text();
+	console.log(   "successPhoneCkt" + successPhoneCkt ) ; 
+  
+  
   
   if(id == null || id.length <1){
 		alert("이메일은 반드시 입력하셔야 합니다.");
@@ -86,6 +102,11 @@ var id=$("input[name='userEmail']").val();
 	  alert("핸드폰 번호를 다시 확인해주세요.");
 		return;
   }
+
+  if(successPhoneCkt != '인증번호가 일치합니다.'   ){
+	alert("인증번호가 일치하지 않습니다. ");
+	return;
+			}
   
   if(phone2 == null || phone2.length < 4){
 	  alert("인증번호를 다시 확인해주세요");

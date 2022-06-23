@@ -34,18 +34,19 @@
 											and f.f_b_status = '1'
 											and f.acc_status = '2'
 											and f.user_email = #{userEmail}
-											union
+											UNION
 											select u.user_email, u.nick, u.profile_img, f.friend_black_no
 											from users u, friend_blacks f 
 											where u.user_email = f.user_email 
 											and f.f_b_status = '1'
 											and f.acc_status = '2'
 											and f.target_email = #{userEmail}
-											<where>
-											<if test="searchCondition == 0 and searchKeyword !='' ">
-											AND u.nick = #{searchKeyword}
+											<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+											AND u.user_email = #{search.searchKeyword}
 											</if>
-											</where>
+											<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+											AND u.nick = #{search.searchKeyword}
+											</if>
 											 ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
@@ -66,8 +67,11 @@
 											u.user_email = f.target_email 
 											AND f.f_b_status = '2' 
 											AND f.user_email = #{userEmail} 
-											<if test="searchCondition == 0 and searchKeyword !='' ">
-											AND u.nick = #{searchKeyword}
+											<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+											AND u.user_email = #{search.searchKeyword}
+											</if>
+											<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+											AND u.nick = #{search.searchKeyword}
 											</if>
 											</where>
 											ORDER BY f.friend_black_no ) inner_table

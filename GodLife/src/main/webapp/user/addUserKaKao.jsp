@@ -24,6 +24,9 @@
 	<!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
+	var nick33 = 0; 
+	var phone22 = 0;
+	
 	
 	   //==>"닉네임" 중복검사 Event 처리 및 연결(완료)
 	
@@ -41,15 +44,41 @@
 		                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 닉네임
 		                    $('.id_ok2').css("display","inline-block"); 
 		                    $('.id_already2').css("display", "none");
+		                    nick33 = 0;
 		                } else { // cnt가 1일 경우 -> 이미 존재하는 닉네임
 		                    $('.id_already2').css("display","inline-block");
 		                    $('.id_ok2').css("display", "none");
+		                    nick33 = 1; // 1이 아니여야 가입가능  
 		                    alert("닉네임을 다시 입력해주세요");
 		                }
 		            },
 		            
 		        });
 		        };
+	        
+		        
+    	//==>"핸드폰" 중복검사 Event 처리 및 연결(완료)
+		
+		function checkUserPhone(){
+	        var phone = $('#phone').val(); //
+	        
+	        $.ajax({
+	        	 url: '/user/json/checkPhone', //Controller에서 요청 받을 주소
+	            type:'post', //POST 방식으로 전달
+	            data:{phone:phone},
+	       
+	            success:function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
+	                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 회원가입 가능한 핸드폰번호  
+	                    phone22 = 0; // 1이아니여야 가입가능  
+	                } else { // cnt가 1일 경우 -> 이미 존재하는 핸드폰번호라서 가입 불가능
+	                    phone22 = 1; // 1이아니여야 가입가능  
+	                }
+	            },
+	            error:function(){
+	                alert("에러입니다");
+	            }
+	        });
+	        };
 		        
 		        
 		    	//휴대폰 번호 인증
@@ -119,15 +148,27 @@
 						return;
 					}
 					
-					if(     successPhoneCkt != '인증번호가 일치합니다.'   ){
-						alert("인증번호를 확인해 주세요 ");
+					if(nick33 != 0){
+						//alert("닉네임 체크값"+nick33);
+						alert("이미 등록된 닉네임입니다.");
 						return;
-								}
-						
+					}
+					
+					if(phone22 != 0){
+						//alert("@@핸드폰번호 값 뭐나오니...."+phone22)
+						alert("이미 가입된 핸드폰번호입니다. ");
+						return;
+					}
+					
 					if ($("#phone").val() == "" || $("#phone").val().length != 11 || isNaN($("#phone").val())) {
 						alert("휴대폰번호를 정확히 입력해 주세요");
 						return;
 					}
+					
+					if(successPhoneCkt != '인증번호가 일치합니다.'   ){
+						alert("인증번호가 일치하지 않습니다. ");
+						return;
+								}
 					
 					$("form").attr("method" , "POST").attr("action" , "/user/addUserKaKao").submit();
 				}

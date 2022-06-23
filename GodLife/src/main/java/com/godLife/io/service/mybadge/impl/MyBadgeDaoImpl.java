@@ -77,6 +77,13 @@ public class MyBadgeDaoImpl implements MyBadgeDao{
 		sqlSession.update("MyBadgeMapper.updateBadgeMyActCount", myBadge);
 	}
 	
+	// 인증이미지 삭제시 활동 횟수량 감소
+	public void updateBadgeMyActCountMinus(MyBadge myBadge) throws Exception{
+		sqlSession.update("MyBadgeMapper.updateBadgeMyActCountMinus", myBadge);
+	}
+	
+	
+	
 	public int getTotalCount(Search search, User user, Badge badge) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
