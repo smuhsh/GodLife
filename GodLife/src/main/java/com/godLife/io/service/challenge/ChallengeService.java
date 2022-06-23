@@ -53,5 +53,7 @@ public interface ChallengeService {
 	public List<Review> getChallengeMoreCommentList(Map<String,Object> map);
 	
 	public void deleteChallengeReviewLike(Map<String,Object> map);
-
+	
+	//moon
+	public Map<String,Object> getChallengeTargetList(JoinChallenger joinChallenger);
 }

@@ -54,5 +54,6 @@ public interface ChallengeDao {
 	
 	public void deleteChallengeReviewLike(Map<String,Object> map);
 	
-	
+	//moon
+		public Map<String,Object> getChallengeTargetList(JoinChallenger joinChallenger);
 }

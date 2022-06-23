@@ -143,10 +143,18 @@ public interface UserDao {
 ////////////////////////////신고 ////////////////////////////////////////////
     
     // 쪽지 신고 등록 
-    public void addMsgReport(Report report) throws Exception ;
+    public void addUserReport(Report report) throws Exception ;
     
-    //쪽지 신고 중복방지
-    public int checkMsgReport(Map<String, String> map);
+  //쪽지 신고 중복방지 
+    public int checkMsgReport(Report report) throws Exception;
+    
+    //인증이미지 신고 중복방지 
+    public int checkCertiImgReport(Report report) throws Exception;
+    
+    //댓글 신고 중복방지 
+    public int checkCommentReport(Report report) throws Exception;
+    
+    
     
     //신고 유저 목록조회(관리자) 
     public List<User> getUserReportList(Search search) throws Exception ;
@@ -168,7 +176,7 @@ public interface UserDao {
     
     
     
-    
+    public void updateUserRedCouponCountUse(User user) throws Exception;
     
     //레드카드 발급, 제거 
     public void updateRedCard(User user) throws Exception; 

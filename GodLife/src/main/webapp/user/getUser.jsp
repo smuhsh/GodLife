@@ -61,9 +61,18 @@ float : center;
 		//============= 쿠폰사용 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $("#writeBtn1" ).on("click" , function() {
-				 $("form").attr("method" , "GET").attr("action" , "/user/updateUserRedCouponCount").submit();
-				});
+			 $("#useRedCoupon" ).on("click" , function() {
+				 if(${user.redCardCount}<1){
+					 alert("지급받은 레드카드가 없습니다.");
+				 }else if(${user.redCardCount}>=1){
+					 if(${user.redCouponCount}<1){
+						 alert("보유 쿠폰이 부족합니다.");
+					 }else{
+					location.href="/user/updateUserRedCouponCountUse"
+					 }
+				 }
+				 
+			});
 		});
 		
 	</script>
@@ -133,7 +142,7 @@ float : center;
 					<tr class="reportCount">
 						<th>신고 보유 개수</th>
 						<td>
-								<input type="text" value=""  name="rc" id="rc" placeholder="${user.rc}"  readonly/>
+								<input type="text" value=""  name="rc" id="rc" placeholder="${user.reportCount}"  readonly/>
 						</td>
 					</tr>
 					
@@ -141,7 +150,7 @@ float : center;
 						<th>레드카드 개수</th>
 						<td>
 								<input type="text" value=""  name="redCardCount" id="redCardCount" placeholder="${user.redCardCount}" readonly/>
-								<button style="WIDTH: 60pt; HEIGHT: 30pt" type="button" class="btn active btn_join" id="writeBtn1">쿠폰 사용</button>
+								<button style="WIDTH: 60pt; HEIGHT: 30pt" type="button" class="btn active btn_join" id="useRedCoupon">쿠폰 사용<p style="font-size: 10px;">${user.redCouponCount}장 보유</p></button>
 						</td>
 					</tr>
 					

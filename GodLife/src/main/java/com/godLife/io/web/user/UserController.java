@@ -1,6 +1,7 @@
 package com.godLife.io.web.user;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,7 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.godLife.io.common.Page;
 import com.godLife.io.common.Search;
+import com.godLife.io.service.challenge.ChallengeService;
+import com.godLife.io.service.domain.Badge;
+import com.godLife.io.service.domain.Challenge;
 import com.godLife.io.service.domain.FriendBlack;
+import com.godLife.io.service.domain.JoinChallenger;
 import com.godLife.io.service.domain.Msg;
 import com.godLife.io.service.domain.MyBadge;
 import com.godLife.io.service.domain.OneInq;
@@ -50,6 +55,11 @@ public class UserController {
    private MyBadgeService myBadgeService;
    ///배지 추가를 위한 Injection//////////////////
    
+   //챌린지 리스트를 위한
+   @Autowired
+   @Qualifier("challengeServiceImpl")
+   private ChallengeService challengeService;
+   /////////////////
    //setter Method 구현 않음
       
    public UserController(){
@@ -241,7 +251,7 @@ public class UserController {
    }
    
    @GetMapping( value="getUserTarget") // 타유저정보조회, 배지랑 챌린지관련 부분 안됨  
-   public String getUserTarget( @RequestParam("userEmail") String userEmail, Model model) 
+   public String getUserTarget( @RequestParam("userEmail") String userEmail, Model model,Search search,Map<String,Object> map,Badge badge,JoinChallenger joinChallenger) 
                      throws Exception {
                
       System.out.println("타유저 상세조회 시작");
@@ -249,6 +259,46 @@ public class UserController {
       //Business Logic
       User user = userService.getUser(userEmail);
       // Model 과 View 연결
+      
+      //badge
+      if(user.getCategNo()==1) {
+    	  search.setSearchCondition("1");
+      }
+      else if(user.getCategNo()==2) {
+    	  search.setSearchCondition("2");
+      }
+      else if(user.getCategNo()==3) {
+    	  search.setSearchCondition("3");
+      }
+      else if(user.getCategNo()==4) {
+    	  search.setSearchCondition("4");
+      }
+      else if(user.getCategNo()==5) {
+    	  search.setSearchCondition("5");
+      }
+      
+      map = myBadgeService.getBadgeMyList(search, user, badge);
+      
+      List<Object> list1 = (List<Object>) map.get("list1");
+      System.out.println(list1);
+      
+      List<Object> list2 = (List<Object>) map.get("list2");
+      System.out.println(list2);	
+      
+      model.addAttribute("list1", list1);
+	  model.addAttribute("list2", list2);
+      
+	  
+      //join challenge
+      joinChallenger.setEmail(userEmail);
+      
+      map =challengeService.getChallengeTargetList(joinChallenger);
+      
+      List<JoinChallenger> list3 = (List<JoinChallenger>)map.get("list3");
+      
+      model.addAttribute("list3",list3);
+      
+      
       model.addAttribute("user", user);
       
       return "forward:/user/getUserTarget.jsp"; // 타유저 상세페이지 조회 
@@ -996,10 +1046,9 @@ public class UserController {
    ////////////////////////////////신고 관리/////////////////////////////////////////////////////////
    
    //쪽지 신고등록 
-   @PostMapping( value="addMsgReport") // 완료 (닉네임으로 하면안됨...) 
-   public String addMsgReport( @ModelAttribute("report") Report report,  
-		   					   @RequestParam("targetEmail") String targetEmail, 
-		   					   @RequestParam("msgNo") int msgNo,
+   @PostMapping( value="addUserReport") // 완료 (닉네임으로 하면안됨...) 
+   public String addUserReport( @ModelAttribute("report") Report report,  
+		   					  
 		   					Model model, HttpSession session) throws Exception {
 	   						   
       System.out.println("쪽지 신고등록 시작");
@@ -1009,75 +1058,64 @@ public class UserController {
       report.setReporterEmail(user.getUserEmail()); // 신고자 세션으로 박아버리기 
       
       System.out.println("@@@@데이터 잘나오니..."+report);
-      
+      int msgNo=report.getMsgNo();
+      int ceritImgNo=report.getCertiImgNO();
+      int commentNo=report.getCommentNo();
       //쪽지 신고 중복방지 
-      int checkMsgReport = userService.checkMsgReport(user.getUserEmail(), targetEmail, msgNo);
-      
-      System.out.println("개수@@@::"+checkMsgReport);
-      
-      if(checkMsgReport > 0) {
+      if(msgNo!=0 && ceritImgNo==0 && commentNo==0) {
+        int checkMsgReport = userService.checkMsgReport(report);
+        System.out.println("개수@@@::"+checkMsgReport);
     	  
+        if(checkMsgReport > 0) {
     	  //이미 같은 쪽지번호에 대상이메일을 신고했다는 거니까.. 신고 안되게 
     	  model.addAttribute("msg", "이미 신고접수가 완료되었습니다.");
     	  model.addAttribute("url", "/user/getUserRecvMsg?msgNo="+msgNo);
-    	  return "alert.jsp";
-     
-      }else { //신고가능 
-    	   
-          userService.addMsgReport(report);
-          model.addAttribute("msg", "신고 접수가 완료되었습니다.");
-          model.addAttribute("url","/user/getUserRecvMsg?msgNo="+msgNo);  
-          return "alert.jsp";
-      }
- 
-   }
-   
-   //레드카드 소멸쿠폰 사용 (값이 계쏙 안바뀜) 
-   @GetMapping("updateUserRedCouponCount")
-   public String updateUserRedCouponCount(HttpSession session, Model model) throws Exception{
+        	 return "alert.jsp";
+        }else if(checkMsgReport==0){ //신고가능 
+         userService.addUserReport(report);
+         System.out.println("신고하기 완료");
+         model.addAttribute("msg", "신고 접수가 완료되었습니다.");
+         model.addAttribute("url","/user/getUserRecvMsg?msgNo="+msgNo);  
+        	return "alert.jsp";
+        }
+     }
+      if(ceritImgNo!=0 && commentNo==0 && msgNo==0) {
+          int checkCertiImgReport = userService.checkCertiImgReport(report);
+          System.out.println("개수@@@::"+checkCertiImgReport);
+      	  
+          if(checkCertiImgReport > 0) {
+      	  //이미 같은 쪽지번호에 대상이메일을 신고했다는 거니까.. 신고 안되게 
+      	  model.addAttribute("msg", "이미 신고접수가 완료되었습니다.");
+      	  model.addAttribute("url", "/user/getUserRecvMsg?msgNo="+msgNo);
+          	 return "alert.jsp";
+          }else if(checkCertiImgReport==0){ //신고가능 
+           userService.addUserReport(report);
+           System.out.println("신고하기 완료");
+           model.addAttribute("msg", "신고 접수가 완료되었습니다.");
+           model.addAttribute("url","/user/getUserRecvMsg?msgNo="+msgNo);  
+          	return "alert.jsp";
+          }
+       }
+      if(commentNo!=0 && msgNo==0 && ceritImgNo==0) {
+          int checkCommentReport = userService.checkCommentReport(report);
+          System.out.println("개수@@@::"+checkCommentReport);
+      	  
+          if(checkCommentReport > 0) {
+      	  //이미 같은 쪽지번호에 대상이메일을 신고했다는 거니까.. 신고 안되게 
+      	  model.addAttribute("msg", "이미 신고접수가 완료되었습니다.");
+      	  model.addAttribute("url", "/user/getUserRecvMsg?msgNo="+msgNo);
+          	 return "alert.jsp";
+          }else if(checkCommentReport==0){ //신고가능 
+           userService.addUserReport(report);
+           System.out.println("신고하기 완료");
+           model.addAttribute("msg", "신고 접수가 완료되었습니다.");
+           model.addAttribute("url","/user/getUserRecvMsg?msgNo="+msgNo);  
+          	return "alert.jsp";
+          }
+       }
       
-      System.out.println("쿠폰사용... ");
-      
-      User user = (User)session.getAttribute("user");
-      System.out.println("유저 : "+user);
-      
-      //레드카드 쿠폰 개수가 0개일때 
-      if(user.getRedCouponCount() < 1) {
-    	  
-    	  model.addAttribute("msg", "레드카드 쿠폰 개수를 확인해주세요");
-          model.addAttribute("url","/user/getUser?userEmail="+user.getUserEmail()); // 다시 본인 상세조회로 이동  
-          
-          return "alert.jsp";
-      }
-      
-      //레드카드 개수가 0개일때 
-      if(user.getRedCardCount() < 1) {
-    	  
-    	  model.addAttribute("msg", "보유한 레드카드가 없습니다.");
-          model.addAttribute("url","/user/getUser?userEmail="+user.getUserEmail()); // 다시 본인 상세조회로 이동  
-          
-          return "alert.jsp";
-    	  
-      }else{
-    	  
-          userService.updateUserRedCouponCount(user);
-          
-          int redCouponCount = user.getRedCouponCount()-1;
-          System.out.println("레드카드쿠폰개수 : " + redCouponCount);
-          user.setRedCardCount(redCouponCount); // 레드카드쿠폰개수 한개뺸걸로 박아버리기...  
-          
-          int redCardCount = user.getRedCardCount()-1;
-          System.out.println("레드카드개수나와라..."+redCardCount);
-          user.setRedCardCount(redCardCount); //레드카드개수도 한개뺀걸로 박아버리기
-          
-          model.addAttribute("msg", "쿠폰 사용이 완료되었습니다.");
-          model.addAttribute("url","/user/getUser?userEmail="+user.getUserEmail()); // 다시 본인 상세조회로 이동  
-          
-          return "alert.jsp";
-    	  
-      }
-   }
-   
+      return "/";
+   } 
       
    //신고유저 목록조회 
   @RequestMapping( value="listUserReport" ) 
@@ -1130,7 +1168,16 @@ public class UserController {
      return "forward:/user/getUserReport.jsp"; // 신고 유저 상세목록조회로 이동  
   }
   
-  
+  @RequestMapping( value="updateUserRedCouponCountUse" ) 
+  public String updateUserRedCouponCountUse( User user,HttpSession session) throws Exception{
+	  user=(User)session.getAttribute("user");
+	  userService.updateUserRedCouponCountUse(user);
+	
+	
+	  System.out.println("user: "+user);
+	  
+	  return "redirect:/user/getUser?userEmail="+user.getUserEmail();
+  }
    
   
   

@@ -40,12 +40,9 @@ public class MyBadgeServiceImpl implements MyBadgeService{
 	public Map<String , Object> getBadgeMyList(Search search, User user, Badge badge) throws Exception {
 		System.out.println("getBadgeMyList user : "+ user);
 		//int totalCount = myBadgeDao.getTotalCount(search);
-		int totalCount = myBadgeDao.getTotalCount(search, user, badge);
-		
-		System.out.println("getBadgeMyList totalCount : "+ totalCount);
+	
 		Map<String, Object> map = myBadgeDao.getBadgeMyList(search, user, badge);
 		
-		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
 	}

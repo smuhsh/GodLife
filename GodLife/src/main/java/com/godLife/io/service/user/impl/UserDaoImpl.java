@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.godLife.io.service.user.UserDao;
+import com.godLife.io.service.user.UserService;
 import com.godLife.io.common.Search;
 import com.godLife.io.service.domain.FriendBlack;
 import com.godLife.io.service.domain.Msg;
@@ -30,6 +31,10 @@ public class UserDaoImpl implements UserDao{
 	public void setSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
+	 ///Field
+	   @Autowired
+	   @Qualifier("userServiceImpl")
+	   private UserService userService;
 	
 	///Constructor
 	public UserDaoImpl() {
@@ -288,13 +293,51 @@ public class UserDaoImpl implements UserDao{
 	//================신고등록================================================
 	
 	//쪽지 신고등록
-	public void addMsgReport(Report report) throws Exception {
-		sqlSession.insert("ReportMapper.addMsgReport", report);
+	public void addUserReport(Report report) throws Exception {
+		 int msgNo=report.getMsgNo();
+	      int ceritImgNo=report.getCertiImgNO();
+	      int commentNo=report.getCommentNo();
+	      if(msgNo!=0) {
+	    	  sqlSession.insert("ReportMapper.addMsgReport", report);
+	      }
+	      
+	      if(ceritImgNo!=0) {
+	  		sqlSession.insert("ReportMapper.addCertiImgReport", report);
+	  	  }
+	      
+	      if(commentNo!=0) {
+	  		sqlSession.insert("ReportMapper.addCommentReport", report);
+	  	  }
+	      User user = new User();
+	      user.setUserEmail(report.getTargetEmail());
+	      user=userService.getUser(user.getUserEmail());
+	      System.out.println("@@@ addreport targetUser info : "+user);
+	      int reportCount=user.getReportCount();
+	      user.setReportCount(reportCount+1);
+	      System.out.println("@@@ addreport targetUser reportCount info : "+user.getReportCount());
+	      sqlSession.update("UserMapper.updateUserReportCount", user);
+	      
+	      if(user.getReportCount()>=5) {
+	    	  user.setReportCount(0);
+	    	  int getRedCardCount = user.getRedCardCount();
+	    	  user.setRedCardCount(getRedCardCount+1);
+	    	  sqlSession.update("UserMapper.updateRedCard", user);
+	    	  System.out.println("레드카드 보유개수 증가");
+	    	  sqlSession.update("UserMapper.updateUserReportCount", user);
+	      }
 	}
 	
 	//쪽지 신고 중복방지 
-	public int checkMsgReport(Map<String, String> map) {
-		return sqlSession.selectOne("ReportMapper.checkMsgReport", map);
+	public int checkMsgReport(Report report) {
+		return sqlSession.selectOne("ReportMapper.checkMsgReport", report);
+	}
+	//인증이미지 신고 중복방지 
+	public int checkCertiImgReport(Report report) {
+		return sqlSession.selectOne("ReportMapper.checkCertiImgReport", report);
+	}
+	//댓글 신고 중복방지 
+	public int checkCommentReport(Report report) {
+		return sqlSession.selectOne("ReportMapper.checkCommentReport", report);
 	}
 	
 	//신고회원목록(관리자)
@@ -334,7 +377,16 @@ public class UserDaoImpl implements UserDao{
 		sqlSession.update("UserMapper.updateRedCard",user);
 	}
 	
-	
+	public void updateUserRedCouponCountUse(User user) throws Exception{
+		System.out.println("userDaoImpl : "+user);
+		int redCouponCount =user.getRedCouponCount();
+		user.setRedCouponCount(redCouponCount-1);
+		sqlSession.update("UserMapper.updateUserRedCoupon",user );
+		
+		int getRedCardCount = user.getRedCardCount();
+		user.setRedCardCount(getRedCardCount-1);
+  	  	sqlSession.update("UserMapper.updateRedCard", user);
+	}
 	
 	
 	//==========================================================================================================

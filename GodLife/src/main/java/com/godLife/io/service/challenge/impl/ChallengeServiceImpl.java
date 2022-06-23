@@ -160,8 +160,12 @@ public class ChallengeServiceImpl implements ChallengeService {
 		challengeDao.deleteChallengeReviewLike(map);
 		
 	}
-
-
+	
+	//moon
+	@Override
+	public Map<String, Object> getChallengeTargetList(JoinChallenger joinChallenger) {
+		return challengeDao.getChallengeTargetList(joinChallenger);
+	}
 	
 
 }

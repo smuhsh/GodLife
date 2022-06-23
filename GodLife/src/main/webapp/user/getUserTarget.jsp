@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <!--  ///////////////////////// JSTL  ////////////////////////// -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,6 +80,58 @@ height : 40px;
             text-decoration: none;
             cursor: pointer;
         }
+.backdefault{
+	width: 180px;
+	height: 180px;
+	background-image: url("/resources/images/uploadFiles/DefaultBackGround.PNG");
+	align-items:center;
+	display: flex;
+	 justify-content:center;
+	}
+	.backbronze{
+	width: 180px;
+	height: 180px;
+	background-image: url("/resources/images/uploadFiles/badgeBronze.jpg");
+	align-items:center;
+	display: flex;
+	 justify-content:center;
+	}
+	.backsilver{
+	width: 180px;
+	height: 180px;
+	background-image: url("/resources/images/uploadFiles/badgeSilver.jpg");
+	align-items:center;
+	display: flex;
+	 justify-content:center;
+	}
+	.backgold{
+	width: 180px;
+	height: 180px;
+	background-image: url("/resources/images/uploadFiles/badgeGold.jpg");
+	align-items:center;
+	display: flex;
+	 justify-content:center;
+	}
+	
+	img.images{
+	width: 147px;
+    height: 145px; 
+    border-radius: 70%;
+    overflow: hidden;
+	}
+	.slider{
+	padding-top: 30px;
+	}
+	.challenge{
+	width: 159px;
+    padding: 20px 0 0 20px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #333;
+    line-height: 20px;
+    vertical-align: top;
+    text-align: left;
+	}
 
 </style>
 
@@ -305,10 +359,194 @@ $(function() {
 						</td>
 					</tr>
 					
-					<!-- 챌린지랑 배지 관련 넣어야함 -->
-					
+					<!--------------- 레벨배지, 관심사배지 --------------->
+					<tr class="intro">
+						<th>배지</th>
+					</tr>
 					</table>
-	
+					<div class="row">
+					<div class="col-md-3"></div>
+					<div class="col-md-4">
+					<c:set var="i" value="0"/>
+			  <c:forEach var="myBadge" items="${list1}">
+            	<c:set var="i" value="${ i+1 }" />      
+            	 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 Start -->
+            	
+            	 <!-- Grade가 0일때 Default 배경이미지  -->
+	            	<c:if test="${myBadge.actCount == 0 }">
+						  <div class="backdefault">
+						  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+						  		  src="/resources/images/uploadFiles/${myBadge.badge.badgeImg }"
+				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>   
+				         </div>
+				         <div id="fromCenter" >
+			         	배지이름 : ${myBadge.badge.badgeName}<br>
+			         	현재 활동 횟수량 : ${myBadge.actCount}
+			         	</div>
+			         </c:if>
+			     
+			    <!-- Grade가 1일때 동색 배경이미지  -->
+	            	<c:if test="${ myBadge.actCount > 0 && myBadge.actCount < 11 }">
+					  <div class="backbronze">
+					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+					  		  src="/resources/images/uploadFiles/${myBadge.badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			         </div>
+				         <div id="fromCenter" >
+			         	배지이름 : ${myBadge.badge.badgeName}<br>
+			         	현재 활동 횟수량 : ${myBadge.actCount}
+			         	</div>
+		        <!-- Grade가 2일때 은색 배경이미지  -->
+			         </c:if>
+			         <c:if test="${myBadge.actCount > 10 && myBadge.actCount < 21}">
+					  <div class="backsilver">
+					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+					  		  src="/resources/images/uploadFiles/${myBadge.badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			                  
+			         </div>
+				         <div id="fromCenter" >
+			         	배지이름 : ${myBadge.badge.badgeName}<br>
+			         	현재 활동 횟수량 : ${myBadge.actCount}
+			         	</div>
+			         </c:if>
+		         <!-- Grade가 3일때 금색 배경이미지  -->
+			         <c:if test="${myBadge.actCount > 20 }">
+					  <div class="backgold">
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  		  src="/resources/images/uploadFiles/${myBadge.badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			          </div>      
+			         <div id="fromCenter" >
+			         배지이름 : ${myBadge.badge.badgeName}<br>
+			         현재 활동 횟수량 : ${myBadge.actCount}
+			         </div>
+			         </c:if>
+			         
+			         </c:forEach>
+			         </div>
+			         <div class="col-md-4">
+			         <c:set var="i" value="0"/>
+			  <c:forEach var="myBadge" items="${list2}">
+            	<c:set var="i" value="${ i+1 }" />      
+            	 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 Start -->
+            	 <div class="col-md-3" style="height: auto; width: auto;" align="center" >
+            	 <!-- Grade가 0일때 Default 배경이미지  -->
+	            	<c:if test="${myBadge.actCount == 0 }" >
+						  <div class="backdefault">
+						  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+						  		  src="/resources/images/uploadFiles/${myBadge.badge.badgeImg }"
+				                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+				         </div>
+				         <div id="fromCenter" >
+			         	배지이름 : ${myBadge.badge.badgeName}<br>
+			         	현재 활동 횟수량 : ${myBadge.actCount}
+			         	</div>
+			         </c:if>
+			     
+			    <!-- Grade가 1일때 동색 배경이미지  -->
+	            	<c:if test="${ myBadge.actCount > 0 && myBadge.actCount < 11 }">
+					  <div class="backbronze">
+					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+					  		  src="/resources/images/uploadFiles/${myBadge.badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			         </div>
+				         <div id="fromCenter" >
+			         	배지이름 : ${myBadge.badge.badgeName}<br>
+			         	현재 활동 횟수량 : ${myBadge.actCount}
+			         	</div>
+		        <!-- Grade가 2일때 은색 배경이미지  -->
+			         </c:if>
+			         <c:if test="${myBadge.actCount > 10 && myBadge.actCount < 21}">
+					  <div class="backsilver">
+					  	<img myBadgeNo="${ myBadge.badgeNo }"   class="images" 
+					  		  src="/resources/images/uploadFiles/${myBadge.badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			         </div>
+				         <div id="fromCenter" >
+			         	배지이름 : ${myBadge.badge.badgeName}<br>
+			         	현재 활동 횟수량 : ${myBadge.actCount}
+			         	</div>
+			         </c:if>
+		         <!-- Grade가 3일때 금색 배경이미지  -->
+			         <c:if test="${myBadge.actCount > 20 }">
+					  <div class="backgold">
+					  	<img badgeNo="${ badge.badgeNo }"   class="images" 
+					  		  src="/resources/images/uploadFiles/${myBadge.badge.badgeImg }"
+			                  onerror="this.src='https://dummyimage.com/280x250/1af0d4/000000.gif'" ><br/>
+			         </div>
+				         <div id="fromCenter" >
+			         	배지이름 : ${myBadge.badge.badgeName}<br>
+			         	현재 활동 횟수량 : ${myBadge.actCount}
+			         	</div>
+			         </c:if>
+			         </div>
+			        
+		         <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 Start //Ajax나오게 하려면 data-value가 필요 -->   
+		               <i  type ="hidden" class="myBadgeDetailIB" id="${myBadge.badge.badgeImg }" style="font-size:15px;" 
+		               		data-value="${ myBadge.badgeNo }" 
+		               		title="Click : 배지정보 확인" 
+		               		value="${myBadge.badgeNo}" >
+
+		               </i>
+		          <!-- (유저용) Ajax로 배지 상세 정보 보기 클릭 End -->  
+		               <input type="hidden" value="${myBadge.badgeNo}" >
+		               <input type="hidden" name="userEmail" value="${user.userEmail}" />
+				 
+				 <!-- 이미지에 for문으로 돌아간 배지 정보 담기 End -->
+			  </c:forEach>
+			     </div>
+			     </div>
+			     		     <!------------- 배지 부분 끝 ------------->
+			     		     
+			     		     <!------------- 챌린지 참여 리스트 시작 ------------->
+			     		   
+		
+			<div class="challenge">
+			참여 중인 챌린지
+			</div>
+			
+			<div class="row">
+			 <div class="slider">
+			 <div class="col-md-3"></div>
+			 <c:forEach var="challenge" items="${list3}">
+			 
+		      <div class="col-md-4">
+		      		
+				    <div class="thumbnail">
+				    <div id="imgArea">
+				      <a id="img" href="/challenge/getChallenge?challengeNo=${challenge.challengeNo }">
+				      <img style="width:230px; height:230px;" src="/resources/images/uploadFiles/${challenge.challengeThumbnailImg }" 
+				      onerror="this.src='https://dummyimage.com/230x230/1af0d4/000000.gif'">
+				      </a>
+				      	<div id="startEndDate">
+				      			<p>기간 : ${challenge.startDate} ~ ${challenge.endDate }</p>
+				      	</div>
+				      </div>
+				      <div class="caption">
+					       <h4 id="title">${challenge.challengeTitle }</h4>
+					       <h5 id="joinCount">참여자 수 : (${challenge.joinCount })</h5>
+					       <h5 class="info">Host : ${challenge.hostNick }</h5>
+					       <h5 class="info" id="categ">관심사 : ${challenge.challengeCategName }</h5>
+					       <c:if test="${challenge.challengeStatus == 0}">
+					       		<h5 class="status">상태 : 시작전</h5>
+					       </c:if>
+					       <c:if test="${challenge.challengeStatus == 1}">
+					       		<h5 class="status">상태 : 진행중</h5>
+					       </c:if>
+					       <c:if test="${challenge.challengeStatus == 2}">
+					       		<h5 class="status">상태 : 종료</h5>
+					       </c:if>
+					       <h5 id="regDate">등록일 : ${challenge.challengeRegDate }</h5>
+				      </div>
+				    </div>
+		      </div>
+		      </c:forEach>
+    		</div>
+		
+			     		     <!------------- 챌린지 참여 리스트 시작 ------------->
+			     <div class="col-md-3"></div>     
+			 </div>
 				<div id="formSubmit" class="form_footer">
 					<div id="checkDiv" class="checkDiv"></div>
 					<button type="button" class="btn active btn_join" id="writeBtn">친구 요청</button>
@@ -384,10 +622,10 @@ $(function() {
 					
 					
 				</div>
-			</form>
+			
 		</div>
 		
-		
+</form>
 	</div>
 </body>
 </html>
