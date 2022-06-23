@@ -200,11 +200,11 @@ public class OperatorServiceImpl implements OperatorService{
 //	public void updateOperatorNoticeFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
 //		operatorDao.updateOperatorNoticeFaqs(operatorNoticeFaqs);
 //	}
-	public void updateOperatorNotice(OperatorNoticeFaqs operatorNotice) throws Exception {
-		operatorDao.updateOperatorNotice(operatorNotice);
+	public void updateOperatorNotice(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+		operatorDao.updateOperatorNotice(operatorNoticeFaqs);
 	}
-	public void updateOperatorFaqs(OperatorNoticeFaqs operatorFaqs) throws Exception {
-		operatorDao.updateOperatorFaqs(operatorFaqs);
+	public void updateOperatorFaqs(OperatorNoticeFaqs operatorNoticeFaqs) throws Exception {
+		operatorDao.updateOperatorFaqs(operatorNoticeFaqs);
 	}
 	
 	//Method delete

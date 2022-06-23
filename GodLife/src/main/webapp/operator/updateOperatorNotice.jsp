@@ -52,10 +52,12 @@
             "/operator/updateOperatorNotice").submit();
    }
    
-   function fncUpdateOperatorNotice() {
+   /*
+   function fncUpdateOperatorNoticeImg() {
 	      $("form").attr("enctype", "multipart/form-data").attr("method", "POST").attr("action",
 	            "/operator/updateOperatorNotice").submit();
    }
+   */
    
    function fncDeleteOperatorNotice() {
 

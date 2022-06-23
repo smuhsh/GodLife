@@ -764,17 +764,21 @@ public class ChallengeController {
 	
 	/////////////////////////////////////////////////////
 	@RequestMapping(value="getChallengeCertiImg", method=RequestMethod.GET)
-	public String getChallengeCertiImg(@RequestParam int certiImgNo,Model model,HttpSession session) {
-		User user = (User)session.getAttribute("user");
-		CertiImg certiImg = challengeService.getChallengeCertiImg(certiImgNo);
-		System.out.println("인증이미지 상세 조회");
-		System.out.println(certiImg);
-		
-		model.addAttribute("certiImg", certiImg);
-		model.addAttribute("user", user);
-		return "forward:/challenge/getChallengeCertiImg.jsp";
-	}
-	
+	   public String getChallengeCertiImg(@RequestParam int certiImgNo
+	                              ,Model model,
+	                              HttpSession session,
+	                              Map<String,Object> map) {
+	      User user = (User)session.getAttribute("user");
+	      map.put("user", user);
+	      map.put("certiImgNo", certiImgNo);
+	      CertiImg certiImg = challengeService.getChallengeCertiImg(map);
+	      System.out.println("인증이미지 상세 조회");
+	      System.out.println(certiImg);
+	      
+	      model.addAttribute("certiImg", certiImg);
+	      model.addAttribute("user", user);
+	      return "forward:/challenge/getChallengeCertiImg.jsp";
+	   }	
 	@RequestMapping(value="deleteChallengeCertiImg", method=RequestMethod.POST)
 	public String deleteChallengeCertiImg(@ModelAttribute CertiImg certiImg,Model model,Map<String,Object> map) {
 		int certiImgNo = certiImg.getCertiImgNo();
