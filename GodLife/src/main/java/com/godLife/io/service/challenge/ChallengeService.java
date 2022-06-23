@@ -53,5 +53,11 @@ public interface ChallengeService {
 	public List<Review> getChallengeMoreCommentList(Map<String,Object> map);
 	
 	public void deleteChallengeReviewLike(Map<String,Object> map);
+	
+	public Map<String,Object> getChallengeRewardElement(JoinChallenger joinChallenger);
+	
+	public void updateChallengerewardFlag(JoinChallenger joinChallenger);
+	
+	public Map<String,Object> getChallengeMoreCertiImgList(Map<String,Object> map);
 
 }

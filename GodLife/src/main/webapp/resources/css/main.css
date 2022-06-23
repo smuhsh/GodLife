@@ -104,7 +104,14 @@
        	}
        	
        	
-       	
+       	carousel-control{
+		margin-top:200px;
+		margin-bottom:360px;
+		}
+		.item{
+		width :1270px;
+		height:320px;
+		}
       
       .slider {
       	position:relative;

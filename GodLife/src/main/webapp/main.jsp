@@ -43,7 +43,7 @@
           slidesToScroll: 1,
           
         } );
-      } );
+      } );;
    	</script>
 	
 </head>
@@ -286,7 +286,7 @@
    		<div class="challenge-list" id="best-challenge">
 			<div class="c-header">
 	   			<p class="search-title">Best 인기 인증 이미지</p>
-	   			<a href="/challenge/listChallengeCertiImg">
+	   			<a href="/challenge/listChallengeCertiImg?searchCondition=2">
 	   				<p class="more-view">더 보기</p>
 	   			</a>
    			</div>

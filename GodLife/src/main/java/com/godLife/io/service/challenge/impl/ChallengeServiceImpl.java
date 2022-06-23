@@ -162,6 +162,25 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 
+	@Override
+	public Map<String, Object> getChallengeRewardElement(JoinChallenger joinChallenger) {
+		return challengeDao.getChallengeRewardElement(joinChallenger);
+	}
+
+
+	@Override
+	public void updateChallengerewardFlag(JoinChallenger joinChallenger) {
+		challengeDao.updateChallengerewardFlag(joinChallenger);
+		
+	}
+
+
+	@Override
+	public Map<String,Object> getChallengeMoreCertiImgList(Map<String, Object> map) {
+		return challengeDao.getChallengeMoreCertiImgList(map);
+	}
+
+
 	
 
 }
