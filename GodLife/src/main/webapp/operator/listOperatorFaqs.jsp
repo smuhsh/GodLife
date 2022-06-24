@@ -109,8 +109,8 @@
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0" ${search.orderCondition == 0 ? "selected" : "" }>제목</option>
-						<option value="1" ${search.orderCondition == 1 ? "selected" : ""}>태그</option>				    
+						<option value="0" ${search.orderCondition == 0 ? "selected" : "" }>태그</option>
+						<option value="1" ${search.orderCondition == 1 ? "selected" : ""}>제목</option>				    
 					</select>
 				  </div>
 				  
@@ -186,7 +186,9 @@
 
 <!-- 새글쓰기 누를 때 -->
 <form action="/operator/addOperatorFaqs" method="GET">
-<input type="submit" class="btn btn-primary " value="글쓰기"/>
+	<c:if test="${user.role == '2'}">		  		
+		<input type="submit" class="btn btn-primary " value="글쓰기"/>
+	</c:if>
 </form>		
 
 </div>

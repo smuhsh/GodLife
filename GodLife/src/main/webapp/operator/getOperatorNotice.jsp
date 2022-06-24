@@ -212,7 +212,9 @@
 				<div class="form-group">
 			<div class="row">
 		  		<div class="col-md-12 text-center ">
+  		            <c:if test="${user.role == '2'}">		  		
 		  			<button type="button" class="btn btn-primary update">수정</button>
+		  			</c:if>
 		  			<button type="button" class="btn btn-primary getList">목록</button>
 		  		</div>
 			</div>		

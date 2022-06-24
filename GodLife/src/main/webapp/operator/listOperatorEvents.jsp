@@ -28,7 +28,12 @@
 	  .container {
             padding-top : 150px;
         }
-        
+        	
+		img {
+		  width: 300px;
+		  height: 150px;
+		  object-fit: cover;
+		}
     </style>
     
 	<script type="text/javascript">
@@ -91,7 +96,7 @@
 	    	</div>
 	    	
 		</div>
-		
+<!--  -->		
 <table class="table table-striped">
 	<tr>
 		<br></br>
@@ -119,8 +124,7 @@
 			  <input type="hidden" value="${operatorEvents.eventNo}"></td>
 
 			  <td align="left">${ operatorEvents.eventTitle }</td>
-			  <td align="left">${ operatorEvents.thumbnailImg }</td>
-			  <td img src = "../images/uploadFiles/${operatorEvents.thumbnailImg}"/></td>
+			  <td align="left"><img src = "../images/uploadFiles/${operatorEvents.thumbnailImg}"/></td>
 			  <td align="left">${ operatorEvents.regDate }</td>
 			  <td align="left">
 			  <input type="hidden" value="${operatorEvents.eventNo}">
@@ -149,8 +153,9 @@
 
 <!-- 새글쓰기 누를 때 -->
 <form action="/operator/addOperatorEvents" method="GET">
-<input type="submit" class="btn btn-primary " value="글쓰기"/>
-
+	<c:if test="${user.role == '2'}">		  		
+		<input type="submit" class="btn btn-primary " value="글쓰기"/>
+	</c:if>
 <!-- 새글의 계층 정보 -->
 <!--  <button type="submit" class="btn btn-secondary mb-3">글쓰기</button>-->
 </form>		

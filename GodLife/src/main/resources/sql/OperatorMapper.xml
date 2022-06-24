@@ -451,25 +451,25 @@
 		 
 	<!-- SQL : SELECT LIST -->
 	<select  id="getOperatorFaqsList"  parameterType="search"	resultMap="operatorNoticeFaqsSelectMap">
-	  	<!-- SELECT *
+	  	<!--  SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		( -->	SELECT notice_faq_no , user_email, status, notice_must, title , detail,  reg_date, faq_tag
+	  					FROM		(--> 	SELECT notice_faq_no , user_email, status, notice_must, title , detail,  reg_date, faq_tag
 											FROM notice_faqs
 											
-											<!--  <if test="searchCondition != null">
+											  <if test="searchCondition != null">
 												<where>
 													<if test="searchCondition == 0 and searchKeyword !='' ">
-										 				notice_faq_no = #{searchKeyword}
+										 				AND notice_faq_no = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				title = #{searchKeyword}
+										 				AND title = #{searchKeyword}
 													</if>
 												</where>
-											</if>-->
+											</if>
 											WHERE status = '1'
-											ORDER BY notice_faq_no DESC<!--  ) inner_table
+											ORDER BY notice_faq_no DESC  <!--  ) inner_table
 						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} --> 
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}--> 
 	 </select>
 	
 	<!-- SQL : SELECT ROW Count -->	 
